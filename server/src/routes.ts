@@ -1,33 +1,32 @@
-import express from "express";
-import connKnex from "@database/connection";
+import express from 'express'
 
-import AtividadeController from "@controllers/Atividade";
-const atividadeController = new AtividadeController();
-import CalendarioController from "@controllers/Calendario";
-const calendarioController = new CalendarioController();
-import RegistroAuxiliarController from "@controllers/RegistroAuxiliar";
-const registroAuxiliarController = new RegistroAuxiliarController();
-import PontoController from "@controllers/Ponto";
-const pontoController = new PontoController();
-import ContratoController from "@controllers/ColaboradorContrato";
-const contratoController = new ContratoController();
+import AtividadeController from '@controllers/Atividade'
+import CalendarioController from '@controllers/Calendario'
+import RegistroAuxiliarController from '@controllers/RegistroAuxiliar'
+import PontoController from '@controllers/Ponto'
+import ContratoController from '@controllers/ColaboradorContrato'
+const atividadeController = new AtividadeController()
+const calendarioController = new CalendarioController()
+const registroAuxiliarController = new RegistroAuxiliarController()
+const pontoController = new PontoController()
+const contratoController = new ContratoController()
 
-const routes = express.Router();
+const routes = express.Router()
 
 routes.post(
-  "/GetAtividadesByDataColaboradores",
+  '/GetAtividadesByDataColaboradores',
   atividadeController.GetAtividadesByDataColaboradores
-);
+)
 
-routes.post("/GetFeriadosByData", calendarioController.GetFeriadosByData);
+routes.post('/GetFeriadosByData', calendarioController.GetFeriadosByData)
 
 routes.post(
-  "/GetRegistroAuxiliarByData",
+  '/GetRegistroAuxiliarByData',
   registroAuxiliarController.GetRegistroAuxiliarByData
-);
+)
 
-routes.post("/GetPontoByDataId", pontoController.GetPontoByDataId);
+routes.post('/GetPontoByDataId', pontoController.GetPontoByDataId)
 
-routes.post("/GetContratosByDataId", contratoController.GetContratosByDataId);
+routes.post('/GetContratosByDataId', contratoController.GetContratosByDataId)
 
-export default routes;
+export default routes
