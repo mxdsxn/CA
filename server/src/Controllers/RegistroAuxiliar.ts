@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
-import connKnex from "../Database/connection";
-import IRegistroAuxiliar from "../Models/RegistroAuxiliar";
+import connKnex from "@database/connection";
+import IRegistroAuxiliar from "@models/RegistroAuxiliar";
 
 export default class RegistroAuxiliarController {
   async GetRegistroAuxiliarByData(req: Request, res: Response) {

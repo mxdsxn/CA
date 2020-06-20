@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
-import connKnex from "../Database/connection";
-import IColaboradorContrato from "../Models/ColaboradorContrato";
+import connKnex from "@database/connection";
+import IColaboradorContrato from "@models/ColaboradorContrato";
 
 export default class ContratoControler {
   async GetContratosByDataId(req: Request, res: Response) {

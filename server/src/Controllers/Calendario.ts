@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
-import connKnex from "../Database/connection";
-import ICalendario from "../Models/Calendario";
+import connKnex from "@database/connection";
+import ICalendario from "@models/Calendario";
 
 export default class CalendarioController {
   async GetFeriadosByData(req: Request, res: Response) {

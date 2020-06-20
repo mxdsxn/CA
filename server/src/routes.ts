@@ -1,15 +1,15 @@
 import express from "express";
-import connKnex from "./Database/connection";
+import connKnex from "@database/connection";
 
-import AtividadeController from "./Controllers/Atividade";
+import AtividadeController from "@controllers/Atividade";
 const atividadeController = new AtividadeController();
-import CalendarioController from "./Controllers/Calendario";
+import CalendarioController from "@controllers/Calendario";
 const calendarioController = new CalendarioController();
-import RegistroAuxiliarController from "./Controllers/RegistroAuxiliar";
+import RegistroAuxiliarController from "@controllers/RegistroAuxiliar";
 const registroAuxiliarController = new RegistroAuxiliarController();
-import PontoController from "./Controllers/Ponto";
+import PontoController from "@controllers/Ponto";
 const pontoController = new PontoController();
-import ContratoController from "./Controllers/ColaboradorContrato";
+import ContratoController from "@controllers/ColaboradorContrato";
 const contratoController = new ContratoController();
 
 const routes = express.Router();

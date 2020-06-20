@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
-import connKnex from "../Database/connection";
-import IAtividade from "../Models/Atividade";
+import connKnex from "@database/connection";
+import IAtividade from "@models/Atividade";
 
 export default class AtividadeController {
   async GetAtividadesByDataColaboradores(req: Request, res: Response) {

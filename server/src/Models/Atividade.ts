@@ -6,7 +6,7 @@ export default interface Atividade {
   IdProjetoMetodologiaFase: Number;
   DataCadastro: Date;
   DataAtividade: Date;
-  Carga: TimeRanges;
+  Carga: Date;
   Descricao: String;
   Tags: String;
   IdCoordenador: Number;

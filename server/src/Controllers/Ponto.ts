@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
-import connKnex from "../Database/connection";
-import IPonto from "../Models/Ponto";
+import connKnex from "@database/connection";
+import IPonto from "@models/Ponto";
 
 export default class PontoController {
   async GetPontoByDataId(req: Request, res: Response) {
