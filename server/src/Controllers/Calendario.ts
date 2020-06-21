@@ -1,30 +1,14 @@
 import { Request, Response } from 'express'
-
-import connKnex from '@database/connection'
-import ICalendario from '@models/Calendario'
+import { CalendarioService as Service } from '@services/All'
 
 export default class CalendarioController {
   async GetFeriadosByData(req: Request, res: Response) {
-    const { Data } = req.query
+    const IdColab = Number(req.query.IdColab)
+    const Data = new Date(String(req.query.Data))
 
-    const mesReferenciaInicio = new Date(String(Data))
-    const mesReferenciaFim =
-      mesReferenciaInicio.getMonth() < 11
-        ? new Date(
-          `${
-          mesReferenciaInicio.getMonth() + 2
-          }/1/${mesReferenciaInicio.getFullYear()}`
-        )
-        : mesReferenciaInicio.getMonth() == 11
-          ? new Date(`1/1/${mesReferenciaInicio.getFullYear() + 1}`)
-          : new Date()
-
-    let feriadosMes: ICalendario[]
-    feriadosMes = await connKnex
-      .select('*')
-      .from('pessoas.Calendario')
-      .where('Dia', '>=', mesReferenciaInicio)
-      .andWhere('Dia', '<', mesReferenciaFim)
-    res.json(feriadosMes)
+    Service.GetFeriadosByData(IdColab, Data).then(
+      (suc) => { res.json(suc) },
+      (err) => { res.json(err) }
+    )
   }
 }

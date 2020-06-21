@@ -1,15 +1,15 @@
 import express from 'express'
 
-import AtividadeController from '@controllers/Atividade'
-import CalendarioController from '@controllers/Calendario'
-import RegistroAuxiliarController from '@controllers/RegistroAuxiliar'
-import PontoController from '@controllers/Ponto'
-import ContratoController from '@controllers/ColaboradorContrato'
+import {
+  AtividadeController, CalendarioController, RegistroAuxiliarController,
+  PontoController,
+  ColaboradorContratoController
+} from '@controllers/All'
 const atividadeController = new AtividadeController()
 const calendarioController = new CalendarioController()
 const registroAuxiliarController = new RegistroAuxiliarController()
 const pontoController = new PontoController()
-const contratoController = new ContratoController()
+const contratoController = new ColaboradorContratoController()
 
 const routes = express.Router()
 

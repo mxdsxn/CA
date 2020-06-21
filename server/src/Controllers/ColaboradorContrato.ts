@@ -1,37 +1,14 @@
 import { Request, Response } from 'express'
+import { ColaboradorContratoService as Service } from '@services/All'
 
-import connKnex from '@database/connection'
-import IColaboradorContrato from '@models/ColaboradorContrato'
-
-export default class ContratoControler {
+export default class ColaboradorContratoControler {
   async GetContratosByDataId(req: Request, res: Response) {
-    const { Data, IdColab } = req.query
+    const IdColab = Number(req.query.IdColab)
+    const Data = new Date(String(req.query.Data))
 
-    const mesReferenciaInicio = new Date(String(Data))
-    const mesReferenciaFim =
-      mesReferenciaInicio.getMonth() < 11
-        ? new Date(
-          `${
-          mesReferenciaInicio.getMonth() + 2
-          }/1/${mesReferenciaInicio.getFullYear()}`
-        )
-        : mesReferenciaInicio.getMonth() == 11
-          ? new Date(`1/1/${mesReferenciaInicio.getFullYear() + 1}`)
-          : new Date()
-
-    let listaContrato: IColaboradorContrato[]
-    listaContrato = await connKnex
-      .select('*')
-      .from('pessoas.ColaboradorContrato')
-      .where('IdColaborador', Number(IdColab))
-      .andWhere(function () {
-        this.where('Termino', '>=', mesReferenciaInicio).orWhere(
-          'Termino',
-          null
-        )
-      })
-      .andWhere('DataInicioContrato', '<', mesReferenciaFim)
-
-    res.json(listaContrato)
+    Service.GetContratosByDataId(IdColab, Data).then(
+      (suc) => { res.json(suc) },
+      (err) => { res.json(err) }
+    )
   }
 }
