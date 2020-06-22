@@ -80,6 +80,9 @@
       "@models": [
         "./src/Models/All.ts"
       ],
+      "@model/*": [
+        "./src/Models/*"
+      ],
       "@database": [
         "./src/Database/connection.ts"
       ],

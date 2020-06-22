@@ -24,6 +24,12 @@ const AtividadeService = {
       .where('DataAtividade', '>=', mesReferenciaInicio)
       .andWhere('DataAtividade', '<', mesReferenciaFim)
 
+    // const projetos = await connKnex()
+    //   .from('operacoes.Projeto')
+    //   .join('pessoas.Atividade', 'operacoes.Projeto.IdProjeto', '=', 'pessoas.Atividade.IdProjeto')
+    //   .select('*')
+    //   .where('operacoes.Projeto.IdProjeto', 2510)
+    //   .first()
     return atividadesMes
   }
 }
