@@ -1,32 +1,22 @@
 import express from 'express'
-
 import {
-  AtividadeController, CalendarioController, RegistroAuxiliarController,
+  TesteController,
+  AtividadeController,
+  CalendarioController,
+  ColaboradorContratoController,
   PontoController,
-  ColaboradorContratoController
-} from '@controllers/All'
-const atividadeController = new AtividadeController()
-const calendarioController = new CalendarioController()
-const registroAuxiliarController = new RegistroAuxiliarController()
-const pontoController = new PontoController()
-const contratoController = new ColaboradorContratoController()
+  RegistroAuxiliarController
+} from '@controllers'
 
 const routes = express.Router()
 
-routes.post(
-  '/GetAtividadesByDataColaboradores',
-  atividadeController.GetAtividadesByDataColaboradores
+routes.use(
+  TesteController,
+  AtividadeController,
+  CalendarioController,
+  RegistroAuxiliarController,
+  PontoController,
+  ColaboradorContratoController
 )
-
-routes.post('/GetFeriadosByData', calendarioController.GetFeriadosByData)
-
-routes.post(
-  '/GetRegistroAuxiliarByData',
-  registroAuxiliarController.GetRegistroAuxiliarByData
-)
-
-routes.post('/GetPontoByDataId', pontoController.GetPontoByDataId)
-
-routes.post('/GetContratosByDataId', contratoController.GetContratosByDataId)
 
 export default routes

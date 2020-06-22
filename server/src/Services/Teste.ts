@@ -1,8 +1,7 @@
 import connKnex from '@database'
-import { IPonto } from '@models'
 
-const PontoService = {
-  GetPontoByDataId: async (IdColab: Number, Data: Date) => {
+const TesteService = {
+  Teste: async (IdColab: Number, Data: Date) => {
     const mesReferenciaInicio = Data
     const mesReferenciaFim =
       mesReferenciaInicio.getMonth() < 11
@@ -15,15 +14,9 @@ const PontoService = {
           ? new Date(`1/1/${mesReferenciaInicio.getFullYear() + 1}`)
           : new Date()
 
-    const listaPonto: IPonto[] = await connKnex
-      .select('*')
-      .from('pessoas.Ponto')
-      .where('Data', '>=', mesReferenciaInicio)
-      .andWhere('Data', '<', mesReferenciaFim)
-      .andWhere('IdColaborador', Number(IdColab))
-
-    return listaPonto
+    const teste = { msg: 'teste' }
+    return teste
   }
 }
 
-export default PontoService
+export default TesteService

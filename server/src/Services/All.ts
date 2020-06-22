@@ -1,7 +1,15 @@
-import AtividadeService from '@services/Atividade'
-import CalendarioService from '@services/Calendario'
-import ColaboradorContratoService from '@services/ColaboradorContrato'
-import PontoService from '@services/Ponto'
-import RegistroAuxiliarService from '@services/RegistroAuxiliar'
+import TesteService from '@service/Teste'
+import AtividadeService from '@service/Atividade'
+import CalendarioService from '@service/Calendario'
+import ColaboradorContratoService from '@service/ColaboradorContrato'
+import PontoService from '@service/Ponto'
+import RegistroAuxiliarService from '@service/RegistroAuxiliar'
 
-export { AtividadeService, CalendarioService, ColaboradorContratoService, PontoService, RegistroAuxiliarService }
+export {
+  TesteService,
+  AtividadeService,
+  CalendarioService,
+  ColaboradorContratoService,
+  PontoService,
+  RegistroAuxiliarService
+}

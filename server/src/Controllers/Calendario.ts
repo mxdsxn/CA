@@ -1,14 +1,17 @@
-import { Request, Response } from 'express'
-import { CalendarioService as Service } from '@services/All'
+import express from 'express'
+import { CalendarioService as Service } from '@services'
 
-export default class CalendarioController {
-  async GetFeriadosByData(req: Request, res: Response) {
-    const IdColab = Number(req.query.IdColab)
-    const Data = new Date(String(req.query.Data))
+const route = express.Router()
 
-    Service.GetFeriadosByData(IdColab, Data).then(
-      (suc) => { res.json(suc) },
-      (err) => { res.json(err) }
-    )
-  }
-}
+route.post('/Calendario/GetFeriadosByData', async (req, res) => {
+  const IdColab = Number(req.query.IdColab)
+  const Data = new Date(String(req.query.Data))
+
+  Service.GetFeriadosByData(IdColab, Data).then(
+    (suc) => { res.json(suc) },
+    (err) => { res.json(err) }
+  )
+})
+
+const CalendarioController = route
+export default CalendarioController

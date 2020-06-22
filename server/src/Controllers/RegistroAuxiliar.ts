@@ -1,14 +1,17 @@
-import { Request, Response } from 'express'
-import { RegistroAuxiliarService as Service } from '@services/All'
+import express from 'express'
+import { RegistroAuxiliarService as Service } from '@services'
 
-export default class RegistroAuxiliarController {
-  async GetRegistroAuxiliarByData(req: Request, res: Response) {
-    const IdColab = Number(req.query.IdColab)
-    const Data = new Date(String(req.query.Data))
+const route = express.Router()
 
-    Service.GetRegistroAuxiliarByData(IdColab, Data).then(
-      (suc) => { res.json(suc) },
-      (err) => { res.json(err) }
-    )
-  }
-}
+route.post('/RegistroAuxiliar/GetRegistroAuxiliarByData', async (req, res) => {
+  const IdColab = Number(req.query.IdColab)
+  const Data = new Date(String(req.query.Data))
+
+  Service.GetRegistroAuxiliarByData(IdColab, Data).then(
+    (suc) => { res.json(suc) },
+    (err) => { res.json(err) }
+  )
+})
+
+const RegistroAuxiliarController = route
+export default RegistroAuxiliarController

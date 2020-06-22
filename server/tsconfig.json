@@ -65,17 +65,26 @@
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */,
     "baseUrl": ".",
     "paths": {
-      "@controllers/*": [
+      "@controllers": [
+        "./src/Controllers/All.ts"
+      ],
+      "@controller/*": [
         "./src/Controllers/*"
       ],
-      "@models/*": [
-        "./src/Models/*"
+      "@services": [
+        "./src/Services/All.ts"
       ],
-      "@services/*": [
+      "@service/*": [
         "./src/Services/*"
       ],
-      "@database/*": [
-        "./src/Database/*"
+      "@models": [
+        "./src/Models/All.ts"
+      ],
+      "@database": [
+        "./src/Database/connection.ts"
+      ],
+      "@routes": [
+        "./src/routes.ts"
       ]
     }
   },

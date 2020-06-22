@@ -1,6 +1,5 @@
-
-import connKnex from '@database/connection'
-import { IColaboradorContrato } from '@models/All'
+import connKnex from '@database'
+import { IColaboradorContrato } from '@models'
 
 const PontoService = {
   GetContratosByDataId: async (IdColab: Number, Data: Date) => {

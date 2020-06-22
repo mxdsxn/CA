@@ -1,7 +1,15 @@
-import AtividadeController from '@controllers/Atividade'
-import CalendarioController from '@controllers/Calendario'
-import ColaboradorContratoController from '@controllers/ColaboradorContrato'
-import PontoController from '@controllers/Ponto'
-import RegistroAuxiliarController from '@controllers/RegistroAuxiliar'
+import TesteController from '@controller/Teste'
+import AtividadeController from '@controller/Atividade'
+import CalendarioController from '@controller/Calendario'
+import ColaboradorContratoController from '@controller/ColaboradorContrato'
+import PontoController from '@controller/Ponto'
+import RegistroAuxiliarController from '@controller/RegistroAuxiliar'
 
-export { AtividadeController, CalendarioController, ColaboradorContratoController, PontoController, RegistroAuxiliarController }
+export {
+  TesteController,
+  AtividadeController,
+  CalendarioController,
+  ColaboradorContratoController,
+  PontoController,
+  RegistroAuxiliarController
+}

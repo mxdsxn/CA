@@ -1,5 +1,5 @@
-import connKnex from '@database/connection'
-import { ICalendario } from '@models/All'
+import connKnex from '@database'
+import { ICalendario } from '@models'
 
 const CalendarioService = {
   GetFeriadosByData: async (IdColab: Number, Data: Date) => {

@@ -1,5 +1,5 @@
-import connKnex from '@database/connection'
-import { IAtividade } from '@models/All'
+import connKnex from '@database'
+import { IAtividade } from '@models'
 
 const AtividadeService = {
   GetAtividadesByDataColaboradores: async (IdColab: Number, Data: Date) => {

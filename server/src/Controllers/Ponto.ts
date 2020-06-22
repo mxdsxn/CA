@@ -1,14 +1,17 @@
-import { Request, Response } from 'express'
-import { PontoService as Service } from '@services/All'
+import express from 'express'
+import { PontoService as Service } from '@services'
 
-export default class PontoController {
-  async GetPontoByDataId(req: Request, res: Response) {
-    const IdColab = Number(req.query.IdColab)
-    const Data = new Date(String(req.query.Data))
+const route = express.Router()
 
-    Service.GetPontoByDataId(IdColab, Data).then(
-      (suc) => { res.json(suc) },
-      (err) => { res.json(err) }
-    )
-  }
-}
+route.post('/Ponto/GetPontoByDataId', async (req, res) => {
+  const IdColab = Number(req.query.IdColab)
+  const Data = new Date(String(req.query.Data))
+
+  Service.GetPontoByDataId(IdColab, Data).then(
+    (suc) => { res.json(suc) },
+    (err) => { res.json(err) }
+  )
+})
+
+const PontoController = route
+export default PontoController

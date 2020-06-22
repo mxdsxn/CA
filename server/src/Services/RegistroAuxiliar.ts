@@ -1,5 +1,5 @@
-import connKnex from '@database/connection'
-import { IRegistroAuxiliar } from '@models/All'
+import connKnex from '@database'
+import { IRegistroAuxiliar } from '@models'
 
 const RegistroAuxiliarService = {
   GetRegistroAuxiliarByData: async (IdColab: Number, Data: Date) => {
