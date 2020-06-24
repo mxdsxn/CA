@@ -5,9 +5,9 @@ const route = express.Router()
 
 route.post('/ProjetoAlocacaoPeriodo/GetProjetoAlocacaoPeriodoByIdColabDia', (req, res) => {
   const IdColab = Number(req.query.IdColab)
-  const Data = new Date(String(req.query.Data))
+  const DiaCadastro = new Date(String(req.query.DiaCadastro))
 
-  Service.GetProjetoAlocacaoPeriodoByIdColabDia(IdColab, Data)
+  Service.GetProjetoAlocacaoPeriodoByIdColabDia(IdColab, DiaCadastro)
     .then(
       (suc) => { res.json(suc) },
       (err) => { res.json(err) }
