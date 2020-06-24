@@ -28,7 +28,8 @@ const PontoService = {
       .andWhere('DataInicioContrato', '<', mesReferenciaFim)
 
     return (listaContrato)
-  }
+  },
+  GetContratoAtivoByDia: async (IdColab: Number, Dia: Date) => { return null }
 }
 
 export default PontoService

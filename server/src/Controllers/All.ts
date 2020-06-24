@@ -4,6 +4,7 @@ import CalendarioController from '@controller/Calendario'
 import ColaboradorContratoController from '@controller/ColaboradorContrato'
 import PontoController from '@controller/Ponto'
 import RegistroAuxiliarController from '@controller/RegistroAuxiliar'
+import ProjetoAlocacaoPeriodoController from '@controller/ProjetoAlocacaoPeriodo'
 
 export {
   TesteController,
@@ -11,5 +12,5 @@ export {
   CalendarioController,
   ColaboradorContratoController,
   PontoController,
-  RegistroAuxiliarController
+  RegistroAuxiliarController, ProjetoAlocacaoPeriodoController
 }

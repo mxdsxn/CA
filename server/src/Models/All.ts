@@ -4,6 +4,8 @@ import IColaboradorContrato from '@model/ColaboradorContrato'
 import IPonto from '@model/Ponto'
 import IRegistroAuxiliar from '@model/RegistroAuxiliar'
 import IProjeto from '@model/Projeto'
+import IProjetoAlocacao from '@model/ProjetoAlocacao'
+import IProjetoAlocacaoPeriodo from '@model/ProjetoAlocacaoPeriodo'
 
 export {
   IAtividade,
@@ -11,5 +13,7 @@ export {
   IColaboradorContrato,
   IPonto,
   IRegistroAuxiliar,
-  IProjeto
+  IProjeto,
+  IProjetoAlocacao,
+  IProjetoAlocacaoPeriodo
 }

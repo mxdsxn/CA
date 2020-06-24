@@ -1,4 +1,5 @@
 import connKnex from '@database'
+import { IProjetoAlocacao } from '@models'
 
 const TesteService = {
   Teste: async (IdColab: Number, Data: Date) => {
@@ -14,31 +15,24 @@ const TesteService = {
           ? new Date(`1/1/${mesReferenciaInicio.getFullYear() + 1}`)
           : new Date()
 
-    const idsProjAlocados = await connKnex()
-      .select('IdProjetoAlocacaoPeriodo')
-      .from('operacoes.ProjetoAlocacao')
-      .where({
-        IdColaborador: IdColab
-      })
-      .join('operacoes.ProjetoAlocacaoPeriodo', 'operacoes.ProjetoAlocacao.IdProjetoAlocacao', ' operacoes.ProjetoAlocacaoPeriodo.IdProjetoAlocacao')
-      .distinct()
-
-    const AlocPeriodo = idsProjAlocados.map(
-      async item => {
-        await connKnex()
+    const trx = await connKnex.transaction()
+    const ListProjetoAlocacaoPeriodo = await trx('operacoes.ProjetoAlocacao')
+      .select('IdProjetoAlocacao')
+      .where(
+        'IdColaborador', Number(IdColab)
+      )
+      .then(suc => {
+        var ListIdProjetoAlocacao = suc.map(x => x.IdProjetoAlocacao)
+        const result = connKnex('operacoes.ProjetoAlocacaoPeriodo')
           .select('*')
-          .from('operacoes.ProjetoAlocacaoPeriodo')
-          .where({
-            IdProjetoAlocacaoPeriodo: item.IdProjetoAlocacaoPeriodo
-          })
+          .whereIn('IdProjetoAlocacao', ListIdProjetoAlocacao)
           .where('DataInicio', '<=', mesReferenciaInicio)
           .andWhere('DataFim', '>=', mesReferenciaInicio)
-          .distinct()
-          .first().then(suc => suc)
-      }
-    )
-    return { msg: idsProjAlocados }
+          .then(suc => suc)
+        return result
+      })
+
+    return ListProjetoAlocacaoPeriodo
   }
 }
-
 export default TesteService
