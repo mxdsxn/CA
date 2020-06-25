@@ -15,9 +15,8 @@ const PontoService = {
           ? new Date(`1/1/${mesReferenciaInicio.getFullYear() + 1}`)
           : new Date()
 
-    const listaContrato: IColaboradorContrato[] = await connKnex
+    const listaContrato: IColaboradorContrato[] = await connKnex('pessoas.ColaboradorContrato')
       .select('*')
-      .from('pessoas.ColaboradorContrato')
       .where('IdColaborador', Number(IdColab))
       .andWhere(function () {
         this.where('Termino', '>=', mesReferenciaInicio).orWhere(
@@ -25,11 +24,21 @@ const PontoService = {
           null
         )
       })
-      .andWhere('DataInicioContrato', '<', mesReferenciaFim)
+      .andWhere('DataInicioContrato', '<=', mesReferenciaFim)
 
     return (listaContrato)
   },
-  GetContratoAtivoByDia: async (IdColab: Number, Dia: Date) => { return null }
+  GetContratoAtivoByIdColabDia: async (IdColab: Number, Dia: Date) => {
+    const ContratoAtivo: IColaboradorContrato = await connKnex('pessoas.ColaboradorContrato')
+      .select('*')
+      .where('IdColaborador', IdColab)
+      .andWhere(function () {
+        this.where('Termino', '>=', Dia)
+          .orWhere('Termino', null)
+      })
+      .andWhere('DataInicioContrato', '<=', Dia)
+    return ContratoAtivo
+  }
 }
 
 export default PontoService
