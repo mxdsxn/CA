@@ -3,10 +3,7 @@ import { IProjeto, IProjetoAlocacao } from '@models'
 
 const ProjetoService = {
   GetProjetoByIdColabDia: async (IdColab: Number, DiaCadastro: Date) => {
-    const DiaHoje = new Date()
-    const trx = await connKnex.transaction()
-
-    const idsProjetoAlocacao: IProjetoAlocacao[] = await trx('operacoes.ProjetoAlocacao')
+    const ListProjeto: IProjetoAlocacao[] = await connKnex('operacoes.ProjetoAlocacao')
       .select('IdProjetoAlocacao')
       .where(
         'IdColaborador', Number(IdColab)
@@ -18,22 +15,23 @@ const ProjetoService = {
           .whereIn('IdProjetoAlocacao', ListIdProjetoAlocacao)
           .where('DataInicio', '<=', DiaCadastro)
           .andWhere('DataFim', '>=', DiaCadastro)
-          .then(suc => suc.map(x => x.IdProjetoAlocacao))
+          .then(suc => {
+            const idsProjetoAlocacao = suc.map(x => x.IdProjetoAlocacao)
+            const ListProjeto = connKnex('operacoes.ProjetoAlocacao')
+              .select('IdProjeto')
+              .whereIn('IdProjetoAlocacao', idsProjetoAlocacao)
+              .then(suc => {
+                const idsProjeto = suc.map(x => x.IdProjeto)
+                const ListProjeto = connKnex('operacoes.Projeto')
+                  .select('IdProjeto', 'Nome')
+                  .whereIn('IdProjeto', idsProjeto)
+                  .then(suc => suc)
+                return ListProjeto
+              })
+            return ListProjeto
+          })
         return result
       })
-
-    const idsProjeto = await connKnex('operacoes.ProjetoAlocacao')
-      .select('IdProjeto')
-      .whereIn('IdProjetoAlocacao', idsProjetoAlocacao)
-      .then(suc => {
-        const result = suc.map(x => x.IdProjeto)
-        return result
-      })
-
-    const ListProjeto = await connKnex('operacoes.Projeto')
-      .select('IdProjeto', 'Nome')
-      .whereIn('IdProjeto', idsProjeto)
-      .then(suc => suc)
 
     return ListProjeto
   }

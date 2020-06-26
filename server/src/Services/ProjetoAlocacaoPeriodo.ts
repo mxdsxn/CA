@@ -3,8 +3,7 @@ import { IProjetoAlocacaoPeriodo, IProjetoAlocacao } from '@models'
 
 const ProjetoAlocacaoPeriodoService = {
   GetProjetoAlocacaoPeriodoByIdColabDia: async (IdColab: Number, DiaCadastro: Date) => {
-    const trx = await connKnex.transaction()
-    const ListProjetoAlocacaoPeriodo: IProjetoAlocacaoPeriodo[] = await trx('operacoes.ProjetoAlocacao')
+    const ListProjetoAlocacaoPeriodo: IProjetoAlocacaoPeriodo[] = await connKnex('operacoes.ProjetoAlocacao')
       .select('IdProjetoAlocacao')
       .where(
         'IdColaborador', Number(IdColab)
