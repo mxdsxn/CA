@@ -5,6 +5,7 @@ import ColaboradorContratoService from '@service/ColaboradorContrato'
 import PontoService from '@service/Ponto'
 import RegistroAuxiliarService from '@service/RegistroAuxiliar'
 import ProjetoAlocacaoPeriodoService from '@service/ProjetoAlocacaoPeriodo'
+import ProjetoService from '@service/Projeto'
 
 export {
   TesteService,
@@ -13,5 +14,6 @@ export {
   ColaboradorContratoService,
   PontoService,
   RegistroAuxiliarService,
+  ProjetoService,
   ProjetoAlocacaoPeriodoService
 }
