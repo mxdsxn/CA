@@ -15,9 +15,8 @@ const RegistroAuxiliarService = {
           ? new Date(`1/1/${mesReferenciaInicio.getFullYear() + 1}`)
           : new Date()
 
-    const listaRA: IRegistroAuxiliar[] = await connKnex
+    const listaRA: IRegistroAuxiliar[] = await connKnex('pessoas.RegistroAuxiliar')
       .select('*')
-      .from('pessoas.RegistroAuxiliar')
       .where('Data', '>=', mesReferenciaInicio)
       .andWhere('Data', '<', mesReferenciaFim)
       .andWhere('IdColaborador', Number(IdColab))

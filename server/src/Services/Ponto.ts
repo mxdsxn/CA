@@ -15,9 +15,8 @@ const PontoService = {
           ? new Date(`1/1/${mesReferenciaInicio.getFullYear() + 1}`)
           : new Date()
 
-    const listaPonto: IPonto[] = await connKnex
+    const listaPonto: IPonto[] = await connKnex('pessoas.Ponto')
       .select('*')
-      .from('pessoas.Ponto')
       .where('Data', '>=', mesReferenciaInicio)
       .andWhere('Data', '<', mesReferenciaFim)
       .andWhere('IdColaborador', Number(IdColab))

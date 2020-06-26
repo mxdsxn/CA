@@ -15,9 +15,8 @@ const CalendarioService = {
           ? new Date(`1/1/${mesReferenciaInicio.getFullYear() + 1}`)
           : new Date()
 
-    const feriadosMes: ICalendario[] = await connKnex
+    const feriadosMes: ICalendario[] = await connKnex('pessoas.Calendario')
       .select('*')
-      .from('pessoas.Calendario')
       .where('Dia', '>=', mesReferenciaInicio)
       .andWhere('Dia', '<', mesReferenciaFim)
     return (feriadosMes)
