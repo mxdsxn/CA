@@ -6,6 +6,7 @@ const route = express.Router()
 route.post('/teste/teste', (req, res) => {
   const IdColab = Number(req.query.IdColab)
   const Data = new Date(String(req.query.Data))
+  Data.setHours(0, 0, 0)
 
   Service.Teste(IdColab, Data)
     .then(

@@ -88,6 +88,9 @@
       ],
       "@routes": [
         "./src/routes.ts"
+      ],
+      "@utcLib": [
+        "./src/Libs/utcLib.ts"
       ]
     }
   },
