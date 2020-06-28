@@ -7,7 +7,6 @@ const CalendarioService = {
     const mesReferenciaInicio = Data
     const mesReferenciaFim = timeUtc.utcNextMonth(mesReferenciaInicio)
 
-    console.log(mesReferenciaInicio, mesReferenciaFim)
     const feriadosMes: ICalendario[] = await connKnex('pessoas.Calendario')
       .select('*')
       .where('Dia', '>=', mesReferenciaInicio)
@@ -19,7 +18,6 @@ const CalendarioService = {
       .select('*')
       .where({ Dia: Dia })
       .first()
-    console.log(Dia)
     return (feriadosMes)
   }
 }

@@ -1,22 +1,13 @@
 import connKnex from '@database'
 import { IProjetoAlocacao } from '@models'
+import timeUtc from '@timeUtc'
 
 const TesteService = {
   Teste: async (IdColab: Number, Data: Date) => {
     const mesReferenciaInicio = Data
-    const mesReferenciaFim =
-      mesReferenciaInicio.getMonth() < 11
-        ? new Date(
-          `${
-          mesReferenciaInicio.getMonth() + 2
-          }/1/${mesReferenciaInicio.getFullYear()}`
-        )
-        : mesReferenciaInicio.getMonth() === 11
-          ? new Date(`1/1/${mesReferenciaInicio.getFullYear() + 1}`)
-          : new Date()
+    const mesReferenciaFim = timeUtc.utcNextMonth(mesReferenciaInicio)
 
-    const trx = await connKnex.transaction()
-    const ListProjetoAlocacaoPeriodo = await trx('operacoes.ProjetoAlocacao')
+    const ListProjetoAlocacaoPeriodo = await connKnex('operacoes.ProjetoAlocacao')
       .select('IdProjetoAlocacao')
       .where(
         'IdColaborador', Number(IdColab)
@@ -27,7 +18,7 @@ const TesteService = {
           .select('*')
           .whereIn('IdProjetoAlocacao', ListIdProjetoAlocacao)
           .where('DataInicio', '<=', mesReferenciaInicio)
-          .andWhere('DataFim', '>=', mesReferenciaInicio)
+          .andWhere('DataFim', '>=', mesReferenciaFim)
           .then(suc => suc)
         return result
       })
