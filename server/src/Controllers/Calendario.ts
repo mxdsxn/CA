@@ -1,11 +1,11 @@
 import express from 'express'
 import { CalendarioService as Service } from '@services'
-import utcLib from '@utcLib'
+import timeUtc from '@timeUtc'
 
 const route = express.Router()
 
 route.post('/Calendario/GetFeriadosDoData', async (req, res) => {
-  const Data = new Date(String(req.query.Data))
+  const Data = timeUtc.utcString(req.query.Data)
   Data.setHours(0, 0, 0)
 
   Service.GetFeriadosDoData(Data).then(
@@ -15,7 +15,7 @@ route.post('/Calendario/GetFeriadosDoData', async (req, res) => {
 })
 
 route.post('/Calendario/GetFeriadoByDia', async (req, res) => {
-  const Dia = utcLib.utcDate(new Date(String(req.query.Dia)))
+  const Dia = timeUtc.utcString(req.query.Dia)
 
   Service.GetFeriadoByDia(Dia).then(
     (suc) => { res.json(suc) },

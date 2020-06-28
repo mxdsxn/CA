@@ -1,12 +1,12 @@
 import express from 'express'
 import { TesteService as Service } from '@services'
+import timeUtc from '@timeUtc'
 
 const route = express.Router()
 
 route.post('/teste/teste', (req, res) => {
   const IdColab = Number(req.query.IdColab)
-  const Data = new Date(String(req.query.Data))
-  Data.setHours(0, 0, 0)
+  const Data = timeUtc.utcString(req.query.Data)
 
   Service.Teste(IdColab, Data)
     .then(

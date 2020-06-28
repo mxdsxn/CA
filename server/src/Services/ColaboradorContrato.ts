@@ -1,19 +1,11 @@
 import connKnex from '@database'
 import { IColaboradorContrato } from '@models'
+import timeUtc from '@timeUtc'
 
 const PontoService = {
   GetContratosByDataId: async (IdColab: Number, Data: Date) => {
     const mesReferenciaInicio = Data
-    const mesReferenciaFim =
-      mesReferenciaInicio.getMonth() < 11
-        ? new Date(
-          `${
-          mesReferenciaInicio.getMonth() + 2
-          }/1/${mesReferenciaInicio.getFullYear()}`
-        )
-        : mesReferenciaInicio.getMonth() === 11
-          ? new Date(`1/1/${mesReferenciaInicio.getFullYear() + 1}`)
-          : new Date()
+    const mesReferenciaFim = timeUtc.utcNextMonth(mesReferenciaInicio)
 
     const listaContrato: IColaboradorContrato[] = await connKnex('pessoas.ColaboradorContrato')
       .select('*')
