@@ -5,7 +5,7 @@ import timeUtc from '@timeUtc'
 const AtividadeService = {
   GetAtividadesMesByIdColabMes: async (IdColab: Number, Data: Date) => {
     const mesReferenciaInicio = Data
-    const mesReferenciaFim = timeUtc.utcNextMonth(mesReferenciaInicio)
+    const mesReferenciaFim = timeUtc.utcEndMonth(mesReferenciaInicio)
     const atividadesMes: IAtividade[] = await connKnex('pessoas.Atividade')
       .select('*')
       .where({

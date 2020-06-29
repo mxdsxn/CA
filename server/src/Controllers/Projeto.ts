@@ -6,7 +6,7 @@ const route = express.Router()
 
 route.post('/Projeto/GetProjetoByIdColabDia', (req, res) => {
   const IdColab = Number(req.query.IdColab)
-  const DiaCadastro = timeUtc.utcString(req.query.DiaCadastro)
+  const DiaCadastro = timeUtc.utcString(req.query.DiaCadastro as string)
 
   Service.GetProjetoByIdColabDia(IdColab, DiaCadastro)
     .then(

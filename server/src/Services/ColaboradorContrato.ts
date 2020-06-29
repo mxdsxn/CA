@@ -5,7 +5,7 @@ import timeUtc from '@timeUtc'
 const PontoService = {
   GetContratosByDataId: async (IdColab: Number, Data: Date) => {
     const mesReferenciaInicio = Data
-    const mesReferenciaFim = timeUtc.utcNextMonth(mesReferenciaInicio)
+    const mesReferenciaFim = timeUtc.utcEndMonth(mesReferenciaInicio)
 
     const listaContrato: IColaboradorContrato[] = await connKnex('pessoas.ColaboradorContrato')
       .select('*')

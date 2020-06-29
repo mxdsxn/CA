@@ -5,7 +5,7 @@ import timeUtc from '@timeUtc'
 const TesteService = {
   Teste: async (IdColab: Number, Data: Date) => {
     const mesReferenciaInicio = Data
-    const mesReferenciaFim = timeUtc.utcNextMonth(mesReferenciaInicio)
+    const mesReferenciaFim = timeUtc.utcEndMonth(mesReferenciaInicio)
 
     const ListProjetoAlocacaoPeriodo = await connKnex('operacoes.ProjetoAlocacao')
       .select('IdProjetoAlocacao')

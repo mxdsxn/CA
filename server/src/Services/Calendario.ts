@@ -5,7 +5,7 @@ import timeUtc from '@timeUtc'
 const CalendarioService = {
   GetFeriadosDoData: async (Data: Date) => {
     const mesReferenciaInicio = Data
-    const mesReferenciaFim = timeUtc.utcNextMonth(mesReferenciaInicio)
+    const mesReferenciaFim = timeUtc.utcEndMonth(mesReferenciaInicio)
 
     const feriadosMes: ICalendario[] = await connKnex('pessoas.Calendario')
       .select('*')

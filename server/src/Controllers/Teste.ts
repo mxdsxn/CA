@@ -6,7 +6,7 @@ const route = express.Router()
 
 route.post('/teste/teste', (req, res) => {
   const IdColab = Number(req.query.IdColab)
-  const Data = timeUtc.utcString(req.query.Data)
+  const Data = timeUtc.utcString(req.query.Data as string)
 
   Service.Teste(IdColab, Data)
     .then(
