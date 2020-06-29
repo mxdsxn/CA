@@ -4,9 +4,8 @@ import { Container } from "@material-ui/core";
 import ResumoCard from "./ResumoCard";
 import ResumoTable from "./ResumoTable";
 import Datepic from "./Datepic/";
-// import dados from "../../assets/dados";
 
-import api from "../../service/api";
+import { AtividadeService } from '@services'
 
 export default (props) => {
   const y = new Date().getFullYear();
@@ -20,21 +19,7 @@ export default (props) => {
     setMesReferencia(date);
   };
 
-  useEffect(() => {
-    api
-      .post("GetAtividadesByDataColaboradores", null, {
-        params: {
-          IdColab: 2359,
-          Data: mesReferencia.toLocaleDateString(),
-        },
-      })
-      .then(
-        (res) => {
-          setAtividadesMes(res.data);
-        },
-        (err) => console.log(err)
-      );
-  }, [mesReferencia]);
+  useEffect(() => { AtividadeService.GetAtividadesMesByIdColabMes(2359, mesReferencia) }, [mesReferencia])
 
   return (
     <Container>

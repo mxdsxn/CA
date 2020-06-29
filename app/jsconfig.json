@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@apiUrl": [
+        "./src/service/apiUrl.js"
+      ],
+      "@service/*": [
+        "./src/service/*"
+      ],
+      "@services": [
+        "./src/service/all.js"
+      ]
+    }
+  }
+}
