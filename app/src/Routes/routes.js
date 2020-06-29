@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { Hidden } from '@material-ui/core'
 
 import MonthResume from "../screen/MonthResume";
@@ -10,6 +10,7 @@ import NavBar from "../components/BottomNav";
 export default () => {
   return (
     <BrowserRouter>
+      <Redirect from='/' to='resumoMes' />
       <Switch>
         <Route>
           <Route
@@ -29,6 +30,6 @@ export default () => {
       <Hidden mdUp>
         <NavBar />
       </Hidden>
-    </BrowserRouter>
+    </BrowserRouter >
   );
 };
