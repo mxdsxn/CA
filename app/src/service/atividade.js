@@ -1,18 +1,19 @@
-import api from '@apiUrl'
+import api from './apiUrl'
 
 const AtividadeService = {
-  GetAtividadesMesByIdColabMes: (idColab, mesReferencia) => {
-    api
+  GetAtividadesMesByIdColabMes: async (idColab, mesReferencia) => {
+    const result = await api
       .post("Atividade/GetAtividadesMesByIdColabMes", null, {
         params: {
-          IdColab: 2359,
-          Data: mesReferencia.toLocaleDateString(),
+          IdColab: idColab,
+          Data: mesReferencia,
         },
       })
       .then(
         res => res.data,
         err => console.log(err)
-      );
+      )
+    return result
   }
 }
 

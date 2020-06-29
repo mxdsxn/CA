@@ -5,7 +5,7 @@ import ResumoCard from "./ResumoCard";
 import ResumoTable from "./ResumoTable";
 import Datepic from "./Datepic/";
 
-import { AtividadeService } from '@services'
+import { AtividadeService } from '../../service/all'
 
 export default (props) => {
   const y = new Date().getFullYear();
@@ -19,7 +19,12 @@ export default (props) => {
     setMesReferencia(date);
   };
 
-  useEffect(() => { AtividadeService.GetAtividadesMesByIdColabMes(2359, mesReferencia) }, [mesReferencia])
+  useEffect(() => {
+    AtividadeService.GetAtividadesMesByIdColabMes(2359, mesReferencia)
+      .then(res =>
+        setAtividadesMes(res)
+      )
+  }, [mesReferencia])
 
   return (
     <Container>

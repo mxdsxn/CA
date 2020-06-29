@@ -1,3 +1,3 @@
-import AtividadeService from '@service/atividade'
+import AtividadeService from './atividade'
 
 export { AtividadeService }
