@@ -40,12 +40,10 @@ const timeUtc = {
     return result
   },
   utcEndMonth: (data: Date) => {
-    console.log(data.getUTCMonth())
     const result = data.getUTCMonth() < 11
       ? new Date(Date.UTC(data.getUTCFullYear(), data.getUTCMonth() + 1, 0, 0, 0, 0, 0))
       : data.getUTCMonth() === 11
         ? new Date(Date.UTC(data.getUTCFullYear(), 12, 0, 0, 0, 0, 0)) : null
-    console.log(result)
     return result
   }
 }
