@@ -8,27 +8,33 @@ import { useHistory } from "react-router-dom";
 
 export default (props) => {
   const history = useHistory();
+  const [valueNavBar, setValueNavBar] = React.useState(0);
 
   return (
-      <BottomNavigation className="fixed-bottom"
-        value={props.valueNavBar}
-        showLabels
-      >
-        <BottomNavigationAction
-          onClick={() => history.push("/resumoMes")}
-          label="Resumo Mes"
-          icon={<Today />}
-        />
-        <BottomNavigationAction
-          onClick={() => history.push("/incluirAtv")}
-          label="Incluir Atividade"
-          icon={<PostAdd />}
-        />
-        <BottomNavigationAction
-          onClick={() => history.push("/fecharSem")}
-          label="Fechar Semana"
-          icon={<EventAvailable />}
-        />
-      </BottomNavigation>
+    <BottomNavigation className="fixed-bottom"
+      value={valueNavBar}
+      showLabels
+      onChange={(event, newValue) => {
+        setValueNavBar(newValue);
+      }}
+    >
+      <BottomNavigationAction
+        onClick={() => history.push("/resumoMes")}
+        label="Resumo Mes"
+        icon={<Today />}
+      />
+
+      <BottomNavigationAction
+        onClick={() => history.push("/incluirAtv")}
+        label="Incluir Atividade"
+        icon={<PostAdd />}
+      />
+
+      <BottomNavigationAction
+        onClick={() => history.push("/fecharSem")}
+        label="Fechar Semana"
+        icon={<EventAvailable />}
+      />
+    </BottomNavigation>
   );
 }
