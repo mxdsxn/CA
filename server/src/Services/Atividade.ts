@@ -24,9 +24,8 @@ const AtividadeService = {
         return nomes
       })
     atividadesMes.map(x => {
-      x.Nome = NomesProjetos.filter(n => n.IdProjeto === x.IdProjeto)[0].Nome
+      x.Projeto = NomesProjetos.filter(n => n.IdProjeto === x.IdProjeto)[0].Nome
     })
-    console.log(NomesProjetos)
     return atividadesMes
   }
 }

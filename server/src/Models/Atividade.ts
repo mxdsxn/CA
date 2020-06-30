@@ -2,7 +2,7 @@ export default interface Atividade {
   IdAtividade: Number;
   IdColaborador: Number;
   IdProjeto: Number;
-  Nome: String;
+  Projeto: String;
   IdProjetoCategoriaAtividade: Number;
   IdProjetoMetodologiaFase: Number;
   DataCadastro: Date;
