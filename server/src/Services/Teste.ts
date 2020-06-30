@@ -7,23 +7,25 @@ const TesteService = {
     const mesReferenciaInicio = Data
     const mesReferenciaFim = timeUtc.utcEndMonth(mesReferenciaInicio)
 
-    const ListProjetoAlocacaoPeriodo = await connKnex('operacoes.ProjetoAlocacao')
-      .select('IdProjetoAlocacao')
-      .where(
-        'IdColaborador', Number(IdColab)
-      )
-      .then(suc => {
-        var ListIdProjetoAlocacao = suc.map(x => x.IdProjetoAlocacao)
-        const result = connKnex('operacoes.ProjetoAlocacaoPeriodo')
-          .select('*')
-          .whereIn('IdProjetoAlocacao', ListIdProjetoAlocacao)
-          .where('DataInicio', '<=', mesReferenciaInicio)
-          .andWhere('DataFim', '>=', mesReferenciaFim)
-          .then(suc => suc)
-        return result
-      })
+    // testes com RUMO 2417
 
-    return ListProjetoAlocacaoPeriodo
+    const Projeto = await connKnex('operacoes.Projeto')
+      .select('*')
+      .where('IdProjeto', 2417)
+    const ProjetoMetodologia = await connKnex('operacoes.ProjetoMetodologia')
+      .select('*')
+      .where('IdProjeto', 2417)
+      .orderBy('DataAtualizacao', 'desc')
+      .first()
+    console.log(ProjetoMetodologia)
+    const idProjetoMetodologia = ProjetoMetodologia.IdProjetoMetodologia
+    const ProjetoMetodologiaFase = await connKnex('operacoes.ProjetoMetodologiaFase')
+      .select('*')
+      .where({ IdProjetoMetodologia: idProjetoMetodologia, Ativa: true })
+      .distinct()
+    // const tst = await connKnex('operacoes.ProjetoMetodologiaFaseArtefato')
+    // .first()
+    return ProjetoMetodologiaFase
   }
 }
 export default TesteService

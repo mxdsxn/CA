@@ -7,7 +7,8 @@ import {
   PontoController,
   RegistroAuxiliarController,
   ProjetoAlocacaoPeriodoController,
-  ProjetoController
+  ProjetoController,
+  ProjetoMetodologiaFaseController
 } from '@controllers'
 
 const routes = express.Router()
@@ -20,7 +21,8 @@ routes.use(
   PontoController,
   ColaboradorContratoController,
   ProjetoAlocacaoPeriodoController,
-  ProjetoController
+  ProjetoController,
+  ProjetoMetodologiaFaseController
 )
 
 export default routes

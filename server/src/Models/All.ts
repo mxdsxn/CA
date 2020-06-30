@@ -6,6 +6,8 @@ import IRegistroAuxiliar from '@model/RegistroAuxiliar'
 import IProjeto from '@model/Projeto'
 import IProjetoAlocacao from '@model/ProjetoAlocacao'
 import IProjetoAlocacaoPeriodo from '@model/ProjetoAlocacaoPeriodo'
+import IProjetoMetodologia from '@model/ProjetoMetodologia'
+import IProjetoMetodologiaFase from '@model/ProjetoMetodologiaFase'
 
 export {
   IAtividade,
@@ -15,5 +17,7 @@ export {
   IRegistroAuxiliar,
   IProjeto,
   IProjetoAlocacao,
-  IProjetoAlocacaoPeriodo
+  IProjetoAlocacaoPeriodo,
+  IProjetoMetodologia,
+  IProjetoMetodologiaFase
 }
