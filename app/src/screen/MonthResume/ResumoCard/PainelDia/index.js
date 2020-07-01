@@ -71,7 +71,7 @@ export default function CustomizedExpansionPanels(props) {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <Typography>
-              <CardAtividade atv={atv}/>
+              <CardAtividade atv={atv} />
             </Typography>
           </ExpansionPanelDetails>
         </ExpansionPanel>

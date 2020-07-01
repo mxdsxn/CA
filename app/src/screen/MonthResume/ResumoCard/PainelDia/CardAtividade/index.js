@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
-  
+
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
@@ -24,22 +24,22 @@ const useStyles = makeStyles({
 export default function SimpleCard(props) {
   const classes = useStyles();
 
+  useEffect(() => (console.log(props.atv)), [props.atv])
+
   return (
-    <Card className={classes.root} key={props.atv.idAtividade}>
+    <Card className={classes.root} key={props.atv.IdAtividade}>
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
-          {props.atv.dataAtividade}
+          {props.atv.DataAtividade}
         </Typography>
         <Typography variant="h5" component="h2">
-          {props.atv.projeto}
+          {props.atv.Projeto}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          Data Cadastro: {props.atv.dataCadastro}
+          Data Cadastro: {props.atv.DataCadastro}
         </Typography>
         <Typography variant="body2" component="p">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla maximus turpis a libero imperdiet, sed laoreet ex porta.
-          <br />
-          {'"PS: blablabla"'}
+          {props.atv.Descricao}
         </Typography>
       </CardContent>
       <CardActions>
