@@ -1,8 +1,8 @@
-import api from './apiUrl'
+import baseUrl from './api-base-url'
 
-const AtividadeService = {
+const atividadeApi = {
   GetAtividadesMesByIdColabMes: async (idColab, mesReferencia) => {
-    const result = await api
+    const result = await baseUrl
       .post("Atividade/GetAtividadesMesByIdColabMes", null, {
         params: {
           IdColab: idColab,
@@ -17,4 +17,4 @@ const AtividadeService = {
   }
 }
 
-export default AtividadeService
+export default atividadeApi
