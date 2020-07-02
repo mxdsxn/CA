@@ -9,23 +9,12 @@ const TesteService = {
 
     // testes com RUMO 2417
 
-    const Projeto = await connKnex('operacoes.Projeto')
+    const tst = await connKnex('operacoes.ProjetoCategoriaAtividade')
       .select('*')
       .where('IdProjeto', 2417)
-    const ProjetoMetodologia = await connKnex('operacoes.ProjetoMetodologia')
-      .select('*')
-      .where('IdProjeto', 2417)
-      .orderBy('DataAtualizacao', 'desc')
-      .first()
-    console.log(ProjetoMetodologia)
-    const idProjetoMetodologia = ProjetoMetodologia.IdProjetoMetodologia
-    const ProjetoMetodologiaFase = await connKnex('operacoes.ProjetoMetodologiaFase')
-      .select('*')
-      .where({ IdProjetoMetodologia: idProjetoMetodologia, Ativa: true })
-      .distinct()
-    // const tst = await connKnex('operacoes.ProjetoMetodologiaFaseArtefato')
+    console.log(tst.length)
     // .first()
-    return ProjetoMetodologiaFase
+    return tst
   }
 }
 export default TesteService

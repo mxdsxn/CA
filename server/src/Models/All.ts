@@ -8,6 +8,7 @@ import IProjetoAlocacao from '@model/ProjetoAlocacao'
 import IProjetoAlocacaoPeriodo from '@model/ProjetoAlocacaoPeriodo'
 import IProjetoMetodologia from '@model/ProjetoMetodologia'
 import IProjetoMetodologiaFase from '@model/ProjetoMetodologiaFase'
+import IProjetoCategoriaAtividade from '@model/ProjetoCategoriaAtividade'
 
 export {
   IAtividade,
@@ -19,5 +20,6 @@ export {
   IProjetoAlocacao,
   IProjetoAlocacaoPeriodo,
   IProjetoMetodologia,
-  IProjetoMetodologiaFase
+  IProjetoMetodologiaFase,
+  IProjetoCategoriaAtividade
 }

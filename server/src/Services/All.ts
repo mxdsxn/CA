@@ -7,6 +7,7 @@ import RegistroAuxiliarService from '@service/RegistroAuxiliar'
 import ProjetoAlocacaoPeriodoService from '@service/ProjetoAlocacaoPeriodo'
 import ProjetoService from '@service/Projeto'
 import ProjetoMetodologiaFaseService from '@service/ProjetoMetodologiaFase'
+import ProjetoCategoriaAtividadeService from '@service/ProjetoCategoriaAtividade'
 
 export {
   TesteService,
@@ -17,5 +18,6 @@ export {
   RegistroAuxiliarService,
   ProjetoService,
   ProjetoAlocacaoPeriodoService,
-  ProjetoMetodologiaFaseService
+  ProjetoMetodologiaFaseService,
+  ProjetoCategoriaAtividadeService
 }

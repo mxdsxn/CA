@@ -7,6 +7,7 @@ import RegistroAuxiliarController from '@controller/RegistroAuxiliar'
 import ProjetoAlocacaoPeriodoController from '@controller/ProjetoAlocacaoPeriodo'
 import ProjetoController from '@controller/Projeto'
 import ProjetoMetodologiaFaseController from '@controller/ProjetoMetodologiaFase'
+import ProjetoCategoriaAtidadeController from '@controller/ProjetoCategoriaAtividade'
 
 export {
   TesteController,
@@ -17,5 +18,6 @@ export {
   RegistroAuxiliarController,
   ProjetoController,
   ProjetoAlocacaoPeriodoController,
-  ProjetoMetodologiaFaseController
+  ProjetoMetodologiaFaseController,
+  ProjetoCategoriaAtidadeController
 }
