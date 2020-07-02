@@ -9,7 +9,6 @@ const ProjetoMetodologiaFaseService = {
       .where('IdProjeto', IdProjeto)
       .orderBy('DataAtualizacao', 'desc')
       .first()
-    console.log(ProjetoMetodologia)
     const idProjetoMetodologia = ProjetoMetodologia.IdProjetoMetodologia
     const ProjetoMetodologiaFase: IProjetoMetodologiaFase[] = await connKnex('operacoes.ProjetoMetodologiaFase')
       .select('*')

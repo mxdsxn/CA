@@ -12,7 +12,6 @@ const TesteService = {
     const tst = await connKnex('operacoes.ProjetoCategoriaAtividade')
       .select('*')
       .where('IdProjeto', 2417)
-    console.log(tst.length)
     // .first()
     return tst
   }
