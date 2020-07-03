@@ -48,7 +48,6 @@ const libUtc = {
   },
   getEndDay: (data: Date) => {
     const result = new Date(Date.UTC(data.getUTCFullYear(), data.getUTCMonth(), data.getUTCDate(), 23, 59, 59, 999))
-    console.log(result)
     return result
   }
 }
