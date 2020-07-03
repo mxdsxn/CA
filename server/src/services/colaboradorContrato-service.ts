@@ -6,7 +6,7 @@ import libUtc from '@libUtc'
 const PontoService = {
   GetContratosByDataIdColaboradorMes: async (idColaborador: Number, mesReferencia: Date) => {
     const mesReferenciaInicio = mesReferencia
-    const mesReferenciaFim = libUtc.utcEndMonth(mesReferenciaInicio)
+    const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
     const listaContrato: IColaboradorContrato[] = await connKnex('pessoas.ColaboradorContrato')
       .select('*')

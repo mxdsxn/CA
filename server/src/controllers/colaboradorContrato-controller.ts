@@ -6,7 +6,7 @@ const route = express.Router()
 
 route.post('/ColaboradorContrato/GetContratosByDataIdColaboradorMes', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
-  const mesReferencia = libUtc.utcString(req.query.mesReferencia as string)
+  const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
 
   Service.GetContratosByDataIdColaboradorMes(idColaborador, mesReferencia).then(
     (suc) => { res.json(suc) },
@@ -15,7 +15,7 @@ route.post('/ColaboradorContrato/GetContratosByDataIdColaboradorMes', async (req
 })
 route.post('/ColaboradorContrato/GetContratoAtivoByIdColaboradorDia', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
-  const diaReferencia = libUtc.utcString(req.query.diaReferencia as string)
+  const diaReferencia = libUtc.getDateByString(req.query.diaReferencia as string)
 
   Service.GetContratoAtivoByIdColaboradorDia(idColaborador, diaReferencia).then(
     (suc) => { res.json(suc) },

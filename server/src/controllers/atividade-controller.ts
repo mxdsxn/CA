@@ -6,7 +6,7 @@ const route = express.Router()
 
 route.post('/Atividade/GetAtividadesMesByIdColaboradorMes', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
-  const mesReferencia = libUtc.utcString(req.query.mesReferencia as string)
+  const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
 
   Service.GetAtividadesMesByIdColaboradorMes(idColaborador, mesReferencia).then(
     (suc) => { res.json(suc) },

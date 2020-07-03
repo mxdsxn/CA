@@ -6,7 +6,7 @@ import libUtc from '@libUtc'
 const PontoService = {
   GetPontoByIdColaboradorMes: async (idColaborador: Number, mesReferencia: Date) => {
     const mesReferenciaInicio = mesReferencia
-    const mesReferenciaFim = libUtc.utcEndMonth(mesReferenciaInicio)
+    const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
     const listaPonto: IPonto[] = await connKnex('pessoas.Ponto')
       .select('*')
@@ -20,11 +20,13 @@ const PontoService = {
     return listaPonto
   },
   GetPontoByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
+    const diaReferenciaInicio = diaReferencia
+    const diaReferenciaFim = libUtc.getEndDay(diaReferenciaInicio)
+
     const listaPonto: IPonto[] = await connKnex('pessoas.Ponto')
       .select('*')
-      .where({
-        Data: diaReferencia
-      })
+      .where('Data', '>=', diaReferenciaInicio)
+      .andWhere('Data', '<', diaReferenciaFim)
       .andWhere({
         IdColaborador: idColaborador
       })

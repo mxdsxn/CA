@@ -5,7 +5,7 @@ import libUtc from '@libUtc'
 const TesteService = {
   Teste: async (IdColab: Number, Data: Date) => {
     const mesReferenciaInicio = Data
-    const mesReferenciaFim = libUtc.utcEndMonth(mesReferenciaInicio)
+    const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
     // testes com RUMO 2417
 

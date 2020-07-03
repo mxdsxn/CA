@@ -1,5 +1,5 @@
 const libUtc = {
-  utcDate: (date: Date) => {
+  getDate: (date: Date) => {
     const year = date.getFullYear()
     const month = date.getUTCMonth()
     const day = date.getUTCDate()
@@ -19,7 +19,7 @@ const libUtc = {
     )
     return result
   },
-  utcString: (date: string) => {
+  getDateByString: (date: string) => {
     const dateNoUtc = new Date(date)
     const year = dateNoUtc.getUTCFullYear()
     const month = dateNoUtc.getUTCMonth()
@@ -39,11 +39,16 @@ const libUtc = {
     )
     return result
   },
-  utcEndMonth: (data: Date) => {
+  getEndMonth: (data: Date) => {
     const result = data.getUTCMonth() < 11
-      ? new Date(Date.UTC(data.getUTCFullYear(), data.getUTCMonth() + 1, 0, 0, 0, 0, 0))
+      ? new Date(Date.UTC(data.getUTCFullYear(), data.getUTCMonth() + 1, 0, 23, 59, 59, 999))
       : data.getUTCMonth() === 11
-        ? new Date(Date.UTC(data.getUTCFullYear(), 12, 0, 0, 0, 0, 0)) : null
+        ? new Date(Date.UTC(data.getUTCFullYear(), 12, 0, 23, 59, 59, 999)) : null
+    return result
+  },
+  getEndDay: (data: Date) => {
+    const result = new Date(Date.UTC(data.getUTCFullYear(), data.getUTCMonth(), data.getUTCDate(), 23, 59, 59, 999))
+    console.log(result)
     return result
   }
 }

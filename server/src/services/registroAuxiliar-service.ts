@@ -6,7 +6,7 @@ import libUtc from '@libUtc'
 const RegistroAuxiliarService = {
   GetRegistroAuxiliarByIdColaboradorMes: async (idColaborador: Number, mesReferencia: Date) => {
     const mesReferenciaInicio = mesReferencia
-    const mesReferenciaFim = libUtc.utcEndMonth(mesReferenciaInicio)
+    const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
     const listaRA: IRegistroAuxiliar[] = await connKnex('pessoas.RegistroAuxiliar')
       .select('*')

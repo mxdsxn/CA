@@ -6,7 +6,7 @@ import libUtc from '@libUtc'
 const AtividadeService = {
   GetAtividadesMesByIdColaboradorMes: async (idColaborador: Number, mesReferencia: Date) => {
     const mesReferenciaInicio = mesReferencia
-    const mesReferenciaFim = libUtc.utcEndMonth(mesReferenciaInicio)
+    const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
     const listaAtividadeMes: IAtividade[] = await connKnex('pessoas.Atividade')
       .select('*')
       .where({
