@@ -1,12 +1,12 @@
 import baseUrl from './api-base-url'
 
 const atividadeApi = {
-  GetAtividadesMesByIdColabMes: async (idColab, mesReferencia) => {
+  GetAtividadesMesByIdColaboradorMes: async (idColaborador, mesReferencia) => {
     const result = await baseUrl
-      .post("Atividade/GetAtividadesMesByIdColabMes", null, {
+      .post("Atividade/GetAtividadesMesByIdColaboradorMes", null, {
         params: {
-          IdColab: idColab,
-          Data: mesReferencia,
+          idColaborador: idColaborador,
+          mesReferencia: mesReferencia,
         },
       })
       .then(

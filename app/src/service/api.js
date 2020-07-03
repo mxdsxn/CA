@@ -1,7 +1,7 @@
 import atividadeApi from './atividade-api'
 
 const api = {
-  GetAtividadesMesByIdColabMes: (idColab, mesReferencia) => atividadeApi.GetAtividadesMesByIdColabMes(idColab, mesReferencia),
+  GetAtividadesMesByIdColaboradorMes: (idColaborador, mesReferencia) => atividadeApi.GetAtividadesMesByIdColaboradorMes(idColaborador, mesReferencia),
 
 }
 
