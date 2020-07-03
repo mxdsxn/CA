@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   Button,
@@ -10,6 +10,8 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import ChipInput from "material-ui-chip-input";
+
+import api from '../../service/api'
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -32,10 +34,7 @@ const useStylesTagInput = makeStyles({
 });
 
 const dadosCadAtv = {
-  projetos: [
-    { idProj: 1111, nome: "projeto1" },
-    { idProj: 1234, nome: "projeto2" },
-  ],
+
   projetoDefault: [
     { idProj: 9999, nome: "projDefault1" },
     { idProj: 8888, nome: "projDefault2" },
@@ -46,6 +45,7 @@ const dadosCadAtv = {
   ],
 };
 
+
 export default (props) => {
   if (props.setValueNavBar) {
   }
@@ -53,27 +53,22 @@ export default (props) => {
   const classes = useStyles();
   const tagInputStyle = useStylesTagInput();
 
-  const [projeto, setProjeto] = React.useState("");
-  const [projDef, setProjDef] = React.useState("");
-  const [gerente, setGerente] = React.useState("");
+  const [listaProjeto, setListaProjeto] = useState([])
+  const [projeto, setProjeto] = useState(0);
+
+  useEffect(() => {
+    api.GetProjetosByIdColaboradorDia(2359, '04/01/2020')
+      .then(res =>
+        setListaProjeto(res)
+      )
+  }, [])
+
 
   const handleChangeProjeto = (event) => {
     setProjeto(event.target.value);
     console.log(projeto);
   };
-  const handleChangeProjDef = (event) => {
-    setProjDef(event.target.value);
-    console.log(projDef);
-  };
-  const handleChangeGerente = (event) => {
-    setGerente(event.target.value);
-    console.log(gerente);
-  };
 
-  const salvarAtividade = () => {
-    const atv = { IdProjeto: projeto, IdGerente: gerente };
-    console.log(atv);
-  };
 
   return (
     <div className="container">
@@ -87,8 +82,8 @@ export default (props) => {
               value={projeto}
               onChange={handleChangeProjeto}
             >
-              {dadosCadAtv.projetos.map((proj) => (
-                <MenuItem value={proj.idProj}>{proj.nome}</MenuItem>
+              {listaProjeto.map((proj) => (
+                <MenuItem value={proj.IdProjeto}>{proj.Nome}</MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -102,8 +97,8 @@ export default (props) => {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={projDef}
-              onChange={handleChangeProjDef}
+              value={0}
+            // onChange={handleChangeProjDef}
             >
               {dadosCadAtv.projetoDefault.map((projD) => (
                 <MenuItem value={projD.idProj}>{projD.nome}</MenuItem>
@@ -118,8 +113,8 @@ export default (props) => {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={gerente}
-              onChange={handleChangeGerente}
+              value={0}
+            // onChange={handleChangeGerente}
             >
               {dadosCadAtv.gerentes.map((gerente) => (
                 <MenuItem value={gerente.idCola3}>{gerente.nome}</MenuItem>
@@ -143,7 +138,7 @@ export default (props) => {
         </Grid>
       </Grid>
       <Button
-        onClick={salvarAtividade}
+        // onClick={salvarAtividade}
         variant="contained"
         className={classes.colorDefault}
       >
