@@ -13,10 +13,15 @@ module.exports = {
   plugins: [
     ['module-resolver', {
       alias: {
-        '@services': './src/Services',
-        '@models': './src/Models',
-        '@controllers': './src/Controllers',
-        '@database': './src/Database'
+        '@controllers': './src/controllers/controller.ts',
+        "@controller/*": "./src/controllers/*",
+        '@database': './src/Database',
+        "@libUtc": "./src/libs/date-time-utc.ts",
+        '@models': './src/models/models.ts',
+        '@model/*': './src/models/*',
+        '@services': './src/services/services.ts',
+        "@service/*": "./src/services/*",
+        "@routes": "./src/routes/routes.ts"
       }
     }]
   ],

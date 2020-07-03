@@ -66,32 +66,32 @@
     "baseUrl": ".",
     "paths": {
       "@controllers": [
-        "./src/Controllers/All.ts"
+        "./src/controllers/controllers.ts"
       ],
       "@controller/*": [
-        "./src/Controllers/*"
-      ],
-      "@services": [
-        "./src/Services/All.ts"
-      ],
-      "@service/*": [
-        "./src/Services/*"
-      ],
-      "@models": [
-        "./src/Models/All.ts"
-      ],
-      "@model/*": [
-        "./src/Models/*"
+        "./src/controllers/*"
       ],
       "@database": [
-        "./src/Database/connection.ts"
+        "./src/database/db-connection.ts"
+      ],
+      "@libUtc": [
+        "./src/libs/date-time-utc.ts"
+      ],
+      "@models": [
+        "./src/models/models.ts"
+      ],
+      "@model/*": [
+        "./src/models/*"
+      ],
+      "@services": [
+        "./src/services/services.ts"
+      ],
+      "@service/*": [
+        "./src/services/*"
       ],
       "@routes": [
-        "./src/routes.ts"
+        "./src/routes/routes.ts"
       ],
-      "@timeUtc": [
-        "./src/Libs/timeUtc.ts"
-      ]
     }
   },
   "include": [
