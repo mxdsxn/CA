@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import connKnex from '@database'
+import dbConnection from '@database'
 import { IColaboradorContrato } from '@models'
 import libUtc from '@libUtc'
 
@@ -8,7 +8,7 @@ const PontoService = {
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
-    const listaContrato: IColaboradorContrato[] = await connKnex('pessoas.ColaboradorContrato')
+    const listaContrato: IColaboradorContrato[] = await dbConnection('pessoas.ColaboradorContrato')
       .select('*')
       .where('IdColaborador', Number(idColaborador))
       .andWhere(function () {
@@ -23,7 +23,7 @@ const PontoService = {
   GetContratoAtivoByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
     const diaReferenciaInicio = diaReferencia
     const diaReferenciaFim = libUtc.getEndDay(diaReferenciaInicio)
-    const ContratoAtivo: IColaboradorContrato = await connKnex('pessoas.ColaboradorContrato')
+    const ContratoAtivo: IColaboradorContrato = await dbConnection('pessoas.ColaboradorContrato')
       .select('*')
       .where('IdColaborador', idColaborador)
       .andWhere(function () {

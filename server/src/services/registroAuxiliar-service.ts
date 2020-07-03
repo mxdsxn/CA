@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import connKnex from '@database'
+import dbConnection from '@database'
 import { IRegistroAuxiliar } from '@models'
 import libUtc from '@libUtc'
 
@@ -8,7 +8,7 @@ const RegistroAuxiliarService = {
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
-    const listaRA: IRegistroAuxiliar[] = await connKnex('pessoas.RegistroAuxiliar')
+    const listaRA: IRegistroAuxiliar[] = await dbConnection('pessoas.RegistroAuxiliar')
       .select('*')
       .where('Data', '>=', mesReferenciaInicio)
       .andWhere('Data', '<', mesReferenciaFim)

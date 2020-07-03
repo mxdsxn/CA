@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import connKnex from '@database'
+import dbConnection from '@database'
 import { IPonto } from '@models'
 import libUtc from '@libUtc'
 
@@ -8,7 +8,7 @@ const PontoService = {
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
-    const listaPonto: IPonto[] = await connKnex('pessoas.Ponto')
+    const listaPonto: IPonto[] = await dbConnection('pessoas.Ponto')
       .select('*')
       .where('Data', '>=', mesReferenciaInicio)
       .andWhere('Data', '<=', mesReferenciaFim)
@@ -23,7 +23,7 @@ const PontoService = {
     const diaReferenciaInicio = diaReferencia
     const diaReferenciaFim = libUtc.getEndDay(diaReferenciaInicio)
 
-    const listaPonto: IPonto[] = await connKnex('pessoas.Ponto')
+    const listaPonto: IPonto[] = await dbConnection('pessoas.Ponto')
       .select('*')
       .where('Data', '>=', diaReferenciaInicio)
       .andWhere('Data', '<=', diaReferenciaFim)

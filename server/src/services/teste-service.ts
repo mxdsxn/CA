@@ -1,4 +1,4 @@
-import connKnex from '@database'
+import dbConnection from '@database'
 import { IProjetoAlocacao } from '@models'
 import libUtc from '@libUtc'
 
@@ -9,7 +9,7 @@ const TesteService = {
 
     // testes com RUMO 2417
 
-    const tst = await connKnex('operacoes.ProjetoCategoriaAtividade')
+    const tst = await dbConnection('operacoes.ProjetoCategoriaAtividade')
       .select('*')
       .where('IdProjeto', 2417)
     // .first()

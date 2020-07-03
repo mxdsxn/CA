@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import connKnex from '@database'
+import dbConnection from '@database'
 import { ICalendario } from '@models'
 import libUtc from '@libUtc'
 
@@ -8,7 +8,7 @@ const CalendarioService = {
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
-    const listaFeriadosMes: ICalendario[] = await connKnex('pessoas.Calendario')
+    const listaFeriadosMes: ICalendario[] = await dbConnection('pessoas.Calendario')
       .select('*')
       .where('Dia', '>=', mesReferenciaInicio)
       .andWhere('Dia', '<=', mesReferenciaFim)
@@ -18,7 +18,7 @@ const CalendarioService = {
   GetFeriadoByDia: async (diaReferencia: Date) => {
     const diaReferenciaInicio = diaReferencia
     const diaReferenciaFim = libUtc.getEndDay(diaReferenciaInicio)
-    const feriadoDia: ICalendario = await connKnex('pessoas.Calendario')
+    const feriadoDia: ICalendario = await dbConnection('pessoas.Calendario')
       .select('*')
       .where('Dia', '>=', diaReferenciaInicio)
       .andWhere('Dia', '<=', diaReferenciaFim)

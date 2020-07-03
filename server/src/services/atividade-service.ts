@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import connKnex from '@database'
+import dbConnection from '@database'
 import { IAtividade, IProjeto } from '@models'
 import libUtc from '@libUtc'
 
@@ -7,7 +7,7 @@ const AtividadeService = {
   GetAtividadesMesByIdColaboradorMes: async (idColaborador: Number, mesReferencia: Date) => {
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
-    const listaAtividadeMes: IAtividade[] = await connKnex('pessoas.Atividade')
+    const listaAtividadeMes: IAtividade[] = await dbConnection('pessoas.Atividade')
       .select('*')
       .where({
         IdColaborador: idColaborador
@@ -18,7 +18,7 @@ const AtividadeService = {
       .then(atvs => atvs)
 
     const listaIdsProjeto = listaAtividadeMes.map(x => x.IdProjeto)
-    const listaNomesProjeto = await connKnex('operacoes.Projeto')
+    const listaNomesProjeto = await dbConnection('operacoes.Projeto')
       .select('IdProjeto', 'Nome')
       .whereIn('IdProjeto', listaIdsProjeto)
       .then(suc => {
