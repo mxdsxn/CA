@@ -4,7 +4,7 @@ import { IAtividade, IProjeto } from '@models'
 import timeUtc from '@timeUtc'
 
 const AtividadeService = {
-  GetAtividadesMesByIdColabMes: async (idColaborador: Number, mesReferencia: Date) => {
+  GetAtividadesMesByIdColaboradorMes: async (idColaborador: Number, mesReferencia: Date) => {
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = timeUtc.utcEndMonth(mesReferenciaInicio)
     const listaAtividadeMes: IAtividade[] = await connKnex('pessoas.Atividade')
@@ -14,6 +14,7 @@ const AtividadeService = {
       })
       .where('DataAtividade', '>=', mesReferenciaInicio)
       .andWhere('DataAtividade', '<=', mesReferenciaFim)
+      .orderBy('DataAtividade', 'asc')
       .then(atvs => atvs)
 
     const listaIdsProjeto = listaAtividadeMes.map(x => x.IdProjeto)

@@ -4,20 +4,20 @@ import timeUtc from '@timeUtc'
 
 const route = express.Router()
 
-route.post('/ColaboradorContrato/GetContratosByDataId', async (req, res) => {
+route.post('/ColaboradorContrato/GetContratosByDataIdColaboradorMes', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = timeUtc.utcString(req.query.mesReferencia as string)
 
-  Service.GetContratosByDataId(idColaborador, mesReferencia).then(
+  Service.GetContratosByDataIdColaboradorMes(idColaborador, mesReferencia).then(
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )
 })
-route.post('/ColaboradorContrato/GetContratoAtivoByIdColabDia', async (req, res) => {
+route.post('/ColaboradorContrato/GetContratoAtivoByIdColaboradorDia', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const diaReferencia = timeUtc.utcString(req.query.diaReferencia as string)
 
-  Service.GetContratoAtivoByIdColabDia(idColaborador, diaReferencia).then(
+  Service.GetContratoAtivoByIdColaboradorDia(idColaborador, diaReferencia).then(
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )

@@ -16,6 +16,7 @@ const ProjetoAlocacaoPeriodoService = {
           .whereIn('IdProjetoAlocacao', ListIdProjetoAlocacao)
           .where('DataInicio', '<=', diaReferencia)
           .andWhere('DataFim', '>=', diaReferencia)
+          .orderBy('DataInicio', 'asc')
           .then(suc => suc as IProjetoAlocacaoPeriodo[])
         return result
       })

@@ -12,7 +12,23 @@ const PontoService = {
       .select('*')
       .where('Data', '>=', mesReferenciaInicio)
       .andWhere('Data', '<', mesReferenciaFim)
-      .andWhere('IdColaborador', Number(idColaborador))
+      .andWhere({
+        IdColaborador: idColaborador
+      })
+      .orderBy('Data', 'asc')
+
+    return listaPonto
+  },
+  GetPontoByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
+    const listaPonto: IPonto[] = await connKnex('pessoas.Ponto')
+      .select('*')
+      .where({
+        Data: diaReferencia
+      })
+      .andWhere({
+        IdColaborador: idColaborador
+      })
+      .orderBy('Data', 'asc')
 
     return listaPonto
   }

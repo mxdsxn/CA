@@ -4,7 +4,7 @@ import { IColaboradorContrato } from '@models'
 import timeUtc from '@timeUtc'
 
 const PontoService = {
-  GetContratosByDataId: async (idColaborador: Number, mesReferencia: Date) => {
+  GetContratosByDataIdColaboradorMes: async (idColaborador: Number, mesReferencia: Date) => {
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = timeUtc.utcEndMonth(mesReferenciaInicio)
 
@@ -18,11 +18,12 @@ const PontoService = {
         )
       })
       .andWhere('DataInicioContrato', '<=', mesReferenciaFim)
+      .orderBy('DataInicioContrato', 'desc')
 
     return (listaContrato)
   },
-  GetContratoAtivoByIdColabDia: async (idColaborador: Number, diaReferencia: Date) => {
-    const ContratoAtivo: IColaboradorContrato[] = await connKnex('pessoas.ColaboradorContrato')
+  GetContratoAtivoByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
+    const ContratoAtivo: IColaboradorContrato = await connKnex('pessoas.ColaboradorContrato')
       .select('*')
       .where('IdColaborador', idColaborador)
       .andWhere(function () {
@@ -30,6 +31,8 @@ const PontoService = {
           .orWhere('Termino', null)
       })
       .andWhere('DataInicioContrato', '<=', diaReferencia)
+      .orderBy('DataInicioContrato', 'desc')
+      .first()
     return ContratoAtivo
   }
 }

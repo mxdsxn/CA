@@ -4,11 +4,11 @@ import timeUtc from '@timeUtc'
 
 const route = express.Router()
 
-route.post('/Atividade/GetAtividadesMesByIdColabMes', async (req, res) => {
+route.post('/Atividade/GetAtividadesMesByIdColaboradorMes', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = timeUtc.utcString(req.query.mesReferencia as string)
 
-  Service.GetAtividadesMesByIdColabMes(idColaborador, mesReferencia).then(
+  Service.GetAtividadesMesByIdColaboradorMes(idColaborador, mesReferencia).then(
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )

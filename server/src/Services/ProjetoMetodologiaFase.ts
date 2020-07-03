@@ -3,7 +3,7 @@ import connKnex from '@database'
 import { IProjetoMetodologia, IProjetoMetodologiaFase } from '@models'
 
 const ProjetoMetodologiaFaseService = {
-  GetFaseByIdProjeto: async (IdProjeto: Number) => {
+  GetProjetoFaseByIdProjeto: async (IdProjeto: Number) => {
     const ProjetoMetodologia: IProjetoMetodologia = await connKnex('operacoes.ProjetoMetodologia')
       .select('*')
       .where('IdProjeto', IdProjeto)
@@ -13,6 +13,7 @@ const ProjetoMetodologiaFaseService = {
     const ProjetoMetodologiaFase: IProjetoMetodologiaFase[] = await connKnex('operacoes.ProjetoMetodologiaFase')
       .select('*')
       .where({ IdProjetoMetodologia: idProjetoMetodologia, Ativa: true })
+      .orderBy('Fase', 'asc')
       .distinct()
     return ProjetoMetodologiaFase
   }

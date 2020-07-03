@@ -14,5 +14,15 @@ route.post('/Ponto/GetPontoByIdColaboradorMes', async (req, res) => {
   )
 })
 
+route.post('/Ponto/GetPontoByIdColaboradorDia', async (req, res) => {
+  const idColaborador = Number(req.query.idColaborador)
+  const diaReferencia = timeUtc.utcString(req.query.diaReferencia as string)
+
+  Service.GetPontoByIdColaboradorDia(idColaborador, diaReferencia).then(
+    (suc) => { res.json(suc) },
+    (err) => { res.json(err) }
+  )
+})
+
 const PontoController = route
 export default PontoController

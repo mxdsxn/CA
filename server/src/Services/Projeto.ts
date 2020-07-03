@@ -26,6 +26,7 @@ const ProjetoService = {
                 const ListProjeto = connKnex('operacoes.Projeto')
                   .select('IdProjeto', 'Nome')
                   .whereIn('IdProjeto', idsProjeto)
+                  .orderBy('Nome', 'asc')
                   .then(suc => suc as IProjeto[])
                 return ListProjeto
               })

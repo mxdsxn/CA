@@ -12,16 +12,18 @@ const CalendarioService = {
       .select('*')
       .where('Dia', '>=', mesReferenciaInicio)
       .andWhere('Dia', '<', mesReferenciaFim)
+      .orderBy('Dia', 'asc')
     return (listaFeriadosMes)
   },
   GetFeriadoByDia: async (diaReferencia: Date) => {
-    const listaFeriadosMes: ICalendario[] = await connKnex('pessoas.Calendario')
+    const feriadoDia: ICalendario = await connKnex('pessoas.Calendario')
       .select('*')
       .where({
         Dia: diaReferencia
       })
+      .orderBy('Dia', 'asc')
       .first()
-    return (listaFeriadosMes)
+    return (feriadoDia)
   }
 }
 
