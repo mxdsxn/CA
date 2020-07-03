@@ -4,20 +4,19 @@ import timeUtc from '@timeUtc'
 
 const route = express.Router()
 
-route.post('/Calendario/GetFeriadosDoData', async (req, res) => {
-  const Data = timeUtc.utcString(req.query.Data as string)
-  Data.setHours(0, 0, 0)
+route.post('/Calendario/GetFeriadosByMes', async (req, res) => {
+  const mesReferencia = timeUtc.utcString(req.query.mesReferencia as string)
 
-  Service.GetFeriadosDoData(Data).then(
+  Service.GetFeriadosByMes(mesReferencia).then(
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )
 })
 
 route.post('/Calendario/GetFeriadoByDia', async (req, res) => {
-  const Dia = timeUtc.utcString(req.query.Dia as string)
+  const diaReferencia = timeUtc.utcString(req.query.diaReferencia as string)
 
-  Service.GetFeriadoByDia(Dia).then(
+  Service.GetFeriadoByDia(diaReferencia).then(
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )

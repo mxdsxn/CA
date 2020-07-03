@@ -1,20 +1,21 @@
+/* eslint-disable no-unused-vars */
 import connKnex from '@database'
 import { IProjeto, IProjetoAlocacao } from '@models'
 
 const ProjetoService = {
-  GetProjetoByIdColabDia: async (IdColab: Number, DiaCadastro: Date) => {
-    const ListProjeto: IProjetoAlocacao[] = await connKnex('operacoes.ProjetoAlocacao')
+  GetProjetosByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
+    const ListProjeto: IProjeto[] = await connKnex('operacoes.ProjetoAlocacao')
       .select('IdProjetoAlocacao')
       .where(
-        'IdColaborador', Number(IdColab)
+        'IdColaborador', Number(idColaborador)
       )
       .then(suc => {
         var ListIdProjetoAlocacao: IProjetoAlocacao[] = suc.map(x => x.IdProjetoAlocacao)
         const result = connKnex('operacoes.ProjetoAlocacaoPeriodo')
           .select('IdProjetoAlocacao')
           .whereIn('IdProjetoAlocacao', ListIdProjetoAlocacao)
-          .where('DataInicio', '<=', DiaCadastro)
-          .andWhere('DataFim', '>=', DiaCadastro)
+          .where('DataInicio', '<=', diaReferencia)
+          .andWhere('DataFim', '>=', diaReferencia)
           .then(suc => {
             const idsProjetoAlocacao = suc.map(x => x.IdProjetoAlocacao)
             const ListProjeto = connKnex('operacoes.ProjetoAlocacao')
@@ -25,7 +26,7 @@ const ProjetoService = {
                 const ListProjeto = connKnex('operacoes.Projeto')
                   .select('IdProjeto', 'Nome')
                   .whereIn('IdProjeto', idsProjeto)
-                  .then(suc => suc)
+                  .then(suc => suc as IProjeto[])
                 return ListProjeto
               })
             return ListProjeto

@@ -1,21 +1,22 @@
+/* eslint-disable no-unused-vars */
 import connKnex from '@database'
 import { IProjetoAlocacaoPeriodo, IProjetoAlocacao } from '@models'
 
 const ProjetoAlocacaoPeriodoService = {
-  GetProjetoAlocacaoPeriodoByIdColabDia: async (IdColab: Number, DiaCadastro: Date) => {
+  GetProjetoAlocacaoPeriodoByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
     const ListProjetoAlocacaoPeriodo: IProjetoAlocacaoPeriodo[] = await connKnex('operacoes.ProjetoAlocacao')
       .select('IdProjetoAlocacao')
       .where(
-        'IdColaborador', Number(IdColab)
+        'IdColaborador', Number(idColaborador)
       )
       .then(suc => {
         var ListIdProjetoAlocacao: IProjetoAlocacao[] = suc.map(x => x.IdProjetoAlocacao)
         const result = connKnex('operacoes.ProjetoAlocacaoPeriodo')
           .select('*')
           .whereIn('IdProjetoAlocacao', ListIdProjetoAlocacao)
-          .where('DataInicio', '<=', DiaCadastro)
-          .andWhere('DataFim', '>=', DiaCadastro)
-          .then(suc => suc)
+          .where('DataInicio', '<=', diaReferencia)
+          .andWhere('DataFim', '>=', diaReferencia)
+          .then(suc => suc as IProjetoAlocacaoPeriodo[])
         return result
       })
 

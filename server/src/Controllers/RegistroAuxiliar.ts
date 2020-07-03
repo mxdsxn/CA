@@ -4,11 +4,11 @@ import timeUtc from '@timeUtc'
 
 const route = express.Router()
 
-route.post('/RegistroAuxiliar/GetRegistroAuxiliarByData', async (req, res) => {
-  const IdColab = Number(req.query.IdColab)
-  const Data = timeUtc.utcString(req.query.Data as string)
+route.post('/RegistroAuxiliar/GetRegistroAuxiliarByIdColaboradorMes', async (req, res) => {
+  const idColaborador = Number(req.query.idColaborador)
+  const mesReferencia = timeUtc.utcString(req.query.mesReferencia as string)
 
-  Service.GetRegistroAuxiliarByData(IdColab, Data).then(
+  Service.GetRegistroAuxiliarByIdColaboradorMes(idColaborador, mesReferencia).then(
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )

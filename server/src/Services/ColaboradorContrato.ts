@@ -1,15 +1,16 @@
+/* eslint-disable no-unused-vars */
 import connKnex from '@database'
 import { IColaboradorContrato } from '@models'
 import timeUtc from '@timeUtc'
 
 const PontoService = {
-  GetContratosByDataId: async (IdColab: Number, Data: Date) => {
-    const mesReferenciaInicio = Data
+  GetContratosByDataId: async (idColaborador: Number, mesReferencia: Date) => {
+    const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = timeUtc.utcEndMonth(mesReferenciaInicio)
 
     const listaContrato: IColaboradorContrato[] = await connKnex('pessoas.ColaboradorContrato')
       .select('*')
-      .where('IdColaborador', Number(IdColab))
+      .where('IdColaborador', Number(idColaborador))
       .andWhere(function () {
         this.where('Termino', '>=', mesReferenciaInicio).orWhere(
           'Termino',
@@ -20,15 +21,15 @@ const PontoService = {
 
     return (listaContrato)
   },
-  GetContratoAtivoByIdColabDia: async (IdColab: Number, Dia: Date) => {
-    const ContratoAtivo: IColaboradorContrato = await connKnex('pessoas.ColaboradorContrato')
+  GetContratoAtivoByIdColabDia: async (idColaborador: Number, diaReferencia: Date) => {
+    const ContratoAtivo: IColaboradorContrato[] = await connKnex('pessoas.ColaboradorContrato')
       .select('*')
-      .where('IdColaborador', IdColab)
+      .where('IdColaborador', idColaborador)
       .andWhere(function () {
-        this.where('Termino', '>=', Dia)
+        this.where('Termino', '>=', diaReferencia)
           .orWhere('Termino', null)
       })
-      .andWhere('DataInicioContrato', '<=', Dia)
+      .andWhere('DataInicioContrato', '<=', diaReferencia)
     return ContratoAtivo
   }
 }

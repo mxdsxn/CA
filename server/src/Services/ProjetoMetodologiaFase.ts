@@ -1,6 +1,6 @@
+/* eslint-disable no-unused-vars */
 import connKnex from '@database'
 import { IProjetoMetodologia, IProjetoMetodologiaFase } from '@models'
-import timeUtc from '@timeUtc'
 
 const ProjetoMetodologiaFaseService = {
   GetFaseByIdProjeto: async (IdProjeto: Number) => {

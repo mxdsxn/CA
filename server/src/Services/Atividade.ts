@@ -1,32 +1,33 @@
+/* eslint-disable no-unused-vars */
 import connKnex from '@database'
-import { IAtividade } from '@models'
+import { IAtividade, IProjeto } from '@models'
 import timeUtc from '@timeUtc'
 
 const AtividadeService = {
-  GetAtividadesMesByIdColabMes: async (IdColab: Number, Data: Date) => {
-    const mesReferenciaInicio = Data
+  GetAtividadesMesByIdColabMes: async (idColaborador: Number, mesReferencia: Date) => {
+    const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = timeUtc.utcEndMonth(mesReferenciaInicio)
-    const atividadesMes: IAtividade[] = await connKnex('pessoas.Atividade')
+    const listaAtividadeMes: IAtividade[] = await connKnex('pessoas.Atividade')
       .select('*')
       .where({
-        IdColaborador: IdColab
+        IdColaborador: idColaborador
       })
       .where('DataAtividade', '>=', mesReferenciaInicio)
       .andWhere('DataAtividade', '<=', mesReferenciaFim)
       .then(atvs => atvs)
 
-    const idsProjeto = atividadesMes.map(x => x.IdProjeto)
-    const NomesProjetos = await connKnex('operacoes.Projeto')
+    const listaIdsProjeto = listaAtividadeMes.map(x => x.IdProjeto)
+    const listaNomesProjeto = await connKnex('operacoes.Projeto')
       .select('IdProjeto', 'Nome')
-      .whereIn('IdProjeto', idsProjeto)
+      .whereIn('IdProjeto', listaIdsProjeto)
       .then(suc => {
-        const nomes = suc.map(x => x)
+        const nomes: IProjeto[] = suc.map(x => x)
         return nomes
       })
-    atividadesMes.map(x => {
-      x.Projeto = NomesProjetos.filter(n => n.IdProjeto === x.IdProjeto)[0].Nome
+    listaAtividadeMes.map(x => {
+      x.Projeto = listaNomesProjeto.filter(n => n.IdProjeto === x.IdProjeto)[0].Nome
     })
-    return atividadesMes
+    return listaAtividadeMes
   }
 }
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 
 import connKnex from '@database'
 import { IProjetoCategoriaAtividade } from '@models'

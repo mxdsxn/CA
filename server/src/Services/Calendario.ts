@@ -1,24 +1,27 @@
+/* eslint-disable no-unused-vars */
 import connKnex from '@database'
 import { ICalendario } from '@models'
 import timeUtc from '@timeUtc'
 
 const CalendarioService = {
-  GetFeriadosDoData: async (Data: Date) => {
-    const mesReferenciaInicio = Data
+  GetFeriadosByMes: async (mesReferencia: Date) => {
+    const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = timeUtc.utcEndMonth(mesReferenciaInicio)
 
-    const feriadosMes: ICalendario[] = await connKnex('pessoas.Calendario')
+    const listaFeriadosMes: ICalendario[] = await connKnex('pessoas.Calendario')
       .select('*')
       .where('Dia', '>=', mesReferenciaInicio)
       .andWhere('Dia', '<', mesReferenciaFim)
-    return (feriadosMes)
+    return (listaFeriadosMes)
   },
-  GetFeriadoByDia: async (Dia: Date) => {
-    const feriadosMes: ICalendario[] = await connKnex('pessoas.Calendario')
+  GetFeriadoByDia: async (diaReferencia: Date) => {
+    const listaFeriadosMes: ICalendario[] = await connKnex('pessoas.Calendario')
       .select('*')
-      .where({ Dia: Dia })
+      .where({
+        Dia: diaReferencia
+      })
       .first()
-    return (feriadosMes)
+    return (listaFeriadosMes)
   }
 }
 
