@@ -11,7 +11,7 @@ const PontoService = {
     const listaPonto: IPonto[] = await connKnex('pessoas.Ponto')
       .select('*')
       .where('Data', '>=', mesReferenciaInicio)
-      .andWhere('Data', '<', mesReferenciaFim)
+      .andWhere('Data', '<=', mesReferenciaFim)
       .andWhere({
         IdColaborador: idColaborador
       })
@@ -26,7 +26,7 @@ const PontoService = {
     const listaPonto: IPonto[] = await connKnex('pessoas.Ponto')
       .select('*')
       .where('Data', '>=', diaReferenciaInicio)
-      .andWhere('Data', '<', diaReferenciaFim)
+      .andWhere('Data', '<=', diaReferenciaFim)
       .andWhere({
         IdColaborador: idColaborador
       })

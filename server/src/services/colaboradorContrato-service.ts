@@ -12,10 +12,8 @@ const PontoService = {
       .select('*')
       .where('IdColaborador', Number(idColaborador))
       .andWhere(function () {
-        this.where('Termino', '>=', mesReferenciaInicio).orWhere(
-          'Termino',
-          null
-        )
+        this.where('Termino', '>=', mesReferenciaInicio)
+          .orWhere('Termino', null)
       })
       .andWhere('DataInicioContrato', '<=', mesReferenciaFim)
       .orderBy('DataInicioContrato', 'desc')
@@ -23,14 +21,16 @@ const PontoService = {
     return (listaContrato)
   },
   GetContratoAtivoByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
+    const diaReferenciaInicio = diaReferencia
+    const diaReferenciaFim = libUtc.getEndDay(diaReferenciaInicio)
     const ContratoAtivo: IColaboradorContrato = await connKnex('pessoas.ColaboradorContrato')
       .select('*')
       .where('IdColaborador', idColaborador)
       .andWhere(function () {
-        this.where('Termino', '>=', diaReferencia)
+        this.where('Termino', '>=', diaReferenciaInicio)
           .orWhere('Termino', null)
       })
-      .andWhere('DataInicioContrato', '<=', diaReferencia)
+      .andWhere('DataInicioContrato', '<=', diaReferenciaFim)
       .orderBy('DataInicioContrato', 'desc')
       .first()
     return ContratoAtivo

@@ -1,9 +1,12 @@
 /* eslint-disable no-unused-vars */
 import connKnex from '@database'
 import { IProjeto, IProjetoAlocacao } from '@models'
+import libUtc from '@libUtc'
 
 const ProjetoService = {
   GetProjetosByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
+    const diaReferenciaInicio = diaReferencia
+    const diaReferenciaFim = libUtc.getEndDay(diaReferenciaInicio)
     const ListProjeto: IProjeto[] = await connKnex('operacoes.ProjetoAlocacao')
       .select('IdProjetoAlocacao')
       .where(
@@ -14,8 +17,8 @@ const ProjetoService = {
         const result = connKnex('operacoes.ProjetoAlocacaoPeriodo')
           .select('IdProjetoAlocacao')
           .whereIn('IdProjetoAlocacao', ListIdProjetoAlocacao)
-          .where('DataInicio', '<=', diaReferencia)
-          .andWhere('DataFim', '>=', diaReferencia)
+          .where('DataInicio', '<=', diaReferenciaFim)
+          .andWhere('DataFim', '>=', diaReferenciaInicio)
           .then(suc => {
             const idsProjetoAlocacao = suc.map(x => x.IdProjetoAlocacao)
             const ListProjeto = connKnex('operacoes.ProjetoAlocacao')

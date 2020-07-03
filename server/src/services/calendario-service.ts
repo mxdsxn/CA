@@ -11,16 +11,17 @@ const CalendarioService = {
     const listaFeriadosMes: ICalendario[] = await connKnex('pessoas.Calendario')
       .select('*')
       .where('Dia', '>=', mesReferenciaInicio)
-      .andWhere('Dia', '<', mesReferenciaFim)
+      .andWhere('Dia', '<=', mesReferenciaFim)
       .orderBy('Dia', 'asc')
     return (listaFeriadosMes)
   },
   GetFeriadoByDia: async (diaReferencia: Date) => {
+    const diaReferenciaInicio = diaReferencia
+    const diaReferenciaFim = libUtc.getEndDay(diaReferenciaInicio)
     const feriadoDia: ICalendario = await connKnex('pessoas.Calendario')
       .select('*')
-      .where({
-        Dia: diaReferencia
-      })
+      .where('Dia', '>=', diaReferenciaInicio)
+      .andWhere('Dia', '<=', diaReferenciaFim)
       .orderBy('Dia', 'asc')
       .first()
     return (feriadoDia)
