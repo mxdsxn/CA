@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
     background: "#f0ad4e",
   },
 }));
-
 const useStylesTagInput = makeStyles({
   input: {
     padding: "10px",
@@ -34,40 +33,45 @@ const useStylesTagInput = makeStyles({
 });
 
 const dadosCadAtv = {
-
-  projetoDefault: [
-    { idProj: 9999, nome: "projDefault1" },
-    { idProj: 8888, nome: "projDefault2" },
-  ],
   gerentes: [
     { idColab: 1234, nome: "Joaozinho" },
     { idColab: 4321, nome: "Mariazinha" },
   ],
 };
+const idColaboradorLogado = 2359
 
 
 export default (props) => {
-  if (props.setValueNavBar) {
-  }
-
   const classes = useStyles();
   const tagInputStyle = useStylesTagInput();
 
   const [listaProjeto, setListaProjeto] = useState([])
   const [projeto, setProjeto] = useState(0);
+  const [listaProjetoFase, setListaProjetoFase] = useState([])
+  const [projetoFase, setProjetoFase] = useState(0);
+
 
   useEffect(() => {
-    api.GetProjetosByIdColaboradorDia(2359, '04/01/2020')
+    api.GetProjetosByIdColaboradorDia(idColaboradorLogado, '04/01/2020')
       .then(res =>
         setListaProjeto(res)
       )
   }, [])
+  useEffect(() => {
+    api.GetProjetoFaseByIdProjeto(projeto)
+      .then(res =>
+        setListaProjetoFase(res)
+      )
+  }, [projeto])
 
 
   const handleChangeProjeto = (event) => {
     setProjeto(event.target.value);
-    console.log(projeto);
   };
+  const handleChangeProjetoFase = (event) => {
+    setProjetoFase(event.target.value);
+  };
+
 
 
   return (
@@ -75,10 +79,10 @@ export default (props) => {
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6} md={6} xl={6} align="center">
           <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label">Projeto</InputLabel>
+            <InputLabel id="select-label-projeto">Projeto</InputLabel>
             <Select
               labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              id="select-projeto"
               value={projeto}
               onChange={handleChangeProjeto}
             >
@@ -91,17 +95,15 @@ export default (props) => {
 
         <Grid item xs={12} sm={6} md={6} xl={6} align="center">
           <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label">
-              Projeto Default
-            </InputLabel>
+            <InputLabel id="select-label-fase">Fase</InputLabel>
             <Select
               labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={0}
-            // onChange={handleChangeProjDef}
+              id="select-fase"
+              value={projetoFase}
+              onChange={handleChangeProjetoFase}
             >
-              {dadosCadAtv.projetoDefault.map((projD) => (
-                <MenuItem value={projD.idProj}>{projD.nome}</MenuItem>
+              {listaProjetoFase.map((projFase) => (
+                <MenuItem value={projFase.IdProjetoMetodologiaFase}>{projFase.Fase}</MenuItem>
               ))}
             </Select>
           </FormControl>
