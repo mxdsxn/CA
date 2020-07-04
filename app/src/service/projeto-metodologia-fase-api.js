@@ -5,7 +5,7 @@ const projetoMetodologiaFase = {
     const result = await baseUrl
       .post("ProjetoMetodologiaFase/GetProjetoFaseByIdProjeto", null, {
         params: {
-          idProjeto: idProjeto,
+          IdProjeto: idProjeto,
         },
       })
       .then(

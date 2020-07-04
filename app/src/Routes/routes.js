@@ -10,7 +10,7 @@ import NavBar from "../components/BottomNav";
 export default () => {
   return (
     <BrowserRouter>
-      <Redirect from='/' to='resumoMes' />
+      {/* <Redirect exact from='/' to='resumoMes' /> */}
       <Switch>
         <Route>
           <Route
@@ -30,6 +30,6 @@ export default () => {
       <Hidden mdUp>
         <NavBar />
       </Hidden>
-    </BrowserRouter >
+    </BrowserRouter>
   );
 };

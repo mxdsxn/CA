@@ -10,12 +10,13 @@ const ProjetoMetodologiaFaseService = {
       .orderBy('DataAtualizacao', 'desc')
       .first()
     const idProjetoMetodologia = ProjetoMetodologia.IdProjetoMetodologia
-    const ProjetoMetodologiaFase: IProjetoMetodologiaFase[] = await dbConnection('operacoes.ProjetoMetodologiaFase')
+    const listaProjetoMetodologiaFase: IProjetoMetodologiaFase[] = await dbConnection('operacoes.ProjetoMetodologiaFase')
       .select('*')
       .where({ IdProjetoMetodologia: idProjetoMetodologia, Ativa: true })
       .orderBy('Fase', 'asc')
       .distinct()
-    return ProjetoMetodologiaFase
+
+    return listaProjetoMetodologiaFase
   }
 }
 export default ProjetoMetodologiaFaseService
