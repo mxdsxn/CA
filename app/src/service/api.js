@@ -8,7 +8,7 @@ const api = {
   GetProjetosByIdColaboradorDia: (idColaborador, diaReferencia) =>
     projetoApi.GetProjetosByIdColaboradorDia(idColaborador, diaReferencia),
   GetProjetoFaseByIdProjeto: (idProjeto) =>
-    projetoMetodologiaFaseApi.GetProjetoFaseByIdProjeto(idProjeto)
+    projetoMetodologiaFaseApi.GetProjetoFaseByIdProjeto(idProjeto),
 }
 
 export default api

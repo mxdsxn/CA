@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"
 import {
   Grid,
   Button,
@@ -8,8 +8,8 @@ import {
   Select,
   MenuItem,
   makeStyles,
-} from "@material-ui/core";
-import ChipInput from "material-ui-chip-input";
+} from "@material-ui/core"
+import ChipInput from "material-ui-chip-input"
 
 import api from '../../service/api'
 
@@ -25,30 +25,30 @@ const useStyles = makeStyles((theme) => ({
     color: "#002C4F",
     background: "#f0ad4e",
   },
-}));
+}))
 const useStylesTagInput = makeStyles({
   input: {
     padding: "10px",
   },
-});
+})
 
 const dadosCadAtv = {
   gerentes: [
     { idColab: 1234, nome: "Joaozinho" },
     { idColab: 4321, nome: "Mariazinha" },
   ],
-};
+}
 const idColaboradorLogado = 2359
 
 
 export default (props) => {
-  const classes = useStyles();
-  const tagInputStyle = useStylesTagInput();
+  const classes = useStyles()
+  const tagInputStyle = useStylesTagInput()
 
   const [listaProjeto, setListaProjeto] = useState([])
-  const [projeto, setProjeto] = useState(0);
+  const [projeto, setProjeto] = useState(0)
   const [listaProjetoFase, setListaProjetoFase] = useState([])
-  const [projetoFase, setProjetoFase] = useState(0);
+  const [projetoFase, setProjetoFase] = useState(0)
 
 
   useEffect(() => {
@@ -66,16 +66,17 @@ export default (props) => {
 
 
   const handleChangeProjeto = (event) => {
-    setProjeto(event.target.value);
-  };
+    setProjeto(event.target.value)
+  }
   const handleChangeProjetoFase = (event) => {
-    setProjetoFase(event.target.value);
-  };
+    setProjetoFase(event.target.value)
+  }
 
 
 
   return (
-    <div className="container">
+    < div className="container" >
+      {console.log(listaProjetoFase, projeto)}
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6} md={6} xl={6} align="center">
           <FormControl className={classes.formControl}>
@@ -102,8 +103,8 @@ export default (props) => {
               value={projetoFase}
               onChange={handleChangeProjetoFase}
             >
-              {listaProjetoFase.map((projFase) => (
-                <MenuItem value={projFase.IdProjetoMetodologiaFase}>{projFase.Fase}</MenuItem>
+              {listaProjeto.map((proj) => (
+                <MenuItem value={proj.IdProjeto}>{proj.Nome}</MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -119,7 +120,7 @@ export default (props) => {
             // onChange={handleChangeGerente}
             >
               {dadosCadAtv.gerentes.map((gerente) => (
-                <MenuItem value={gerente.idCola3}>{gerente.nome}</MenuItem>
+                <MenuItem value={gerente.idCola3} key={gerente.idColab}>{gerente.nome}</MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -146,6 +147,6 @@ export default (props) => {
       >
         Salvar Atividade
       </Button>
-    </div>
-  );
-};
+    </div >
+  )
+}
