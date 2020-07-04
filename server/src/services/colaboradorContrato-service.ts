@@ -8,7 +8,7 @@ const PontoService = {
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
-    const listaContrato: IColaboradorContrato[] = await dbConnection('pessoas.ColaboradorContrato')
+    const listaContrato = await dbConnection('pessoas.ColaboradorContrato')
       .select('*')
       .where('IdColaborador', Number(idColaborador))
       .andWhere(function () {
@@ -17,6 +17,7 @@ const PontoService = {
       })
       .andWhere('DataInicioContrato', '<=', mesReferenciaFim)
       .orderBy('DataInicioContrato', 'desc')
+      .then((listaContrato: IColaboradorContrato[]) => listaContrato)
 
     return (listaContrato)
   },
@@ -33,6 +34,8 @@ const PontoService = {
       .andWhere('DataInicioContrato', '<=', diaReferenciaFim)
       .orderBy('DataInicioContrato', 'desc')
       .first()
+      .then((ContratoAtivo: IColaboradorContrato) => ContratoAtivo)
+
     return ContratoAtivo
   }
 }

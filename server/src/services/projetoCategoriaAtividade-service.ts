@@ -4,10 +4,11 @@ import { IProjetoCategoriaAtividade } from '@models'
 
 const ProjetoCategoriaAtividade = {
   GetProjetoCategoriaAtividadeByIdProjeto: async (IdProjeto: Number) => {
-    const listaCategoriasProjeto: IProjetoCategoriaAtividade[] = await dbConnection('operacoes.ProjetoCategoriaAtividade')
+    const listaCategoriasProjeto = await dbConnection('operacoes.ProjetoCategoriaAtividade')
       .select('*')
       .where('IdProjeto', IdProjeto)
       .orderBy('Descricao', 'asc')
+      .then((listaCategoriasProjeto: IProjetoCategoriaAtividade[]) => (listaCategoriasProjeto))
     return listaCategoriasProjeto
   }
 }

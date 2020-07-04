@@ -7,24 +7,24 @@ const ProjetoAlocacaoPeriodoService = {
   GetProjetoAlocacaoPeriodoByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
     const diaReferenciaInicio = diaReferencia
     const diaReferenciaFim = libUtc.getEndDay(diaReferenciaInicio)
-    const ListProjetoAlocacaoPeriodo: IProjetoAlocacaoPeriodo[] = await dbConnection('operacoes.ProjetoAlocacao')
+    const listaProjetoAlocacaoPeriodo = await dbConnection('operacoes.ProjetoAlocacao')
       .select('IdProjetoAlocacao')
       .where(
         'IdColaborador', Number(idColaborador)
       )
-      .then(suc => {
-        var ListIdProjetoAlocacao: IProjetoAlocacao[] = suc.map(x => x.IdProjetoAlocacao)
-        const result = dbConnection('operacoes.ProjetoAlocacaoPeriodo')
+      .then((listaProjetoAlocacao: IProjetoAlocacaoPeriodo[]) => {
+        var listaIdProjetoAlocacao = listaProjetoAlocacao.map(x => x.IdProjetoAlocacao)
+        const listaProjetoAlocacaoPeriodo = dbConnection('operacoes.ProjetoAlocacaoPeriodo')
           .select('*')
-          .whereIn('IdProjetoAlocacao', ListIdProjetoAlocacao)
+          .whereIn('IdProjetoAlocacao', listaIdProjetoAlocacao)
           .where('DataInicio', '<=', diaReferenciaFim)
           .andWhere('DataFim', '>=', diaReferenciaInicio)
           .orderBy('DataInicio', 'asc')
-          .then(suc => suc as IProjetoAlocacaoPeriodo[])
-        return result
+          .then((listaProjetoAlocacaoPeriodo: IProjetoAlocacaoPeriodo[]) => listaProjetoAlocacaoPeriodo)
+        return listaProjetoAlocacaoPeriodo
       })
 
-    return ListProjetoAlocacaoPeriodo
+    return listaProjetoAlocacaoPeriodo
   }
 }
 export default ProjetoAlocacaoPeriodoService

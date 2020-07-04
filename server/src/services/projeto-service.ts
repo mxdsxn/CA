@@ -1,44 +1,39 @@
 /* eslint-disable no-unused-vars */
 import dbConnection from '@database'
-import { IProjeto, IProjetoAlocacao } from '@models'
+import { IProjeto, IProjetoAlocacao, IProjetoAlocacaoPeriodo } from '@models'
 import libUtc from '@libUtc'
 
 const ProjetoService = {
   GetProjetosByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
     const diaReferenciaInicio = diaReferencia
     const diaReferenciaFim = libUtc.getEndDay(diaReferenciaInicio)
-    const ListProjeto: IProjeto[] = await dbConnection('operacoes.ProjetoAlocacao')
-      .select('IdProjetoAlocacao')
+    const listaProjeto = await dbConnection('operacoes.ProjetoAlocacao')
+      .select('IdProjetoAlocacao', 'IdProjeto')
       .where(
         'IdColaborador', Number(idColaborador)
       )
-      .then(suc => {
-        var ListIdProjetoAlocacao: IProjetoAlocacao[] = suc.map(x => x.IdProjetoAlocacao)
-        const result = dbConnection('operacoes.ProjetoAlocacaoPeriodo')
-          .select('IdProjetoAlocacao')
-          .whereIn('IdProjetoAlocacao', ListIdProjetoAlocacao)
+      .then((listaProjetoAlocacao: IProjetoAlocacao[]) => {
+        var listaIdProjetoAlocacao = listaProjetoAlocacao.map(x => x.IdProjetoAlocacao)
+        const listaProjeto = dbConnection('operacoes.ProjetoAlocacaoPeriodo')
+          .select('IdProjetoAlocacaoPeriodo', 'IdProjetoAlocacao')
+          .whereIn('IdProjetoAlocacao', listaIdProjetoAlocacao)
           .where('DataInicio', '<=', diaReferenciaFim)
           .andWhere('DataFim', '>=', diaReferenciaInicio)
-          .then(suc => {
-            const idsProjetoAlocacao = suc.map(x => x.IdProjetoAlocacao)
-            const ListProjeto = dbConnection('operacoes.ProjetoAlocacao')
-              .select('IdProjeto')
-              .whereIn('IdProjetoAlocacao', idsProjetoAlocacao)
-              .then(suc => {
-                const idsProjeto = suc.map(x => x.IdProjeto)
-                const ListProjeto = dbConnection('operacoes.Projeto')
-                  .select('IdProjeto', 'Nome')
-                  .whereIn('IdProjeto', idsProjeto)
-                  .orderBy('Nome', 'asc')
-                  .then(suc => suc as IProjeto[])
-                return ListProjeto
-              })
-            return ListProjeto
+          .then((listaProjetoAlocacaoPerido: IProjetoAlocacaoPeriodo[]) => {
+            const listaIdProjetoAlocacao = listaProjetoAlocacaoPerido.map(x => x.IdProjetoAlocacao)
+            const listaIdProjeto = listaProjetoAlocacao.filter(x => listaIdProjetoAlocacao.includes(x.IdProjetoAlocacao))
+              .map(x => x.IdProjeto)
+            const listaProjeto = dbConnection('operacoes.Projeto')
+              .select('IdProjeto', 'Nome')
+              .whereIn('IdProjeto', listaIdProjeto)
+              .orderBy('Nome', 'asc')
+              .then((listaProjeto: IProjeto[]) => listaProjeto)
+            return listaProjeto
           })
-        return result
+        return listaProjeto
       })
 
-    return ListProjeto
+    return listaProjeto
   }
 }
 export default ProjetoService

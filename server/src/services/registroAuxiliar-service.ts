@@ -8,13 +8,14 @@ const RegistroAuxiliarService = {
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
-    const listaRA: IRegistroAuxiliar[] = await dbConnection('pessoas.RegistroAuxiliar')
+    const listaRegistroAuxiliar = await dbConnection('pessoas.RegistroAuxiliar')
       .select('*')
       .where('Data', '>=', mesReferenciaInicio)
       .andWhere('Data', '<', mesReferenciaFim)
       .andWhere('IdColaborador', idColaborador)
+      .then((listaRegistroAuxiliar: IRegistroAuxiliar[]) => (listaRegistroAuxiliar))
 
-    return (listaRA)
+    return listaRegistroAuxiliar
   }
 }
 

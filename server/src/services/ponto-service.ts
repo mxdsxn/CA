@@ -8,7 +8,7 @@ const PontoService = {
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
-    const listaPonto: IPonto[] = await dbConnection('pessoas.Ponto')
+    const listaPonto = await dbConnection('pessoas.Ponto')
       .select('*')
       .where('Data', '>=', mesReferenciaInicio)
       .andWhere('Data', '<=', mesReferenciaFim)
@@ -16,6 +16,7 @@ const PontoService = {
         IdColaborador: idColaborador
       })
       .orderBy('Data', 'asc')
+      .then((listaPonto: IPonto[]) => listaPonto)
 
     return listaPonto
   },
@@ -23,7 +24,7 @@ const PontoService = {
     const diaReferenciaInicio = diaReferencia
     const diaReferenciaFim = libUtc.getEndDay(diaReferenciaInicio)
 
-    const listaPonto: IPonto[] = await dbConnection('pessoas.Ponto')
+    const listaPonto = await dbConnection('pessoas.Ponto')
       .select('*')
       .where('Data', '>=', diaReferenciaInicio)
       .andWhere('Data', '<=', diaReferenciaFim)
@@ -31,6 +32,7 @@ const PontoService = {
         IdColaborador: idColaborador
       })
       .orderBy('Data', 'asc')
+      .then((listaPonto: IPonto[]) => listaPonto)
 
     return listaPonto
   }

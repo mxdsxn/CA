@@ -4,18 +4,24 @@ import { IProjetoMetodologia, IProjetoMetodologiaFase } from '@models'
 
 const ProjetoMetodologiaFaseService = {
   GetProjetoFaseByIdProjeto: async (IdProjeto: Number) => {
-    const ProjetoMetodologia: IProjetoMetodologia = await dbConnection('operacoes.ProjetoMetodologia')
-      .select('*')
+    const listaProjetoMetodologiaFase = await dbConnection('operacoes.ProjetoMetodologia')
+      .select('IdProjetoMetodologia')
       .where('IdProjeto', IdProjeto)
       .orderBy('DataAtualizacao', 'desc')
       .first()
-    const idProjetoMetodologia = ProjetoMetodologia.IdProjetoMetodologia
-    const listaProjetoMetodologiaFase: IProjetoMetodologiaFase[] = await dbConnection('operacoes.ProjetoMetodologiaFase')
-      .select('*')
-      .where({ IdProjetoMetodologia: idProjetoMetodologia, Ativa: true })
-      .orderBy('Fase', 'asc')
-      .distinct()
-
+      .then((projetoMetodologia: IProjetoMetodologia) => {
+        const listaIdProjetoMetodologia = projetoMetodologia.IdProjetoMetodologia
+        const listaProjetoMetodologiaFase = dbConnection('operacoes.ProjetoMetodologiaFase')
+          .select('*')
+          .where({
+            IdProjetoMetodologia: listaIdProjetoMetodologia,
+            Ativa: true
+          })
+          .orderBy('Fase', 'asc')
+          .distinct()
+          .then((listaProjetoMetodologiaFase: IProjetoMetodologiaFase[]) => (listaProjetoMetodologiaFase))
+        return listaProjetoMetodologiaFase
+      })
     return listaProjetoMetodologiaFase
   }
 }
