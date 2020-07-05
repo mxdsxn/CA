@@ -2,8 +2,7 @@
 import dbConnection from '@database'
 import { IProjetoMetodologia, IProjetoMetodologiaFase } from '@models'
 
-const validation = (result: any) => {
-  // console.log(typeof result)
+const validation = (result: any) =>
   (
     typeof result === 'object' &&
     result !== undefined
@@ -12,11 +11,8 @@ const validation = (result: any) => {
       typeof result === 'object' &&
       result.lenght > 0
     )
-    ? return ('ok')
-    : return (null)
-return () => {
-}
-}
+    ? result
+    : null
 
 const ProjetoMetodologiaFaseService = {
   GetProjetoFaseByIdProjeto: async (IdProjeto: Number) => {

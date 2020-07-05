@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import dbConnection from '@database'
+import dbConnection, { validationResult } from '@database'
 import { IAtividade, IProjeto } from '@models'
 import libUtc from '@libUtc'
 
@@ -16,6 +16,7 @@ const AtividadeService = {
       .andWhere('DataAtividade', '<=', mesReferenciaFim)
       .orderBy('DataAtividade', 'asc')
       .then((listaAtividadeMes: IAtividade[]) => {
+        validationResult(listaAtividadeMes)
         const listaIdsProjeto = listaAtividadeMes.map(x => x.IdProjeto)
         const listaAtividadeComNomeProjeto = dbConnection('operacoes.Projeto')
           .select('IdProjeto', 'Nome')
@@ -28,6 +29,7 @@ const AtividadeService = {
           })
         return listaAtividadeComNomeProjeto
       })
+
     return listaAtividadeMes
   }
 }

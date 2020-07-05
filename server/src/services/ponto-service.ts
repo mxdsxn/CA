@@ -18,7 +18,9 @@ const PontoService = {
       .orderBy('Data', 'asc')
       .then((listaPonto: IPonto[]) => listaPonto)
 
-    return listaPonto
+    return listaPonto.length
+      ? listaPonto
+      : null
   },
   GetPontoByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
     const diaReferenciaInicio = diaReferencia
@@ -34,7 +36,9 @@ const PontoService = {
       .orderBy('Data', 'asc')
       .then((listaPonto: IPonto[]) => listaPonto)
 
-    return listaPonto
+    return listaPonto.length
+      ? listaPonto
+      : null
   }
 }
 

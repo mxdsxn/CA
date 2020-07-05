@@ -33,7 +33,9 @@ const ProjetoService = {
         return listaProjeto
       })
 
-    return listaProjeto
+    return listaProjeto.length
+      ? listaProjeto
+      : null
   }
 }
 export default ProjetoService

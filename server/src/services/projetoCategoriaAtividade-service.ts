@@ -9,7 +9,10 @@ const ProjetoCategoriaAtividade = {
       .where('IdProjeto', IdProjeto)
       .orderBy('Descricao', 'asc')
       .then((listaCategoriasProjeto: IProjetoCategoriaAtividade[]) => (listaCategoriasProjeto))
-    return listaCategoriasProjeto
+
+    return listaCategoriasProjeto.length
+      ? listaCategoriasProjeto
+      : null
   }
 }
 export default ProjetoCategoriaAtividade

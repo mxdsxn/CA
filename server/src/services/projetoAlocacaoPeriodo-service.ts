@@ -24,7 +24,9 @@ const ProjetoAlocacaoPeriodoService = {
         return listaProjetoAlocacaoPeriodo
       })
 
-    return listaProjetoAlocacaoPeriodo
+    return listaProjetoAlocacaoPeriodo.length
+      ? listaProjetoAlocacaoPeriodo
+      : null
   }
 }
 export default ProjetoAlocacaoPeriodoService

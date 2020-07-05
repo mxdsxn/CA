@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import dbConnection from '@database'
+import dbConnection, { validationResult } from '@database'
 import { IColaboradorContrato } from '@models'
 import libUtc from '@libUtc'
 
@@ -19,12 +19,12 @@ const PontoService = {
       .orderBy('DataInicioContrato', 'desc')
       .then((listaContrato: IColaboradorContrato[]) => listaContrato)
 
-    return (listaContrato)
+    return validationResult(listaContrato)
   },
   GetContratoAtivoByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
     const diaReferenciaInicio = diaReferencia
     const diaReferenciaFim = libUtc.getEndDay(diaReferenciaInicio)
-    const ContratoAtivo: IColaboradorContrato = await dbConnection('pessoas.ColaboradorContrato')
+    const contratoAtivo = await dbConnection('pessoas.ColaboradorContrato')
       .select('*')
       .where('IdColaborador', idColaborador)
       .andWhere(function () {
@@ -34,9 +34,9 @@ const PontoService = {
       .andWhere('DataInicioContrato', '<=', diaReferenciaFim)
       .orderBy('DataInicioContrato', 'desc')
       .first()
-      .then((ContratoAtivo: IColaboradorContrato) => ContratoAtivo)
+      .then((contratoAtivo: IColaboradorContrato) => contratoAtivo)
 
-    return ContratoAtivo
+    return validationResult(contratoAtivo)
   }
 }
 

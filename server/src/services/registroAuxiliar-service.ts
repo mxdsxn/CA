@@ -15,7 +15,9 @@ const RegistroAuxiliarService = {
       .andWhere('IdColaborador', idColaborador)
       .then((listaRegistroAuxiliar: IRegistroAuxiliar[]) => (listaRegistroAuxiliar))
 
-    return listaRegistroAuxiliar
+    return listaRegistroAuxiliar.length
+      ? listaRegistroAuxiliar
+      : null
   }
 }
 

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import dbConnection from '@database'
+import dbConnection, { validationResult } from '@database'
 import { ICalendario } from '@models'
 import libUtc from '@libUtc'
 
@@ -13,8 +13,9 @@ const CalendarioService = {
       .where('Dia', '>=', mesReferenciaInicio)
       .andWhere('Dia', '<=', mesReferenciaFim)
       .orderBy('Dia', 'asc')
-      .then((listaFeriadosMes: ICalendario[]) => listaFeriadosMes)
-    return (listaFeriadosMes)
+      .then((listaFeriadosMes: ICalendario[]) => (listaFeriadosMes))
+
+    return listaFeriadosMes
   },
   GetFeriadoByDia: async (diaReferencia: Date) => {
     const diaReferenciaInicio = diaReferencia
@@ -25,8 +26,9 @@ const CalendarioService = {
       .andWhere('Dia', '<=', diaReferenciaFim)
       .orderBy('Dia', 'asc')
       .first()
-      .then((feriadoDia: ICalendario) => feriadoDia)
-    return (feriadoDia)
+      .then((feriadoDia: ICalendario) => (feriadoDia))
+
+    return feriadoDia
   }
 }
 
