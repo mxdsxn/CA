@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import dbConnection, { validationResult } from '@database'
+import dbConnection, { validationArray, validationObject } from '@database'
 import { ICalendario } from '@models'
 import libUtc from '@libUtc'
 
@@ -15,7 +15,7 @@ const CalendarioService = {
       .orderBy('Dia', 'asc')
       .then((listaFeriadosMes: ICalendario[]) => (listaFeriadosMes))
 
-    return listaFeriadosMes
+    return validationArray(listaFeriadosMes)
   },
   GetFeriadoByDia: async (diaReferencia: Date) => {
     const diaReferenciaInicio = diaReferencia
@@ -28,7 +28,7 @@ const CalendarioService = {
       .first()
       .then((feriadoDia: ICalendario) => (feriadoDia))
 
-    return feriadoDia
+    return validationObject(feriadoDia)
   }
 }
 

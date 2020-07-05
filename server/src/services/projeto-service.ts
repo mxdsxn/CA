@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import dbConnection from '@database'
+import dbConnection, { validationArray } from '@database'
 import { IProjeto, IProjetoAlocacao, IProjetoAlocacaoPeriodo } from '@models'
 import libUtc from '@libUtc'
 
@@ -33,9 +33,7 @@ const ProjetoService = {
         return listaProjeto
       })
 
-    return listaProjeto.length
-      ? listaProjeto
-      : null
+    return validationArray(listaProjeto)
   }
 }
 export default ProjetoService

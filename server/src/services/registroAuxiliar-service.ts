@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import dbConnection from '@database'
+import dbConnection, { validationArray } from '@database'
 import { IRegistroAuxiliar } from '@models'
 import libUtc from '@libUtc'
 
@@ -15,9 +15,7 @@ const RegistroAuxiliarService = {
       .andWhere('IdColaborador', idColaborador)
       .then((listaRegistroAuxiliar: IRegistroAuxiliar[]) => (listaRegistroAuxiliar))
 
-    return listaRegistroAuxiliar.length
-      ? listaRegistroAuxiliar
-      : null
+    return validationArray(listaRegistroAuxiliar)
   }
 }
 

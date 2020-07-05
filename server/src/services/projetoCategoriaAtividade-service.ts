@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import dbConnection from '@database'
+import dbConnection, { validationArray } from '@database'
 import { IProjetoCategoriaAtividade } from '@models'
 
 const ProjetoCategoriaAtividade = {
@@ -10,9 +10,7 @@ const ProjetoCategoriaAtividade = {
       .orderBy('Descricao', 'asc')
       .then((listaCategoriasProjeto: IProjetoCategoriaAtividade[]) => (listaCategoriasProjeto))
 
-    return listaCategoriasProjeto.length
-      ? listaCategoriasProjeto
-      : null
+    return validationArray(listaCategoriasProjeto)
   }
 }
 export default ProjetoCategoriaAtividade

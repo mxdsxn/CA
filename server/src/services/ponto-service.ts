@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import dbConnection from '@database'
+import dbConnection, { validationArray } from '@database'
 import { IPonto } from '@models'
 import libUtc from '@libUtc'
 
@@ -18,9 +18,7 @@ const PontoService = {
       .orderBy('Data', 'asc')
       .then((listaPonto: IPonto[]) => listaPonto)
 
-    return listaPonto.length
-      ? listaPonto
-      : null
+    return validationArray(listaPonto)
   },
   GetPontoByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
     const diaReferenciaInicio = diaReferencia
@@ -36,9 +34,7 @@ const PontoService = {
       .orderBy('Data', 'asc')
       .then((listaPonto: IPonto[]) => listaPonto)
 
-    return listaPonto.length
-      ? listaPonto
-      : null
+    return validationArray(listaPonto)
   }
 }
 

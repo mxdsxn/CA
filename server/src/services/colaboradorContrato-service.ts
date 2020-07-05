@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import dbConnection, { validationResult } from '@database'
+import dbConnection, { validationArray, validationObject } from '@database'
 import { IColaboradorContrato } from '@models'
 import libUtc from '@libUtc'
 
@@ -19,7 +19,7 @@ const PontoService = {
       .orderBy('DataInicioContrato', 'desc')
       .then((listaContrato: IColaboradorContrato[]) => listaContrato)
 
-    return validationResult(listaContrato)
+    return validationArray(listaContrato)
   },
   GetContratoAtivoByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
     const diaReferenciaInicio = diaReferencia
@@ -36,7 +36,7 @@ const PontoService = {
       .first()
       .then((contratoAtivo: IColaboradorContrato) => contratoAtivo)
 
-    return validationResult(contratoAtivo)
+    return validationObject(contratoAtivo)
   }
 }
 

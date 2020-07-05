@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import dbConnection from '@database'
+import dbConnection, { validationArray } from '@database'
 import { IProjetoAlocacaoPeriodo, IProjetoAlocacao } from '@models'
 import libUtc from '@libUtc'
 
@@ -12,7 +12,7 @@ const ProjetoAlocacaoPeriodoService = {
       .where(
         'IdColaborador', Number(idColaborador)
       )
-      .then((listaProjetoAlocacao: IProjetoAlocacaoPeriodo[]) => {
+      .then((listaProjetoAlocacao: IProjetoAlocacao[]) => {
         var listaIdProjetoAlocacao = listaProjetoAlocacao.map(x => x.IdProjetoAlocacao)
         const listaProjetoAlocacaoPeriodo = dbConnection('operacoes.ProjetoAlocacaoPeriodo')
           .select('*')
@@ -24,9 +24,7 @@ const ProjetoAlocacaoPeriodoService = {
         return listaProjetoAlocacaoPeriodo
       })
 
-    return listaProjetoAlocacaoPeriodo.length
-      ? listaProjetoAlocacaoPeriodo
-      : null
+    return validationArray(listaProjetoAlocacaoPeriodo)
   }
 }
 export default ProjetoAlocacaoPeriodoService

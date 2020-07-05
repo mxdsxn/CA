@@ -1,18 +1,6 @@
 /* eslint-disable no-unused-vars */
-import dbConnection from '@database'
+import dbConnection, { validationArray } from '@database'
 import { IProjetoMetodologia, IProjetoMetodologiaFase } from '@models'
-
-const validation = (result: any) =>
-  (
-    typeof result === 'object' &&
-    result !== undefined
-  ) ||
-    (
-      typeof result === 'object' &&
-      result.lenght > 0
-    )
-    ? result
-    : null
 
 const ProjetoMetodologiaFaseService = {
   GetProjetoFaseByIdProjeto: async (IdProjeto: Number) => {
@@ -22,8 +10,6 @@ const ProjetoMetodologiaFaseService = {
       .orderBy('DataAtualizacao', 'desc')
       .first()
       .then((projetoMetodologia: IProjetoMetodologia) => {
-        validation(projetoMetodologia)
-
         const listaIdProjetoMetodologia = projetoMetodologia.IdProjetoMetodologia
         const listaProjetoMetodologiaFase = dbConnection('operacoes.ProjetoMetodologiaFase')
           .select('*')
@@ -37,8 +23,7 @@ const ProjetoMetodologiaFaseService = {
         return listaProjetoMetodologiaFase
       })
 
-    validation(listaProjetoMetodologiaFase)
-    return listaProjetoMetodologiaFase || null
+    return validationArray(listaProjetoMetodologiaFase)
   }
 }
 export default ProjetoMetodologiaFaseService

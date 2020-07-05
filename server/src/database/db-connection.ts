@@ -10,16 +10,17 @@ const connection = knex({
   }
 })
 
-const validationResult = (result: any) => {
-  // console.log(result)
-  // const obj = result.length !== 0 ? result : null // OK .select OK promise
-  // const obj = result.length > 0 ? result : null // OK .select OK promise
-  // const obj = result !== undefined ? result : null // OK .first()
-  // console.log(typeof obj.length)
-  // return obj
+const validationArray = (result: any) => {
+  const obj = result.length > 0 ? result : null // OK .select OK promise
+  return obj
+}
+const validationObject = (result: any) => {
+  const obj = result !== undefined ? result : null // OK .first()
+  return obj
 }
 
 export default connection
 export {
-  validationResult
+  validationArray,
+  validationObject
 }
