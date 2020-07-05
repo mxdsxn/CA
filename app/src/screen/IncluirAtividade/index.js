@@ -48,19 +48,23 @@ export default (props) => {
   const [listaProjeto, setListaProjeto] = useState([])
   const [projeto, setProjeto] = useState(0)
   const [listaProjetoFase, setListaProjetoFase] = useState([])
-  const [projetoFase, setProjetoFase] = useState(0)
+  const [projetoFase, setProjetoFase] = useState("")
 
 
   useEffect(() => {
     api.GetProjetosByIdColaboradorDia(idColaboradorLogado, '04/01/2020')
       .then(res =>
-        setListaProjeto(res)
+        res ?
+          setListaProjeto(res) :
+          setListaProjeto([])
       )
   }, [])
   useEffect(() => {
     api.GetProjetoFaseByIdProjeto(projeto)
       .then(res =>
-        setListaProjetoFase(res)
+        res ?
+          setListaProjetoFase(res) :
+          setListaProjetoFase([])
       )
   }, [projeto])
 
@@ -76,7 +80,6 @@ export default (props) => {
 
   return (
     < div className="container" >
-      {console.log(listaProjetoFase, projeto)}
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6} md={6} xl={6} align="center">
           <FormControl className={classes.formControl}>
@@ -87,9 +90,11 @@ export default (props) => {
               value={projeto}
               onChange={handleChangeProjeto}
             >
-              {listaProjeto.map((proj) => (
-                <MenuItem value={proj.IdProjeto}>{proj.Nome}</MenuItem>
-              ))}
+              {
+                listaProjeto.map((proj) => (
+                  <MenuItem value={proj.IdProjeto}>{proj.Nome}</MenuItem>
+                ))
+              }
             </Select>
           </FormControl>
         </Grid>
@@ -103,9 +108,11 @@ export default (props) => {
               value={projetoFase}
               onChange={handleChangeProjetoFase}
             >
-              {listaProjeto.map((proj) => (
-                <MenuItem value={proj.IdProjeto}>{proj.Nome}</MenuItem>
-              ))}
+              {
+                //listaProjetoFase.length > 0 ??
+                listaProjetoFase.map((faseProj) => (
+                  <MenuItem value={faseProj.IdProjetoMetodologiaFase}>{faseProj.Fase}</MenuItem>
+                ))}
             </Select>
           </FormControl>
         </Grid>
@@ -116,7 +123,7 @@ export default (props) => {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={0}
+              value={''}
             // onChange={handleChangeGerente}
             >
               {dadosCadAtv.gerentes.map((gerente) => (

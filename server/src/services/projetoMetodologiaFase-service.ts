@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import dbConnection, { validationArray } from '@database'
+import dbConnection, { validationObject } from '@database'
 import { IProjetoMetodologia, IProjetoMetodologiaFase } from '@models'
 
 const ProjetoMetodologiaFaseService = {
@@ -10,6 +10,7 @@ const ProjetoMetodologiaFaseService = {
       .orderBy('DataAtualizacao', 'desc')
       .first()
       .then((projetoMetodologia: IProjetoMetodologia) => {
+        if (!validationObject(projetoMetodologia)) { return null }
         const listaIdProjetoMetodologia = projetoMetodologia.IdProjetoMetodologia
         const listaProjetoMetodologiaFase = dbConnection('operacoes.ProjetoMetodologiaFase')
           .select('*')
@@ -23,7 +24,7 @@ const ProjetoMetodologiaFaseService = {
         return listaProjetoMetodologiaFase
       })
 
-    return validationArray(listaProjetoMetodologiaFase)
+    return listaProjetoMetodologiaFase
   }
 }
 export default ProjetoMetodologiaFaseService

@@ -10,7 +10,7 @@ import NavBar from "../components/BottomNav";
 export default () => {
   return (
     <BrowserRouter>
-      {/* <Redirect exact from='/' to='resumoMes' /> */}
+      <Redirect exact from='/' to='resumoMes' />
       <Switch>
         <Route>
           <Route
