@@ -6,7 +6,8 @@ import libUtc from '@libUtc'
 const ProjetoAlocacaoPeriodoService = {
   GetProjetoAlocacaoPeriodoByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
     const diaReferenciaInicio = diaReferencia
-    const diaReferenciaFim = libUtc.getEndDay(diaReferenciaInicio)
+    const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)
+
     const listaProjetoAlocacaoPeriodo = await dbConnection('operacoes.ProjetoAlocacao')
       .select('IdProjetoAlocacao')
       .where(
@@ -14,6 +15,7 @@ const ProjetoAlocacaoPeriodoService = {
       )
       .then((listaProjetoAlocacao: IProjetoAlocacao[]) => {
         var listaIdProjetoAlocacao = listaProjetoAlocacao.map(x => x.IdProjetoAlocacao)
+
         const listaProjetoAlocacaoPeriodo = dbConnection('operacoes.ProjetoAlocacaoPeriodo')
           .select('*')
           .whereIn('IdProjetoAlocacao', listaIdProjetoAlocacao)
@@ -21,6 +23,7 @@ const ProjetoAlocacaoPeriodoService = {
           .andWhere('DataFim', '>=', diaReferenciaInicio)
           .orderBy('DataInicio', 'asc')
           .then((listaProjetoAlocacaoPeriodo: IProjetoAlocacaoPeriodo[]) => listaProjetoAlocacaoPeriodo)
+
         return listaProjetoAlocacaoPeriodo
       })
 

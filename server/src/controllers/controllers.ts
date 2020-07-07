@@ -1,6 +1,7 @@
 import TesteController from '@controller/teste-controller'
 import AtividadeController from '@controller/atividade-controller'
 import CalendarioController from '@controller/calendario-controller'
+import ColaboradorController from '@controller/colaborador-controller'
 import ColaboradorContratoController from '@controller/colaboradorContrato-controller'
 import PontoController from '@controller/ponto-controller'
 import ProjetoController from '@controller/projeto-controller'
@@ -13,6 +14,7 @@ export {
   TesteController,
   AtividadeController,
   CalendarioController,
+  ColaboradorController,
   ColaboradorContratoController,
   PontoController,
   ProjetoController,

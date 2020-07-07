@@ -1,6 +1,7 @@
 import TesteService from '@service/teste-service'
 import AtividadeService from '@service/atividade-service'
 import CalendarioService from '@service/calendario-service'
+import ColaboradorService from '@service/colaborador-service'
 import ColaboradorContratoService from '@service/colaboradorContrato-service'
 import PontoService from '@service/ponto-service'
 import ProjetoService from '@service/projeto-service'
@@ -13,6 +14,7 @@ export {
   TesteService,
   AtividadeService,
   CalendarioService,
+  ColaboradorService,
   ColaboradorContratoService,
   PontoService,
   ProjetoService,

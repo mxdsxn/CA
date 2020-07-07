@@ -19,7 +19,7 @@ const CalendarioService = {
   },
   GetFeriadoByDia: async (diaReferencia: Date) => {
     const diaReferenciaInicio = diaReferencia
-    const diaReferenciaFim = libUtc.getEndDay(diaReferenciaInicio)
+    const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)
     const feriadoDia = await dbConnection('pessoas.Calendario')
       .select('*')
       .where('Dia', '>=', diaReferenciaInicio)

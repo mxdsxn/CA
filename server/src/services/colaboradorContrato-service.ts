@@ -23,15 +23,15 @@ const PontoService = {
   },
   GetContratoAtivoByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
     const diaReferenciaInicio = diaReferencia
-    const diaReferenciaFim = libUtc.getEndDay(diaReferenciaInicio)
+    const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)
     const contratoAtivo = await dbConnection('pessoas.ColaboradorContrato')
       .select('*')
       .where('IdColaborador', idColaborador)
+      .andWhere('DataInicioContrato', '<=', diaReferenciaFim)
       .andWhere(function () {
         this.where('Termino', '>=', diaReferenciaInicio)
           .orWhere('Termino', null)
       })
-      .andWhere('DataInicioContrato', '<=', diaReferenciaFim)
       .orderBy('DataInicioContrato', 'desc')
       .first()
       .then((contratoAtivo: IColaboradorContrato) => contratoAtivo)

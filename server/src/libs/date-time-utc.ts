@@ -1,53 +1,111 @@
 const libUtc = {
-  getDate: (date: Date) => {
-    const year = date.getFullYear()
-    const month = date.getUTCMonth()
-    const day = date.getUTCDate()
+  getDateByString: (data: string) => {
+    const dateNoUtc = new Date(data)
+
+    const year = dateNoUtc.getUTCFullYear()
+    const month = dateNoUtc.getUTCMonth()
+    const day = dateNoUtc.getUTCDate()
     const hour = 0
+    const minute = 0
     const second = 0
     const millesecond = 0
 
     const result = new Date(
       Date.UTC(
-        year,
-        month,
-        day,
-        hour,
-        second,
-        millesecond
+        year, // year
+        month, // month
+        day, // day
+        hour, // hour
+        minute, // minute
+        second, // second
+        millesecond // millisecond
       )
     )
     return result
   },
-  getDateByString: (date: string) => {
-    const dateNoUtc = new Date(date)
-    const year = dateNoUtc.getUTCFullYear()
-    const month = dateNoUtc.getUTCMonth()
-    const day = dateNoUtc.getUTCDate()
+  getDate: (data: Date) => {
+    const year = data.getFullYear()
+    const month = data.getUTCMonth()
+    const day = data.getUTCDate()
     const hour = 0
+    const minute = 0
     const second = 0
     const millesecond = 0
+
     const result = new Date(
       Date.UTC(
-        year,
-        month,
-        day,
-        hour,
-        second,
-        millesecond
+        year, // year
+        month, // month
+        day, // day
+        hour, // hour
+        minute, // minute
+        second, // second
+        millesecond // millisecond
       )
     )
+    return result
+  },
+  getEndDate: (data: Date) => {
+    const year = data.getUTCFullYear()
+    const month = data.getUTCMonth()
+    const day = data.getUTCDate()
+    const hour = 23
+    const minute = 59
+    const second = 59
+    const millesecond = 999
+
+    const result = new Date(
+      Date.UTC(
+        year, // year
+        month, // month
+        day, // day
+        hour, // hour
+        minute, // minute
+        second, // second
+        millesecond // millisecond
+      ))
+    return result
+  },
+  getBeginMonth: (data: Date) => {
+    const year = data.getUTCFullYear()
+    const month = data.getUTCMonth()
+    const day = 1
+    const hour = 0
+    const minute = 0
+    const second = 0
+    const millesecond = 0
+
+    const result = new Date(
+      Date.UTC(
+        year, // year
+        month, // month
+        day, // day
+        hour, // hour
+        minute, // minute
+        second, // second
+        millesecond // millisecond
+      ))
     return result
   },
   getEndMonth: (data: Date) => {
-    const result = data.getUTCMonth() < 11
-      ? new Date(Date.UTC(data.getUTCFullYear(), data.getUTCMonth() + 1, 0, 23, 59, 59, 999))
-      : data.getUTCMonth() === 11
-        ? new Date(Date.UTC(data.getUTCFullYear(), 12, 0, 23, 59, 59, 999)) : null
-    return result
-  },
-  getEndDay: (data: Date) => {
-    const result = new Date(Date.UTC(data.getUTCFullYear(), data.getUTCMonth(), data.getUTCDate(), 23, 59, 59, 999))
+    const year = data.getUTCFullYear()
+    const month = data.getUTCMonth() + 1
+    const day = 0
+    const hour = 23
+    const minute = 59
+    const second = 59
+    const millesecond = 999
+
+    const result = new Date(
+      Date.UTC(
+        year, // year
+        month, // month
+        day, // day
+        hour, // hour
+        minute, // minute
+        second, // second
+        millesecond // millisecond
+      ))
     return result
   }
 }

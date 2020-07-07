@@ -22,7 +22,7 @@ const PontoService = {
   },
   GetPontoByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
     const diaReferenciaInicio = diaReferencia
-    const diaReferenciaFim = libUtc.getEndDay(diaReferenciaInicio)
+    const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)
 
     const listaPonto = await dbConnection('pessoas.Ponto')
       .select('*')

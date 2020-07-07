@@ -6,8 +6,8 @@ import {
 } from '@models'
 import libUtc from '@libUtc'
 
-const TesteService = {
-  Teste: async (DataCadastro: Date) => {
+const ColaboradorService = {
+  GetGerentesByIdColaboradorDia: async (DataCadastro: Date) => {
     const mesReferenciaInicio = libUtc.getBeginMonth(DataCadastro)
     const mesReferenciaFim = libUtc.getEndMonth(DataCadastro)
 
@@ -43,4 +43,4 @@ const TesteService = {
     return validationArray(listaColaboradorGerente)
   }
 }
-export default TesteService
+export default ColaboradorService
