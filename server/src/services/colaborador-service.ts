@@ -1,15 +1,27 @@
 /* eslint-disable no-unused-vars */
 import dbConnection, { validationArray } from '@database'
 import {
-  IProjetoHistoricoGerente,
-  IColaborador
+  IColaborador,
+  IProjeto,
+  IProjetoHistoricoGerente
 } from '@models'
 import libUtc from '@libUtc'
 
+import { ProjetoService } from '@services'
+
 const ColaboradorService = {
-  GetGerentesByIdColaboradorDia: async (DataCadastro: Date) => {
-    const mesReferenciaInicio = libUtc.getBeginMonth(DataCadastro)
-    const mesReferenciaFim = libUtc.getEndMonth(DataCadastro)
+  GetGerentesByIdColaboradorDia: async (diaReferencia: Date) => {
+    const mesReferenciaInicio = libUtc.getBeginMonth(diaReferencia)
+    const mesReferenciaFim = libUtc.getEndMonth(diaReferencia)
+
+    const idColaborador = 2359
+    const listaIdsProjetoAlocado = await ProjetoService.GetProjetosByIdColaboradorDia(idColaborador, diaReferencia)
+      .then((listaProjetos: IProjeto[]) => {
+        const listaIdsProjetoAlocado = listaProjetos.map(
+          projeto => projeto.IdProjeto
+        )
+        return listaIdsProjetoAlocado
+      })
 
     const listaColaboradorGerente = await dbConnection('operacoes.ProjetoHistoricoGerente')
       .select(
@@ -23,6 +35,7 @@ const ColaboradorService = {
         this.where('DataFim', '>=', mesReferenciaInicio)
           .orWhere('DataFim', null)
       })
+      .whereIn('IdProjeto', listaIdsProjetoAlocado)
       .orderBy('DataInicio', 'desc')
       .distinct()
       .then((listaHistoricoGerente: IProjetoHistoricoGerente[]) => {
