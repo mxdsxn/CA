@@ -10,11 +10,10 @@ import libUtc from '@libUtc'
 import { ProjetoService } from '@services'
 
 const ColaboradorService = {
-  GetGerentesByIdColaboradorDia: async (diaReferencia: Date) => {
+  GetGerentesByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
     const mesReferenciaInicio = libUtc.getBeginMonth(diaReferencia)
     const mesReferenciaFim = libUtc.getEndMonth(diaReferencia)
 
-    const idColaborador = 2359
     const listaIdsProjetoAlocado = await ProjetoService.GetProjetosByIdColaboradorDia(idColaborador, diaReferencia)
       .then((listaProjetos: IProjeto[]) => {
         const listaIdsProjetoAlocado = listaProjetos.map(
