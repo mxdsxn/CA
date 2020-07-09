@@ -14,17 +14,18 @@ const TesteService = {
     const projetotipo = await dbConnection('operacoes.ProjetoTipo')
       .select('*')
     const listaAtividadeMes = await dbConnection('operacoes.Projeto')
-      .select('IdProjeto',
-        'Nome',
-        'IdColaborador',
-        'IdColaboradorGerente')
+      // .select('IdProjeto',
+      //   'Nome',
+      //   'IdColaborador',
+      //   'IdColaboradorGerente')
+      .select('*')
       .where('IdProjeto', 2510)
       .first()
-      .then(suc => {
-        return dbConnection('pessoas.Colaborador').where('IdColaborador', suc.IdColaboradorGerente)
-      })
+    // .then(suc => {
+    //   return dbConnection('pessoas.Colaborador').where('IdColaborador', suc.IdColaboradorGerente)
+    // })
     // gerentes sao coordenadores e prjetos defaout tem qlq gernete como coordenador
-    return (listaAtividadeMes)
+    return (projetotipo)
   }
 }
 export default TesteService

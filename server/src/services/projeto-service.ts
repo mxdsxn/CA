@@ -1,12 +1,18 @@
 /* eslint-disable no-unused-vars */
 import dbConnection, { validationArray } from '@database'
-import { IProjeto, IProjetoAlocacao, IProjetoAlocacaoPeriodo } from '@models'
+import { IProjeto, IProjetoAlocacao, IProjetoAlocacaoPeriodo, IProjetoTipo } from '@models'
 import libUtc from '@libUtc'
 
 const ProjetoService = {
   GetProjetosByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
     const diaReferenciaInicio = diaReferencia
     const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)
+
+    const idProjetoDefault = await dbConnection('operacoes.ProjetoTipo')
+      .select('*')
+      .where('Descricao', 'Default')
+      .first()
+      .then((TipoDefault: IProjetoTipo) => TipoDefault.IdProjetoTipo)
 
     const listaProjeto = await dbConnection('operacoes.ProjetoAlocacao')
       .select('IdProjetoAlocacao', 'IdProjeto')
@@ -28,7 +34,8 @@ const ProjetoService = {
               .map(x => x.IdProjeto)
 
             const listaProjeto = dbConnection('operacoes.Projeto')
-              .select('IdProjeto', 'Nome')
+              .select('IdProjeto', 'Nome', 'IdProjetoTipo')
+              .where('IdProjetoTipo', '<>', idProjetoDefault)
               .whereIn('IdProjeto', listaIdProjeto)
               .orderBy('Nome', 'asc')
               .then((listaProjeto: IProjeto[]) => listaProjeto)

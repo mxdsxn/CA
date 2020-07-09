@@ -9,6 +9,7 @@ import IProjetoAlocacaoPeriodo from '@model/projetoAlocacaoPeriodo-model'
 import IProjetoCategoriaAtividade from '@model/projetoCategoriaAtividade-model'
 import IProjetoMetodologia from '@model/projetoMetodologia-model'
 import IProjetoMetodologiaFase from '@model/projetoMetodologiaFase-model'
+import IProjetoTipo from '@model/projetoTipo-model'
 import IRegistroAuxiliar from '@model/registroAuxiliar-model'
 import IProjetoHistoricoGerente from '@model/projetoHistoricoGerente-models'
 
@@ -25,5 +26,6 @@ export {
   IProjetoCategoriaAtividade,
   IProjetoHistoricoGerente,
   IProjetoMetodologia,
-  IProjetoMetodologiaFase
+  IProjetoMetodologiaFase,
+  IProjetoTipo
 }
