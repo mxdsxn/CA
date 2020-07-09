@@ -1,6 +1,6 @@
 import React from "react";
 import { Hidden } from "@material-ui/core";
-import PainelDia from "./PainelDia";
+import PainelDia from "./dia-colapse";
 
 export default (props) => {
   return (

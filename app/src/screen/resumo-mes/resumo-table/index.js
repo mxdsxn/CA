@@ -1,9 +1,9 @@
 import React from "react";
 import { Container, Table, Paper, Hidden } from "@material-ui/core";
 
-import THead from "./THead";
-import TBody from "./TBody";
-import TFoot from "./TFoot";
+import THead from "./table-head";
+import TBody from "./table-body";
+import TFoot from "./table-foot";
 
 export default (props) => {
   return (

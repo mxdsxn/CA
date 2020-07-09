@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "@material-ui/core";
 
-import ResumoCard from "./ResumoCard";
-import ResumoTable from "./ResumoTable";
-import Datepic from "./Datepic/";
+import ResumoCard from "./resumo-card";
+import ResumoTable from "./resumo-table";
+import Datepic from "./datepicker/";
 
 import { default as apiConnection } from '../../service/api-connection'
 

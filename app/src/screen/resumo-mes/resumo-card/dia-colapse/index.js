@@ -5,7 +5,7 @@ import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 
-import CardAtividade from "./CardAtividade";
+import CardAtividade from "./atividade-card";
 
 const ExpansionPanel = withStyles({
   root: {

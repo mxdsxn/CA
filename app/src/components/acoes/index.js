@@ -1,8 +1,8 @@
 import React from "react";
 import "./style.css";
 import { Container, Hidden } from "@material-ui/core";
-import BtnIncluir from "./Incluir/";
-import BtnFechar from "./Fechar/";
+import BtnIncluir from "./incluir-atividade/";
+import BtnFechar from "./fechar-semana/";
 
 export default () => {
   return (
