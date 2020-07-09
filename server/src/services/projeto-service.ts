@@ -15,15 +15,19 @@ const ProjetoService = {
       .then((TipoDefault: IProjetoTipo) => TipoDefault.IdProjetoTipo)
 
     const listaProjeto = await dbConnection('operacoes.ProjetoAlocacao')
-      .select('IdProjetoAlocacao', 'IdProjeto')
-      .where(
-        'IdColaborador', Number(idColaborador)
+      .select(
+        'IdProjetoAlocacao',
+        'IdProjeto'
       )
+      .where('IdColaborador', Number(idColaborador))
       .then((listaProjetoAlocacao: IProjetoAlocacao[]) => {
         var listaIdProjetoAlocacao = listaProjetoAlocacao.map(x => x.IdProjetoAlocacao)
 
         const listaProjeto = dbConnection('operacoes.ProjetoAlocacaoPeriodo')
-          .select('IdProjetoAlocacaoPeriodo', 'IdProjetoAlocacao')
+          .select(
+            'IdProjetoAlocacaoPeriodo',
+            'IdProjetoAlocacao'
+          )
           .whereIn('IdProjetoAlocacao', listaIdProjetoAlocacao)
           .where('DataInicio', '<=', diaReferenciaFim)
           .andWhere('DataFim', '>=', diaReferenciaInicio)
@@ -34,7 +38,10 @@ const ProjetoService = {
               .map(x => x.IdProjeto)
 
             const listaProjeto = dbConnection('operacoes.Projeto')
-              .select('IdProjeto', 'Nome', 'IdProjetoTipo')
+              .select(
+                'IdProjeto',
+                'Nome'
+              )
               .where('IdProjetoTipo', '<>', idProjetoDefault)
               .whereIn('IdProjeto', listaIdProjeto)
               .orderBy('Nome', 'asc')
@@ -47,6 +54,23 @@ const ProjetoService = {
       })
 
     return validationArray(listaProjeto)
+  },
+  GetProjetosDefault: async () => {
+    const idProjetoDefault = await dbConnection('operacoes.ProjetoTipo')
+      .select('IdProjetoTipo')
+      .where('Descricao', 'Default')
+      .first()
+      .then((TipoDefault: IProjetoTipo) => TipoDefault.IdProjetoTipo)
+
+    const listaProjetosDefault = await dbConnection('operacoes.Projeto')
+      .select(
+        'IdProjeto',
+        'Nome'
+      )
+      .where('IdProjetoTipo', idProjetoDefault)
+      .then((listaProjetosDefault: IProjeto[]) => listaProjetosDefault)
+
+    return validationArray(listaProjetosDefault)
   }
 }
 export default ProjetoService

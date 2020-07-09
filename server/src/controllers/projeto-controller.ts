@@ -15,4 +15,12 @@ route.post('/Projeto/GetProjetosByIdColaboradorDia', (req, res) => {
     )
 })
 
+route.post('/Projeto/GetProjetosDefault', (req, res) => {
+  Service.GetProjetosDefault()
+    .then(
+      (suc) => { res.json(suc) },
+      (err) => { res.json(err) }
+    )
+})
+
 export default route

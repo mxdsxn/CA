@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import dbConnection, { validationArray } from '@database'
 import {
-  IProjetoHistoricoGerente,
-  IColaborador
+  IProjeto,
+  IProjetoTipo
 } from '@models'
 import libUtc from '@libUtc'
 
@@ -11,21 +11,19 @@ const TesteService = {
     const mesReferenciaInicio = libUtc.getBeginMonth(DataCadastro)
     const mesReferenciaFim = libUtc.getEndMonth(DataCadastro)
 
-    const projetotipo = await dbConnection('operacoes.ProjetoTipo')
-      .select('*')
-    const listaAtividadeMes = await dbConnection('operacoes.Projeto')
-      // .select('IdProjeto',
-      //   'Nome',
-      //   'IdColaborador',
-      //   'IdColaboradorGerente')
-      .select('*')
-      .where('IdProjeto', 2510)
+    const idProjetoDefault = await dbConnection('operacoes.ProjetoTipo')
+      .select('IdProjetoTipo')
+      .where('Descricao', 'Default')
       .first()
-    // .then(suc => {
-    //   return dbConnection('pessoas.Colaborador').where('IdColaborador', suc.IdColaboradorGerente)
-    // })
-    // gerentes sao coordenadores e prjetos defaout tem qlq gernete como coordenador
-    return (projetotipo)
+      .then((TipoDefault: IProjetoTipo) => TipoDefault.IdProjetoTipo)
+
+    const listaProjetosDefault = await dbConnection('operacoes.Projeto')
+      .select('*')
+      .where('IdProjetoTipo', idProjetoDefault)
+      .first()
+      .then((listaProjetosDefault: IProjeto[]) => listaProjetosDefault)
+
+    return (listaProjetosDefault)
   }
 }
 export default TesteService
