@@ -4,6 +4,7 @@ import { IAtividade, IProjeto } from '@models'
 import libUtc from '@libUtc'
 
 const AtividadeService = {
+  /* retorna lista de atividades do colaborador em um mes */
   GetAtividadesMesByIdColaboradorMes: async (idColaborador: Number, mesReferencia: Date) => {
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)

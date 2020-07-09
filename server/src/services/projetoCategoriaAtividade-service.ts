@@ -3,6 +3,7 @@ import dbConnection, { validationArray } from '@database'
 import { IProjetoCategoriaAtividade } from '@models'
 
 const ProjetoCategoriaAtividade = {
+  /* retorna lista de categorias do projeto */
   GetProjetoCategoriaAtividadeByIdProjeto: async (IdProjeto: Number) => {
     const listaCategoriasProjeto = await dbConnection('operacoes.ProjetoCategoriaAtividade')
       .select('*')

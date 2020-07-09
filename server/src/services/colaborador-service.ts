@@ -10,17 +10,10 @@ import libUtc from '@libUtc'
 import { ProjetoService } from '@services'
 
 const ColaboradorService = {
-  GetCoordenadoresByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
+  /* retorna lista de coordenadores(gerentes de projetos), para aprovaçao de atividades em projetos Default */
+  GetCoordenadoresByDia: async (diaReferencia: Date) => {
     const mesReferenciaInicio = libUtc.getBeginMonth(diaReferencia)
     const mesReferenciaFim = libUtc.getEndMonth(diaReferencia)
-
-    const listaIdsProjetoAlocado = await ProjetoService.GetProjetosByIdColaboradorDia(idColaborador, diaReferencia)
-      .then((listaProjetos: IProjeto[]) => {
-        const listaIdsProjetoAlocado = listaProjetos.map(
-          projeto => projeto.IdProjeto
-        )
-        return listaIdsProjetoAlocado
-      })
 
     const listaCoordenador = await dbConnection('operacoes.ProjetoHistoricoGerente')
       .select(
@@ -34,7 +27,6 @@ const ColaboradorService = {
         this.where('DataFim', '>=', mesReferenciaInicio)
           .orWhere('DataFim', null)
       })
-      .whereIn('IdProjeto', listaIdsProjetoAlocado)
       .orderBy('DataInicio', 'desc')
       .distinct()
       .then((listaHistoricoGerente: IProjetoHistoricoGerente[]) => {

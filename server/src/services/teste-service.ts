@@ -18,7 +18,7 @@ const TesteService = {
       .then((TipoDefault: IProjetoTipo) => TipoDefault.IdProjetoTipo)
 
     const listaProjetosDefault = await dbConnection('operacoes.Projeto')
-      .select('*')
+      .select('Nome', 'Responsavel', 'IdColaboradorGerente')
       .where('IdProjetoTipo', idProjetoDefault)
       .first()
       .then((listaProjetosDefault: IProjeto[]) => listaProjetosDefault)

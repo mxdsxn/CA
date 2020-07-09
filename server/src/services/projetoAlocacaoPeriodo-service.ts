@@ -4,6 +4,7 @@ import { IProjetoAlocacaoPeriodo, IProjetoAlocacao } from '@models'
 import libUtc from '@libUtc'
 
 const ProjetoAlocacaoPeriodoService = {
+  /* retorna lista de alocacoes do colaborador no dia */
   GetProjetoAlocacaoPeriodoByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
     const diaReferenciaInicio = diaReferencia
     const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)

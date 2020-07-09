@@ -4,6 +4,7 @@ import { IColaboradorContrato } from '@models'
 import libUtc from '@libUtc'
 
 const PontoService = {
+  /* retorna lista de contratos num mes para calculo de horas */
   GetContratosByDataIdColaboradorMes: async (idColaborador: Number, mesReferencia: Date) => {
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
@@ -21,6 +22,7 @@ const PontoService = {
 
     return validationArray(listaContrato)
   },
+  /* retorna contrato ativo no dia para carga horaria diaria */
   GetContratoAtivoByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
     const diaReferenciaInicio = diaReferencia
     const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)

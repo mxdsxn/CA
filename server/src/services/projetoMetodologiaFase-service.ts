@@ -3,6 +3,7 @@ import dbConnection, { validationObject } from '@database'
 import { IProjetoMetodologia, IProjetoMetodologiaFase } from '@models'
 
 const ProjetoMetodologiaFaseService = {
+  /* retorna lista de metodologiaFase do projeto */
   GetProjetoFaseByIdProjeto: async (IdProjeto: Number) => {
     const listaProjetoMetodologiaFase = await dbConnection('operacoes.ProjetoMetodologia')
       .select('IdProjetoMetodologia')

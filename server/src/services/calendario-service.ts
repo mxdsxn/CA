@@ -4,6 +4,7 @@ import { ICalendario } from '@models'
 import libUtc from '@libUtc'
 
 const CalendarioService = {
+  /* retorna lista de feriados no mes */
   GetFeriadosByMes: async (mesReferencia: Date) => {
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
@@ -17,6 +18,7 @@ const CalendarioService = {
 
     return validationArray(listaFeriadosMes)
   },
+  /* retorna feriado no dia */
   GetFeriadoByDia: async (diaReferencia: Date) => {
     const diaReferenciaInicio = diaReferencia
     const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)
