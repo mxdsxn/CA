@@ -25,127 +25,273 @@ const useStyles = makeStyles((theme) => ({
     color: "#002C4F",
     background: "#f0ad4e",
   },
-}))
-const useStylesTagInput = makeStyles({
   input: {
-    padding: "10px",
+    padding: "7px",
   },
-})
+}))
 
-const dadosCadAtv = {
-  gerentes: [
-    { idColab: 1234, nome: "Joaozinho" },
-    { idColab: 4321, nome: "Mariazinha" },
-  ],
-}
+
+
 const idColaboradorLogado = 2359
 
-
+const listasDefault = {
+  projeto: [{ IdProjeto: 0, Nome: 'Selecione' }, { IdProjeto: -1, Nome: 'Projeto Default' }],
+  projetoDefault: [{ IdProjeto: 0, Nome: 'Selecione' }],
+  projetoFase: [{ IdProjetoMetodologiaFase: 0, Fase: 'Selecione' }],
+  categoriaAtividade: [{ IdProjetoCategoria: 0, Descricao: 'Selecione' }],
+  coordenador: [{ IdColaborador: 0, Nome: 'Selecione' }],
+}
 export default (props) => {
   const classes = useStyles()
-  const tagInputStyle = useStylesTagInput()
 
-  const [listaProjeto, setListaProjeto] = useState([])
-  const [projeto, setProjeto] = useState(0)
-  const [listaProjetoFase, setListaProjetoFase] = useState([])
-  const [projetoFase, setProjetoFase] = useState("")
+  const [listaProjeto, setListaProjeto] = useState(listasDefault.projeto)
+  const [listaProjetoDefault, setListaProjetoDefault] = useState(listasDefault.projetoDefault)
+  const [listaProjetoFase, setListaProjetoFase] = useState(listasDefault.projetoFase)
+  const [listaCategoriaAtividade, setListaCategoriaAtividade] = useState(listasDefault.categoriaAtividade)
+  const [listaCoordenador, setListaCoordenador] = useState(listasDefault.coordenador)
 
+  const [diaAtividade, setDiaAtividade] = useState(Date())
+  const [projetoSelecionado, setProjetoSelecionado] = useState(0)
+  const [projetoDefaultSelecionado, setProjetoDefaultSelecionado] = useState(0)
+  const [projetoFaseSelecionado, setProjetoFaseSelecionado] = useState(0)
+  const [categoriaAtividadeSelecionado, setCategoriaAtividadeSelecionado] = useState(0)
+  const [coordenadorSelecionado, setCoordenadorSelecionado] = useState(0)
+  const [tagAtividade, setTagAtividade] = useState('')
+  const [descricaoAtividade, setDescricaoAtividade] = useState('')
 
+  useEffect(() => {
+    console.log(diaAtividade)
+  }, [diaAtividade])
+
+  // reseta campos caso dia da atividade mude
+  useEffect(() => {
+    setListaProjeto(listasDefault.projeto)
+    setListaProjetoDefault(listasDefault.projetoDefault)
+    setListaProjetoFase(listasDefault.projetoFase)
+    setListaCategoriaAtividade(listasDefault.categoriaAtividade)
+    setListaCoordenador(listasDefault.coordenador)
+    setDiaAtividade(0)
+    setProjetoSelecionado(0)
+    setProjetoDefaultSelecionado(0)
+    setProjetoFaseSelecionado(0)
+    setCategoriaAtividadeSelecionado(0)
+    setCoordenadorSelecionado(0)
+    setTagAtividade('')
+    setDescricaoAtividade('')
+  }, [diaAtividade])
+
+  // carrega projeto que o colaborador esta alocado
   useEffect(() => {
     apiConnection.projeto.GetProjetosByIdColaboradorDia(idColaboradorLogado, '04/01/2020')
       .then(res =>
         res ?
           setListaProjeto(res) :
-          setListaProjeto([])
+          setListaProjeto(listasDefault.projeto)
       )
   }, [])
+
+  // se algum projeto(>0) selecionado, carregar Fase e Categoria, caso existam
+  // se projeto é default (-1), carrega projetos default e coordenadores 
   useEffect(() => {
-    apiConnection.projetoMetodologiaFase.GetProjetoFaseByIdProjeto(projeto)
-      .then(res =>
-        res ?
-          setListaProjetoFase(res) :
-          setListaProjetoFase([])
-      )
-  }, [projeto])
+    if (projetoSelecionado > 0) {
+      apiConnection.projetoMetodologiaFase.GetProjetoFaseByIdProjeto(projetoSelecionado)
+        .then(res =>
+          res ?
+            setListaProjetoFase(res) :
+            setListaProjetoFase(listasDefault.projetoFase)
+        )
+      apiConnection.projetoCategoriaAtividade.GetProjetoCategoriaAtividadeByIdProjeto(projetoSelecionado)
+        .then(res =>
+          res ?
+            setListaCategoriaAtividade(res) :
+            setListaCategoriaAtividade(listasDefault.categoriaAtividade)
+        )
+    } else if (projetoSelecionado === -1) {
+      apiConnection.projeto.GetProjetosDefault()
+        .then(res =>
+          res ?
+            setListaProjetoDefault(res) :
+            setListaProjetoDefault(listasDefault.projetoDefault)
+        )
+      apiConnection.colaborador.GetCoordenadoresByDia(diaAtividade)
+        .then(res =>
+          res ?
+            setListaCoordenador(res) :
+            setListaCoordenador(listasDefault.coordenador)
+        )
+    }
+
+  }, [diaAtividade, projetoSelecionado])
+
+  const handleChangeDiaAtividade = () => (console.log())
+  const handleChangeProjeto = (event) => setProjetoSelecionado(event.target.value)
+  const handleChangeProjetoDefault = (event) => setProjetoDefaultSelecionado(event.target.value)
+  const handleChangeProjetoFase = (event) => setProjetoFaseSelecionado(event.target.value)
+  const handleChangeCategoriaAtividade = (event) => setCategoriaAtividadeSelecionado(event.target.value)
+  const handleChangeCoordenador = (event) => setCoordenadorSelecionado(event.target.value)
+  const handleChangeDescricao = (event) => setDescricaoAtividade(event.target.value)
+  const handleChangeTag = (tags) => setTagAtividade(tags)
 
 
-  const handleChangeProjeto = (event) => {
-    setProjeto(event.target.value)
+  const campoProjeto = () => {
+    return (
+      <Grid item xs={12} sm={6} md={6} xl={6} align="center">
+        <FormControl className={classes.formControl}>
+          <InputLabel id="select-label-projeto">Projeto*</InputLabel>
+          <Select
+            id="select-projeto"
+            label="Selecione um Projeto"
+            labelId="select-projeto"
+            onChange={handleChangeProjeto}
+            placeholder="Selecione um Projeto"
+            value={projetoSelecionado}
+          >
+            {
+              listaProjeto.map((proj) => (
+                <MenuItem value={proj.IdProjeto}>{proj.Nome}</MenuItem>
+              ))
+            }
+          </Select>
+        </FormControl>
+      </Grid>
+    )
   }
-  const handleChangeProjetoFase = (event) => {
-    setProjetoFase(event.target.value)
+
+  const campoProjetoDefault = () => {
+    return projetoSelecionado === -1 ?
+      <Grid item xs={12} sm={6} md={6} xl={6} align="center" >
+        <FormControl className={classes.formControl}>
+          <InputLabel id="select-label-fase">Projeto Default*</InputLabel>
+          <Select
+            id="select-projetoDefault"
+            label='Selecione um Projeto Default'
+            labelId="select-projeto-default"
+            onChange={handleChangeProjetoDefault}
+            placeholder='Selecione um Projeto Default'
+            value={projetoDefaultSelecionado}
+          >
+            {
+              listaProjetoDefault.map((projDef) => (
+                <MenuItem value={projDef.IdProjeto}>{projDef.Nome}</MenuItem>
+              ))
+            }
+          </Select>
+        </FormControl>
+      </Grid> : null
   }
 
+  const campoProjetoFase = () => {
+    return listaProjetoFase !== listasDefault.projetoFase ?
+      <Grid item xs={12} sm={6} md={6} xl={6} align="center" >
+        <FormControl className={classes.formControl}>
+          <InputLabel id="select-label-fase">Fase*</InputLabel>
+          <Select
+            id="select-projetoDefault"
+            label='Selecione uma Fase'
+            labelId="select-fase"
+            onChange={handleChangeProjetoFase}
+            placeholder='Selecione uma Fase'
+            value={projetoFaseSelecionado}
+          >
+            {
+              listaProjetoDefault.map((projDef) => (
+                <MenuItem value={projDef.IdProjeto}>{projDef.Nome}</MenuItem>
+              ))}
+          </Select>
+        </FormControl>
+      </Grid> : null
+  }
 
+  const campoCategoriaAtividade = () => {
+    return listaCategoriaAtividade !== listasDefault.categoriaAtividade ?
+      <Grid item xs={12} sm={6} md={6} xl={6} align="center" >
+        <FormControl className={classes.formControl}>
+          <InputLabel id="select-label-fase">Categoria Atividade*</InputLabel>
+          <Select
+            id="select-projetoDefault"
+            label='Selecione uma Categoria'
+            labelId="select-categoria"
+            onChange={handleChangeCategoriaAtividade}
+            placeholder='Selecione uma Categoria'
+            value={categoriaAtividadeSelecionado}
+          >
+            {
+              listaProjetoDefault.map((projDef) => (
+                <MenuItem value={projDef.IdProjeto}>{projDef.Nome}</MenuItem>
+              ))
+            }
+          </Select>
+        </FormControl>
+      </Grid> : null
+  }
+
+  const campoCoordenador = () => {
+    return projetoSelecionado === -1 ?
+      <Grid item xs={12} sm={6} md={6} xl={6} align="center">
+        <FormControl className={classes.formControl}>
+          <InputLabel id="demo-simple-select-label">Coordenador*</InputLabel>
+          <Select
+            id="demo-simple-select"
+            label='Selecione um(a) Coordenador(a)'
+            labelId="select-coordenador"
+            onChange={handleChangeCoordenador}
+            placeholder='Selecione um(a) Coordenador(a)'
+            value={coordenadorSelecionado}
+          >
+            {
+              listaCoordenador.map((coordenador) => (
+                <MenuItem value={coordenador.IdColaborador} key={coordenador.idColab}>{coordenador.Nome}</MenuItem>
+              ))
+            }
+          </Select>
+        </FormControl>
+      </Grid> : null
+  }
+
+  const campoTag = () => {
+    return (
+      <Grid item xs={12} sm={6} md={6} xl={6} align="center">
+        <ChipInput
+          fullWidth
+          classes={{ input: classes.input }}
+          onChange={handleChangeTag}
+          value={tagAtividade}
+          placeholder="Tags"
+          label="Tags*"
+        />
+      </Grid>
+    )
+  }
+
+  const campoDescricao = () => {
+    return (
+      <Grid item xs={12} sm={6} md={6} xl={6} align="center">
+        <FormControl className={classes.formControl}>
+          <TextField
+            id="outlined-basic"
+            label="Descricao da Atividade"
+            multiline
+            onChange={handleChangeDescricao}
+            placeholder='Descrição da Atividade'
+            value={descricaoAtividade}
+          />
+        </FormControl>
+      </Grid>
+    )
+  }
 
   return (
-    < div className="container" >
+    <div className="container">
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={6} xl={6} align="center">
-          <FormControl className={classes.formControl}>
-            <InputLabel id="select-label-projeto">Projeto</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="select-projeto"
-              value={projeto}
-              onChange={handleChangeProjeto}
-            >
-              {
-                listaProjeto.map((proj) => (
-                  <MenuItem value={proj.IdProjeto}>{proj.Nome}</MenuItem>
-                ))
-              }
-            </Select>
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={6} xl={6} align="center">
-          <FormControl className={classes.formControl}>
-            <InputLabel id="select-label-fase">Fase</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="select-fase"
-              value={projetoFase}
-              onChange={handleChangeProjetoFase}
-            >
-              {
-                listaProjetoFase.map((faseProj) => (
-                  <MenuItem value={faseProj.IdProjetoMetodologiaFase}>{faseProj.Fase}</MenuItem>
-                ))}
-            </Select>
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={6} xl={6} align="center">
-          <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label">Gerente</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={''}
-            // onChange={handleChangeGerente}
-            >
-              {dadosCadAtv.gerentes.map((gerente) => (
-                <MenuItem value={gerente.idCola3} key={gerente.idColab}>{gerente.nome}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={6} xl={6} align="center">
-          <ChipInput
-            fullWidth
-            label="Tags"
-            classes={{ input: tagInputStyle.input }}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={6} xl={6} align="center">
-          <FormControl className={classes.formControl}>
-            <TextField id="outlined-basic" label="Descricao" multiline />
-          </FormControl>
-        </Grid>
+        {campoProjeto()}
+        {campoProjetoDefault()}
+        {campoProjetoFase()}
+        {campoCategoriaAtividade()}
+        {campoCoordenador()}
+        {campoTag()}
+        {campoDescricao()}
       </Grid>
+
       <Button
         // onClick={salvarAtividade}
         variant="contained"
@@ -153,6 +299,6 @@ export default (props) => {
       >
         Salvar Atividade
       </Button>
-    </div >
+    </div>
   )
 }
