@@ -8,7 +8,7 @@ import libUtc from '@libUtc'
 
 const TesteService = {
   Teste: async (DataCadastro: Date) => {
-    const mesReferenciaInicio = libUtc.getBeginMonth(DataCadastro)
+    const mesReferenciaInicio = libUtc.getMonth(DataCadastro)
     const mesReferenciaFim = libUtc.getEndMonth(DataCadastro)
 
     const idProjetoDefault = await dbConnection('operacoes.ProjetoTipo')

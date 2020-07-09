@@ -9,7 +9,7 @@ import { default as projetoCategoriaAtividade } from './projetoCategoriaAtividad
 import { default as projetoMetodologiaFase } from './projetoMetodologiaFase-api'
 import { default as registroAuxiliar } from './registroAuxiliar-api'
 
-const api = {
+const apiConnecion = {
   atividade,
   calendario,
   colaborador,
@@ -22,4 +22,4 @@ const api = {
   registroAuxiliar
 }
 
-export default api
+export default apiConnecion

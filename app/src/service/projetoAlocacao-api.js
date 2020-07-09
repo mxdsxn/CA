@@ -1,4 +1,4 @@
-import baseUrl from './api-base-url'
+import baseUrl from './api-baseUrl'
 
 const ProjetoAlocacaoApi = {
   GetProjetoAlocacaoPeriodoByIdColaboradorDia: async (idColaborador, diaReferencia) => {

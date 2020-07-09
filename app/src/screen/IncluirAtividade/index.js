@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core"
 import ChipInput from "material-ui-chip-input"
 
-import api from '../../service/api'
+import { default as apiConnection } from '../../service/api-connection'
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -52,7 +52,7 @@ export default (props) => {
 
 
   useEffect(() => {
-    api.GetProjetosByIdColaboradorDia(idColaboradorLogado, '04/01/2020')
+    apiConnection.projeto.GetProjetosByIdColaboradorDia(idColaboradorLogado, '04/01/2020')
       .then(res =>
         res ?
           setListaProjeto(res) :
@@ -60,7 +60,7 @@ export default (props) => {
       )
   }, [])
   useEffect(() => {
-    api.GetProjetoFaseByIdProjeto(projeto)
+    apiConnection.projetoMetodologiaFase.GetProjetoFaseByIdProjeto(projeto)
       .then(res =>
         res ?
           setListaProjetoFase(res) :
@@ -109,7 +109,6 @@ export default (props) => {
               onChange={handleChangeProjetoFase}
             >
               {
-                //listaProjetoFase.length > 0 ??
                 listaProjetoFase.map((faseProj) => (
                   <MenuItem value={faseProj.IdProjetoMetodologiaFase}>{faseProj.Fase}</MenuItem>
                 ))}

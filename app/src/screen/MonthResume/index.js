@@ -5,12 +5,10 @@ import ResumoCard from "./ResumoCard";
 import ResumoTable from "./ResumoTable";
 import Datepic from "./Datepic/";
 
-import api from '../../service/api'
+import { default as apiConnection } from '../../service/api-connection'
 
 export default (props) => {
-  const y = new Date().getFullYear();
-  const m = new Date().getMonth();
-  const mesVigente = new Date(y, m, 1);
+  const mesVigente = new Date();
 
   const [atividadesMes, setAtividadesMes] = useState([]);
   const [mesReferencia, setMesReferencia] = useState(mesVigente);
@@ -20,7 +18,7 @@ export default (props) => {
   };
 
   useEffect(() => {
-    api.GetAtividadesMesByIdColaboradorMes(2359, mesReferencia)
+    apiConnection.atividade.GetAtividadesMesByIdColaboradorMes(2359, mesReferencia)
       .then(res =>
         res ?
           setAtividadesMes(res) :

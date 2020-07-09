@@ -12,7 +12,7 @@ import { ProjetoService } from '@services'
 const ColaboradorService = {
   /* retorna lista de coordenadores(gerentes de projetos), para aprovaçao de atividades em projetos Default */
   GetCoordenadoresByDia: async (diaReferencia: Date) => {
-    const mesReferenciaInicio = libUtc.getBeginMonth(diaReferencia)
+    const mesReferenciaInicio = libUtc.getMonth(diaReferencia)
     const mesReferenciaFim = libUtc.getEndMonth(diaReferencia)
 
     const listaCoordenador = await dbConnection('operacoes.ProjetoHistoricoGerente')

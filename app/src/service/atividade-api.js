@@ -1,4 +1,4 @@
-import baseUrl from './api-base-url'
+import baseUrl from './api-baseUrl'
 
 const AtividadeApi = {
   GetAtividadesMesByIdColaboradorMes: async (idColaborador, mesReferencia) => {

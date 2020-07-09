@@ -1,4 +1,4 @@
-import baseUrl from './api-base-url'
+import baseUrl from './api-baseUrl'
 
 const RegistroAuxiliarApi = {
   GetRegistroAuxiliarByIdColaboradorMes: async (idProjeto, mesReferencia) => {
