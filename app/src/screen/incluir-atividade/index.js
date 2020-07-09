@@ -12,6 +12,7 @@ import {
 import ChipInput from "material-ui-chip-input"
 
 import { default as apiConnection } from '../../service/api-connection'
+import DataPicker from "./datepicker/";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -123,7 +124,7 @@ export default (props) => {
 
   }, [diaAtividade, projetoSelecionado])
 
-  const handleChangeDiaAtividade = () => (console.log())
+  const handleChangeDiaAtividade = () => (setDiaAtividade)
   const handleChangeProjeto = (event) => setProjetoSelecionado(event.target.value)
   const handleChangeProjetoDefault = (event) => setProjetoDefaultSelecionado(event.target.value)
   const handleChangeProjetoFase = (event) => setProjetoFaseSelecionado(event.target.value)
@@ -282,6 +283,14 @@ export default (props) => {
 
   return (
     <div className="container">
+
+      <div align="center">
+        <DataPicker
+          onChange={handleChangeDiaAtividade}
+          diaAtividade={diaAtividade}
+        />
+      </div>
+
       <Grid container spacing={3}>
         {campoProjeto()}
         {campoProjetoDefault()}

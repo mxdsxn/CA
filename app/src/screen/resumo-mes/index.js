@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "@material-ui/core";
 
-import ResumoCard from "./resumo-card";
-import ResumoTable from "./resumo-table";
-import Datepic from "./datepicker/";
+import ResumoMobile from "./resumo-mobile";
+import ResumoDesktop from "./resumo-desktop";
+import DataPicker from "./datepicker/";
 
 import { default as apiConnection } from '../../service/api-connection'
 
@@ -29,10 +29,10 @@ export default (props) => {
   return (
     <Container>
       <div align="center">
-        <Datepic changeMes={handleDateChange} mes={mesReferencia} />
+        <DataPicker changeMes={handleDateChange} mes={mesReferencia} />
       </div>
-      <ResumoCard atvMes={atividadesMes} />
-      <ResumoTable atvMes={atividadesMes} />
+      <ResumoMobile atvMes={atividadesMes} />
+      <ResumoDesktop atvMes={atividadesMes} />
     </Container>
   );
 };
