@@ -11,36 +11,20 @@ const TesteService = {
     const mesReferenciaInicio = libUtc.getBeginMonth(DataCadastro)
     const mesReferenciaFim = libUtc.getEndMonth(DataCadastro)
 
-    const listaColaboradorGerente = await dbConnection('operacoes.ProjetoHistoricoGerente')
-      .select(
-        'IdProjetoHistoricoGerente',
+    const projetotipo = await dbConnection('operacoes.ProjetoTipo')
+      .select('*')
+    const listaAtividadeMes = await dbConnection('operacoes.Projeto')
+      .select('IdProjeto',
+        'Nome',
         'IdColaborador',
-        'IdProjeto',
-        'DataInicio'
-      )
-      .where('DataInicio', '<=', mesReferenciaFim)
-      .andWhere(function () {
-        this.where('DataFim', '>=', mesReferenciaInicio)
-          .orWhere('DataFim', null)
+        'IdColaboradorGerente')
+      .where('IdProjeto', 2510)
+      .first()
+      .then(suc => {
+        return dbConnection('pessoas.Colaborador').where('IdColaborador', suc.IdColaboradorGerente)
       })
-      .orderBy('DataInicio', 'desc')
-      .distinct()
-      .then((listaHistoricoGerente: IProjetoHistoricoGerente[]) => {
-        const listaIdColaboradorGerente = listaHistoricoGerente.map(gerente => gerente.IdColaborador)
-
-        const listaColaboradorGerente = dbConnection('pessoas.Colaborador')
-          .select(
-            'IdColaborador',
-            'Nome'
-          )
-          .whereIn('IdColaborador', listaIdColaboradorGerente)
-          .orderBy('Nome', 'asc')
-          .then((listaColaboradorGerente: IColaborador[]) => (listaColaboradorGerente))
-
-        return listaColaboradorGerente
-      })
-
-    return validationArray(listaColaboradorGerente)
+    // gerentes sao coordenadores e prjetos defaout tem qlq gernete como coordenador
+    return (listaAtividadeMes)
   }
 }
 export default TesteService

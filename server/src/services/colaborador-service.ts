@@ -10,7 +10,7 @@ import libUtc from '@libUtc'
 import { ProjetoService } from '@services'
 
 const ColaboradorService = {
-  GetGerentesByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
+  GetCoordenadoresByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
     const mesReferenciaInicio = libUtc.getBeginMonth(diaReferencia)
     const mesReferenciaFim = libUtc.getEndMonth(diaReferencia)
 
@@ -22,7 +22,7 @@ const ColaboradorService = {
         return listaIdsProjetoAlocado
       })
 
-    const listaColaboradorGerente = await dbConnection('operacoes.ProjetoHistoricoGerente')
+    const listaCoordenador = await dbConnection('operacoes.ProjetoHistoricoGerente')
       .select(
         'IdProjetoHistoricoGerente',
         'IdColaborador',
@@ -40,19 +40,19 @@ const ColaboradorService = {
       .then((listaHistoricoGerente: IProjetoHistoricoGerente[]) => {
         const listaIdColaboradorGerente = listaHistoricoGerente.map(gerente => gerente.IdColaborador)
 
-        const listaColaboradorGerente = dbConnection('pessoas.Colaborador')
+        const listaCoordenador = dbConnection('pessoas.Colaborador')
           .select(
             'IdColaborador',
             'Nome'
           )
           .whereIn('IdColaborador', listaIdColaboradorGerente)
           .orderBy('Nome', 'asc')
-          .then((listaColaboradorGerente: IColaborador[]) => (listaColaboradorGerente))
+          .then((listaCoordenador: IColaborador[]) => (listaCoordenador))
 
-        return listaColaboradorGerente
+        return listaCoordenador
       })
 
-    return validationArray(listaColaboradorGerente)
+    return validationArray(listaCoordenador)
   }
 }
 export default ColaboradorService

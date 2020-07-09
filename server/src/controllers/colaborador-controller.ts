@@ -4,11 +4,11 @@ import libUtc from '@libUtc'
 
 const route = express.Router()
 
-route.post('/Colaborador/GetGerentesByIdColaboradorDia', (req, res) => {
+route.post('/Colaborador/GetCoordenadoresByIdColaboradorDia', (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const diaReferencia = libUtc.getDateByString(req.query.diaReferencia as string)
 
-  Service.GetGerentesByIdColaboradorDia(idColaborador, diaReferencia)
+  Service.GetCoordenadoresByIdColaboradorDia(idColaborador, diaReferencia)
     .then(
       (suc) => { res.json(suc) },
       (err) => { res.json(err) }

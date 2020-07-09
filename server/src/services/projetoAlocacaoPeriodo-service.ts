@@ -23,6 +23,7 @@ const ProjetoAlocacaoPeriodoService = {
           .andWhere('DataFim', '>=', diaReferenciaInicio)
           .orderBy('DataInicio', 'asc')
           .then((listaProjetoAlocacaoPeriodo: IProjetoAlocacaoPeriodo[]) => listaProjetoAlocacaoPeriodo)
+        // return listaProjetoAlocacao.map(x => x.ListaAlocacaoPeriodo = listaProjetoAlocacaoPeriodo.filter(y => y.IdProjetoAlocacao == x.IdProjetoAlocacao))
 
         return listaProjetoAlocacaoPeriodo
       })
