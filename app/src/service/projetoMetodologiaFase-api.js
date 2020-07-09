@@ -1,11 +1,11 @@
 import baseUrl from './api-base-url'
 
-const projetoMetodologiaFase = {
+const ProjetoMetodologiaFaseApi = {
   GetProjetoFaseByIdProjeto: async (idProjeto) => {
     const result = await baseUrl
       .post("ProjetoMetodologiaFase/GetProjetoFaseByIdProjeto", null, {
         params: {
-          IdProjeto: idProjeto,
+          idProjeto: idProjeto,
         },
       })
       .then(
@@ -16,4 +16,4 @@ const projetoMetodologiaFase = {
   }
 }
 
-export default projetoMetodologiaFase
+export default ProjetoMetodologiaFaseApi

@@ -1,6 +1,6 @@
 import baseUrl from './api-base-url'
 
-const projetoApi = {
+const ProjetoApi = {
   GetProjetosByIdColaboradorDia: async (idColaborador, diaReferencia) => {
     const result = await baseUrl
       .post("Projeto/GetProjetosByIdColaboradorDia", null, {
@@ -14,7 +14,16 @@ const projetoApi = {
         err => console.log(err)
       )
     return result
+  },
+  GetProjetosDefault: async () => {
+    const result = await baseUrl
+      .post("Projeto/GetProjetosDefault")
+      .then(
+        res => res.data,
+        err => console.log(err)
+      )
+    return result
   }
 }
 
-export default projetoApi
+export default ProjetoApi

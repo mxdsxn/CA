@@ -1,6 +1,6 @@
 import baseUrl from './api-base-url'
 
-const atividadeApi = {
+const AtividadeApi = {
   GetAtividadesMesByIdColaboradorMes: async (idColaborador, mesReferencia) => {
     const result = await baseUrl
       .post("Atividade/GetAtividadesMesByIdColaboradorMes", null, {
@@ -17,4 +17,4 @@ const atividadeApi = {
   }
 }
 
-export default atividadeApi
+export default AtividadeApi
