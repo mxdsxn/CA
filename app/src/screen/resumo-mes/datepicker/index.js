@@ -10,8 +10,6 @@ import DateFnsUtils from "@date-io/date-fns";
 import ptbrLocale from "date-fns/locale/pt-BR";
 
 export default (props) => {
-  // The first commit of Material-UI
-
   const pt_br = ptbrLocale;
 
   const inicioAtividades = new Date("04/01/2019");
@@ -19,10 +17,12 @@ export default (props) => {
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={pt_br}>
-      <ThemeProvider theme={tema}>
+      <ThemeProvider
+        theme={tema}
+      >
         <DatePicker
-          variant="inline"
           className="dataP"
+          variant="inline"
           label="Selecione o mês"
           autoOk={true}
           minDate={inicioAtividades}

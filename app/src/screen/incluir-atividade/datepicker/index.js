@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css";
 import tema from "./style";
 
@@ -10,12 +10,15 @@ import DateFnsUtils from "@date-io/date-fns";
 import ptbrLocale from "date-fns/locale/pt-BR";
 
 export default (props) => {
-  // The first commit of Material-UI
-
   const pt_br = ptbrLocale;
 
-  const inicioAtividades = new Date("04/01/2019");
-  const fimAtividades = new Date();
+  const diaHoje = new Date()
+  const inicioDatePicker = new Date("04/01/2019");
+  const fimDatePicker = new Date(`${diaHoje.getUTCMonth() + 1}/1/${diaHoje.getUTCFullYear()}`)
+
+  const [selectedDate, handleDateChange] = useState(new Date());
+
+  useEffect(() => (props.onChangeDiaAtividade(selectedDate)), [props, selectedDate])
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={pt_br}>
@@ -23,14 +26,15 @@ export default (props) => {
       // theme={tema}
       >
         <DatePicker
-          variant="inline"
           // className="dataP"
+          variant="inline"
           label="Selecione o dia da atividade"
           autoOk={true}
-          minDate={inicioAtividades}
-          maxDate={fimAtividades}
-          value={props.diaAtividade}
-          onChange={props.onChange}
+          minDate={inicioDatePicker}
+          maxDate={fimDatePicker}
+          disableToolbar
+          value={selectedDate}
+          onChange={handleDateChange}
         />
       </ThemeProvider>
     </MuiPickersUtilsProvider>

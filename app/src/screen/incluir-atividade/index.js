@@ -51,7 +51,7 @@ export default (props) => {
   const [listaCategoriaAtividade, setListaCategoriaAtividade] = useState(listasDefault.categoriaAtividade)
   const [listaCoordenador, setListaCoordenador] = useState(listasDefault.coordenador)
 
-  const [diaAtividade, setDiaAtividade] = useState(Date())
+  const [diaAtividade, setDiaAtividade] = useState(new Date())
   const [projetoSelecionado, setProjetoSelecionado] = useState(0)
   const [projetoDefaultSelecionado, setProjetoDefaultSelecionado] = useState(0)
   const [projetoFaseSelecionado, setProjetoFaseSelecionado] = useState(0)
@@ -124,7 +124,7 @@ export default (props) => {
 
   }, [diaAtividade, projetoSelecionado])
 
-  const handleChangeDiaAtividade = () => (setDiaAtividade)
+  const handleChangeDiaAtividade = (diaAtividade) => (setDiaAtividade)
   const handleChangeProjeto = (event) => setProjetoSelecionado(event.target.value)
   const handleChangeProjetoDefault = (event) => setProjetoDefaultSelecionado(event.target.value)
   const handleChangeProjetoFase = (event) => setProjetoFaseSelecionado(event.target.value)
@@ -286,7 +286,7 @@ export default (props) => {
 
       <div align="center">
         <DataPicker
-          onChange={handleChangeDiaAtividade}
+          onChangeDiaAtividade={handleChangeDiaAtividade}
           diaAtividade={diaAtividade}
         />
       </div>
