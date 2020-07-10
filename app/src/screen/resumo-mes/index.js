@@ -29,7 +29,7 @@ export default (props) => {
   return (
     <Container>
       <div align="center">
-        <DataPicker changeMes={handleDateChange} mes={mesReferencia} />
+        <DataPicker onChange={handleDateChange} value={mesReferencia} />
       </div>
       <ResumoMobile atvMes={atividadesMes} />
       <ResumoDesktop atvMes={atividadesMes} />

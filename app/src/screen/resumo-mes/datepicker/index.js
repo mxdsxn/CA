@@ -12,8 +12,19 @@ import ptbrLocale from "date-fns/locale/pt-BR";
 export default (props) => {
   const pt_br = ptbrLocale;
 
-  const inicioAtividades = new Date("04/01/2019");
-  const fimAtividades = new Date();
+  const diaHoje = new Date()
+  const inicioDatePicker = new Date("01/01/2020");
+  const fimDatePicker = new Date(
+    Date.UTC(
+      diaHoje.getUTCFullYear(),
+      diaHoje.getUTCMonth() + 1,
+      1,
+      0,
+      0,
+      0,
+      0
+    )
+  )
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={pt_br}>
@@ -21,16 +32,15 @@ export default (props) => {
         theme={tema}
       >
         <DatePicker
-          className="dataP"
-          variant="inline"
-          label="Selecione o mês"
           autoOk={true}
-          minDate={inicioAtividades}
-          maxDate={fimAtividades}
+          label="Selecione o mês"
+          minDate={inicioDatePicker}
+          maxDate={fimDatePicker}
+          onChange={props.onChange}
           openTo="month"
+          value={props.value}
+          variant="inline"
           views={["year", "month"]}
-          value={props.mes}
-          onChange={props.changeMes}
         />
       </ThemeProvider>
     </MuiPickersUtilsProvider>

@@ -60,10 +60,6 @@ export default (props) => {
   const [tagAtividade, setTagAtividade] = useState('')
   const [descricaoAtividade, setDescricaoAtividade] = useState('')
 
-  useEffect(() => {
-    console.log(diaAtividade)
-  }, [diaAtividade])
-
   // reseta campos caso dia da atividade mude
   useEffect(() => {
     setListaProjeto(listasDefault.projeto)
@@ -71,7 +67,6 @@ export default (props) => {
     setListaProjetoFase(listasDefault.projetoFase)
     setListaCategoriaAtividade(listasDefault.categoriaAtividade)
     setListaCoordenador(listasDefault.coordenador)
-    setDiaAtividade(0)
     setProjetoSelecionado(0)
     setProjetoDefaultSelecionado(0)
     setProjetoFaseSelecionado(0)
@@ -124,7 +119,7 @@ export default (props) => {
 
   }, [diaAtividade, projetoSelecionado])
 
-  const handleChangeDiaAtividade = (diaAtividade) => (setDiaAtividade)
+  const handleChangeDiaAtividade = (diaAtividade) => setDiaAtividade(diaAtividade)
   const handleChangeProjeto = (event) => setProjetoSelecionado(event.target.value)
   const handleChangeProjetoDefault = (event) => setProjetoDefaultSelecionado(event.target.value)
   const handleChangeProjetoFase = (event) => setProjetoFaseSelecionado(event.target.value)
@@ -286,8 +281,8 @@ export default (props) => {
 
       <div align="center">
         <DataPicker
-          onChangeDiaAtividade={handleChangeDiaAtividade}
-          diaAtividade={diaAtividade}
+          onChange={handleChangeDiaAtividade}
+          value={diaAtividade}
         />
       </div>
 

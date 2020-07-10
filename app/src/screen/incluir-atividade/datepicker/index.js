@@ -13,12 +13,18 @@ export default (props) => {
   const pt_br = ptbrLocale;
 
   const diaHoje = new Date()
-  const inicioDatePicker = new Date("04/01/2019");
-  const fimDatePicker = new Date(`${diaHoje.getUTCMonth() + 1}/1/${diaHoje.getUTCFullYear()}`)
-
-  const [selectedDate, handleDateChange] = useState(new Date());
-
-  useEffect(() => (props.onChangeDiaAtividade(selectedDate)), [props, selectedDate])
+  const inicioDatePicker = new Date("01/01/2020");
+  const fimDatePicker = new Date(
+    Date.UTC(
+      diaHoje.getUTCFullYear(),
+      diaHoje.getUTCMonth() + 1,
+      0,
+      23,
+      59,
+      59,
+      999
+    )
+  )
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={pt_br}>
@@ -26,15 +32,16 @@ export default (props) => {
       // theme={tema}
       >
         <DatePicker
-          // className="dataP"
-          variant="inline"
-          label="Selecione o dia da atividade"
           autoOk={true}
+          disableToolbar
+          format="dd/MM/yyyy"
+          label="Selecione o dia da atividade"
           minDate={inicioDatePicker}
           maxDate={fimDatePicker}
-          disableToolbar
-          value={selectedDate}
-          onChange={handleDateChange}
+          onChange={props.onChange}
+          value={props.value}
+          variant="inline"
+          views={["year", "month", "date"]}
         />
       </ThemeProvider>
     </MuiPickersUtilsProvider>
