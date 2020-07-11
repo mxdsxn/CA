@@ -14,7 +14,7 @@ const ProjetoMetodologiaFaseService = {
         if (!validationObject(projetoMetodologia)) { return null }
         const listaIdProjetoMetodologia = projetoMetodologia.IdProjetoMetodologia
         const listaProjetoMetodologiaFase = dbConnection('operacoes.ProjetoMetodologiaFase')
-          .select('*')
+          .select('IdProjetoMetodologiaFase', 'Fase')
           .where({
             IdProjetoMetodologia: listaIdProjetoMetodologia,
             Ativa: true

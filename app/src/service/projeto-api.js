@@ -15,9 +15,13 @@ const ProjetoApi = {
       )
     return result
   },
-  GetProjetosDefault: async () => {
+  GetProjetosDefault: async (diaReferencia) => {
     const result = await baseUrl
-      .post("Projeto/GetProjetosDefault")
+      .post("Projeto/GetProjetosDefault", null, {
+        params: {
+          diaReferencia: diaReferencia,
+        },
+      })
       .then(
         res => res.data,
         err => console.log(err)

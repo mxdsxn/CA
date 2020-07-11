@@ -16,7 +16,9 @@ route.post('/Projeto/GetProjetosByIdColaboradorDia', (req, res) => {
 })
 
 route.post('/Projeto/GetProjetosDefault', (req, res) => {
-  Service.GetProjetosDefault()
+  const diaReferencia = libUtc.getDateByString(req.query.diaReferencia as string)
+
+  Service.GetProjetosDefault(diaReferencia)
     .then(
       (suc) => { res.json(suc) },
       (err) => { res.json(err) }

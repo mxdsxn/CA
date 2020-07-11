@@ -87,7 +87,7 @@ const libUtc = {
       ))
     return result
   },
-  getEndMonth: (data: Date) => {
+  getEndMonth: (data: Date = new Date()) => {
     const year = data.getUTCFullYear()
     const month = data.getUTCMonth() + 1
     const day = 0

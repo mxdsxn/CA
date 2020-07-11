@@ -57,7 +57,7 @@ const ProjetoService = {
     return validationArray(listaProjeto)
   },
   /* retorna lista de projetos default */
-  GetProjetosDefault: async () => {
+  GetProjetosDefault: async (diaReferencia: Date) => {
     const idProjetoDefault = await dbConnection('operacoes.ProjetoTipo')
       .select('IdProjetoTipo')
       .where('Descricao', 'Default')
@@ -70,6 +70,11 @@ const ProjetoService = {
         'Nome'
       )
       .where('IdProjetoTipo', idProjetoDefault)
+      .andWhere('DataInicial', '<=', diaReferencia)
+      .andWhere(function () {
+        this.where('DataFinalAceite', '>=', diaReferencia)
+          .orWhere('DataFinalAceite', null)
+      })
       .then((listaProjetosDefault: IProjeto[]) => listaProjetosDefault)
 
     return validationArray(listaProjetosDefault)

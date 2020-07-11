@@ -78,13 +78,13 @@ export default (props) => {
 
   // carrega projeto que o colaborador esta alocado
   useEffect(() => {
-    apiConnection.projeto.GetProjetosByIdColaboradorDia(idColaboradorLogado, '04/01/2020')
+    apiConnection.projeto.GetProjetosByIdColaboradorDia(idColaboradorLogado, diaAtividade.toLocaleDateString())
       .then(res =>
         res ?
-          setListaProjeto(res) :
+          setListaProjeto([].concat(listasDefault.projeto, res)) :
           setListaProjeto(listasDefault.projeto)
       )
-  }, [])
+  }, [diaAtividade])
 
   // se algum projeto(>0) selecionado, carregar Fase e Categoria, caso existam
   // se projeto é default (-1), carrega projetos default e coordenadores 
@@ -93,32 +93,38 @@ export default (props) => {
       apiConnection.projetoMetodologiaFase.GetProjetoFaseByIdProjeto(projetoSelecionado)
         .then(res =>
           res ?
-            setListaProjetoFase(res) :
+            setListaProjetoFase([].concat(listasDefault.projetoFase, res)) :
             setListaProjetoFase(listasDefault.projetoFase)
         )
       apiConnection.projetoCategoriaAtividade.GetProjetoCategoriaAtividadeByIdProjeto(projetoSelecionado)
         .then(res =>
           res ?
-            setListaCategoriaAtividade(res) :
+            setListaCategoriaAtividade([].concat(listasDefault.categoriaAtividade, res)) :
             setListaCategoriaAtividade(listasDefault.categoriaAtividade)
         )
     } else if (projetoSelecionado === -1) {
-      apiConnection.projeto.GetProjetosDefault()
+      apiConnection.projeto.GetProjetosDefault(diaAtividade.toLocaleDateString())
         .then(res =>
           res ?
-            setListaProjetoDefault(res) :
+            setListaProjetoDefault([].concat(listasDefault.projetoDefault, res)) :
             setListaProjetoDefault(listasDefault.projetoDefault)
         )
       apiConnection.colaborador.GetCoordenadoresByDia(diaAtividade)
         .then(res =>
           res ?
-            setListaCoordenador(res) :
+            setListaCoordenador([].concat(listasDefault.coordenador, res)) :
             setListaCoordenador(listasDefault.coordenador)
         )
+    } else if (projetoSelecionado === 0) {
+      setListaProjetoFase(listasDefault.projetoFase)
+      setListaCategoriaAtividade(listasDefault.categoriaAtividade)
+      setListaProjetoDefault(listasDefault.projetoDefault)
+      setListaCoordenador(listasDefault.coordenador)
+
     }
 
   }, [diaAtividade, projetoSelecionado])
-
+  console.log(listaProjetoFase)
   const handleChangeDiaAtividade = (diaAtividade) => setDiaAtividade(diaAtividade)
   const handleChangeProjeto = (event) => setProjetoSelecionado(event.target.value)
   const handleChangeProjetoDefault = (event) => setProjetoDefaultSelecionado(event.target.value)
@@ -127,7 +133,6 @@ export default (props) => {
   const handleChangeCoordenador = (event) => setCoordenadorSelecionado(event.target.value)
   const handleChangeDescricao = (event) => setDescricaoAtividade(event.target.value)
   const handleChangeTag = (tags) => setTagAtividade(tags)
-
 
   const campoProjeto = () => {
     return (
@@ -144,7 +149,7 @@ export default (props) => {
           >
             {
               listaProjeto.map((proj) => (
-                <MenuItem value={proj.IdProjeto}>{proj.Nome}</MenuItem>
+                <MenuItem value={proj.IdProjeto} key={proj.IdProjeto}>{proj.Nome}</MenuItem>
               ))
             }
           </Select>
@@ -168,7 +173,7 @@ export default (props) => {
           >
             {
               listaProjetoDefault.map((projDef) => (
-                <MenuItem value={projDef.IdProjeto}>{projDef.Nome}</MenuItem>
+                <MenuItem value={projDef.IdProjeto} key={projDef.IdProjeto}>{projDef.Nome}</MenuItem>
               ))
             }
           </Select>
@@ -190,8 +195,8 @@ export default (props) => {
             value={projetoFaseSelecionado}
           >
             {
-              listaProjetoDefault.map((projDef) => (
-                <MenuItem value={projDef.IdProjeto}>{projDef.Nome}</MenuItem>
+              listaProjetoDefault.map((projFase) => (
+                <MenuItem value={projFase.IdProjetoMetodologiaFase} key={projFase.IdProjetoMetodologiaFase}>{projFase.Fase}</MenuItem>
               ))}
           </Select>
         </FormControl>
@@ -212,8 +217,8 @@ export default (props) => {
             value={categoriaAtividadeSelecionado}
           >
             {
-              listaProjetoDefault.map((projDef) => (
-                <MenuItem value={projDef.IdProjeto}>{projDef.Nome}</MenuItem>
+              listaProjetoDefault.map((categoriaAtividade) => (
+                <MenuItem value={categoriaAtividade.IdProjetoCategoriaAtividade} key={categoriaAtividade.IdProjetoCategoriaAtividade}>{categoriaAtividade.Descricao}</MenuItem>
               ))
             }
           </Select>
@@ -236,7 +241,7 @@ export default (props) => {
           >
             {
               listaCoordenador.map((coordenador) => (
-                <MenuItem value={coordenador.IdColaborador} key={coordenador.idColab}>{coordenador.Nome}</MenuItem>
+                <MenuItem value={coordenador.IdColaborador} key={coordenador.IdColaborador}>{coordenador.Nome}</MenuItem>
               ))
             }
           </Select>
