@@ -39,7 +39,7 @@ const listasDefault = {
   projeto: [{ IdProjeto: 0, Nome: 'Selecione' }, { IdProjeto: -1, Nome: 'Projeto Default' }],
   projetoDefault: [{ IdProjeto: 0, Nome: 'Selecione' }],
   projetoFase: [{ IdProjetoMetodologiaFase: 0, Fase: 'Selecione' }],
-  categoriaAtividade: [{ IdProjetoCategoria: 0, Descricao: 'Selecione' }],
+  categoriaAtividade: [{ IdProjetoCategoriaAtividade: 0, Descricao: 'Selecione' }],
   coordenador: [{ IdColaborador: 0, Nome: 'Selecione' }],
 }
 export default (props) => {
@@ -63,7 +63,6 @@ export default (props) => {
   // reseta campos caso dia da atividade mude
   // carrega projeto que o colaborador esta alocado
   useEffect(() => {
-    setProjetoSelecionado(0)
     apiConnection.projeto.GetProjetosByIdColaboradorDia(idColaboradorLogado, diaAtividade.toLocaleDateString())
       .then(res =>
         res ?
@@ -83,8 +82,6 @@ export default (props) => {
     setDescricaoAtividade('')
   }, [diaAtividade])
 
-  console.log(listaProjetoFase, listaCategoriaAtividade)
-  const tst = () => (diaAtividade.toLocaleDateString())
   // se algum projeto(>0) selecionado, carregar Fase e Categoria, caso existam
   // se projeto é default (-1), carrega projetos default e coordenadores 
   useEffect(() => {
@@ -136,7 +133,10 @@ export default (props) => {
 
   }, [diaAtividade, projetoSelecionado])
 
-  const handleChangeDiaAtividade = (diaAtividade) => setDiaAtividade(diaAtividade)
+  const handleChangeDiaAtividade = (diaAtividade) => {
+    setProjetoSelecionado(0)
+    setDiaAtividade(diaAtividade)
+  }
   const handleChangeProjeto = (event) => setProjetoSelecionado(event.target.value)
   const handleChangeProjetoDefault = (event) => setProjetoDefaultSelecionado(event.target.value)
   const handleChangeProjetoFase = (event) => setProjetoFaseSelecionado(event.target.value)
@@ -144,7 +144,7 @@ export default (props) => {
   const handleChangeCoordenador = (event) => setCoordenadorSelecionado(event.target.value)
   const handleChangeDescricao = (event) => setDescricaoAtividade(event.target.value)
   const handleChangeTag = (tags) => setTagAtividade(tags)
-
+  console.log(listaCategoriaAtividade)
   const campoProjeto = () => {
     return (
       <Grid item xs={12} sm={6} md={6} xl={6} align="center">
