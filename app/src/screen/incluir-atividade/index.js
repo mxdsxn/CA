@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useCallback } from "react"
 import {
   Grid,
   Button,
@@ -61,70 +61,81 @@ export default (props) => {
   const [descricaoAtividade, setDescricaoAtividade] = useState('')
 
   // reseta campos caso dia da atividade mude
-  useEffect(() => {
-    setListaProjeto(listasDefault.projeto)
-    setListaProjetoDefault(listasDefault.projetoDefault)
-    setListaProjetoFase(listasDefault.projetoFase)
-    setListaCategoriaAtividade(listasDefault.categoriaAtividade)
-    setListaCoordenador(listasDefault.coordenador)
-    setProjetoSelecionado(0)
-    setProjetoDefaultSelecionado(0)
-    setProjetoFaseSelecionado(0)
-    setCategoriaAtividadeSelecionado(0)
-    setCoordenadorSelecionado(0)
-    setTagAtividade('')
-    setDescricaoAtividade('')
-  }, [diaAtividade])
-
   // carrega projeto que o colaborador esta alocado
   useEffect(() => {
+    setProjetoSelecionado(0)
     apiConnection.projeto.GetProjetosByIdColaboradorDia(idColaboradorLogado, diaAtividade.toLocaleDateString())
       .then(res =>
         res ?
           setListaProjeto([].concat(listasDefault.projeto, res)) :
           setListaProjeto(listasDefault.projeto)
       )
+
+    setListaProjetoFase(listasDefault.projetoFase)
+
+    setListaCategoriaAtividade(listasDefault.categoriaAtividade)
+
+    setListaProjetoDefault(listasDefault.projetoDefault)
+
+    setListaCoordenador(listasDefault.coordenador)
+
+    setTagAtividade('')
+    setDescricaoAtividade('')
   }, [diaAtividade])
 
+  console.log(listaProjetoFase, listaCategoriaAtividade)
+  const tst = () => (diaAtividade.toLocaleDateString())
   // se algum projeto(>0) selecionado, carregar Fase e Categoria, caso existam
   // se projeto é default (-1), carrega projetos default e coordenadores 
   useEffect(() => {
     if (projetoSelecionado > 0) {
+      setListaProjetoDefault(listasDefault.projetoDefault)
+      setListaCoordenador(listasDefault.coordenador)
       apiConnection.projetoMetodologiaFase.GetProjetoFaseByIdProjeto(projetoSelecionado)
         .then(res =>
           res ?
             setListaProjetoFase([].concat(listasDefault.projetoFase, res)) :
             setListaProjetoFase(listasDefault.projetoFase)
         )
+      setProjetoFaseSelecionado(0)
       apiConnection.projetoCategoriaAtividade.GetProjetoCategoriaAtividadeByIdProjeto(projetoSelecionado)
         .then(res =>
           res ?
             setListaCategoriaAtividade([].concat(listasDefault.categoriaAtividade, res)) :
             setListaCategoriaAtividade(listasDefault.categoriaAtividade)
         )
+      setCategoriaAtividadeSelecionado(0)
     } else if (projetoSelecionado === -1) {
+      setListaProjetoFase(listasDefault.projetoFase)
+      setListaCategoriaAtividade(listasDefault.categoriaAtividade)
       apiConnection.projeto.GetProjetosDefault(diaAtividade.toLocaleDateString())
         .then(res =>
           res ?
             setListaProjetoDefault([].concat(listasDefault.projetoDefault, res)) :
             setListaProjetoDefault(listasDefault.projetoDefault)
         )
-      apiConnection.colaborador.GetCoordenadoresByDia(diaAtividade)
+      setProjetoDefaultSelecionado(0)
+      apiConnection.colaborador.GetCoordenadoresByDia(diaAtividade.toLocaleDateString())
         .then(res =>
           res ?
             setListaCoordenador([].concat(listasDefault.coordenador, res)) :
             setListaCoordenador(listasDefault.coordenador)
         )
+      setCoordenadorSelecionado(0)
     } else if (projetoSelecionado === 0) {
       setListaProjetoFase(listasDefault.projetoFase)
       setListaCategoriaAtividade(listasDefault.categoriaAtividade)
       setListaProjetoDefault(listasDefault.projetoDefault)
       setListaCoordenador(listasDefault.coordenador)
+      setCoordenadorSelecionado(0)
+      setProjetoDefaultSelecionado(0)
+      setCategoriaAtividadeSelecionado(0)
+      setProjetoFaseSelecionado(0)
 
     }
 
   }, [diaAtividade, projetoSelecionado])
-  console.log(listaProjetoFase)
+
   const handleChangeDiaAtividade = (diaAtividade) => setDiaAtividade(diaAtividade)
   const handleChangeProjeto = (event) => setProjetoSelecionado(event.target.value)
   const handleChangeProjetoDefault = (event) => setProjetoDefaultSelecionado(event.target.value)
@@ -195,7 +206,7 @@ export default (props) => {
             value={projetoFaseSelecionado}
           >
             {
-              listaProjetoDefault.map((projFase) => (
+              listaProjetoFase.map((projFase) => (
                 <MenuItem value={projFase.IdProjetoMetodologiaFase} key={projFase.IdProjetoMetodologiaFase}>{projFase.Fase}</MenuItem>
               ))}
           </Select>
@@ -217,7 +228,7 @@ export default (props) => {
             value={categoriaAtividadeSelecionado}
           >
             {
-              listaProjetoDefault.map((categoriaAtividade) => (
+              listaCategoriaAtividade.map((categoriaAtividade) => (
                 <MenuItem value={categoriaAtividade.IdProjetoCategoriaAtividade} key={categoriaAtividade.IdProjetoCategoriaAtividade}>{categoriaAtividade.Descricao}</MenuItem>
               ))
             }
@@ -293,9 +304,9 @@ export default (props) => {
 
       <Grid container spacing={3}>
         {campoProjeto()}
-        {campoProjetoDefault()}
         {campoProjetoFase()}
         {campoCategoriaAtividade()}
+        {campoProjetoDefault()}
         {campoCoordenador()}
         {campoTag()}
         {campoDescricao()}

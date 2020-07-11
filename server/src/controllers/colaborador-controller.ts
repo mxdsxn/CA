@@ -4,7 +4,7 @@ import libUtc from '@libUtc'
 
 const route = express.Router()
 
-route.post('/Colaborador/GetCoordenadoresByIdColaboradorDia', (req, res) => {
+route.post('/Colaborador/GetCoordenadoresByDia', (req, res) => {
   const diaReferencia = libUtc.getDateByString(req.query.diaReferencia as string)
 
   Service.GetCoordenadoresByDia(diaReferencia)
