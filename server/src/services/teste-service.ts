@@ -1,29 +1,48 @@
 /* eslint-disable no-unused-vars */
 import dbConnection, { validationArray } from '@database'
 import {
-  IProjeto,
-  IProjetoTipo
+  ICalendario, IColaboradorContrato
 } from '@models'
 import libUtc from '@libUtc'
+import { CalendarioService, ColaboradorContratoService } from '@services'
 
 const TesteService = {
   Teste: async (DataCadastro: Date) => {
-    const mesReferenciaInicio = libUtc.getMonth(DataCadastro)
-    const mesReferenciaFim = libUtc.getEndMonth(DataCadastro)
+    const mesReferencia = libUtc.getDateByString('01/01/2020')
+    const idColaborador = 2359
+    const inicioMes = mesReferencia
 
-    const idProjetoDefault = await dbConnection('operacoes.ProjetoTipo')
-      .select('IdProjetoTipo')
-      .where('Descricao', 'Default')
-      .first()
-      .then((TipoDefault: IProjetoTipo) => TipoDefault.IdProjetoTipo)
+    const listaFeriadosMes = await CalendarioService.GetFeriadosByMes(inicioMes)
 
-    const listaProjetosDefault = await dbConnection('operacoes.Projeto')
-      .select('Nome', 'Responsavel', 'IdColaboradorGerente')
-      .where('IdProjetoTipo', idProjetoDefault)
-      .first()
-      .then((listaProjetosDefault: IProjeto[]) => listaProjetosDefault)
-
-    return (listaProjetosDefault)
+    const horasPrevistaMes = ColaboradorContratoService.GetContratosByDataIdColaboradorMes(idColaborador, mesReferencia)
+      .then((contratos: IColaboradorContrato[]) => {
+        const finalMes = libUtc.getEndMonth(mesReferencia)
+        var horasPrevistasMes
+        for (var dia = inicioMes; dia <= inicioMes; dia = libUtc.addDay(dia)) {
+          // const cargaDia = GetCargaHorariaDia(contratos, dia)
+          // console.log(dia)
+          GetCargaHorariaFeriado(listaFeriadosMes, dia)
+        }
+        return contratos
+      })
   }
+}
+
+const GetCargaHorariaFeriado = (listaFeriado: ICalendario[], diaReferencia: Date) => {
+  const result = listaFeriado.filter(feriado => feriado.Dia === diaReferencia)
+  // .sort((ferA, ferB) => {
+  //   return ferA.HorasUteis > ferB.HorasUteis
+  //     ? 1 : ferA.HorasUteis < ferB.HorasUteis ? -1 : 0
+  // })
+  // console.log(diaReferencia)
+  // const result = listaFeriado.map(x => console.log(x.Dia))
+  console.log(result, diaReferencia, listaFeriado)
+}
+
+const GetCargaHorariaDia = (listaContrato: IColaboradorContrato[], diaReferencia: Date) => {
+  const result = listaContrato.find(contrato => contrato.DataInicioContrato >= diaReferencia &&
+    (contrato.Termino <= diaReferencia || contrato.Termino === null))
+    ?.CargaHoraria
+  return result
 }
 export default TesteService
