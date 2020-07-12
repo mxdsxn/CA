@@ -63,7 +63,7 @@ export default (props) => {
   // reseta campos caso dia da atividade mude
   // carrega projeto que o colaborador esta alocado
   useEffect(() => {
-    apiConnection.projeto.GetProjetosByIdColaboradorDia(idColaboradorLogado, diaAtividade.toLocaleDateString())
+    apiConnection.projeto.GetProjetosByIdColaboradorDia(idColaboradorLogado, diaAtividade)
       .then(res =>
         res ?
           setListaProjeto([].concat(listasDefault.projeto, res)) :
@@ -82,9 +82,8 @@ export default (props) => {
     setDescricaoAtividade('')
   }, [diaAtividade])
 
-  // se algum projeto(>0) selecionado, carregar Fase e Categoria, caso existam
-  // se projeto é default (-1), carrega projetos default e coordenadores 
   useEffect(() => {
+    // se algum projeto(>0) selecionado, carregar Fase e Categoria, caso existam
     if (projetoSelecionado > 0) {
       setListaProjetoDefault(listasDefault.projetoDefault)
       setListaCoordenador(listasDefault.coordenador)
@@ -102,34 +101,36 @@ export default (props) => {
             setListaCategoriaAtividade(listasDefault.categoriaAtividade)
         )
       setCategoriaAtividadeSelecionado(0)
-    } else if (projetoSelecionado === -1) {
-      setListaProjetoFase(listasDefault.projetoFase)
-      setListaCategoriaAtividade(listasDefault.categoriaAtividade)
-      apiConnection.projeto.GetProjetosDefault(diaAtividade.toLocaleDateString())
-        .then(res =>
-          res ?
-            setListaProjetoDefault([].concat(listasDefault.projetoDefault, res)) :
-            setListaProjetoDefault(listasDefault.projetoDefault)
-        )
-      setProjetoDefaultSelecionado(0)
-      apiConnection.colaborador.GetCoordenadoresByDia(diaAtividade.toLocaleDateString())
-        .then(res =>
-          res ?
-            setListaCoordenador([].concat(listasDefault.coordenador, res)) :
-            setListaCoordenador(listasDefault.coordenador)
-        )
-      setCoordenadorSelecionado(0)
-    } else if (projetoSelecionado === 0) {
-      setListaProjetoFase(listasDefault.projetoFase)
-      setListaCategoriaAtividade(listasDefault.categoriaAtividade)
-      setListaProjetoDefault(listasDefault.projetoDefault)
-      setListaCoordenador(listasDefault.coordenador)
-      setCoordenadorSelecionado(0)
-      setProjetoDefaultSelecionado(0)
-      setCategoriaAtividadeSelecionado(0)
-      setProjetoFaseSelecionado(0)
+    } else
+      // se projeto é default (-1), carrega projetos default e coordenadores 
+      if (projetoSelecionado === -1) {
+        setListaProjetoFase(listasDefault.projetoFase)
+        setListaCategoriaAtividade(listasDefault.categoriaAtividade)
+        apiConnection.projeto.GetProjetosDefault(diaAtividade)
+          .then(res =>
+            res ?
+              setListaProjetoDefault([].concat(listasDefault.projetoDefault, res)) :
+              setListaProjetoDefault(listasDefault.projetoDefault)
+          )
+        setProjetoDefaultSelecionado(0)
+        apiConnection.colaborador.GetCoordenadoresByDia(diaAtividade)
+          .then(res =>
+            res ?
+              setListaCoordenador([].concat(listasDefault.coordenador, res)) :
+              setListaCoordenador(listasDefault.coordenador)
+          )
+        setCoordenadorSelecionado(0)
+      } else if (projetoSelecionado === 0) {
+        setListaProjetoFase(listasDefault.projetoFase)
+        setListaCategoriaAtividade(listasDefault.categoriaAtividade)
+        setListaProjetoDefault(listasDefault.projetoDefault)
+        setListaCoordenador(listasDefault.coordenador)
+        setCoordenadorSelecionado(0)
+        setProjetoDefaultSelecionado(0)
+        setCategoriaAtividadeSelecionado(0)
+        setProjetoFaseSelecionado(0)
 
-    }
+      }
 
   }, [diaAtividade, projetoSelecionado])
 
