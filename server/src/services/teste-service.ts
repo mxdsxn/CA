@@ -12,28 +12,14 @@ import libUtc from '@libUtc'
 
 const TesteService = {
   Teste: async (DataCadastro: Date) => {
-    const mesReferencia = libUtc.getDateByString('01/01/2020')
-    const idColaborador = 2359
-    const inicioMes = mesReferencia
-    const finalMes = libUtc.getEndMonth(mesReferencia)
 
-    const listaFeriadosMes = await CalendarioService.GetFeriadosByMes(inicioMes)
+    return dbConnection('pessoas.Colaborador')
+      .select('*')
+      .first()
+      .then(
+        tst => tst
+      )
 
-    const horasPrevistaMes = await ColaboradorContratoService.GetContratosByDataIdColaboradorMes(idColaborador, mesReferencia)
-      .then((contratos: IColaboradorContrato[]) => {
-        var horasPrevistasMes = 0
-        for (var dia = inicioMes; dia <= finalMes; dia = libUtc.addDay(dia)) {
-          if (dia.getUTCDay() !== 6 && dia.getUTCDay() !== 0) { // se diferente de sabado e domingo
-            const cargaDia = GetCargaHorariaDia(contratos, dia) // carga horaria do contrato naquele dia
-            const cargaFeriadoNoDia = GetCargaHorariaFeriado(listaFeriadosMes, dia) // carga horaria se houver feriado
-
-            cargaDia ? // caso exista carga horaria naquele dia, ou seja, caso existe algum contrato ativo
-              horasPrevistasMes += cargaDia > cargaFeriadoNoDia ? cargaFeriadoNoDia : cargaDia : null
-          }
-        }
-        return horasPrevistasMes
-      })
-    console.log(horasPrevistaMes)
   }
 }
 

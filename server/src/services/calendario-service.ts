@@ -5,33 +5,37 @@ import libUtc from '@libUtc'
 
 const CalendarioService = {
   /* retorna lista de feriados no mes */
-  GetFeriadosByMes: async (mesReferencia: Date) => {
+  GetFeriadosByMes: async (idColaborador: number, mesReferencia: Date) => {
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
-    const listaFeriadosMes = await dbConnection('pessoas.Calendario')
-      .select('*')
-      .where('Dia', '>=', mesReferenciaInicio)
-      .andWhere('Dia', '<=', mesReferenciaFim)
-      .orderBy('Dia', 'asc')
-      .then((listaFeriadosMes: ICalendario[]) => (listaFeriadosMes))
+    const listaFeriadosMes = await dbConnection('pessoas.Colaborador')
+      .select('IdPostoTrabalho')
+      .where('IdColaborador', idColaborador)
+      .first()
+      .then(ColaboradorPostoTrabalho => {
+        const idPostoTrabalho = Number(ColaboradorPostoTrabalho.IdPostoTrabalho)
+        const listaFeriadosMes = dbConnection('pessoas.PostoTrabalho')
+          .where('IdPostoTrabalho', idPostoTrabalho)
+          .first()
+          .then(PostoTrabalho => {
+            const listaFeriadosMes = dbConnection('pessoas.Calendario')
+              .select('*')
+              .where('Dia', '>=', mesReferenciaInicio)
+              .andWhere('Dia', '<=', mesReferenciaFim)
+              .andWhere(function(){
+                this.where('IdCidade',PostoTrabalho.IdCidade)
+                .orWhere('IdEstado',PostoTrabalho.IdEstado)
+                .orWhere('IdPais',PostoTrabalho.IdPais)
+              })
+              .orderBy('Dia', 'asc')
+              .then((listaFeriadosMes: ICalendario[]) => console.log(listaFeriadosMes))
+          })
+
+      })
 
     return validationArray(listaFeriadosMes)
   },
-  /* retorna feriado no dia */
-  GetFeriadoByDia: async (diaReferencia: Date) => {
-    const diaReferenciaInicio = diaReferencia
-    const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)
-    const feriadoDia = await dbConnection('pessoas.Calendario')
-      .select('*')
-      .where('Dia', '>=', diaReferenciaInicio)
-      .andWhere('Dia', '<=', diaReferenciaFim)
-      .orderBy('Dia', 'asc')
-      .first()
-      .then((feriadoDia: ICalendario) => (feriadoDia))
-
-    return validationObject(feriadoDia)
-  }
 }
 
 export default CalendarioService
