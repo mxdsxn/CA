@@ -23,15 +23,16 @@ const CalendarioService = {
               .select('*')
               .where('Dia', '>=', mesReferenciaInicio)
               .andWhere('Dia', '<=', mesReferenciaFim)
-              .andWhere(function(){
-                this.where('IdCidade',PostoTrabalho.IdCidade)
-                .orWhere('IdEstado',PostoTrabalho.IdEstado)
-                .orWhere('IdPais',PostoTrabalho.IdPais)
+              .andWhere(function () {
+                this.where('IdCidade', PostoTrabalho.IdCidade)
+                  .orWhere('IdEstado', PostoTrabalho.IdEstado)
+                  .orWhere('IdPais', PostoTrabalho.IdPais)
               })
               .orderBy('Dia', 'asc')
-              .then((listaFeriadosMes: ICalendario[]) => console.log(listaFeriadosMes))
+              .then((listaFeriadosMes: ICalendario[]) => (listaFeriadosMes))
+            return listaFeriadosMes
           })
-
+        return listaFeriadosMes
       })
 
     return validationArray(listaFeriadosMes)

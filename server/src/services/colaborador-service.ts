@@ -57,7 +57,7 @@ const ColaboradorService = {
     const inicioMes = mesReferencia
     const finalMes = libUtc.getEndMonth(mesReferencia)
 
-    const listaFeriadosMes: ICalendario[] = await CalendarioService.GetFeriadosByMes(inicioMes)
+    const listaFeriadosMes: ICalendario[] = await CalendarioService.GetFeriadosByMes(idColaborador, inicioMes) || []
 
     const horasPrevistaMes: number = await ColaboradorContratoService.GetContratosByDataIdColaboradorMes(idColaborador, mesReferencia)
       .then((contratos: IColaboradorContrato[]) => {
@@ -68,7 +68,6 @@ const ColaboradorService = {
             const cargaContrato = GetCargaHorariaDia(contratos, dia) // carga horaria do contrato naquele dia
             const cargaFeriadoNoDia = GetCargaHorariaFeriado(listaFeriadosMes, dia) // carga horaria se houver feriado
 
-            console.log(dia, cargaFeriadoNoDia)
             cargaContrato ? // caso exista carga horaria naquele dia, ou seja, caso existe algum contrato ativo
               horasPrevistasMes += cargaContrato > cargaFeriadoNoDia ? cargaFeriadoNoDia : cargaContrato : null
           }
@@ -89,7 +88,8 @@ const GetCargaHorariaDia = (listaContrato: IColaboradorContrato[], diaReferencia
   const result = listaContrato.find(contrato => diaReferencia >= contrato.DataInicioContrato &&
     (diaReferencia <= contrato.Termino || contrato.Termino === null))
     ?.CargaHoraria
-  return (result || 8) as number
+
+  return (result || 0) as number
 }
 
 export default ColaboradorService
