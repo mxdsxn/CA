@@ -14,4 +14,15 @@ route.post('/Colaborador/GetCoordenadoresByDia', (req, res) => {
     )
 })
 
+route.post('/Colaborador/GetHorasUteisMesByIdColaborador', (req, res) => {
+  const idColaborador = Number(req.query.idColaborador)
+  const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
+
+  Service.GetHorasUteisMesByIdColaborador(idColaborador, mesReferencia)
+    .then(
+      (suc) => { res.json(suc) },
+      (err) => { res.json(err) }
+    )
+})
+
 export default route

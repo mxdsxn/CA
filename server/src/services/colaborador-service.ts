@@ -1,13 +1,20 @@
 /* eslint-disable no-unused-vars */
-import dbConnection, { validationArray } from '@database'
+import dbConnection, { validationArray, validationObject } from '@database'
+
 import {
+  ICalendario,
+  IColaboradorContrato,
   IColaborador,
-  IProjeto,
   IProjetoHistoricoGerente
 } from '@models'
+
+import {
+  CalendarioService,
+  ColaboradorContratoService
+} from '@services'
+
 import libUtc from '@libUtc'
 
-import { ProjetoService } from '@services'
 
 const ColaboradorService = {
   /* retorna lista de coordenadores(gerentes de projetos), para aprovaçao de atividades em projetos Default */
@@ -45,6 +52,44 @@ const ColaboradorService = {
       })
 
     return validationArray(listaCoordenador)
+  },
+  GetHorasUteisMesByIdColaborador: async (idColaborador: number, mesReferencia: Date) => {
+    const inicioMes = mesReferencia
+    const finalMes = libUtc.getEndMonth(mesReferencia)
+
+    const listaFeriadosMes: ICalendario[] = await CalendarioService.GetFeriadosByMes(inicioMes)
+
+    const horasPrevistaMes: number = await ColaboradorContratoService.GetContratosByDataIdColaboradorMes(idColaborador, mesReferencia)
+      .then((contratos: IColaboradorContrato[]) => {
+        var horasPrevistasMes = 0
+        for (var dia = inicioMes; dia <= finalMes; dia = libUtc.addDay(dia)) {
+
+          if (dia.getUTCDay() !== 6 && dia.getUTCDay() !== 0) { // se diferente de sabado e domingo
+            const cargaContrato = GetCargaHorariaDia(contratos, dia) // carga horaria do contrato naquele dia
+            const cargaFeriadoNoDia = GetCargaHorariaFeriado(listaFeriadosMes, dia) // carga horaria se houver feriado
+
+            console.log(dia, cargaFeriadoNoDia)
+            cargaContrato ? // caso exista carga horaria naquele dia, ou seja, caso existe algum contrato ativo
+              horasPrevistasMes += cargaContrato > cargaFeriadoNoDia ? cargaFeriadoNoDia : cargaContrato : null
+          }
+        }
+        return horasPrevistasMes
+      })
+    return validationObject(horasPrevistaMes)
   }
 }
+
+const GetCargaHorariaFeriado = (listaFeriado: ICalendario[], diaReferencia: Date) => {
+  const result = listaFeriado.find(feriado => feriado.Dia.getTime() === diaReferencia.getTime())?.HorasUteis
+
+  return (result !== undefined ? result : 8) as number
+}
+
+const GetCargaHorariaDia = (listaContrato: IColaboradorContrato[], diaReferencia: Date) => {
+  const result = listaContrato.find(contrato => diaReferencia >= contrato.DataInicioContrato &&
+    (diaReferencia <= contrato.Termino || contrato.Termino === null))
+    ?.CargaHoraria
+  return (result || 8) as number
+}
+
 export default ColaboradorService
