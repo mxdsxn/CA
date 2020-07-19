@@ -5,6 +5,7 @@ import ResumoMobile from "./resumo-mobile";
 import ResumoDesktop from "./resumo-desktop";
 import DataPicker from "./datepicker/";
 
+import BarraProgresso from '../../components/barra-progresso'
 import { default as apiConnection } from '../../service/api-connection'
 
 export default (props) => {
@@ -28,6 +29,7 @@ export default (props) => {
 
   return (
     <Container>
+      <BarraProgresso mesReferencia={mesReferencia} />
       <div align="center">
         <DataPicker onChange={handleDateChange} value={mesReferencia} />
       </div>

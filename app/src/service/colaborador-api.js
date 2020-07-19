@@ -13,6 +13,20 @@ const ColaboradorApi = {
         err => console.log(err)
       )
     return result
+  },
+  GetDadosBarraProgresso: async (idColaborador, mesReferencia) => {
+    const result = await baseUrl
+      .post("Colaborador/GetDadosBarraProgresso", null, {
+        params: {
+          idColaborador, idColaborador,
+          mesReferencia: mesReferencia,
+        },
+      })
+      .then(
+        res => res.data,
+        err => console.log(err)
+      )
+    return result
   }
 }
 

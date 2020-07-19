@@ -106,6 +106,12 @@ const ColaboradorService = {
 
     return GetHorasDecimal(listaAtividadesMes)
 
+  },
+  GetDadosBarraProgresso: async (idColaborador: number, mesReferencia: Date) => {
+    const horasUteisMes = await ColaboradorService.GetHorasUteisMesByIdColaboradorMes(idColaborador, mesReferencia)
+    const horasUteisHoje = await ColaboradorService.GetHorasUteisAteHojeByIdColaboradorMes(idColaborador, mesReferencia)
+    const horasCadastradasAteHoje = await ColaboradorService.GetHorasCadastradasByIdColaboradorMes(idColaborador, mesReferencia)
+    return [horasUteisMes, horasUteisHoje, horasCadastradasAteHoje]
   }
 }
 
@@ -138,9 +144,9 @@ const GetSomaHorasVetor = (vetorHoras: number[][]) => {
 const GetHorasDecimal = (listaAtividades: IAtividade[]) => {
 
   const listaCargaCadastrada = listaAtividades.map(atividade => atividade.Carga)
-  
+
   const listaHorasVetor = listaCargaCadastrada.map(carga => GetHorasVetorNumero(carga))
-  
+
   const vetorHora = GetSomaHorasVetor(listaHorasVetor)
 
   return vetorHora[0] + (vetorHora[1] / 60)
