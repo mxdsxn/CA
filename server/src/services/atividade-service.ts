@@ -8,15 +8,17 @@ const AtividadeService = {
   GetAtividadesMesByIdColaboradorMes: async (idColaborador: Number, mesReferencia: Date) => {
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
+    console.log(mesReferenciaFim)
     const listaAtividadeMes = await dbConnection('pessoas.Atividade')
       .select('*')
       .where({
         IdColaborador: idColaborador
       })
       .where('DataAtividade', '>=', mesReferenciaInicio)
-      .andWhere('DataAtividade', '<=', mesReferenciaFim)
+      .andWhere('DataAtividade', '<', mesReferenciaFim)
       .orderBy('DataAtividade', 'asc')
       .then((listaAtividadeMes: IAtividade[]) => {
+        console.log(listaAtividadeMes.map(x => x.DataAtividade))
         const listaIdsProjeto = listaAtividadeMes.map(x => x.IdProjeto)
         const listaAtividadeComNomeProjeto = dbConnection('operacoes.Projeto')
           .select('IdProjeto', 'Nome')
@@ -29,7 +31,6 @@ const AtividadeService = {
           })
         return listaAtividadeComNomeProjeto
       })
-
     return validationArray(listaAtividadeMes)
   }
 }
