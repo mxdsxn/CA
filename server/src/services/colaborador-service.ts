@@ -2,13 +2,15 @@
 import dbConnection, { validationArray, validationObject } from '@database'
 
 import {
+  IAtividade,
   ICalendario,
-  IColaboradorContrato,
   IColaborador,
-  IProjetoHistoricoGerente
+  IColaboradorContrato,
+  IProjetoHistoricoGerente,
 } from '@models'
 
 import {
+  AtividadeService,
   CalendarioService,
   ColaboradorContratoService
 } from '@services'
@@ -76,12 +78,12 @@ const ColaboradorService = {
       })
     return validationObject(horasPrevistaMes)
   },
-  GetHorasUteisAteHojeByIdColaboradorMes: async(idColaborador:number, mesReferencia:Date) =>{
+  GetHorasUteisAteHojeByIdColaboradorMes: async (idColaborador: number, mesReferencia: Date) => {
     const inicioMes = mesReferencia
     const diaHoje = libUtc.getDate()
 
     const listaFeriadosMes: ICalendario[] = await CalendarioService.GetFeriadosByMes(idColaborador, inicioMes) || []
-    
+
     const horasPrevistaAteHoje: number = await ColaboradorContratoService.GetContratosByDataIdColaboradorMes(idColaborador, mesReferencia)
       .then((contratos: IColaboradorContrato[]) => {
         var horasPrevistaAteHoje = 0
@@ -98,6 +100,12 @@ const ColaboradorService = {
         return horasPrevistaAteHoje
       })
     return validationObject(horasPrevistaAteHoje)
+  },
+  GetHorasCadastradasByIdColaboradorMes: async (idColaborador: number, mesReferencia: Date) => {
+    const listaAtividadesMes: IAtividade[] = await AtividadeService.GetAtividadesMesByIdColaboradorMes(idColaborador, mesReferencia)
+
+    return GetHorasDecimal(listaAtividadesMes)
+
   }
 }
 
@@ -113,6 +121,29 @@ const GetCargaHorariaDia = (listaContrato: IColaboradorContrato[], diaReferencia
     ?.CargaHoraria
 
   return (result || 0) as number
+}
+
+const GetHorasVetorNumero = (hora: string) => {
+  return hora.split(":", 2).map(time => Number(time))
+}
+
+const GetSomaHorasVetor = (vetorHoras: number[][]) => {
+  let horasTotal = vetorHoras.reduce((total, hora) => total + hora[0], 0)
+
+  let minutosTotal = vetorHoras.reduce((total, minuto) => total + minuto[1], 0)
+
+  return [horasTotal, minutosTotal]
+}
+
+const GetHorasDecimal = (listaAtividades: IAtividade[]) => {
+
+  const listaCargaCadastrada = listaAtividades.map(atividade => atividade.Carga)
+  
+  const listaHorasVetor = listaCargaCadastrada.map(carga => GetHorasVetorNumero(carga))
+  
+  const vetorHora = GetSomaHorasVetor(listaHorasVetor)
+
+  return vetorHora[0] + (vetorHora[1] / 60)
 }
 
 export default ColaboradorService

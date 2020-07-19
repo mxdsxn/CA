@@ -36,4 +36,15 @@ route.post('/Colaborador/GetHorasUteisAteHojeByIdColaboradorMes', (req, res) => 
     )
 })
 
+route.post('/Colaborador/GetHorasCadastradasByIdColaboradorMes', (req, res) => {
+  const idColaborador = Number(req.query.idColaborador)
+  const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
+
+  Service.GetHorasCadastradasByIdColaboradorMes(idColaborador, mesReferencia)
+    .then(
+      (suc) => { res.json(suc) },
+      (err) => { res.json(err) }
+    )
+})
+
 export default route

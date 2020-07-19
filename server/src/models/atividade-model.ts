@@ -1,14 +1,14 @@
 export default interface IAtividade {
-  IdAtividade: Number;
-  IdColaborador: Number;
-  IdProjeto: Number;
+  IdAtividade: number;
+  IdColaborador: number;
+  IdProjeto: number;
   Projeto: String;
-  IdProjetoCategoriaAtividade: Number;
-  IdProjetoMetodologiaFase: Number;
+  IdProjetoCategoriaAtividade: number;
+  IdProjetoMetodologiaFase: number;
   DataCadastro: Date;
   DataAtividade: Date;
-  Carga: Date;
+  Carga: string;
   Descricao: String;
   Tags: String;
-  IdCoordenador: Number;
+  IdCoordenador: number;
 }
