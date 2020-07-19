@@ -19,14 +19,19 @@ export default (props) => {
     const cadastradaPorCento = 100 * cadastradas / uteisMes
     const uteisHojePorCento = 100 * uteisHoje / uteisMes
 
-    if (cadastradaPorCento < uteisHojePorCento) {
+    if (uteisHoje !== 0) {
+      if (cadastradaPorCento < uteisHojePorCento) {
+        setCadastradas(cadastradaPorCento)
+        setFaltaCadastrar(uteisHojePorCento - cadastradaPorCento)
+        setRestante(100 - uteisHojePorCento)
+      } else if (cadastradaPorCento > uteisHojePorCento) {
+        setCadastradas(cadastradaPorCento)
+        setRestante(100 - cadastradaPorCento)
+      }
+    } else {
       setCadastradas(cadastradaPorCento)
-      setFaltaCadastrar(uteisHojePorCento - cadastradaPorCento)
-      setRestante(100 - uteisHojePorCento)
-    } else if (cadastradaPorCento > uteisHojePorCento) {
-      setCadastradas(cadastradaPorCento)
-      setRestante(100 - cadastradaPorCento)
-
+      setFaltaCadastrar(100 - cadastradaPorCento)
+      setRestante(0)
     }
   }
 
