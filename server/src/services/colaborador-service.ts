@@ -53,7 +53,7 @@ const ColaboradorService = {
 
     return validationArray(listaCoordenador)
   },
-  GetHorasUteisMesByIdColaborador: async (idColaborador: number, mesReferencia: Date) => {
+  GetHorasUteisMesByIdColaboradorMes: async (idColaborador: number, mesReferencia: Date) => {
     const inicioMes = mesReferencia
     const finalMes = libUtc.getEndMonth(mesReferencia)
 
@@ -75,6 +75,29 @@ const ColaboradorService = {
         return horasPrevistasMes
       })
     return validationObject(horasPrevistaMes)
+  },
+  GetHorasUteisAteHojeByIdColaboradorMes: async(idColaborador:number, mesReferencia:Date) =>{
+    const inicioMes = mesReferencia
+    const diaHoje = libUtc.getDate()
+
+    const listaFeriadosMes: ICalendario[] = await CalendarioService.GetFeriadosByMes(idColaborador, inicioMes) || []
+    
+    const horasPrevistaAteHoje: number = await ColaboradorContratoService.GetContratosByDataIdColaboradorMes(idColaborador, mesReferencia)
+      .then((contratos: IColaboradorContrato[]) => {
+        var horasPrevistaAteHoje = 0
+        for (var dia = inicioMes; dia <= diaHoje; dia = libUtc.addDay(dia)) {
+
+          if (dia.getUTCDay() !== 6 && dia.getUTCDay() !== 0) { // se diferente de sabado e domingo
+            const cargaContrato = GetCargaHorariaDia(contratos, dia) // carga horaria do contrato naquele dia
+            const cargaFeriadoNoDia = GetCargaHorariaFeriado(listaFeriadosMes, dia) // carga horaria se houver feriado
+
+            cargaContrato ? // caso exista carga horaria naquele dia, ou seja, caso existe algum contrato ativo
+              horasPrevistaAteHoje += cargaContrato > cargaFeriadoNoDia ? cargaFeriadoNoDia : cargaContrato : null
+          }
+        }
+        return horasPrevistaAteHoje
+      })
+    return validationObject(horasPrevistaAteHoje)
   }
 }
 

@@ -14,11 +14,22 @@ route.post('/Colaborador/GetCoordenadoresByDia', (req, res) => {
     )
 })
 
-route.post('/Colaborador/GetHorasUteisMesByIdColaborador', (req, res) => {
+route.post('/Colaborador/GetHorasUteisMesByIdColaboradorMes', (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
 
-  Service.GetHorasUteisMesByIdColaborador(idColaborador, mesReferencia)
+  Service.GetHorasUteisMesByIdColaboradorMes(idColaborador, mesReferencia)
+    .then(
+      (suc) => { res.json(suc) },
+      (err) => { res.json(err) }
+    )
+})
+
+route.post('/Colaborador/GetHorasUteisAteHojeByIdColaboradorMes', (req, res) => {
+  const idColaborador = Number(req.query.idColaborador)
+  const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
+
+  Service.GetHorasUteisAteHojeByIdColaboradorMes(idColaborador, mesReferencia)
     .then(
       (suc) => { res.json(suc) },
       (err) => { res.json(err) }
