@@ -50,7 +50,7 @@ route.post('/Colaborador/GetHorasCadastradasByIdColaboradorMes', (req, res) => {
 route.post('/Colaborador/GetDadosBarraProgresso', (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
-  console.log(mesReferencia)
+
   Service.GetDadosBarraProgresso(idColaborador, mesReferencia)
     .then(
       (suc) => { res.json(suc) },
