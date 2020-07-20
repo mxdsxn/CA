@@ -115,7 +115,7 @@ const ColaboradorService = {
     const horasUteisHoje = await ColaboradorService.GetHorasUteisAteHojeByIdColaboradorMes(idColaborador, mesReferencia)
     const horasCadastradasAteHoje = await ColaboradorService.GetHorasCadastradasByIdColaboradorMes(idColaborador, mesReferencia)
 
-    console.log(horasUteisMes, horasUteisHoje, horasCadastradasAteHoje)
+    (horasUteisMes, horasUteisHoje, horasCadastradasAteHoje)
     return [horasUteisMes, horasUteisHoje, horasCadastradasAteHoje]
   }
 }

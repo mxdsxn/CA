@@ -33,6 +33,13 @@ export default (props) => {
       setFaltaCadastrar(100 - cadastradaPorCento)
       setRestante(0)
     }
+
+    // horas extras
+    if (uteisMes < cadastradas) {
+      const horasExtra = 100 * (cadastradas - uteisMes) / uteisMes
+      setExtra(horasExtra)
+    } else
+      setExtra(0)
   }
 
   React.useEffect(() => {
@@ -58,7 +65,7 @@ export default (props) => {
         <ProgressBar variant="success" now={cadastradas} key={2} />
         <ProgressBar animated variant="success" now={faltaCadastrar} key={1} />
         <ProgressBar animated now={restante} key={3} />
-        {/* <ProgressBar variant="warning" now={extra} key={4} /> */}
+        <ProgressBar variant="warning" now={extra} key={4} />
       </ProgressBar>
     </Container>
   );
