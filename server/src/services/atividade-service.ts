@@ -8,7 +8,7 @@ const AtividadeService = {
   GetAtividadesMesByIdColaboradorMes: async (idColaborador: Number, mesReferencia: Date) => {
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
-    (mesReferenciaFim)
+    
     const listaAtividadeMes = await dbConnection('pessoas.Atividade')
       .select('*')
       .where({
