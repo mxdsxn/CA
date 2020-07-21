@@ -7,8 +7,20 @@ import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import ptbrLocale from "date-fns/locale/pt-BR";
 
-export default () => {
-  const [selectedDate, handleDateChange] = useState("2018-01-01T00:00:00.000Z");
+export default (props) => {
+  const dataInicio = new Date("01/01/1900")
+  const cargaReferencia = new Date(
+    Date.UTC(
+      dataInicio.getUTCFullYear(),
+      dataInicio.getUTCMonth(),
+      dataInicio.getUTCDate() + 1,
+      -1,
+      0,
+      0,
+      0
+    )
+  )
+
   const pt_br = ptbrLocale;
 
   return (
@@ -18,10 +30,11 @@ export default () => {
       >
         <KeyboardTimePicker
           ampm={false}
-          variant="inline"
-          label="With keyboard"
-          value={selectedDate}
-          onChange={handleDateChange}
+          variant="standard"
+          label="Seleciona a carga da atividade"
+          value={props.value}
+          onChange={props.onChange}
+          autoOk
         />
       </ThemeProvider>
     </MuiPickersUtilsProvider>

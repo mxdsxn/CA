@@ -55,7 +55,21 @@ export default (props) => {
   const [listaCategoriaAtividade, setListaCategoriaAtividade] = useState(listasDefault.categoriaAtividade)
   const [listaCoordenador, setListaCoordenador] = useState(listasDefault.coordenador)
 
+  const dataInicio = new Date("01/01/1900")
+  const cargaReferencia = new Date(
+    Date.UTC(
+      dataInicio.getUTCFullYear(),
+      dataInicio.getUTCMonth(),
+      dataInicio.getUTCDate() + 1,
+      -1,
+      0,
+      0,
+      0
+    )
+  )
+
   const [diaAtividade, setDiaAtividade] = useState(new Date())
+  const [cargaSelecionada, setCargaSelecionada] = useState(cargaReferencia)
   const [projetoSelecionado, setProjetoSelecionado] = useState(0)
   const [projetoDefaultSelecionado, setProjetoDefaultSelecionado] = useState(0)
   const [projetoFaseSelecionado, setProjetoFaseSelecionado] = useState(0)
@@ -141,6 +155,9 @@ export default (props) => {
   const handleChangeDiaAtividade = (diaAtividade) => {
     setProjetoSelecionado(0)
     setDiaAtividade(diaAtividade)
+  }
+  const handleChangeCargaAtividade = (cargaAtividade) => {
+    setCargaSelecionada(cargaAtividade)
   }
   const handleChangeProjeto = (event) => setProjetoSelecionado(event.target.value)
   const handleChangeProjetoDefault = (event) => setProjetoDefaultSelecionado(event.target.value)
@@ -306,15 +323,22 @@ export default (props) => {
   const renderDateTimePicker = () => {
     return (
       <>
-        <div align="center">
-          <DataPicker
-            onChange={handleChangeDiaAtividade}
-            value={diaAtividade}
-          />
-        </div>
-        <div align="center">
-          <TimePicker />
-        </div>
+        <Grid item xs={12} sm={12} md={12} xl={12} align="center">
+          <div align="center">
+            <DataPicker
+              onChange={handleChangeDiaAtividade}
+              value={diaAtividade}
+            />
+          </div>
+        </Grid>
+        <Grid item xs={12} sm={12} md={12} xl={12} align="center">
+          <div align="center">
+            <TimePicker
+              onChange={handleChangeCargaAtividade}
+              value={cargaSelecionada}
+            />
+          </div>
+        </Grid>
       </>
     )
   }
