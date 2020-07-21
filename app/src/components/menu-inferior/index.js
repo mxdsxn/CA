@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import PostAdd from "@material-ui/icons/PostAdd";
@@ -8,7 +8,18 @@ import { useHistory } from "react-router-dom";
 
 export default (props) => {
   const history = useHistory();
-  const [valueNavBar, setValueNavBar] = React.useState(0);
+  const [valueNavBar, setValueNavBar] = React.useState();
+
+  useEffect(() => {
+    const pathUrl = window.location.pathname
+    pathUrl == "/resumoMes" ?
+      setValueNavBar(0) :
+      pathUrl == "/incluirAtv" ?
+        setValueNavBar(1) :
+        pathUrl == "/fecharSem" ?
+          setValueNavBar(2) :
+          setValueNavBar()
+  }, [])
 
   return (
     <BottomNavigation className="fixed-bottom"

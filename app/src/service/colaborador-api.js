@@ -18,7 +18,7 @@ const ColaboradorApi = {
     const result = await baseUrl
       .post("Colaborador/GetDadosBarraProgresso", null, {
         params: {
-          idColaborador, idColaborador,
+          idColaborador: idColaborador,
           mesReferencia: mesReferencia,
         },
       })

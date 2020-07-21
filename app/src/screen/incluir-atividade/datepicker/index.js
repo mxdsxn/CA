@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./style.css";
-import tema from "./style";
 
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import { ThemeProvider } from "@material-ui/styles";

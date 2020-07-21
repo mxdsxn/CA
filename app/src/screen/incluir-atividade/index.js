@@ -1,4 +1,7 @@
-import React, { useEffect, useState, useCallback } from "react"
+import React, {
+  useEffect,
+  useState
+} from "react"
 import {
   Grid,
   Button,
@@ -12,7 +15,9 @@ import {
 import ChipInput from "material-ui-chip-input"
 
 import { default as apiConnection } from '../../service/api-connection'
-import DataPicker from "./datepicker/";
+import DataPicker from "./datepicker";
+import TimePicker from "./timepicker/";
+import BarraProgresso from '../../components/barra-progresso'
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -31,8 +36,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-
-
 const idColaboradorLogado = 2359
 
 const listasDefault = {
@@ -42,6 +45,7 @@ const listasDefault = {
   categoriaAtividade: [{ IdProjetoCategoriaAtividade: 0, Descricao: 'Selecione' }],
   coordenador: [{ IdColaborador: 0, Nome: 'Selecione' }],
 }
+
 export default (props) => {
   const classes = useStyles()
 
@@ -145,10 +149,11 @@ export default (props) => {
   const handleChangeCoordenador = (event) => setCoordenadorSelecionado(event.target.value)
   const handleChangeDescricao = (event) => setDescricaoAtividade(event.target.value)
   const handleChangeTag = (tags) => setTagAtividade(tags)
-  console.log(listaCategoriaAtividade)
+
+
   const campoProjeto = () => {
     return (
-      <Grid item xs={12} sm={6} md={6} xl={6} align="center">
+      <Grid item xs={12} sm={12} md={12} xl={12} align="center">
         <FormControl className={classes.formControl}>
           <InputLabel id="select-label-projeto">Projeto*</InputLabel>
           <Select
@@ -172,7 +177,7 @@ export default (props) => {
 
   const campoProjetoDefault = () => {
     return projetoSelecionado === -1 ?
-      <Grid item xs={12} sm={6} md={6} xl={6} align="center" >
+      <Grid item xs={12} sm={12} md={12} xl={12} align="center" >
         <FormControl className={classes.formControl}>
           <InputLabel id="select-label-fase">Projeto Default*</InputLabel>
           <Select
@@ -195,7 +200,7 @@ export default (props) => {
 
   const campoProjetoFase = () => {
     return listaProjetoFase !== listasDefault.projetoFase ?
-      <Grid item xs={12} sm={6} md={6} xl={6} align="center" >
+      <Grid item xs={12} sm={12} md={12} xl={12} align="center" >
         <FormControl className={classes.formControl}>
           <InputLabel id="select-label-fase">Fase*</InputLabel>
           <Select
@@ -217,7 +222,7 @@ export default (props) => {
 
   const campoCategoriaAtividade = () => {
     return listaCategoriaAtividade !== listasDefault.categoriaAtividade ?
-      <Grid item xs={12} sm={6} md={6} xl={6} align="center" >
+      <Grid item xs={12} sm={12} md={12} xl={12} align="center" >
         <FormControl className={classes.formControl}>
           <InputLabel id="select-label-fase">Categoria Atividade*</InputLabel>
           <Select
@@ -240,7 +245,7 @@ export default (props) => {
 
   const campoCoordenador = () => {
     return projetoSelecionado === -1 ?
-      <Grid item xs={12} sm={6} md={6} xl={6} align="center">
+      <Grid item xs={12} sm={12} md={12} xl={12} align="center">
         <FormControl className={classes.formControl}>
           <InputLabel id="demo-simple-select-label">Coordenador*</InputLabel>
           <Select
@@ -263,7 +268,7 @@ export default (props) => {
 
   const campoTag = () => {
     return (
-      <Grid item xs={12} sm={6} md={6} xl={6} align="center">
+      <Grid item xs={12} sm={12} md={12} xl={12} align="center">
         <ChipInput
           fullWidth
           classes={{ input: classes.input }}
@@ -278,7 +283,7 @@ export default (props) => {
 
   const campoDescricao = () => {
     return (
-      <Grid item xs={12} sm={6} md={6} xl={6} align="center">
+      <Grid item xs={12} sm={12} md={12} xl={12} align="center">
         <FormControl className={classes.formControl}>
           <TextField
             id="outlined-basic"
@@ -293,16 +298,31 @@ export default (props) => {
     )
   }
 
+  const renderBarraProgresso = () => {
+    const mesReferencia = new Date()
+    return <BarraProgresso mesReferencia={mesReferencia} />
+  }
+
+  const renderDateTimePicker = () => {
+    return (
+      <>
+        <div align="center">
+          <DataPicker
+            onChange={handleChangeDiaAtividade}
+            value={diaAtividade}
+          />
+        </div>
+        <div align="center">
+          <TimePicker />
+        </div>
+      </>
+    )
+  }
+
   return (
     <div className="container">
-
-      <div align="center">
-        <DataPicker
-          onChange={handleChangeDiaAtividade}
-          value={diaAtividade}
-        />
-      </div>
-
+      {renderBarraProgresso()}
+      {renderDateTimePicker()}
       <Grid container spacing={3}>
         {campoProjeto()}
         {campoProjetoFase()}
@@ -312,7 +332,6 @@ export default (props) => {
         {campoTag()}
         {campoDescricao()}
       </Grid>
-
       <Button
         // onClick={salvarAtividade}
         variant="contained"
