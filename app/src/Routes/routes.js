@@ -7,10 +7,10 @@ import IncluirAtv from "../screen/incluir-atividade";
 import FecharSem from "../screen/fechar-semana";
 import NavBar from "../components/menu-inferior";
 
+//<Redirect exact from='/' to='resumoMes' />
 export default () => {
   return (
     <BrowserRouter>
-      <Redirect exact from='/' to='resumoMes' />
       <Switch>
         <Route>
           <Route
