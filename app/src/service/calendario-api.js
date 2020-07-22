@@ -26,6 +26,20 @@ const CalendarioApi = {
         err => console.log(err)
       )
     return result
+  },
+  GetListaFeriadoFinalSemanaByMes: async (idColaborador, mesReferencia) => {
+    const result = await baseUrl
+      .post("Calendario/GetListaFeriadoFinalSemanaByMes", null, {
+        params: {
+          idColaborador: idColaborador,
+          mesReferencia: mesReferencia,
+        },
+      })
+      .then(
+        res => res.data,
+        err => console.log(err)
+      )
+    return result
   }
 }
 

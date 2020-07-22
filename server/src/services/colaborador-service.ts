@@ -105,16 +105,19 @@ const ColaboradorService = {
     return validationObject(horasPrevistaAteHoje)
   },
   GetHorasCadastradasByIdColaboradorMes: async (idColaborador: number, mesReferencia: Date) => {
-    const listaAtividadesMes: IAtividade[] = await AtividadeService.GetAtividadesMesByIdColaboradorMes(idColaborador, mesReferencia)
+    const listaAtividadesMes: IAtividade[] = await AtividadeService.GetAtividadesByIdColaboradorMes(idColaborador, mesReferencia)
 
     return GetHorasDecimal(listaAtividadesMes)
 
   },
   GetDadosBarraProgresso: async (idColaborador: number, mesReferencia: Date) => {
+    console.log(idColaborador, mesReferencia)
     const horasUteisMes = await ColaboradorService.GetHorasUteisMesByIdColaboradorMes(idColaborador, mesReferencia)
+    console.log(horasUteisMes)
     const horasUteisHoje = await ColaboradorService.GetHorasUteisAteHojeByIdColaboradorMes(idColaborador, mesReferencia)
+    console.log(horasUteisHoje)
     const horasCadastradasAteHoje = await ColaboradorService.GetHorasCadastradasByIdColaboradorMes(idColaborador, mesReferencia)
-
+    console.log(horasCadastradasAteHoje)
     return [horasUteisMes, horasUteisHoje, horasCadastradasAteHoje]
   }
 }

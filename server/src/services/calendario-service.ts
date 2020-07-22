@@ -74,7 +74,7 @@ const CalendarioService = {
         : feriado
     ), listaFinalSemana)
 
-    console.log(listaResult)
+    return (listaResult)
   }
 }
 
