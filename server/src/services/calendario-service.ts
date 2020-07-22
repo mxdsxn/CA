@@ -49,7 +49,7 @@ const CalendarioService = {
 
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
-    let listaFinalSemana: []
+    var listaFinalSemana: Dia[] = []
 
     for (let dia = mesReferenciaInicio; dia < mesReferenciaFim; dia = libUtc.addDay(dia)) {
       if (dia.getDay() === 6) {
@@ -57,17 +57,28 @@ const CalendarioService = {
           Descricao: "Sabado",
           Dia: dia
         }
-        listaFinalSemana.concat(listaFinalSemana, result)
+        listaFinalSemana.push(result)
       } else if (dia.getDay() === 0) {
         const result = {
           Descricao: "Domingo",
           Dia: dia
         }
-        listaFinalSemana.concat(listaFinalSemana, result)
+        listaFinalSemana.push(result)
       }
     }
-    console.log(listaFeriados)
+    const listaResult = [].concat(listaFeriados.map(feriado =>
+      listaFinalSemana.find(fds =>
+        fds.Dia.getTime() === feriado.Dia.getTime()
+      )
+        ? undefined
+        : feriado
+    ), listaFinalSemana)
+
+    console.log(listaResult)
   }
 }
 
 export default CalendarioService
+
+
+interface Dia { Descricao: string; Dia: Date; }

@@ -45,7 +45,7 @@ export default (props) => {
   React.useEffect(() => {
     apiConnection.colaborador.GetDadosBarraProgresso(idColaborador, mesReferencia)
       .then(res => {
-        if (res.length) {
+        if (res) {
           setHorasBarra(res)
           calculaValoresBarra(res)
         } else {
