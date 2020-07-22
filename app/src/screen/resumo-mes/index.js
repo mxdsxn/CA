@@ -19,7 +19,7 @@ export default (props) => {
   };
 
   useEffect(() => {
-    apiConnection.atividade.GetAtividadesMesByIdColaboradorMes(2359, mesReferencia)
+    apiConnection.atividade.GetAtividadesByIdColaboradorMes(2359, mesReferencia)
       .then(res =>
         res ?
           setAtividadesMes(res) :

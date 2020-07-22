@@ -5,10 +5,10 @@ import libUtc from '@libUtc'
 
 const AtividadeService = {
   /* retorna lista de atividades do colaborador em um mes */
-  GetAtividadesMesByIdColaboradorMes: async (idColaborador: Number, mesReferencia: Date) => {
+  GetAtividadesByIdColaboradorMes: async (idColaborador: Number, mesReferencia: Date) => {
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
-    
+
     const listaAtividadeMes = await dbConnection('pessoas.Atividade')
       .select('*')
       .where({
@@ -16,6 +16,30 @@ const AtividadeService = {
       })
       .where('DataAtividade', '>=', mesReferenciaInicio)
       .andWhere('DataAtividade', '<', mesReferenciaFim)
+      .orderBy('DataAtividade', 'asc')
+      .then((listaAtividadeMes: IAtividade[]) => {
+        (listaAtividadeMes.map(x => x.DataAtividade))
+        const listaIdsProjeto = listaAtividadeMes.map(x => x.IdProjeto)
+        const listaAtividadeComNomeProjeto = dbConnection('operacoes.Projeto')
+          .select('IdProjeto', 'Nome')
+          .whereIn('IdProjeto', listaIdsProjeto)
+          .then((listaNomesProjeto: IProjeto[]) => {
+            listaAtividadeMes.map(atividade => {
+              atividade.Projeto = listaNomesProjeto.filter(nomeProjeto => nomeProjeto.IdProjeto === atividade.IdProjeto)[0].Nome
+            })
+            return listaAtividadeMes
+          })
+        return listaAtividadeComNomeProjeto
+      })
+    return validationArray(listaAtividadeMes)
+  },
+  GetAtividadesByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
+    const listaAtividadeMes = await dbConnection('pessoas.Atividade')
+      .select('*')
+      .where({
+        IdColaborador: idColaborador
+      })
+      .where('DataAtividade', diaReferencia)
       .orderBy('DataAtividade', 'asc')
       .then((listaAtividadeMes: IAtividade[]) => {
         (listaAtividadeMes.map(x => x.DataAtividade))
