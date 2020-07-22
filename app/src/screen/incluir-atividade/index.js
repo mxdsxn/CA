@@ -44,6 +44,7 @@ const listasDefault = {
   projetoFase: [{ IdProjetoMetodologiaFase: 0, Fase: 'Selecione' }],
   categoriaAtividade: [{ IdProjetoCategoriaAtividade: 0, Descricao: 'Selecione' }],
   coordenador: [{ IdColaborador: 0, Nome: 'Selecione' }],
+  contratoAtivo: { CargaHoraria: 0 }
 }
 
 export default (props) => {
@@ -54,6 +55,7 @@ export default (props) => {
   const [listaProjetoFase, setListaProjetoFase] = useState(listasDefault.projetoFase)
   const [listaCategoriaAtividade, setListaCategoriaAtividade] = useState(listasDefault.categoriaAtividade)
   const [listaCoordenador, setListaCoordenador] = useState(listasDefault.coordenador)
+  const [contratoAtivoDia, setContratoAtivo] = useState()
 
   const dataInicio = new Date("01/01/1900")
   const cargaReferencia = new Date(
@@ -87,15 +89,16 @@ export default (props) => {
           setListaProjeto([].concat(listasDefault.projeto, res)) :
           setListaProjeto(listasDefault.projeto)
       )
-
+    apiConnection.colaboradorContrato.GetContratoAtivoByIdColaboradorDia(idColaboradorLogado, diaAtividade)
+      .then(res =>
+        res ?
+          setContratoAtivo(res) :
+          setContratoAtivo(listasDefault.contratoAtivo)
+      )
     setListaProjetoFase(listasDefault.projetoFase)
-
     setListaCategoriaAtividade(listasDefault.categoriaAtividade)
-
     setListaProjetoDefault(listasDefault.projetoDefault)
-
     setListaCoordenador(listasDefault.coordenador)
-
     setTagAtividade('')
     setDescricaoAtividade('')
   }, [diaAtividade])

@@ -12,11 +12,11 @@ export default (props) => {
 
   useEffect(() => {
     const pathUrl = window.location.pathname
-    pathUrl == "/resumoMes" ?
+    pathUrl === "/resumoMes" ?
       setValueNavBar(0) :
-      pathUrl == "/incluirAtv" ?
+      pathUrl === "/incluirAtv" ?
         setValueNavBar(1) :
-        pathUrl == "/fecharSem" ?
+        pathUrl === "/fecharSem" ?
           setValueNavBar(2) :
           setValueNavBar()
   }, [])
