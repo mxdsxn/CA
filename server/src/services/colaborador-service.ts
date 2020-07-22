@@ -111,13 +111,9 @@ const ColaboradorService = {
 
   },
   GetDadosBarraProgresso: async (idColaborador: number, mesReferencia: Date) => {
-    console.log(idColaborador, mesReferencia)
     const horasUteisMes = await ColaboradorService.GetHorasUteisMesByIdColaboradorMes(idColaborador, mesReferencia)
-    console.log(horasUteisMes)
     const horasUteisHoje = await ColaboradorService.GetHorasUteisAteHojeByIdColaboradorMes(idColaborador, mesReferencia)
-    console.log(horasUteisHoje)
     const horasCadastradasAteHoje = await ColaboradorService.GetHorasCadastradasByIdColaboradorMes(idColaborador, mesReferencia)
-    console.log(horasCadastradasAteHoje)
     return [horasUteisMes, horasUteisHoje, horasCadastradasAteHoje]
   }
 }

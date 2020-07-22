@@ -12,7 +12,6 @@ export default (props) => {
   const [horasBarra, setHorasBarra] = React.useState([])
 
   const calculaValoresBarra = (res) => {
-    console.log(res, mesReferencia)
     const uteisMes = res[0]
     const uteisHoje = res[1]
     const cadastradas = res[2]
