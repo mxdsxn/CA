@@ -31,7 +31,8 @@ const AtividadeService = {
           })
         return listaAtividadeComNomeProjeto
       })
-    return validationArray(listaAtividadeMes)
+    return tst(mesReferencia, listaAtividadeMes)
+    // return validationArray(listaAtividadeMes)
   },
   GetAtividadesByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
     const listaAtividadeMes = await dbConnection('pessoas.Atividade')
@@ -60,3 +61,18 @@ const AtividadeService = {
 }
 
 export default AtividadeService
+
+const tst = (mesReferencia: Date, listaAtividade: IAtividade[]) => {
+  const inicioMes = libUtc.getMonth(mesReferencia)
+  const fimMes = libUtc.getEndMonth(inicioMes)
+
+  let listaAtividadePorDia: object[] = [{}]
+  listaAtividadePorDia.pop()
+
+  for (let dia = inicioMes; dia <= fimMes; dia = libUtc.addDay(dia)) {
+    const atividadesDia = listaAtividade.filter(x => x.DataAtividade.getTime() === dia.getTime())
+    const result = { dia, atividadesDia }
+    listaAtividadePorDia.push(result)
+  }
+  return (listaAtividadePorDia)
+}
