@@ -14,7 +14,13 @@ export default (props) => {
               (
                 <TableRow key={dia.dia}>
                   <TableCell> {dia.dia} </TableCell>
-                  <TableCell colSpan={11} align="center"> - </TableCell>
+                  <TableCell colSpan={11} align="center">
+                    {
+                      dia.descricao
+                        ? dia.descricao
+                        : "-"
+                    }
+                  </TableCell>
                 </TableRow >
               ) :
               <>

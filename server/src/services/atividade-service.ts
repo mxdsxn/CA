@@ -80,11 +80,11 @@ const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: IAtividade
 
   for (let dia = inicioMes; dia <= fimMes; dia = libUtc.addDay(dia)) {
     const atividadesDia = listaAtividade.filter(x => x.DataAtividade.getTime() === dia.getTime())
-    const feriadoFds = listaFeriadosFds.find(x => x.Dia.getTime() === dia.getTime())
-      ? listaFeriadosFds.find(x => x.Dia.getTime() === dia.getTime())
+    const descricao = listaFeriadosFds.find(x => x.Dia.getTime() === dia.getTime())
+      ? listaFeriadosFds.find(x => x.Dia.getTime() === dia.getTime()).Descricao
       : null
-    const result = { dia, atividadesDia, feriadoFds }
-    
+    const result = { dia, atividadesDia, descricao }
+
     listaAtividadePorDia.push(result)
   }
   return (listaAtividadePorDia)
