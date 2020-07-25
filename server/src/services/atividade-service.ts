@@ -5,7 +5,7 @@ import libUtc from '@libUtc'
 
 const AtividadeService = {
   /* retorna lista de atividades do colaborador em um mes */
-  GetAtividadesByIdColaboradorMes: async (idColaborador: Number, mesReferencia: Date) => {
+  GetAtividadesByIdColaboradorMes: async (idColaborador: Number, mesReferencia: Date, naoAgruparDia?: boolean) => {
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
@@ -31,8 +31,8 @@ const AtividadeService = {
           })
         return listaAtividadeComNomeProjeto
       })
-    return tst(mesReferencia, listaAtividadeMes)
-    // return validationArray(listaAtividadeMes)
+
+    return naoAgruparDia ? listaAtividadeMes : tst(mesReferencia, listaAtividadeMes)
   },
   GetAtividadesByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
     const listaAtividadeMes = await dbConnection('pessoas.Atividade')

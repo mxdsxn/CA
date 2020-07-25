@@ -105,7 +105,7 @@ const ColaboradorService = {
     return validationObject(horasPrevistaAteHoje)
   },
   GetHorasCadastradasByIdColaboradorMes: async (idColaborador: number, mesReferencia: Date) => {
-    const listaAtividadesMes: IAtividade[] = await AtividadeService.GetAtividadesByIdColaboradorMes(idColaborador, mesReferencia)
+    const listaAtividadesMes: IAtividade[] = await AtividadeService.GetAtividadesByIdColaboradorMes(idColaborador, mesReferencia, true)
 
     return GetHorasDecimal(listaAtividadesMes)
 
