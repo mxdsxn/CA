@@ -10,7 +10,13 @@ export default (props) => {
     <Container>
       <Hidden xsDown>
         <Paper elevation={3}>
-          <Table striped="true" bordered="true" hover="true">
+          <Table
+            bordered="true"
+            hover="true"
+            size="small"
+            stickyHeader
+            striped="true"
+          >
             <THead />
             <TBody atvMes={props.atvMes} />
             <TFoot />

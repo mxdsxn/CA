@@ -66,6 +66,7 @@ const tst = (mesReferencia: Date, listaAtividade: IAtividade[]) => {
   const inicioMes = libUtc.getMonth(mesReferencia)
   const fimMes = libUtc.getEndMonth(inicioMes)
 
+  listaAtividade.push(listaAtividade[0])
   let listaAtividadePorDia: object[] = [{}]
   listaAtividadePorDia.pop()
 
