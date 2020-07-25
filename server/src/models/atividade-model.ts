@@ -4,7 +4,9 @@ export default interface IAtividade {
   IdProjeto: number;
   Projeto: String;
   IdProjetoCategoriaAtividade: number;
+  CategoriaAtividade: String;
   IdProjetoMetodologiaFase: number;
+  FaseProjeto: String;
   DataCadastro: Date;
   DataAtividade: Date;
   Carga: string;

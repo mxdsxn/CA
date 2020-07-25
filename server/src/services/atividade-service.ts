@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import dbConnection, { validationArray } from '@database'
-import { IAtividade, IProjeto } from '@models'
+import { IAtividade, IProjeto, IProjetoCategoriaAtividade, IProjetoMetodologiaFase } from '@models'
 import libUtc from '@libUtc'
 import { CalendarioService } from "@services"
 
@@ -26,8 +26,36 @@ const AtividadeService = {
           .whereIn('IdProjeto', listaIdsProjeto)
           .then((listaNomesProjeto: IProjeto[]) => {
             listaAtividadeMes.map(atividade => {
-              atividade.Projeto = listaNomesProjeto.filter(nomeProjeto => nomeProjeto.IdProjeto === atividade.IdProjeto)[0].Nome
+              atividade.Projeto = listaNomesProjeto.filter(nomeProjeto => nomeProjeto.IdProjeto === atividade.IdProjeto)[0].Nome || null
             })
+
+            const listaIdsCategoria = listaAtividadeMes.map(x => x.IdProjetoCategoriaAtividade)
+
+            dbConnection('operacoes.ProjetoCategoriaAtividade')
+              .select('IdProjetoCategoriaAtividade', 'Descricao')
+              .whereIn("IdProjetoCategoriaAtividade", listaIdsCategoria)
+              .then((listaDescricaoCategoria: IProjetoCategoriaAtividade[]) => {
+                listaAtividadeMes.map(atividadeCat => {
+                  if (listaDescricaoCategoria.find(x => x.IdProjetoCategoriaAtividade === atividadeCat.IdProjetoCategoriaAtividade))
+                    atividadeCat.CategoriaAtividade = listaDescricaoCategoria.filter(x => x.IdProjetoCategoriaAtividade === atividadeCat.IdProjetoCategoriaAtividade)[0].Descricao
+                  else
+                    atividadeCat.CategoriaAtividade = ''
+                })
+              })
+
+            const listaIdsFase = listaAtividadeMes.map(x => x.IdProjetoMetodologiaFase)
+            dbConnection('operacoes.ProjetoMetodologiaFase')
+              .select('IdProjetoMetodologiaFase', 'Fase')
+              .whereIn("IdProjetoMetodologiaFase", listaIdsFase)
+              .then((listaFaseProjeto: IProjetoMetodologiaFase[]) => {
+                listaAtividadeMes.map(atividadeFase => {
+                  if (listaFaseProjeto.find(x => x.IdProjetoMetodologiaFase === atividadeFase.IdProjetoMetodologiaFase))
+                    atividadeFase.FaseProjeto = listaFaseProjeto.filter(x => x.IdProjetoMetodologiaFase === atividadeFase.IdProjetoMetodologiaFase)[0].Fase
+                  else
+                    atividadeFase.FaseProjeto = ''
+                })
+              })
+
             return listaAtividadeMes
           })
         return listaAtividadeComNomeProjeto
@@ -74,7 +102,6 @@ const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: IAtividade
     ? libUtc.getEndDate()
     : libUtc.getEndMonth(inicioMes)
 
-  listaAtividade.push(listaAtividade[0])
   let listaAtividadePorDia: object[] = [{}]
   listaAtividadePorDia.pop()
 
