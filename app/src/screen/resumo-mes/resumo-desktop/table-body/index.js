@@ -12,10 +12,10 @@ export default (props) => {
           dia.atividadesDia.length === 0 ?
             (<TableRow key={dia.dia}>
               <TableCell> {dia.dia} </TableCell>
-              <TableCell> Sem atividades nesse dia </TableCell>
+              <TableCell colSpan={11} align="center"> Sem atividades nesse dia </TableCell>
             </TableRow >) :
             <>
-              <TableCell rowSpan={dia.atividadesDia.length+1}> {dia.dia} </TableCell>
+              <TableCell rowSpan={dia.atividadesDia.length + 1}> {dia.dia} </TableCell>
               {
                 dia.atividadesDia.map(atv => (
                   <TableRow>
