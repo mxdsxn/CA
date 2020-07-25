@@ -29,12 +29,12 @@ const CalendarioService = {
                   .orWhere('IdPais', PostoTrabalho.IdPais)
               })
               .orderBy('Dia', 'asc')
-              .then((listaFeriadosMes: ICalendario[]) => (listaFeriadosMes))
+              .then((listaFeriadosMes: ICalendario[]) => (listaFeriadosMes) || null)
             return listaFeriadosMes
           })
         return listaFeriadosMes
       })
-    return validationArray(listaFeriadosMes)
+    return listaFeriadosMes
   },
   GetListaFeriadoFinalSemanaByMes: async (idColaborador: number, mesReferencia: Date) => {
     const listaFeriados = await CalendarioService.GetFeriadosByMes(idColaborador, libUtc.getMonth(mesReferencia))
@@ -52,13 +52,13 @@ const CalendarioService = {
     var listaFinalSemana: Dia[] = []
 
     for (let dia = mesReferenciaInicio; dia < mesReferenciaFim; dia = libUtc.addDay(dia)) {
-      if (dia.getDay() === 6) {
+      if (dia.getDay() === 5) {
         const result = {
           Descricao: "Sabado",
           Dia: dia
         }
         listaFinalSemana.push(result)
-      } else if (dia.getDay() === 0) {
+      } else if (dia.getDay() === 6) {
         const result = {
           Descricao: "Domingo",
           Dia: dia
@@ -74,7 +74,7 @@ const CalendarioService = {
         : feriado
     ), listaFinalSemana)
 
-    return (listaResult)
+    return listaResult || []
   }
 }
 

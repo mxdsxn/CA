@@ -2,10 +2,11 @@
 import dbConnection, { validationArray } from '@database'
 import { IAtividade, IProjeto } from '@models'
 import libUtc from '@libUtc'
+import { CalendarioService } from "@services"
 
 const AtividadeService = {
   /* retorna lista de atividades do colaborador em um mes */
-  GetAtividadesByIdColaboradorMes: async (idColaborador: Number, mesReferencia: Date, naoAgruparDia?: boolean) => {
+  GetAtividadesByIdColaboradorMes: async (idColaborador: number, mesReferencia: Date, naoAgruparDia?: boolean) => {
     const mesReferenciaInicio = mesReferencia
     const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
@@ -32,7 +33,12 @@ const AtividadeService = {
         return listaAtividadeComNomeProjeto
       })
 
-    return naoAgruparDia ? listaAtividadeMes : tst(mesReferencia, listaAtividadeMes)
+    if (!naoAgruparDia) {
+      const listaFeriadosFds = await CalendarioService.GetListaFeriadoFinalSemanaByMes(idColaborador, mesReferencia)
+      return AgruparAtividadesPorDia(mesReferencia, listaAtividadeMes, listaFeriadosFds)
+    }
+
+    return listaAtividadeMes
   },
   GetAtividadesByIdColaboradorDia: async (idColaborador: Number, diaReferencia: Date) => {
     const listaAtividadeMes = await dbConnection('pessoas.Atividade')
@@ -62,7 +68,7 @@ const AtividadeService = {
 
 export default AtividadeService
 
-const tst = (mesReferencia: Date, listaAtividade: IAtividade[]) => {
+const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: IAtividade[], listaFeriadosFds: any) => {
   const inicioMes = libUtc.getMonth(mesReferencia)
   const fimMes = libUtc.getEndMonth(inicioMes).getTime() === libUtc.getEndMonth().getTime()
     ? libUtc.getEndDate()
@@ -74,7 +80,11 @@ const tst = (mesReferencia: Date, listaAtividade: IAtividade[]) => {
 
   for (let dia = inicioMes; dia <= fimMes; dia = libUtc.addDay(dia)) {
     const atividadesDia = listaAtividade.filter(x => x.DataAtividade.getTime() === dia.getTime())
-    const result = { dia, atividadesDia }
+    const feriadoFds = listaFeriadosFds.find(x => x.Dia.getTime() === dia.getTime())
+      ? listaFeriadosFds.find(x => x.Dia.getTime() === dia.getTime())
+      : null
+    const result = { dia, atividadesDia, feriadoFds }
+    
     listaAtividadePorDia.push(result)
   }
   return (listaAtividadePorDia)
