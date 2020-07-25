@@ -64,8 +64,10 @@ export default AtividadeService
 
 const tst = (mesReferencia: Date, listaAtividade: IAtividade[]) => {
   const inicioMes = libUtc.getMonth(mesReferencia)
-  const fimMes = libUtc.getEndMonth(inicioMes)
-
+  const fimMes = libUtc.getEndMonth(inicioMes).getTime() === libUtc.getEndMonth().getTime()
+    ? libUtc.getEndDate()
+    : libUtc.getEndMonth(inicioMes)
+console.log(new Date())
   listaAtividade.push(listaAtividade[0])
   let listaAtividadePorDia: object[] = [{}]
   listaAtividadePorDia.pop()

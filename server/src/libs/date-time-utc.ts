@@ -46,7 +46,8 @@ const libUtc = {
     )
     return result
   },
-  getEndDate: (data: Date) => {
+  getEndDate: (dataReferencia?: Date) => {
+    const data = dataReferencia || new Date()
     const year = data.getUTCFullYear()
     const month = data.getUTCMonth()
     const day = data.getUTCDate()
