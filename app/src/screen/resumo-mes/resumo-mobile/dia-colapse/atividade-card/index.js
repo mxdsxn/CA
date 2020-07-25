@@ -1,4 +1,5 @@
 import React from 'react';
+import { Divider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -7,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
-
+  root: { marginBottom: 10 },
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
@@ -27,10 +28,7 @@ export default function SimpleCard(props) {
   return (
     <Card className={classes.root} key={props.atv.IdAtividade}>
       <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
-          {props.atv.DataAtividade}
-        </Typography>
-        <Typography variant="h5" component="h2">
+        <Typography variant="h6" component='h3'>
           {props.atv.Projeto}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">

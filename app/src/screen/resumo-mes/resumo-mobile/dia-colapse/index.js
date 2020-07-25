@@ -49,33 +49,47 @@ const ExpansionPanelDetails = withStyles((theme) => ({
 }))(MuiExpansionPanelDetails);
 
 export default function CustomizedExpansionPanels(props) {
-  const [expanded, setExpanded] = React.useState(props.id);
+  const [expanded, setExpanded] = React.useState();
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
+    console.log(panel)
   };
 
-  return (
-    <div>
-      {props.atvMes.map((atv) => (
-        <ExpansionPanel
-          square
-          expanded={expanded === atv.idAtividade}
-          onChange={handleChange(atv.idAtividade)}
-        >
-          <ExpansionPanelSummary
-            aria-controls="panel1d-content"
-            id="panel1d-header"
-          >
-            <Typography>Data do mes</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography>
-              <CardAtividade atv={atv} />
-            </Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      ))}
-    </div>
-  );
+  if (props.atvMes != null && props.atvMes.length > 0) {
+    handleChange(props.atvMes[0].dia)
+    return (
+      <>
+        {props.atvMes.map((dia) => (
+          dia.atividadesDia.length === 0 ? null : (
+            <ExpansionPanel
+              square
+              expanded={expanded === dia.dia}
+              onChange={handleChange(dia.dia)}
+            >
+              <ExpansionPanelSummary
+                aria-controls="panel1d-content"
+                id="panel1d-header"
+              >
+                <Typography>{dia.dia}</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <Typography>
+                  {
+                    dia.atividadesDia.map(atv =>
+                      <>
+                        <CardAtividade atv={atv} />
+                      </>
+                    )
+                  }
+                </Typography>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          )
+        ))
+        }
+      </>
+    )
+  } else
+    return <div> -  Nenhuma atividade registrada  - </div>
 }

@@ -5,12 +5,6 @@ import { TableCell, TableRow, TableBody, Hidden } from "@material-ui/core";
 
 export default (props) => {
 
-  const tst = () => {
-    const listaAtividades = props.atvMes
-    console.log(listaAtividades)
-  }
-  tst()
-
   if (props.atvMes != null && props.atvMes.length > 0) {
     return (
       <TableBody>
