@@ -30,9 +30,9 @@ export default (props) => {
                     <TableRow>
                       <TableCell>{atv.Projeto}</TableCell>
                       <Hidden mdDown>
-                        <TableCell>{atv.Fase}</TableCell>
-                        <TableCell>{atv.Categoria}</TableCell>
-                        <TableCell>{atv.Tags}</TableCell>
+                        <TableCell>{atv.FaseProjeto || "-"}</TableCell>
+                        <TableCell>{atv.CategoriaAtividade || "-"}</TableCell>
+                        <TableCell>{atv.Tags || "-"}</TableCell>
                       </Hidden>
                       <Hidden smDown>
                         <TableCell>{atv.DataCadastro}</TableCell>

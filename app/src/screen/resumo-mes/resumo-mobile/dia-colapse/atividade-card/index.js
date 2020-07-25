@@ -29,13 +29,13 @@ export default function SimpleCard(props) {
     <Card className={classes.root} key={props.atv.IdAtividade}>
       <CardContent>
         <Typography variant="h6" component='h3'>
-          {props.atv.Projeto}
+          {props.atv.Projeto || "-"}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          Data Cadastro: {props.atv.DataCadastro}
+          Data Cadastro: {props.atv.DataCadastro || "-"}
         </Typography>
         <Typography variant="body2" component="p">
-          {props.atv.Descricao}
+          {props.atv.Descricao || "-"}
         </Typography>
       </CardContent>
       <CardActions>
