@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import dbConnection, { validationArray } from '@database'
-import { IAtividade, IProjeto, IProjetoCategoriaAtividade, IProjetoMetodologiaFase } from '@models'
+import { IAtividade, IProjeto, IProjetoCategoriaAtividade, IProjetoMetodologiaFase, IColaboradorContrato } from '@models'
 import libUtc from '@libUtc'
-import { CalendarioService } from "@services"
+import { CalendarioService, ColaboradorContratoService } from "@services"
 
 const AtividadeService = {
   /* retorna lista de atividades do colaborador em um mes */
@@ -62,7 +62,8 @@ const AtividadeService = {
 
     if (!naoAgruparDia) {
       const listaFeriadosFds = await CalendarioService.GetListaFeriadoFinalSemanaByMes(idColaborador, mesReferencia)
-      return AgruparAtividadesPorDia(mesReferencia, listaAtividadeMes, listaFeriadosFds)
+      const listaContratosMes = await ColaboradorContratoService.GetContratosByDataIdColaboradorMes(idColaborador, mesReferencia)
+      return AgruparAtividadesPorDia(mesReferencia, listaAtividadeMes, listaFeriadosFds, listaContratosMes)
     }
 
     return listaAtividadeMes
@@ -95,11 +96,18 @@ const AtividadeService = {
 
 export default AtividadeService
 
-const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: IAtividade[], listaFeriadosFds: any) => {
-  const inicioMes = libUtc.getMonth(mesReferencia)
+const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: IAtividade[], listaFeriadosFds: any, listaContratos: any) => {
+  const contrato = listaContratos[listaContratos.length - 1] as IColaboradorContrato
+  
+  const inicioMes = mesReferencia.getUTCMonth() === contrato.DataInicioContrato.getUTCMonth() &&
+  mesReferencia.getUTCFullYear() === contrato.DataInicioContrato.getUTCFullYear()
+  ? libUtc.getDate(contrato.DataInicioContrato)
+  : libUtc.getMonth(mesReferencia)
+  
   const fimMes = libUtc.getEndMonth(inicioMes).getTime() === libUtc.getEndMonth().getTime()
     ? libUtc.getEndDate()
     : libUtc.getEndMonth(inicioMes)
+
 
   let listaAtividadePorDia: object[] = [{}]
   listaAtividadePorDia.pop()
