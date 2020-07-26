@@ -41,20 +41,33 @@ const ProjetoService = {
             const listaProjeto = dbConnection('operacoes.Projeto')
               .select(
                 'IdProjeto',
+                "IdProjetoTipo",
                 'Nome'
               )
               .where('IdProjetoTipo', '<>', idProjetoDefault)
               .whereIn('IdProjeto', listaIdProjeto)
               .orderBy('Nome', 'asc')
-              .then((listaProjeto: IProjeto[]) => listaProjeto)
-
+              .then((listaProjeto: IProjeto[]) => {
+                const listaIdsProjetoTipo = listaProjeto.map(x => x.IdProjetoTipo)
+                return dbConnection('operacoes.ProjetoTipo')
+                  .select("*")
+                  .whereIn('IdProjetoTipo', listaIdsProjetoTipo)
+                  .then((listaProjetoTipo: IProjetoTipo[]) => {
+                    listaProjeto.map(proj => {
+                      if (listaProjetoTipo.find(x => x.IdProjetoTipo === proj.IdProjetoTipo))
+                        proj.ProjetoTipo = listaProjetoTipo.filter(projTipo => projTipo.IdProjetoTipo === proj.IdProjetoTipo)[0].Descricao
+                      else
+                        proj.ProjetoTipo = ""
+                    })
+                    console.log(listaProjeto)
+                    return listaProjeto
+                  })
+              })
             return listaProjeto
           })
-
         return listaProjeto
       })
-
-    return validationArray(listaProjeto)
+    return listaProjeto
   },
   /* retorna lista de projetos default */
   GetProjetosDefault: async (diaReferencia: Date) => {

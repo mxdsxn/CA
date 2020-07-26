@@ -3,6 +3,7 @@ export default interface IProjeto {
   IdProjetoStatus: Number,
   Nome: String,
   IdProjetoTipo: Number,
+  ProjetoTipo: String,
   IdCliente: Number,
   Responsavel: String,
   IdColaborador: Number,

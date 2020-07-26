@@ -30,7 +30,6 @@ const AtividadeService = {
             })
 
             const listaIdsCategoria = listaAtividadeMes.map(x => x.IdProjetoCategoriaAtividade)
-
             dbConnection('operacoes.ProjetoCategoriaAtividade')
               .select('IdProjetoCategoriaAtividade', 'Descricao')
               .whereIn("IdProjetoCategoriaAtividade", listaIdsCategoria)
