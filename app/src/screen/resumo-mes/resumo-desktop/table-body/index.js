@@ -1,6 +1,6 @@
 import React from "react"
 import "./style.css"
-
+import { format } from 'date-fns'
 import { TableCell, TableRow, TableBody, Hidden } from "@material-ui/core"
 
 export default (props) => {
@@ -13,7 +13,16 @@ export default (props) => {
             dia.atividadesDia.length === 0 ?
               (
                 <TableRow key={dia.dia}>
-                  <TableCell> {dia.dia} </TableCell>
+                  <TableCell> {format(new Date(
+                    Date.UTC(
+                      new Date(dia.dia).getUTCFullYear(),
+                      new Date(dia.dia).getUTCMonth(),
+                      new Date(dia.dia).getUTCDate(),
+                      + new Date(dia.dia).getHours(),
+                      0,
+                      0,
+                      0
+                    )), "d/MM/yyyy")} </TableCell>
                   <TableCell colSpan={11} align="center">
                     {
                       dia.descricao
@@ -24,7 +33,16 @@ export default (props) => {
                 </TableRow >
               ) :
               <>
-                <TableCell rowSpan={dia.atividadesDia.length + 1}> {dia.dia} </TableCell>
+                <TableCell rowSpan={dia.atividadesDia.length + 1}> {format(new Date(
+                  Date.UTC(
+                    new Date(dia.dia).getUTCFullYear(),
+                    new Date(dia.dia).getUTCMonth(),
+                    new Date(dia.dia).getUTCDate(),
+                    + new Date(dia.dia).getHours(),
+                    0,
+                    0,
+                    0
+                  )), "d/MM/yyyy")} </TableCell>
                 {
                   dia.atividadesDia.map(atv => (
                     <TableRow>
@@ -35,7 +53,16 @@ export default (props) => {
                         <TableCell>{atv.Tags || "-"}</TableCell>
                       </Hidden>
                       <Hidden smDown>
-                        <TableCell>{atv.DataCadastro}</TableCell>
+                        <TableCell>{format(new Date(
+                          Date.UTC(
+                            new Date(atv.DataCadastro).getUTCFullYear(),
+                            new Date(atv.DataCadastro).getUTCMonth(),
+                            new Date(atv.DataCadastro).getUTCDate(),
+                            + new Date(atv.DataCadastro).getHours(),
+                            0,
+                            0,
+                            0
+                          )), "d/MM/yyyy")}</TableCell>
                       </Hidden>
                       <TableCell>{atv.Descricao}</TableCell>
                       <TableCell>{atv.Carga}</TableCell>

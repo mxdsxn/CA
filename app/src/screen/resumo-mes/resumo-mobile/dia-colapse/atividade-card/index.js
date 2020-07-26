@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+import { format } from 'date-fns'
 const useStyles = makeStyles({
   root: { marginBottom: 10 },
   bullet: {
@@ -32,7 +33,16 @@ export default function SimpleCard(props) {
           {props.atv.Projeto || "-"}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          Data Cadastro: {props.atv.DataCadastro || "-"}
+          Data Cadastro: {format(new Date(
+                  Date.UTC(
+                    new Date(props.atv.DataCadastro).getUTCFullYear(),
+                    new Date(props.atv.DataCadastro).getUTCMonth(),
+                    new Date(props.atv.DataCadastro).getUTCDate(),
+                    + new Date(props.atv.DataCadastro).getHours(),
+                    0,
+                    0,
+                    0
+                  )), "d/MM/yyyy") || "-"}
         </Typography>
         <Typography variant="body2" component="p">
           {props.atv.Descricao || "-"}
