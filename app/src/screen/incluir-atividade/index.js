@@ -106,27 +106,33 @@ export default (props) => {
   useEffect(() => {
     // se algum projeto(>0) selecionado, carregar Fase e Categoria, caso existam
     if (projetoSelecionado > 0) {
-      setListaProjetoDefault(listasDefault.projetoDefault)
-      setListaCoordenador(listasDefault.coordenador)
-      apiConnection.projetoMetodologiaFase.GetProjetoFaseByIdProjeto(projetoSelecionado)
-        .then(res =>
-          res ?
-            setListaProjetoFase([].concat(listasDefault.projetoFase, res)) :
-            setListaProjetoFase(listasDefault.projetoFase)
-        )
+      listaProjetoDefault !== listasDefault.projetoDefault ?? setListaProjetoDefault(listasDefault.projetoDefault)
+      listaCoordenador !== listasDefault.coordenador ?? setListaCoordenador(listasDefault.coordenador)
+
+      if (listaProjeto.find(x => x.IdProjeto === projetoSelecionado).IdProjetoTipo !== 4)
+        apiConnection.projetoMetodologiaFase.GetProjetoFaseByIdProjeto(projetoSelecionado)
+          .then(res =>
+            res ?
+              setListaProjetoFase([].concat(listasDefault.projetoFase, res)) :
+              setListaProjetoFase(listasDefault.projetoFase)
+          )
       setProjetoFaseSelecionado(0)
-      apiConnection.projetoCategoriaAtividade.GetProjetoCategoriaAtividadeByIdProjeto(projetoSelecionado)
-        .then(res =>
-          res ?
-            setListaCategoriaAtividade([].concat(listasDefault.categoriaAtividade, res)) :
-            setListaCategoriaAtividade(listasDefault.categoriaAtividade)
-        )
+
+      if (listaProjeto.find(x => x.IdProjeto === projetoSelecionado).IdProjetoTipo === 4)
+        apiConnection.projetoCategoriaAtividade.GetProjetoCategoriaAtividadeByIdProjeto(projetoSelecionado)
+          .then(res =>
+            res ?
+              setListaCategoriaAtividade([].concat(listasDefault.categoriaAtividade, res)) :
+              setListaCategoriaAtividade(listasDefault.categoriaAtividade)
+          )
       setCategoriaAtividadeSelecionado(0)
+
     } else
       // se projeto é default (-1), carrega projetos default e coordenadores 
       if (projetoSelecionado === -1) {
-        setListaProjetoFase(listasDefault.projetoFase)
-        setListaCategoriaAtividade(listasDefault.categoriaAtividade)
+        listaProjetoFase !== listasDefault.listaProjetoFase ?? setListaProjetoFase(listasDefault.projetoFase)
+        listaCategoriaAtividade !== listasDefault.listaCategoriaAtividade ?? setListaCategoriaAtividade(listasDefault.categoriaAtividade)
+
         apiConnection.projeto.GetProjetosDefault(diaAtividade)
           .then(res =>
             res ?
@@ -134,6 +140,7 @@ export default (props) => {
               setListaProjetoDefault(listasDefault.projetoDefault)
           )
         setProjetoDefaultSelecionado(0)
+
         apiConnection.colaborador.GetCoordenadoresByDia(diaAtividade)
           .then(res =>
             res ?
@@ -141,6 +148,7 @@ export default (props) => {
               setListaCoordenador(listasDefault.coordenador)
           )
         setCoordenadorSelecionado(0)
+
       } else if (projetoSelecionado === 0) {
         setListaProjetoFase(listasDefault.projetoFase)
         setListaCategoriaAtividade(listasDefault.categoriaAtividade)
