@@ -1,34 +1,34 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import {Hidden} from '@material-ui/core'
+import { Hidden } from '@material-ui/core'
 
-import MonthResume from "../screen/MonthResume";
-import IncluirAtv from "../screen/IncluirAtividade";
-import FecharSem from "../screen/FecharSemana";
-import NavBar from "../components/BottomNav";
+import MonthResume from "../screen/resumo-mes";
+import IncluirAtv from "../screen/incluir-atividade";
+import FecharSem from "../screen/fechar-semana";
+import NavBar from "../components/menu-inferior";
 
+//<Redirect exact from='/' to='resumoMes' />
 export default () => {
-  const [valueNavBar, setValueNavBar] = React.useState();
   return (
     <BrowserRouter>
       <Switch>
         <Route>
           <Route
             path="/resumoMes"
-            render={(props) => <MonthResume setValueNavBar={setValueNavBar} />}
+            render={(props) => <MonthResume />}
           />
           <Route
             path="/incluirAtv"
-            render={(props) => <IncluirAtv setValueNavBar={setValueNavBar} />}
+            render={(props) => <IncluirAtv />}
           />
           <Route
             path="/fecharSem"
-            render={(props) => <FecharSem setValueNavBar={setValueNavBar} />}
+            render={(props) => <FecharSem />}
           />
         </Route>
       </Switch>
       <Hidden mdUp>
-        <NavBar valueNavBar={valueNavBar} />
+        <NavBar />
       </Hidden>
     </BrowserRouter>
   );
