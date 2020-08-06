@@ -91,6 +91,9 @@ const AtividadeService = {
         return listaAtividadeComNomeProjeto
       })
     return validationArray(listaAtividadeMes)
+  },
+  CriarAtividade: async (novaAtividade?: any) => {
+    console.log(novaAtividade)
   }
 }
 
@@ -98,12 +101,12 @@ export default AtividadeService
 
 const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: IAtividade[], listaFeriadosFds: any, listaContratos: any) => {
   const contrato = listaContratos[listaContratos.length - 1] as IColaboradorContrato
-  
+
   const inicioMes = mesReferencia.getUTCMonth() === contrato.DataInicioContrato.getUTCMonth() &&
-  mesReferencia.getUTCFullYear() === contrato.DataInicioContrato.getUTCFullYear()
-  ? libUtc.getDate(contrato.DataInicioContrato)
-  : libUtc.getMonth(mesReferencia)
-  
+    mesReferencia.getUTCFullYear() === contrato.DataInicioContrato.getUTCFullYear()
+    ? libUtc.getDate(contrato.DataInicioContrato)
+    : libUtc.getMonth(mesReferencia)
+
   const fimMes = libUtc.getEndMonth(inicioMes).getTime() === libUtc.getEndMonth().getTime()
     ? libUtc.getEndDate()
     : libUtc.getEndMonth(inicioMes)
