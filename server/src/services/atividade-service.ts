@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import dbConnection, { validationArray } from '@database'
+import dbConnection  from '@database'
 import { IAtividade, IProjeto, IProjetoCategoriaAtividade, IProjetoMetodologiaFase, IColaboradorContrato } from '@models'
 import libUtc from '@libUtc'
 import { CalendarioService, ColaboradorContratoService } from '@services'
@@ -87,7 +87,7 @@ const GetAtividadesByIdColaboradorDia = async (idColaborador: Number, diaReferen
         })
       return listaAtividadeComNomeProjeto
     })
-  return validationArray(listaAtividadeMes)
+  return (listaAtividadeMes)
 }
 
 const CriarAtividade = async (novaAtividade?: any) => {
