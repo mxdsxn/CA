@@ -1,8 +1,20 @@
 /* eslint-disable no-unused-vars */
-import dbConnection  from '@database'
-import { IAtividade, IProjeto, IProjetoCategoriaAtividade, IProjetoMetodologiaFase, IColaboradorContrato } from '@models'
+import dbConnection from '@database'
+import {
+  IAtividade,
+  IColaboradorContrato,
+  IProjeto,
+  IProjetoCategoriaAtividade,
+  IProjetoMetodologiaFase
+} from '@models'
+
+import {
+  CalendarioService,
+  ColaboradorContratoService
+} from '@services'
+
 import libUtc from '@libUtc'
-import { CalendarioService, ColaboradorContratoService } from '@services'
+
 /* retorna lista de atividades do colaborador em um mes */
 const GetAtividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date, naoAgruparDia?: boolean) => {
   const mesReferenciaInicio = mesReferencia

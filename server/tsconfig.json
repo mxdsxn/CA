@@ -89,6 +89,12 @@
       "@service/*": [
         "./src/services/*"
       ],
+      "@entities": [
+        "./src/entities/entities.ts"
+      ],
+      "@entity/*": [
+        "./src/entities/*"
+      ],
       "@routes": [
         "./src/routes/routes.ts"
       ],
