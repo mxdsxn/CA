@@ -29,12 +29,30 @@ const AtividadeApi = {
       )
     return result
   },
-  SalvarAtividade: async (dadosAtividade) => {
-    console.log(dadosAtividade)
+  SalvarAtividade: async (
+    idAtividade,
+    cargaAtividade,
+    idProjeto,
+    idProjetoDefault,
+    idCoordenador,
+    idProjetoFase,
+    idCategoriaAtividade,
+    tagsAtividade,
+    descricaoAtividade
+  ) => {
+
     await baseUrl
       .post("Atividade/SalvarAtividade", null, {
         params: {
-          dadosAtividade
+          idAtividade,
+          cargaAtividade,
+          idProjeto,
+          idProjetoDefault,
+          idCoordenador,
+          idProjetoFase,
+          idCategoriaAtividade,
+          tagsAtividade,
+          descricaoAtividade
         }
       })
   }

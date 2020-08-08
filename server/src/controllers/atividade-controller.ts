@@ -24,10 +24,27 @@ route.get('/Atividade/GetAtividadesByIdColaboradorDia', async (req, res) => {
 })
 
 route.post('/Atividade/SalvarAtividade', async (req, res) => {
-  const novaAtividade = new Date(req.query.dadosAtividade as string)
-  console.log(novaAtividade, novaAtividade.getHours())
+  const idAtividade = Number(req.query.idAtividade)
+  const cargaAtividade = libUtc.getDateByString(req.query.cargaAtividade as string)
+  const idProjeto = Number(req.query.idProjeto)
+  const idProjetoDefault = Number(req.query.idProjetoDefault)
+  const idCoordenador = Number(req.query.idCoordenador)
+  const idProjetoFase = Number(req.query.idProjetoFase)
+  const idCategoriaAtividade = Number(req.query.idCategoriaAtividade)
+  const tagsAtividade = req.query.tagsAtividade as [string]
+  const descricaoAtividade = req.query.descricaoAtividade as string
 
-  Service.SalvarAtividade(novaAtividade).then(
+  Service.SalvarAtividade(
+    idAtividade,
+    cargaAtividade,
+    idProjeto,
+    idProjetoDefault,
+    idCoordenador,
+    idProjetoFase,
+    idCategoriaAtividade,
+    tagsAtividade,
+    descricaoAtividade
+  ).then(
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )

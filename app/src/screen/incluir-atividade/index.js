@@ -176,17 +176,17 @@ export default (props) => {
   const handleChangeTag = (tags) => setTagAtividade(tags)
 
   const salvarAtividade = () => {
-    const dadosAtividade = [
-       cargaSelecionada,
-       projetoSelecionado,
-       projetoDefaultSelecionado,
-       coordenadorSelecionado,
-       projetoFaseSelecionado,
-       categoriaAtividadeSelecionado,
-       tagAtividade,
-       descricaoAtividade
-    ]
-    apiConnection.atividade.SalvarAtividade(cargaSelecionada)
+    apiConnection.atividade.SalvarAtividade(
+      null,
+      cargaSelecionada,
+      projetoSelecionado,
+      projetoDefaultSelecionado,
+      coordenadorSelecionado,
+      projetoFaseSelecionado,
+      categoriaAtividadeSelecionado,
+      tagAtividade,
+      descricaoAtividade
+    )
   }
 
 

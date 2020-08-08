@@ -102,8 +102,26 @@ const GetAtividadesByIdColaboradorDia = async (idColaborador: Number, diaReferen
   return (listaAtividadeMes)
 }
 
-const SalvarAtividade = async (novaAtividade?: any) => {
-  // console.log(novaAtividade)
+const SalvarAtividade = async (
+  idAtividade: number,
+  cargaAtividade: Date,
+  idProjeto: number,
+  idProjetoDefault: number,
+  idCoordenador: number,
+  idProjetoFase: number,
+  idCategoriaAtividade: number,
+  tagsAtividade: [string],
+  descricaoAtividade: string
+) => {
+  console.log('idAtividade:', idAtividade)
+  console.log('cargaAtividade:', cargaAtividade.getHours())
+  console.log('idProjeto:', idProjeto)
+  console.log('idProjetoDefault:', idProjetoDefault)
+  console.log('idCoordenador:', idCoordenador)
+  console.log('idProjetoFase:', idProjetoFase)
+  console.log('idCategoriaAtividade:', idCategoriaAtividade)
+  console.log('tagsAtividade:', tagsAtividade)
+  console.log('descricaoAtividade:', descricaoAtividade)
 }
 
 const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: IAtividade[], listaFeriadosFds: any, listaContratos: any) => {
