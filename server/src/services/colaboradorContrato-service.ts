@@ -16,7 +16,7 @@ const GetContratosByDataIdColaboradorMes = async (idColaborador: Number, mesRefe
         .orWhere('Termino', null)
     })
     .andWhere('DataInicioContrato', '<=', mesReferenciaFim)
-    .orderBy('DataInicioContrato', 'desc')
+    .orderBy('DataInicioContrato', 'asc')
     .then((listaContrato: IColaboradorContrato[]) => listaContrato)
 
   return (listaContrato)

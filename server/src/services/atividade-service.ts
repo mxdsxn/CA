@@ -107,7 +107,7 @@ const SalvarAtividade = async (novaAtividade?: any) => {
 }
 
 const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: IAtividade[], listaFeriadosFds: any, listaContratos: any) => {
-  const contrato = listaContratos[listaContratos.length - 1] as IColaboradorContrato
+  const contrato = listaContratos[0] as IColaboradorContrato
 
   const inicioMes = mesReferencia.getUTCMonth() === contrato.DataInicioContrato.getUTCMonth() &&
     mesReferencia.getUTCFullYear() === contrato.DataInicioContrato.getUTCFullYear()
