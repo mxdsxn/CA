@@ -5,7 +5,7 @@ import libUtc from '@libUtc'
 const route = express.Router()
 
 route.get('/Colaborador/GetCoordenadoresByDia', (req, res) => {
-  const diaReferencia = libUtc.getDateByString(req.query.diaReferencia as string)
+  const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
   Service.GetCoordenadoresByDia(diaReferencia)
     .then(
@@ -16,7 +16,7 @@ route.get('/Colaborador/GetCoordenadoresByDia', (req, res) => {
 
 route.get('/Colaborador/GetHorasUteisMesByIdColaboradorMes', (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
-  const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
+  const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
   Service.GetHorasUteisMesByIdColaboradorMes(idColaborador, mesReferencia)
     .then(
@@ -27,7 +27,7 @@ route.get('/Colaborador/GetHorasUteisMesByIdColaboradorMes', (req, res) => {
 
 route.get('/Colaborador/GetHorasUteisAteHojeByIdColaboradorMes', (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
-  const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
+  const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
   Service.GetHorasUteisAteHojeByIdColaboradorMes(idColaborador, mesReferencia)
     .then(
@@ -38,7 +38,7 @@ route.get('/Colaborador/GetHorasUteisAteHojeByIdColaboradorMes', (req, res) => {
 
 route.get('/Colaborador/GetHorasCadastradasByIdColaboradorMes', (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
-  const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
+  const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
   Service.GetHorasCadastradasByIdColaboradorMes(idColaborador, mesReferencia)
     .then(

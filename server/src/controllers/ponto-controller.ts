@@ -6,7 +6,7 @@ const route = express.Router()
 
 route.get('/Ponto/GetPontoByIdColaboradorMes', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
-  const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
+  const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
   Service.GetPontoByIdColaboradorMes(idColaborador, mesReferencia).then(
     (suc) => { res.json(suc) },
@@ -16,7 +16,7 @@ route.get('/Ponto/GetPontoByIdColaboradorMes', async (req, res) => {
 
 route.get('/Ponto/GetPontoByIdColaboradorDia', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
-  const diaReferencia = libUtc.getDateByString(req.query.diaReferencia as string)
+  const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
   Service.GetPontoByIdColaboradorDia(idColaborador, diaReferencia).then(
     (suc) => { res.json(suc) },

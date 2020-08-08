@@ -1,14 +1,14 @@
 const libUtc = {
-  getDateByString: (data: string) => {
-    const dateNoUtc = new Date(data)
+  getDateByString: (dateString: string) => {
+    const date = new Date(dateString)
 
-    const year = dateNoUtc.getUTCFullYear()
-    const month = dateNoUtc.getUTCMonth()
-    const day = dateNoUtc.getUTCDate()
-    const hour = 0
-    const minute = 0
-    const second = 0
-    const millesecond = 0
+    const year = date.getFullYear()
+    const month = date.getMonth()
+    const day = date.getDate()
+    const hour = date.getHours()
+    const minute = date.getMinutes()
+    const second = date.getSeconds()
+    const millesecond = date.getMilliseconds()
 
     const result = new Date(
       Date.UTC(
