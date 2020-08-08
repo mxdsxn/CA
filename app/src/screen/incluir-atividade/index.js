@@ -184,6 +184,20 @@ export default (props) => {
   const handleChangeDescricao = (event) => setDescricaoAtividade(event.target.value)
   const handleChangeTag = (tags) => setTagAtividade(tags)
 
+  const salvarAtividade = () => {
+    const dadosAtividade = {
+      cargaAtividade: cargaSelecionada,
+      idProjeto: projetoSelecionado,
+      idProjetoDefault: projetoDefaultSelecionado,
+      idCoordenador: coordenadorSelecionado,
+      idProjetoFase: projetoFaseSelecionado,
+      idCategoriaAtividade: categoriaAtividadeSelecionado,
+      tags: tagAtividade,
+      descricao: descricaoAtividade
+    }
+    apiConnection.atividade.SalvarAtividade(dadosAtividade)
+  }
+
 
   const campoProjeto = () => {
     return (
@@ -375,7 +389,7 @@ export default (props) => {
         {campoDescricao()}
       </Grid>
       <Button
-        // onClick={salvarAtividade}
+        onClick={salvarAtividade}
         variant="contained"
         className={classes.colorDefault}
       >

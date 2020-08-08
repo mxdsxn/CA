@@ -102,7 +102,7 @@ const GetAtividadesByIdColaboradorDia = async (idColaborador: Number, diaReferen
   return (listaAtividadeMes)
 }
 
-const CriarAtividade = async (novaAtividade?: any) => {
+const SalvarAtividade = async (novaAtividade?: any) => {
   console.log(novaAtividade)
 }
 
@@ -134,7 +134,7 @@ const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: IAtividade
 }
 
 export default {
-  CriarAtividade,
+  SalvarAtividade,
   GetAtividadesByIdColaboradorMes,
   GetAtividadesByIdColaboradorDia
 }

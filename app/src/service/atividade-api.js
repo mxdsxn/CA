@@ -28,6 +28,14 @@ const AtividadeApi = {
         err => console.log(err)
       )
     return result
+  },
+  SalvarAtividade: async (dadosAtividade) => {
+    const result = await baseUrl
+      .post("Atividade/SalvarAtividade", null, {
+        params: {
+          dadosAtividade
+        }
+      })
   }
 }
 

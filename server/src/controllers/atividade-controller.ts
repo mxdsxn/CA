@@ -23,9 +23,9 @@ route.get('/Atividade/GetAtividadesByIdColaboradorDia', async (req, res) => {
   )
 })
 
-route.post('/Atividade/CriarAtividade', async (req, res) => {
+route.post('/Atividade/SalvarAtividade', async (req, res) => {
   const novaAtividade: any = req.query
-  Service.CriarAtividade(novaAtividade).then(
+  Service.SalvarAtividade(novaAtividade).then(
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )

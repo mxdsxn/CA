@@ -55,7 +55,6 @@ const GetProjetosByIdColaboradorDia = async (idColaborador: Number, diaReferenci
                   listaProjeto.map(proj => {
                     if (listaProjetoTipo.find(x => x.IdProjetoTipo === proj.IdProjetoTipo)) { proj.ProjetoTipo = listaProjetoTipo.filter(projTipo => projTipo.IdProjetoTipo === proj.IdProjetoTipo)[0].Descricao } else { proj.ProjetoTipo = '' }
                   })
-                  console.log(listaProjeto)
                   return listaProjeto
                 })
             })
