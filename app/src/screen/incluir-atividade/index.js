@@ -109,27 +109,27 @@ export default (props) => {
       listaProjetoDefault !== listasDefault.projetoDefault ?? setListaProjetoDefault(listasDefault.projetoDefault)
       listaCoordenador !== listasDefault.coordenador ?? setListaCoordenador(listasDefault.coordenador)
 
-      if (listaProjeto.find(x => x.IdProjeto === projetoSelecionado).IdProjetoTipo !== 4) {
-        apiConnection.projetoMetodologiaFase.GetProjetoFaseByIdProjeto(projetoSelecionado)
-          .then(res =>
-            res ?
-              setListaProjetoFase([].concat(listasDefault.projetoFase, res)) :
-              setListaProjetoFase(listasDefault.projetoFase)
-          )
-        setProjetoFaseSelecionado(0)
-        setListaCategoriaAtividade(listasDefault.categoriaAtividade)
-      }
-      
-      if (listaProjeto.find(x => x.IdProjeto === projetoSelecionado).IdProjetoTipo === 4) {
-        apiConnection.projetoCategoriaAtividade.GetProjetoCategoriaAtividadeByIdProjeto(projetoSelecionado)
-          .then(res =>
-            res ?
-              setListaCategoriaAtividade([].concat(listasDefault.categoriaAtividade, res)) :
-              setListaCategoriaAtividade(listasDefault.categoriaAtividade)
-          )
-        setCategoriaAtividadeSelecionado(0)
-        setListaProjetoFase(listasDefault.projetoFase)
-      }
+      // if (listaProjeto.find(x => x.IdProjeto === projetoSelecionado).IdProjetoTipo !== 4) {
+      apiConnection.projetoMetodologiaFase.GetProjetoFaseByIdProjeto(projetoSelecionado)
+        .then(res =>
+          res ?
+            setListaProjetoFase([].concat(listasDefault.projetoFase, res)) :
+            setListaProjetoFase(listasDefault.projetoFase)
+        )
+      setProjetoFaseSelecionado(0)
+      setListaCategoriaAtividade(listasDefault.categoriaAtividade)
+      // }
+
+      // if (listaProjeto.find(x => x.IdProjeto === projetoSelecionado).IdProjetoTipo === 4) {
+      apiConnection.projetoCategoriaAtividade.GetProjetoCategoriaAtividadeByIdProjeto(projetoSelecionado)
+        .then(res =>
+          res ?
+            setListaCategoriaAtividade([].concat(listasDefault.categoriaAtividade, res)) :
+            setListaCategoriaAtividade(listasDefault.categoriaAtividade)
+        )
+      setCategoriaAtividadeSelecionado(0)
+      setListaProjetoFase(listasDefault.projetoFase)
+      // }
 
     } else
       // se projeto é default (-1), carrega projetos default e coordenadores 
