@@ -29,7 +29,7 @@ route.post('/Atividade/CriarAtividade', async (req, res) => {
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )
-  res.json(200)
+  res.status(200)
 })
 
 const AtividadeController = route

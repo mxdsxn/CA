@@ -15,7 +15,7 @@ const GetFeriadosByMes = async (idColaborador: number, mesReferencia: Date) => {
     .first()
     .then(ColaboradorPostoTrabalho => {
       const idPostoTrabalho = Number(ColaboradorPostoTrabalho.IdPostoTrabalho)
-      const listaFeriadosMes = dbConnection('pessoas.getoTrabalho')
+      const listaFeriadosMes = dbConnection('pessoas.PostoTrabalho')
         .where('IdPostoTrabalho', idPostoTrabalho)
         .first()
         .then(PostoTrabalho => {
