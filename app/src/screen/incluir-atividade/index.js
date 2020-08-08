@@ -210,7 +210,7 @@ export default (props) => {
   }
 
   const campoProjetoDefault = () => {
-    return projetoSelecionado === -1 ?
+    return projetoSelecionado === -1 && listaProjetoDefault !== [] ?
       <Grid item xs={12} sm={12} md={12} xl={12} align="center" >
         <FormControl className={classes.formControl}>
           <InputLabel id="select-label-fase">Projeto Default*</InputLabel>
@@ -233,7 +233,7 @@ export default (props) => {
   }
 
   const campoProjetoFase = () => {
-    return listaProjetoFase !== listasDefault.projetoFase ?
+    return listaProjetoFase !== listasDefault.projetoFase && listaProjetoFase !== [] ?
       <Grid item xs={12} sm={12} md={12} xl={12} align="center" >
         <FormControl className={classes.formControl}>
           <InputLabel id="select-label-fase">Fase*</InputLabel>
@@ -255,7 +255,8 @@ export default (props) => {
   }
 
   const campoCategoriaAtividade = () => {
-    return listaCategoriaAtividade !== listasDefault.categoriaAtividade ?
+
+    return listaCategoriaAtividade !== listasDefault.categoriaAtividade && listaCategoriaAtividade !== [] ?
       <Grid item xs={12} sm={12} md={12} xl={12} align="center" >
         <FormControl className={classes.formControl}>
           <InputLabel id="select-label-fase">Categoria Atividade*</InputLabel>
@@ -278,7 +279,7 @@ export default (props) => {
   }
 
   const campoCoordenador = () => {
-    return projetoSelecionado === -1 ?
+    return projetoSelecionado === -1 && listaCoordenador !== [] ?
       <Grid item xs={12} sm={12} md={12} xl={12} align="center">
         <FormControl className={classes.formControl}>
           <InputLabel id="demo-simple-select-label">Coordenador*</InputLabel>
