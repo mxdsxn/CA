@@ -58,17 +58,7 @@ export default (props) => {
   const [contratoAtivoDia, setContratoAtivo] = useState()
 
   const dataInicio = new Date("01/01/1900")
-  const cargaReferencia = new Date(
-    Date.UTC(
-      dataInicio.getUTCFullYear(),
-      dataInicio.getUTCMonth(),
-      dataInicio.getUTCDate() + 1,
-      -1,
-      0,
-      0,
-      0
-    )
-  )
+  const cargaReferencia = new Date(" 1 January, 2000")
 
   const [diaAtividade, setDiaAtividade] = useState(new Date())
   const [cargaSelecionada, setCargaSelecionada] = useState(cargaReferencia)
@@ -80,6 +70,7 @@ export default (props) => {
   const [tagAtividade, setTagAtividade] = useState('')
   const [descricaoAtividade, setDescricaoAtividade] = useState('')
 
+  console.log(cargaSelecionada)
   // reseta campos caso dia da atividade mude
   // carrega projeto que o colaborador esta alocado
   useEffect(() => {
@@ -167,7 +158,7 @@ export default (props) => {
 
       }
 
-  }, [diaAtividade, projetoSelecionado])
+  }, [projetoSelecionado])
 
   const handleChangeDiaAtividade = (diaAtividade) => {
     setProjetoSelecionado(0)
@@ -185,17 +176,17 @@ export default (props) => {
   const handleChangeTag = (tags) => setTagAtividade(tags)
 
   const salvarAtividade = () => {
-    const dadosAtividade = {
-      cargaAtividade: cargaSelecionada,
-      idProjeto: projetoSelecionado,
-      idProjetoDefault: projetoDefaultSelecionado,
-      idCoordenador: coordenadorSelecionado,
-      idProjetoFase: projetoFaseSelecionado,
-      idCategoriaAtividade: categoriaAtividadeSelecionado,
-      tags: tagAtividade,
-      descricao: descricaoAtividade
-    }
-    apiConnection.atividade.SalvarAtividade(dadosAtividade)
+    const dadosAtividade = [
+       cargaSelecionada,
+       projetoSelecionado,
+       projetoDefaultSelecionado,
+       coordenadorSelecionado,
+       projetoFaseSelecionado,
+       categoriaAtividadeSelecionado,
+       tagAtividade,
+       descricaoAtividade
+    ]
+    apiConnection.atividade.SalvarAtividade(cargaSelecionada)
   }
 
 

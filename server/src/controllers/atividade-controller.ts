@@ -24,7 +24,9 @@ route.get('/Atividade/GetAtividadesByIdColaboradorDia', async (req, res) => {
 })
 
 route.post('/Atividade/SalvarAtividade', async (req, res) => {
-  const novaAtividade: any = req.query
+  const novaAtividade = new Date(req.query.dadosAtividade as string)
+  console.log(novaAtividade, novaAtividade.getHours())
+
   Service.SalvarAtividade(novaAtividade).then(
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
