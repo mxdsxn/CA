@@ -3,7 +3,7 @@ import baseUrl from './api-baseUrl'
 const RegistroAuxiliarApi = {
   GetRegistroAuxiliarByIdColaboradorMes: async (idProjeto, mesReferencia) => {
     const result = await baseUrl
-      .get("RegistroAuxiliar/GetRegistroAuxiliarByIdColaboradorMes", null, {
+      .get("RegistroAuxiliar/GetRegistroAuxiliarByIdColaboradorMes", {
         params: {
           idProjeto: idProjeto,
           mesReferencia: mesReferencia

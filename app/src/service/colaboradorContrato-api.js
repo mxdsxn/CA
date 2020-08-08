@@ -3,7 +3,7 @@ import baseUrl from './api-baseUrl'
 const ColaboradorContratoApi = {
   GetContratosByDataIdColaboradorMes: async (idColaborador, mesReferencia) => {
     const result = await baseUrl
-      .get("ColaboradorContrato/GetContratosByDataIdColaboradorMes", null, {
+      .get("ColaboradorContrato/GetContratosByDataIdColaboradorMes", {
         params: {
           idColaborador: idColaborador,
           mesReferencia: mesReferencia,
@@ -17,7 +17,7 @@ const ColaboradorContratoApi = {
   },
   GetContratoAtivoByIdColaboradorDia: async (idColaborador, diaReferencia) => {
     const result = await baseUrl
-      .get("ColaboradorContrato/GetContratoAtivoByIdColaboradorDia", null, {
+      .get("ColaboradorContrato/GetContratoAtivoByIdColaboradorDia", {
         params: {
           idColaborador: idColaborador,
           diaReferencia: diaReferencia,
