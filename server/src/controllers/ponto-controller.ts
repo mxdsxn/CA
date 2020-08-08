@@ -4,7 +4,7 @@ import libUtc from '@libUtc'
 
 const route = express.Router()
 
-route.post('/Ponto/GetPontoByIdColaboradorMes', async (req, res) => {
+route.get('/Ponto/GetPontoByIdColaboradorMes', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
 
@@ -14,7 +14,7 @@ route.post('/Ponto/GetPontoByIdColaboradorMes', async (req, res) => {
   )
 })
 
-route.post('/Ponto/GetPontoByIdColaboradorDia', async (req, res) => {
+route.get('/Ponto/GetPontoByIdColaboradorDia', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const diaReferencia = libUtc.getDateByString(req.query.diaReferencia as string)
 

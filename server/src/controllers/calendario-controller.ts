@@ -4,7 +4,7 @@ import libUtc from '@libUtc'
 
 const route = express.Router()
 
-route.post('/Calendario/GetFeriadosByMes', async (req, res) => {
+route.get('/Calendario/GetFeriadosByMes', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
 
@@ -14,7 +14,7 @@ route.post('/Calendario/GetFeriadosByMes', async (req, res) => {
   )
 })
 
-route.post('/Calendario/GetListaFeriadoFinalSemanaByMes', async (req, res) => {
+route.get('/Calendario/GetListaFeriadoFinalSemanaByMes', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
 

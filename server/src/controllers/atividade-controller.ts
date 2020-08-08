@@ -3,7 +3,7 @@ import { AtividadeService as Service } from '@services'
 import libUtc from '@libUtc'
 const route = express.Router()
 
-route.post('/Atividade/GetAtividadesByIdColaboradorMes', async (req, res) => {
+route.get('/Atividade/GetAtividadesByIdColaboradorMes', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
@@ -13,7 +13,7 @@ route.post('/Atividade/GetAtividadesByIdColaboradorMes', async (req, res) => {
   )
 })
 
-route.post('/Atividade/GetAtividadesByIdColaboradorDia', async (req, res) => {
+route.get('/Atividade/GetAtividadesByIdColaboradorDia', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
