@@ -3,7 +3,7 @@ import baseUrl from './api-baseUrl'
 const ProjetoCategoriaAtividadeApi = {
   GetProjetoCategoriaAtividadeByIdProjeto: async (idProjeto) => {
     const result = await baseUrl
-      .post("ProjetoCategoriaAtividade/GetProjetoCategoriaAtividadeByIdProjeto", null, {
+      .get("ProjetoCategoriaAtividade/GetProjetoCategoriaAtividadeByIdProjeto", {
         params: {
           idProjeto: idProjeto,
         },

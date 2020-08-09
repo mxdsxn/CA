@@ -4,9 +4,9 @@ import libUtc from '@libUtc'
 
 const route = express.Router()
 
-route.post('/Projeto/GetProjetosByIdColaboradorDia', (req, res) => {
+route.get('/Projeto/GetProjetosByIdColaboradorDia', (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
-  const diaReferencia = libUtc.getDateByString(req.query.diaReferencia as string)
+  const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
   Service.GetProjetosByIdColaboradorDia(idColaborador, diaReferencia)
     .then(
@@ -15,8 +15,8 @@ route.post('/Projeto/GetProjetosByIdColaboradorDia', (req, res) => {
     )
 })
 
-route.post('/Projeto/GetProjetosDefault', (req, res) => {
-  const diaReferencia = libUtc.getDateByString(req.query.diaReferencia as string)
+route.get('/Projeto/GetProjetosDefault', (req, res) => {
+  const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
   Service.GetProjetosDefault(diaReferencia)
     .then(

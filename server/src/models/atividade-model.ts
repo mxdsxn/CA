@@ -9,7 +9,7 @@ export default interface IAtividade {
   FaseProjeto: String;
   DataCadastro: Date;
   DataAtividade: Date;
-  Carga: string;
+  Carga: String;
   Descricao: String;
   Tags: String;
   IdCoordenador: number;

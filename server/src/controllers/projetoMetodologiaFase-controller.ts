@@ -3,7 +3,7 @@ import { ProjetoMetodologiaFaseService as Service } from '@services'
 
 const route = express.Router()
 
-route.post('/ProjetoMetodologiaFase/GetProjetoFaseByIdProjeto', (req, res) => {
+route.get('/ProjetoMetodologiaFase/GetProjetoFaseByIdProjeto', (req, res) => {
   const idProjeto = Number(req.query.idProjeto)
 
   Service.GetProjetoFaseByIdProjeto(idProjeto)

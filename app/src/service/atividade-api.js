@@ -3,7 +3,7 @@ import baseUrl from './api-baseUrl'
 const AtividadeApi = {
   GetAtividadesByIdColaboradorMes: async (idColaborador, mesReferencia) => {
     const result = await baseUrl
-      .post("Atividade/GetAtividadesByIdColaboradorMes", null, {
+      .get("Atividade/GetAtividadesByIdColaboradorMes", {
         params: {
           idColaborador: idColaborador,
           mesReferencia: mesReferencia,
@@ -17,7 +17,7 @@ const AtividadeApi = {
   },
   GetAtividadesByIdColaboradorDia: async (idColaborador, diaReferencia) => {
     const result = await baseUrl
-      .post("Atividade/GetAtividadesByIdColaboradorDia", null, {
+      .get("Atividade/GetAtividadesByIdColaboradorDia", {
         params: {
           idColaborador: idColaborador,
           diaReferencia: diaReferencia,
@@ -28,6 +28,33 @@ const AtividadeApi = {
         err => console.log(err)
       )
     return result
+  },
+  SalvarAtividade: async (
+    idAtividade,
+    cargaAtividade,
+    idProjeto,
+    idProjetoDefault,
+    idCoordenador,
+    idProjetoFase,
+    idCategoriaAtividade,
+    tagsAtividade,
+    descricaoAtividade
+  ) => {
+
+    await baseUrl
+      .post("Atividade/SalvarAtividade", null, {
+        params: {
+          idAtividade,
+          cargaAtividade,
+          idProjeto,
+          idProjetoDefault,
+          idCoordenador,
+          idProjetoFase,
+          idCategoriaAtividade,
+          tagsAtividade,
+          descricaoAtividade
+        }
+      })
   }
 }
 
