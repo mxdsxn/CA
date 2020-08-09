@@ -54,7 +54,6 @@ export default function CustomizedExpansionPanels(props) {
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
-    console.log(panel)
   };
 
   if (props.atvMes != null && props.atvMes.length > 0) {

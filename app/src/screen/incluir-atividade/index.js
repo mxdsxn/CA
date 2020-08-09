@@ -70,9 +70,6 @@ export default (props) => {
   const [tagAtividade, setTagAtividade] = useState('')
   const [descricaoAtividade, setDescricaoAtividade] = useState('')
 
-  console.log(cargaSelecionada)
-  // reseta campos caso dia da atividade mude
-  // carrega projeto que o colaborador esta alocado
   useEffect(() => {
     apiConnection.projeto.GetProjetosByIdColaboradorDia(idColaboradorLogado, diaAtividade)
       .then(res =>
@@ -189,10 +186,9 @@ export default (props) => {
     )
   }
 
-
   const campoProjeto = () => {
     return (
-      <Grid item xs={12} sm={12} md={12} xl={12} align="center">
+      <Grid item xs={12} sm={6} md={4} xl={4} align="center">
         <FormControl className={classes.formControl}>
           <InputLabel id="select-label-projeto">Projeto*</InputLabel>
           <Select
@@ -215,8 +211,8 @@ export default (props) => {
   }
 
   const campoProjetoDefault = () => {
-    return projetoSelecionado === -1 && listaProjetoDefault !== [] ?
-      <Grid item xs={12} sm={12} md={12} xl={12} align="center" >
+    return projetoSelecionado === -1 && listaProjetoDefault.length > 1 ?
+      <Grid item xs={12} sm={6} md={4} xl={4} align="center" >
         <FormControl className={classes.formControl}>
           <InputLabel id="select-label-fase">Projeto Default*</InputLabel>
           <Select
@@ -238,8 +234,8 @@ export default (props) => {
   }
 
   const campoProjetoFase = () => {
-    return listaProjetoFase !== listasDefault.projetoFase && listaProjetoFase !== [] ?
-      <Grid item xs={12} sm={12} md={12} xl={12} align="center" >
+    return listaProjetoFase.length > 1 ?
+      <Grid item xs={12} sm={6} md={4} xl={4} align="center" >
         <FormControl className={classes.formControl}>
           <InputLabel id="select-label-fase">Fase*</InputLabel>
           <Select
@@ -260,9 +256,8 @@ export default (props) => {
   }
 
   const campoCategoriaAtividade = () => {
-
-    return listaCategoriaAtividade !== listasDefault.categoriaAtividade && listaCategoriaAtividade !== [] ?
-      <Grid item xs={12} sm={12} md={12} xl={12} align="center" >
+    return listaCategoriaAtividade.length > 1 ?
+      <Grid item xs={12} sm={6} md={4} xl={4} align="center" >
         <FormControl className={classes.formControl}>
           <InputLabel id="select-label-fase">Categoria Atividade*</InputLabel>
           <Select
@@ -284,8 +279,8 @@ export default (props) => {
   }
 
   const campoCoordenador = () => {
-    return projetoSelecionado === -1 && listaCoordenador !== [] ?
-      <Grid item xs={12} sm={12} md={12} xl={12} align="center">
+    return projetoSelecionado === -1 && listaCoordenador.length > 1 ?
+      <Grid item xs={12} sm={6} md={4} xl={4} align="center">
         <FormControl className={classes.formControl}>
           <InputLabel id="demo-simple-select-label">Coordenador*</InputLabel>
           <Select
@@ -308,7 +303,7 @@ export default (props) => {
 
   const campoTag = () => {
     return (
-      <Grid item xs={12} sm={12} md={12} xl={12} align="center">
+      <Grid item xs={12} sm={6} md={4} xl={4} align="center">
         <ChipInput
           fullWidth
           classes={{ input: classes.input }}
@@ -323,7 +318,7 @@ export default (props) => {
 
   const campoDescricao = () => {
     return (
-      <Grid item xs={12} sm={12} md={12} xl={12} align="center">
+      <Grid item xs={12} sm={6} md={4} xl={4} align="center">
         <FormControl className={classes.formControl}>
           <TextField
             id="outlined-basic"
@@ -346,29 +341,21 @@ export default (props) => {
   const renderDateTimePicker = () => {
     return (
       <>
-        <Grid item xs={12} sm={12} md={12} xl={12} align="center">
-          <div align="center">
-            <DataPicker
-              onChange={handleChangeDiaAtividade}
-              value={diaAtividade}
-            />
-          </div>
-        </Grid>
-        <Grid item xs={12} sm={12} md={12} xl={12} align="center">
-          <div align="center">
-            <TimePicker
-              onChange={handleChangeCargaAtividade}
-              value={cargaSelecionada}
-            />
-          </div>
-        </Grid>
+        <DataPicker
+          onChange={handleChangeDiaAtividade}
+          value={diaAtividade}
+        />
+        <TimePicker
+          onChange={handleChangeCargaAtividade}
+          value={cargaSelecionada}
+        />
       </>
     )
   }
 
   return (
     <div className="container">
-      {renderBarraProgresso()}
+      {/* {renderBarraProgresso()} */}
       {renderDateTimePicker()}
       <Grid container spacing={3}>
         {campoProjeto()}
