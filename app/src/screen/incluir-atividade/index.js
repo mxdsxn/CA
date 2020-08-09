@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const idColaboradorLogado = 2359
-
 const listasDefault = {
   projeto: [{ IdProjeto: 0, Nome: 'Selecione' }, { IdProjeto: -1, Nome: 'Projeto Default' }],
   projetoDefault: [{ IdProjeto: 0, Nome: 'Selecione' }],
@@ -48,20 +47,15 @@ const listasDefault = {
 }
 
 export default (props) => {
-  const classes = useStyles()
-
+  //#region Estados
   const [listaProjeto, setListaProjeto] = useState(listasDefault.projeto)
   const [listaProjetoDefault, setListaProjetoDefault] = useState(listasDefault.projetoDefault)
   const [listaProjetoFase, setListaProjetoFase] = useState(listasDefault.projetoFase)
   const [listaCategoriaAtividade, setListaCategoriaAtividade] = useState(listasDefault.categoriaAtividade)
   const [listaCoordenador, setListaCoordenador] = useState(listasDefault.coordenador)
   const [contratoAtivoDia, setContratoAtivo] = useState()
-
-  const dataInicio = new Date("01/01/1900")
-  const cargaReferencia = new Date(" 1 January, 2000")
-
   const [diaAtividade, setDiaAtividade] = useState(new Date())
-  const [cargaSelecionada, setCargaSelecionada] = useState(cargaReferencia)
+  const [cargaSelecionada, setCargaSelecionada] = useState(new Date(" 1 January, 2000"))
   const [projetoSelecionado, setProjetoSelecionado] = useState(0)
   const [projetoDefaultSelecionado, setProjetoDefaultSelecionado] = useState(0)
   const [projetoFaseSelecionado, setProjetoFaseSelecionado] = useState(0)
@@ -69,6 +63,9 @@ export default (props) => {
   const [coordenadorSelecionado, setCoordenadorSelecionado] = useState(0)
   const [tagAtividade, setTagAtividade] = useState('')
   const [descricaoAtividade, setDescricaoAtividade] = useState('')
+  //#endregion
+
+  const classes = useStyles()
 
   useEffect(() => {
     apiConnection.projeto.GetProjetosByIdColaboradorDia(idColaboradorLogado, diaAtividade)
@@ -83,10 +80,10 @@ export default (props) => {
           setContratoAtivo(res) :
           setContratoAtivo(listasDefault.contratoAtivo)
       )
-    setListaProjetoFase(listasDefault.projetoFase)
-    setListaCategoriaAtividade(listasDefault.categoriaAtividade)
-    setListaProjetoDefault(listasDefault.projetoDefault)
-    setListaCoordenador(listasDefault.coordenador)
+    setListaProjetoFase([])
+    setListaCategoriaAtividade([])
+    setListaProjetoDefault([])
+    setListaCoordenador([])
     setTagAtividade('')
     setDescricaoAtividade('')
   }, [diaAtividade])
@@ -94,30 +91,24 @@ export default (props) => {
   useEffect(() => {
     // se algum projeto(>0) selecionado, carregar Fase e Categoria, caso existam
     if (projetoSelecionado > 0) {
-      listaProjetoDefault !== listasDefault.projetoDefault ?? setListaProjetoDefault(listasDefault.projetoDefault)
-      listaCoordenador !== listasDefault.coordenador ?? setListaCoordenador(listasDefault.coordenador)
+      setListaProjetoDefault([])
+      setListaCoordenador([])
+      setProjetoFaseSelecionado(0)
+      setCategoriaAtividadeSelecionado(0)
 
-      // if (listaProjeto.find(x => x.IdProjeto === projetoSelecionado).IdProjetoTipo !== 4) {
       apiConnection.projetoMetodologiaFase.GetProjetoFaseByIdProjeto(projetoSelecionado)
         .then(res =>
           res ?
             setListaProjetoFase([].concat(listasDefault.projetoFase, res)) :
             setListaProjetoFase(listasDefault.projetoFase)
         )
-      setProjetoFaseSelecionado(0)
-      setListaCategoriaAtividade(listasDefault.categoriaAtividade)
-      // }
 
-      // if (listaProjeto.find(x => x.IdProjeto === projetoSelecionado).IdProjetoTipo === 4) {
       apiConnection.projetoCategoriaAtividade.GetProjetoCategoriaAtividadeByIdProjeto(projetoSelecionado)
         .then(res =>
           res ?
             setListaCategoriaAtividade([].concat(listasDefault.categoriaAtividade, res)) :
             setListaCategoriaAtividade(listasDefault.categoriaAtividade)
         )
-      setCategoriaAtividadeSelecionado(0)
-      setListaProjetoFase(listasDefault.projetoFase)
-      // }
 
     } else
       // se projeto é default (-1), carrega projetos default e coordenadores 
@@ -144,10 +135,10 @@ export default (props) => {
         setListaCategoriaAtividade(listasDefault.categoriaAtividade)
         setListaProjetoFase(listasDefault.projetoFase)
       } else if (projetoSelecionado === 0) {
-        setListaProjetoFase(listasDefault.projetoFase)
-        setListaCategoriaAtividade(listasDefault.categoriaAtividade)
-        setListaProjetoDefault(listasDefault.projetoDefault)
-        setListaCoordenador(listasDefault.coordenador)
+        setListaProjetoFase([])
+        setListaCategoriaAtividade([])
+        setListaProjetoDefault([])
+        setListaCoordenador([])
         setCoordenadorSelecionado(0)
         setProjetoDefaultSelecionado(0)
         setCategoriaAtividadeSelecionado(0)
@@ -157,13 +148,8 @@ export default (props) => {
 
   }, [projetoSelecionado])
 
-  const handleChangeDiaAtividade = (diaAtividade) => {
-    setProjetoSelecionado(0)
-    setDiaAtividade(diaAtividade)
-  }
-  const handleChangeCargaAtividade = (cargaAtividade) => {
-    setCargaSelecionada(cargaAtividade)
-  }
+  const handleChangeDiaAtividade = (diaAtividade) => { setProjetoSelecionado(0); setDiaAtividade(diaAtividade) }
+  const handleChangeCargaAtividade = (cargaAtividade) => setCargaSelecionada(cargaAtividade)
   const handleChangeProjeto = (event) => setProjetoSelecionado(event.target.value)
   const handleChangeProjetoDefault = (event) => setProjetoDefaultSelecionado(event.target.value)
   const handleChangeProjetoFase = (event) => setProjetoFaseSelecionado(event.target.value)
