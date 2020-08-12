@@ -93,6 +93,7 @@ export default (props) => {
   const [projetoFaseSelecionadoCheck, setProjetoFaseSelecionadoCheck] = useState(true)
   const [projetoSelecionadoCheck, setProjetoSelecionadoCheck] = useState(true)
   const [tagAtividadeCheck, setTagAtividadeCheck] = useState(true)
+  const [formularioCheck, setFormularioCheck] = useState(false)
   //#endregion
 
   //#region UseEffects
@@ -217,25 +218,10 @@ export default (props) => {
   }
 
   const validaFormulario = () => {
-    validaCategoriaAtividadeSelecionado()
-    validaCoordenadorSelecionado()
-    validaDescricaoAtividade()
-    validaProjetoDefaultSelecionado()
-    validaProjetoFaseSelecionado()
-    
-    console.log('descricaoAtividadeCheck', descricaoAtividadeCheck)
-    console.log('categoriaAtividadeSelecionadoCheck', categoriaAtividadeSelecionadoCheck)
-    console.log('coordenadorSelecionadoCheck', coordenadorSelecionadoCheck)
-    console.log('projetoDefaultSelecionadoCheck', projetoDefaultSelecionadoCheck)
-    console.log('projetoFaseSelecionadoCheck', projetoFaseSelecionadoCheck)
-    console.log('projetoSelecionadoCheck', projetoSelecionadoCheck)
-    return (descricaoAtividadeCheck &&
-      categoriaAtividadeSelecionadoCheck &&
-      coordenadorSelecionadoCheck &&
-      projetoDefaultSelecionadoCheck &&
-      projetoFaseSelecionadoCheck &&
-      projetoSelecionadoCheck
-    ) ? true : false
+    if (projetoSelecionado === -1)
+      projetoDefaultSelecionadoCheck && coordenadorSelecionadoCheck
+        ? setFormularioCheck(true)
+        : setFormularioCheck(false)
   }
   //#endregion
 
@@ -247,37 +233,117 @@ export default (props) => {
   const handleChangeProjetoFase = (event) => setProjetoFaseSelecionado(event.target.value)
   const handleChangeCategoriaAtividade = (event) => setCategoriaAtividadeSelecionado(event.target.value)
   const handleChangeCoordenador = (event) => setCoordenadorSelecionado(event.target.value)
-  const handleChangeDescricao = (event) => setDescricaoAtividade(event.target.value)
+  const handleChangeDescricao = (event) => {
+    setDescricaoAtividade(event.target.value)
+    setTimeout(() => {
+      validaDescricaoAtividade()
+      validaFormulario()
+    }, 1000);
+  }
   const handleChangeTag = (tags) => setTagAtividade(tags)
   const handleSalvarAtividade = () => {
-    if (validaFormulario())
-      console.log('naovalido')
-    else
-      apiConnection.atividade.SalvarAtividade(
-        null,
-        cargaSelecionada,
-        projetoSelecionado,
-        projetoDefaultSelecionado,
-        coordenadorSelecionado,
-        projetoFaseSelecionado,
-        categoriaAtividadeSelecionado,
-        tagAtividade,
-        descricaoAtividade
-      )
+
+    apiConnection.atividade.SalvarAtividade(
+      null,
+      cargaSelecionada,
+      projetoSelecionado,
+      projetoDefaultSelecionado,
+      coordenadorSelecionado,
+      projetoFaseSelecionado,
+      categoriaAtividadeSelecionado,
+      tagAtividade,
+      descricaoAtividade
+    )
   }
   //#endregion
 
   //#region Renders
+  const renderBarraProgresso = () => {
+    const mesReferencia = new Date()
+    return <BarraProgresso mesReferencia={mesReferencia} />
+  }
+
+  const renderCampoCategoriaAtividade = () => {
+    return listaCategoriaAtividade.length > 1 ?
+      <Grid item xs={12} sm={6} md={4} xl={4} align="center" >
+        <FormControl className={classes.formControl}>
+          <InputLabel id="select-label-fase">Categoria Atividade*</InputLabel>
+          <Select
+            error={!categoriaAtividadeSelecionadoCheck}
+            id="select-projetoDefault"
+            label='Selecione uma Categoria'
+            labelId="select-categoria"
+            onChange={handleChangeCategoriaAtividade}
+            onFocus={validaCategoriaAtividadeSelecionado}
+            placeholder='Selecione uma Categoria'
+            value={categoriaAtividadeSelecionado}
+          >
+            {
+              listaCategoriaAtividade.map((categoriaAtividade) => (
+                <MenuItem value={categoriaAtividade.IdProjetoCategoriaAtividade} key={categoriaAtividade.IdProjetoCategoriaAtividade}>{categoriaAtividade.Descricao}</MenuItem>
+              ))
+            }
+          </Select>
+        </FormControl>
+      </Grid> : null
+  }
+
+  const renderCampoCoordenador = () => {
+    return projetoSelecionado === -1 && listaCoordenador.length > 1 ?
+      <Grid item xs={12} sm={6} md={4} xl={4} align="center">
+        <FormControl className={classes.formControl} >
+          <InputLabel id="demo-simple-select-label">Coordenador*</InputLabel>
+          <Select
+            error={!coordenadorSelecionadoCheck}
+            id="demo-simple-select"
+            label='Selecione um(a) Coordenador(a)'
+            labelId="select-coordenador"
+            onChange={handleChangeCoordenador}
+            onFocus={validaCoordenadorSelecionado}
+            placeholder='Selecione um(a) Coordenador(a)'
+            value={coordenadorSelecionado}
+          >
+            {
+              listaCoordenador.map((coordenador) => (
+                <MenuItem value={coordenador.IdColaborador} key={coordenador.IdColaborador}>{coordenador.Nome}</MenuItem>
+              ))
+            }
+          </Select>
+        </FormControl>
+      </Grid> : null
+  }
+
+  const renderCampoDescricao = () => {
+    return (
+      <Grid item xs={12} sm={6} md={4} xl={4} align="center">
+        <FormControl className={classes.formControl}>
+          <TextField
+            error={!descricaoAtividadeCheck}
+            id="outlined-basic"
+            label="Descricao da Atividade"
+            // multiline
+            onChange={handleChangeDescricao}
+            onFocus={validaDescricaoAtividade}
+            placeholder='Descrição da Atividade'
+            value={descricaoAtividade}
+          />
+        </FormControl>
+      </Grid>
+    )
+  }
+
   const renderCampoProjeto = () => {
     return (
       <Grid item xs={12} sm={6} md={4} xl={4} align="center">
-        <FormControl className={classes.formControl} error={!projetoSelecionadoCheck}>
+        <FormControl className={classes.formControl} >
           <InputLabel id="select-label-projeto">Projeto*</InputLabel>
           <Select
+            error={!projetoSelecionadoCheck}
             id="select-projeto"
             label="Selecione um Projeto"
             labelId="select-projeto"
             onChange={handleChangeProjeto}
+            onFocus={validaProjetoSelecionado}
             placeholder="Selecione um Projeto"
             value={projetoSelecionado}
           >
@@ -295,13 +361,15 @@ export default (props) => {
   const renderCampoProjetoDefault = () => {
     return projetoSelecionado === -1 && listaProjetoDefault.length > 1 ?
       <Grid item xs={12} sm={6} md={4} xl={4} align="center" >
-        <FormControl className={classes.formControl} error={!projetoDefaultSelecionadoCheck}>
+        <FormControl className={classes.formControl} >
           <InputLabel id="select-label-fase">Projeto Default*</InputLabel>
           <Select
+            error={!projetoDefaultSelecionadoCheck}
             id="select-projetoDefault"
             label='Selecione um Projeto Default'
             labelId="select-projeto-default"
             onChange={handleChangeProjetoDefault}
+            onFocus={validaProjetoDefaultSelecionado}
             placeholder='Selecione um Projeto Default'
             value={projetoDefaultSelecionado}
           >
@@ -318,13 +386,15 @@ export default (props) => {
   const renderCampoProjetoFase = () => {
     return listaProjetoFase.length > 1 ?
       <Grid item xs={12} sm={6} md={4} xl={4} align="center" >
-        <FormControl className={classes.formControl} error={!projetoFaseSelecionadoCheck}>
+        <FormControl className={classes.formControl} >
           <InputLabel id="select-label-fase">Fase*</InputLabel>
           <Select
+            error={!projetoFaseSelecionadoCheck}
             id="select-projetoDefault"
             label='Selecione uma Fase'
             labelId="select-fase"
             onChange={handleChangeProjetoFase}
+            onFocus={validaProjetoFaseSelecionado}
             placeholder='Selecione uma Fase'
             value={projetoFaseSelecionado}
           >
@@ -337,97 +407,18 @@ export default (props) => {
       </Grid> : null
   }
 
-  const renderCampoCategoriaAtividade = () => {
-    return listaCategoriaAtividade.length > 1 ?
-      <Grid item xs={12} sm={6} md={4} xl={4} align="center" >
-        <FormControl className={classes.formControl} error={!categoriaAtividadeSelecionadoCheck}>
-          <InputLabel id="select-label-fase">Categoria Atividade*</InputLabel>
-          <Select
-            id="select-projetoDefault"
-            label='Selecione uma Categoria'
-            labelId="select-categoria"
-            onChange={handleChangeCategoriaAtividade}
-            placeholder='Selecione uma Categoria'
-            value={categoriaAtividadeSelecionado}
-          >
-            {
-              listaCategoriaAtividade.map((categoriaAtividade) => (
-                <MenuItem value={categoriaAtividade.IdProjetoCategoriaAtividade} key={categoriaAtividade.IdProjetoCategoriaAtividade}>{categoriaAtividade.Descricao}</MenuItem>
-              ))
-            }
-          </Select>
-        </FormControl>
-      </Grid> : null
-  }
-
-  const renderCampoCoordenador = () => {
-    return projetoSelecionado === -1 && listaCoordenador.length > 1 ?
-      <Grid item xs={12} sm={6} md={4} xl={4} align="center">
-        <FormControl className={classes.formControl} error={!coordenadorSelecionadoCheck}>
-          <InputLabel id="demo-simple-select-label">Coordenador*</InputLabel>
-          <Select
-            id="demo-simple-select"
-            label='Selecione um(a) Coordenador(a)'
-            labelId="select-coordenador"
-            onChange={handleChangeCoordenador}
-            placeholder='Selecione um(a) Coordenador(a)'
-            value={coordenadorSelecionado}
-          >
-            {
-              listaCoordenador.map((coordenador) => (
-                <MenuItem value={coordenador.IdColaborador} key={coordenador.IdColaborador}>{coordenador.Nome}</MenuItem>
-              ))
-            }
-          </Select>
-        </FormControl>
-      </Grid> : null
-  }
-
   const renderCampoTag = () => {
     return (
       <Grid item xs={12} sm={6} md={4} xl={4} align="center">
         <ChipInput
-          fullWidth
           classes={{ input: classes.input }}
+          fullWidth
           onChange={handleChangeTag}
-          value={tagAtividade}
-          placeholder="Tags"
           label="Tags*"
-          error={!tagAtividadeCheck}
+          placeholder="Tags"
+          value={tagAtividade}
         />
       </Grid>
-    )
-  }
-
-  const renderCampoDescricao = () => {
-    return (
-      <Grid item xs={12} sm={6} md={4} xl={4} align="center">
-        <FormControl className={classes.formControl}>
-          <TextField
-            id="outlined-basic"
-            label="Descricao da Atividade"
-            error={!descricaoAtividadeCheck}
-            multiline
-            onChange={handleChangeDescricao}
-            placeholder='Descrição da Atividade'
-            value={descricaoAtividade}
-          />
-        </FormControl>
-      </Grid>
-    )
-  }
-
-  const renderBarraProgresso = () => {
-    const mesReferencia = new Date()
-    return <BarraProgresso mesReferencia={mesReferencia} />
-  }
-
-  const renderDiaAtividadePicker = () => {
-    return (
-      <DataPicker
-        onChange={handleChangeDiaAtividade}
-        value={diaAtividade}
-      />
     )
   }
 
@@ -439,6 +430,16 @@ export default (props) => {
       />
     )
   }
+
+  const renderDiaAtividadePicker = () => {
+    return (
+      <DataPicker
+        onChange={handleChangeDiaAtividade}
+        value={diaAtividade}
+      />
+    )
+  }
+
   //#endregion
 
   return (
@@ -459,6 +460,7 @@ export default (props) => {
         onClick={handleSalvarAtividade}
         variant="contained"
         className={classes.colorDefault}
+        disabled={!formularioCheck}
       >
         Salvar Atividade
       </Button>
