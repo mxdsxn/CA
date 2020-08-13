@@ -7,9 +7,6 @@ import {
   Grid,
   Button,
   TextField,
-  FormControl,
-  InputLabel,
-  Select,
   MenuItem,
   makeStyles,
 } from '@material-ui/core'
@@ -33,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     background: '#f0ad4e',
   },
   input: {
-    padding: '7px',
+    padding: '13px',
   },
 }))
 
