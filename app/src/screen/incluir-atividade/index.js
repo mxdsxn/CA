@@ -50,7 +50,9 @@ const defaultValue = {
 }
 
 export default (props) => {
-
+  setTimeout(() => {
+    validaFormulario()
+  }, 1000);
   //#region Constantes
   const classes = useStyles()
   const idColaboradorLogado = 2359
@@ -86,13 +88,13 @@ export default (props) => {
   const [tagAtividade, setTagAtividade] = useState('')
 
   // state validacao
-  const [descricaoAtividadeCheck, setDescricaoAtividadeCheck] = useState(true)
-  const [categoriaAtividadeSelecionadoCheck, setCategoriaAtividadeSelecionadoCheck] = useState(true)
-  const [coordenadorSelecionadoCheck, setCoordenadorSelecionadoCheck] = useState(true)
-  const [projetoDefaultSelecionadoCheck, setProjetoDefaultSelecionadoCheck] = useState(true)
-  const [projetoFaseSelecionadoCheck, setProjetoFaseSelecionadoCheck] = useState(true)
-  const [projetoSelecionadoCheck, setProjetoSelecionadoCheck] = useState(true)
-  const [tagAtividadeCheck, setTagAtividadeCheck] = useState(true)
+  const [descricaoAtividadeCheck, setDescricaoAtividadeCheck] = useState(false)
+  const [categoriaAtividadeSelecionadoCheck, setCategoriaAtividadeSelecionadoCheck] = useState(false)
+  const [coordenadorSelecionadoCheck, setCoordenadorSelecionadoCheck] = useState(false)
+  const [projetoDefaultSelecionadoCheck, setProjetoDefaultSelecionadoCheck] = useState(false)
+  const [projetoFaseSelecionadoCheck, setProjetoFaseSelecionadoCheck] = useState(false)
+  const [projetoSelecionadoCheck, setProjetoSelecionadoCheck] = useState(false)
+  const [tagAtividadeCheck, setTagAtividadeCheck] = useState(false)
   const [formularioCheck, setFormularioCheck] = useState(false)
   //#endregion
 
@@ -174,52 +176,52 @@ export default (props) => {
   // const validaCargaSelecionada = () => {}
   const validaCategoriaAtividadeSelecionado = () => {
     if (listaCategoriaAtividade.length > 1 && categoriaAtividadeSelecionado === 0)
-      setCategoriaAtividadeSelecionadoCheck(false)
-    else
       setCategoriaAtividadeSelecionadoCheck(true)
+    else
+      setCategoriaAtividadeSelecionadoCheck(false)
   }
   const validaCoordenadorSelecionado = () => {
     if (listaCoordenador.length > 1 && coordenadorSelecionado === 0)
-      setCoordenadorSelecionadoCheck(false)
-    else
       setCoordenadorSelecionadoCheck(true)
+    else
+      setCoordenadorSelecionadoCheck(false)
   }
   // const validaContratoAtivoDia = () => { }
   const validaDescricaoAtividade = () => {
     if (descricaoAtividade === '')
-      setDescricaoAtividadeCheck(false)
-    else
       setDescricaoAtividadeCheck(true)
+    else
+      setDescricaoAtividadeCheck(false)
   }
   // const validaDiaAtividade = () => {}
   const validaProjetoDefaultSelecionado = () => {
     if (listaProjetoDefault.length > 1 && projetoDefaultSelecionado === 0)
-      setProjetoDefaultSelecionadoCheck(false)
-    else
       setProjetoDefaultSelecionadoCheck(true)
+    else
+      setProjetoDefaultSelecionadoCheck(false)
   }
   const validaProjetoFaseSelecionado = () => {
     if (listaProjetoFase.length > 1 && projetoFaseSelecionado === 0)
-      setProjetoFaseSelecionadoCheck(false)
-    else
       setProjetoFaseSelecionadoCheck(true)
+    else
+      setProjetoFaseSelecionadoCheck(false)
   }
   const validaProjetoSelecionado = () => {
     if (listaProjeto.length > 1 && projetoSelecionado === 0)
-      setProjetoSelecionadoCheck(false)
-    else
       setProjetoSelecionadoCheck(true)
+    else
+      setProjetoSelecionadoCheck(false)
   }
   const validaTagAtividade = () => {
     if (tagAtividade === '')
-      setTagAtividadeCheck(false)
-    else
       setTagAtividadeCheck(true)
+    else
+      setTagAtividadeCheck(false)
   }
 
   const validaFormulario = () => {
     if (projetoSelecionado === -1)
-      projetoDefaultSelecionadoCheck && coordenadorSelecionadoCheck
+      projetoDefaultSelecionadoCheck && coordenadorSelecionadoCheck && descricaoAtividadeCheck
         ? setFormularioCheck(true)
         : setFormularioCheck(false)
   }
@@ -233,16 +235,10 @@ export default (props) => {
   const handleChangeProjetoFase = (event) => setProjetoFaseSelecionado(event.target.value)
   const handleChangeCategoriaAtividade = (event) => setCategoriaAtividadeSelecionado(event.target.value)
   const handleChangeCoordenador = (event) => setCoordenadorSelecionado(event.target.value)
-  const handleChangeDescricao = (event) => {
-    setDescricaoAtividade(event.target.value)
-    setTimeout(() => {
-      validaDescricaoAtividade()
-      validaFormulario()
-    }, 1000);
-  }
+  const handleChangeDescricao = (event) => { setDescricaoAtividade(event.target.value) }
   const handleChangeTag = (tags) => setTagAtividade(tags)
-  const handleSalvarAtividade = () => {
 
+  const handleSalvarAtividade = () => {
     apiConnection.atividade.SalvarAtividade(
       null,
       cargaSelecionada,
@@ -267,9 +263,9 @@ export default (props) => {
     return listaCategoriaAtividade.length > 1 ?
       <Grid item xs={12} sm={6} md={4} xl={4} align="center" >
         <FormControl className={classes.formControl}>
-          <InputLabel id="select-label-fase">Categoria Atividade*</InputLabel>
+          <InputLabel id="select-label-fase">Categoria Atividade</InputLabel>
           <Select
-            error={!categoriaAtividadeSelecionadoCheck}
+            error={categoriaAtividadeSelecionadoCheck}
             id="select-projetoDefault"
             label='Selecione uma Categoria'
             labelId="select-categoria"
@@ -292,9 +288,9 @@ export default (props) => {
     return projetoSelecionado === -1 && listaCoordenador.length > 1 ?
       <Grid item xs={12} sm={6} md={4} xl={4} align="center">
         <FormControl className={classes.formControl} >
-          <InputLabel id="demo-simple-select-label">Coordenador*</InputLabel>
+          <InputLabel id="demo-simple-select-label">Coordenador</InputLabel>
           <Select
-            error={!coordenadorSelecionadoCheck}
+            error={coordenadorSelecionadoCheck}
             id="demo-simple-select"
             label='Selecione um(a) Coordenador(a)'
             labelId="select-coordenador"
@@ -318,14 +314,15 @@ export default (props) => {
       <Grid item xs={12} sm={6} md={4} xl={4} align="center">
         <FormControl className={classes.formControl}>
           <TextField
-            error={!descricaoAtividadeCheck}
+            error={descricaoAtividadeCheck}
             id="outlined-basic"
             label="Descricao da Atividade"
             // multiline
             onChange={handleChangeDescricao}
-            onFocus={validaDescricaoAtividade}
+            // onFocus={validaDescricaoAtividade}
             placeholder='Descrição da Atividade'
             value={descricaoAtividade}
+            required={true}
           />
         </FormControl>
       </Grid>
@@ -336,9 +333,9 @@ export default (props) => {
     return (
       <Grid item xs={12} sm={6} md={4} xl={4} align="center">
         <FormControl className={classes.formControl} >
-          <InputLabel id="select-label-projeto">Projeto*</InputLabel>
+          <InputLabel id="select-label-projeto">Projeto</InputLabel>
           <Select
-            error={!projetoSelecionadoCheck}
+            error={projetoSelecionadoCheck}
             id="select-projeto"
             label="Selecione um Projeto"
             labelId="select-projeto"
@@ -362,9 +359,9 @@ export default (props) => {
     return projetoSelecionado === -1 && listaProjetoDefault.length > 1 ?
       <Grid item xs={12} sm={6} md={4} xl={4} align="center" >
         <FormControl className={classes.formControl} >
-          <InputLabel id="select-label-fase">Projeto Default*</InputLabel>
+          <InputLabel id="select-label-fase">Projeto Default</InputLabel>
           <Select
-            error={!projetoDefaultSelecionadoCheck}
+            error={projetoDefaultSelecionadoCheck}
             id="select-projetoDefault"
             label='Selecione um Projeto Default'
             labelId="select-projeto-default"
@@ -387,9 +384,9 @@ export default (props) => {
     return listaProjetoFase.length > 1 ?
       <Grid item xs={12} sm={6} md={4} xl={4} align="center" >
         <FormControl className={classes.formControl} >
-          <InputLabel id="select-label-fase">Fase*</InputLabel>
+          <InputLabel id="select-label-fase">Fase</InputLabel>
           <Select
-            error={!projetoFaseSelecionadoCheck}
+            error={projetoFaseSelecionadoCheck}
             id="select-projetoDefault"
             label='Selecione uma Fase'
             labelId="select-fase"
@@ -414,7 +411,7 @@ export default (props) => {
           classes={{ input: classes.input }}
           fullWidth
           onChange={handleChangeTag}
-          label="Tags*"
+          label="Tags"
           placeholder="Tags"
           value={tagAtividade}
         />
