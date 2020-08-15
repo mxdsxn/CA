@@ -47,21 +47,9 @@ const defaultValue = {
 }
 
 export default (props) => {
-  setTimeout(() => {
-    validaFormulario()
-  }, 1000);
   //#region Constantes
   const classes = useStyles()
   const idColaboradorLogado = 2359
-  //#endregion
-
-  //#region Funcoes
-  const zeraIdSelecionados = () => {
-    setCoordenadorSelecionado(0)
-    setProjetoDefaultSelecionado(0)
-    setCategoriaAtividadeSelecionado(0)
-    setProjetoFaseSelecionado(0)
-  }
   //#endregion
 
   //#region States
@@ -95,7 +83,38 @@ export default (props) => {
   const [formularioCheck, setFormularioCheck] = useState(false)
   //#endregion
 
+  //#region Funcoes
+  const habilitaBotao = () => {
+    if (descricaoAtividadeCheck) {
+      if (projetoSelecionado === -1) {
+        projetoDefaultSelecionadoCheck && coordenadorSelecionadoCheck
+          ? setFormularioCheck(true)
+          : setFormularioCheck(false)
+      }
+      else if (projetoSelecionado > 0) {
+        projetoFaseSelecionadoCheck && categoriaAtividadeSelecionadoCheck
+          ? setFormularioCheck(true)
+          : setFormularioCheck(false)
+      }
+    } else
+      setFormularioCheck(false)
+  }
+
+  const zeraIdSelecionados = () => {
+    setCoordenadorSelecionado(0)
+    setProjetoDefaultSelecionado(0)
+    setCategoriaAtividadeSelecionado(0)
+    setProjetoFaseSelecionado(0)
+  }
+  //#endregion
+
   //#region UseEffects
+  useEffect(() => {
+    formularioCheck ??
+      setFormularioCheck(false)
+    validaFormulario()
+  }, [projetoSelecionado, projetoDefaultSelecionado, coordenadorSelecionado, categoriaAtividadeSelecionado, projetoFaseSelecionado, descricaoAtividade])
+
   useEffect(() => {
     apiConnection.colaboradorContrato.GetContratoAtivoByIdColaboradorDia(idColaboradorLogado, diaAtividade)
       .then(res =>
@@ -169,61 +188,6 @@ export default (props) => {
   }, [projetoSelecionado])
   //#endregion
 
-  //#region Validacoes
-  // const validaCargaSelecionada = () => {}
-  const validaCategoriaAtividadeSelecionado = () => {
-    if (listaCategoriaAtividade.length > 1 && categoriaAtividadeSelecionado === 0)
-      setCategoriaAtividadeSelecionadoCheck(true)
-    else
-      setCategoriaAtividadeSelecionadoCheck(false)
-  }
-  const validaCoordenadorSelecionado = () => {
-    if (listaCoordenador.length > 1 && coordenadorSelecionado === 0)
-      setCoordenadorSelecionadoCheck(true)
-    else
-      setCoordenadorSelecionadoCheck(false)
-  }
-  // const validaContratoAtivoDia = () => { }
-  const validaDescricaoAtividade = () => {
-    if (descricaoAtividade === '')
-      setDescricaoAtividadeCheck(true)
-    else
-      setDescricaoAtividadeCheck(false)
-  }
-  // const validaDiaAtividade = () => {}
-  const validaProjetoDefaultSelecionado = () => {
-    if (listaProjetoDefault.length > 1 && projetoDefaultSelecionado === 0)
-      setProjetoDefaultSelecionadoCheck(true)
-    else
-      setProjetoDefaultSelecionadoCheck(false)
-  }
-  const validaProjetoFaseSelecionado = () => {
-    if (listaProjetoFase.length > 1 && projetoFaseSelecionado === 0)
-      setProjetoFaseSelecionadoCheck(true)
-    else
-      setProjetoFaseSelecionadoCheck(false)
-  }
-  const validaProjetoSelecionado = () => {
-    if (listaProjeto.length > 1 && projetoSelecionado === 0)
-      setProjetoSelecionadoCheck(true)
-    else
-      setProjetoSelecionadoCheck(false)
-  }
-  const validaTagAtividade = () => {
-    if (tagAtividade === '')
-      setTagAtividadeCheck(true)
-    else
-      setTagAtividadeCheck(false)
-  }
-
-  const validaFormulario = () => {
-    if (projetoSelecionado === -1)
-      projetoDefaultSelecionadoCheck && coordenadorSelecionadoCheck && descricaoAtividadeCheck
-        ? setFormularioCheck(true)
-        : setFormularioCheck(false)
-  }
-  //#endregion
-
   //#region Handles
   const handleChangeDiaAtividade = (diaAtividade) => { setProjetoSelecionado(0); setDiaAtividade(diaAtividade) }
   const handleChangeCargaAtividade = (cargaAtividade) => setCargaSelecionada(cargaAtividade)
@@ -250,6 +214,69 @@ export default (props) => {
   }
   //#endregion
 
+  //#region Validacoes
+  // const validaCargaSelecionada = () => {}
+  const validaCategoriaAtividadeSelecionado = () => {
+    if (listaCategoriaAtividade.length > 1 && categoriaAtividadeSelecionado === 0)
+      setCategoriaAtividadeSelecionadoCheck(false)
+    else
+      setCategoriaAtividadeSelecionadoCheck(true)
+  }
+  const validaCoordenadorSelecionado = () => {
+    if (listaCoordenador.length > 1 && coordenadorSelecionado === 0)
+      setCoordenadorSelecionadoCheck(false)
+    else
+      setCoordenadorSelecionadoCheck(true)
+  }
+  // const validaContratoAtivoDia = () => { }
+  const validaDescricaoAtividade = () => {
+    if (descricaoAtividade === '')
+      setDescricaoAtividadeCheck(false)
+    else
+      setDescricaoAtividadeCheck(true)
+  }
+  // const validaDiaAtividade = () => {}
+  const validaProjetoDefaultSelecionado = () => {
+    if (listaProjetoDefault.length > 1 && projetoDefaultSelecionado === 0)
+      setProjetoDefaultSelecionadoCheck(false)
+    else
+      setProjetoDefaultSelecionadoCheck(true)
+  }
+  const validaProjetoFaseSelecionado = () => {
+    if (listaProjetoFase.length > 1 && projetoFaseSelecionado === 0)
+      setProjetoFaseSelecionadoCheck(false)
+    else
+      setProjetoFaseSelecionadoCheck(true)
+  }
+  const validaProjetoSelecionado = () => {
+    if (listaProjeto.length > 1 && projetoSelecionado === 0)
+      setProjetoSelecionadoCheck(false)
+    else
+      setProjetoSelecionadoCheck(true)
+  }
+  const validaTagAtividade = () => {
+    if (tagAtividade === '')
+      setTagAtividadeCheck(false)
+    else
+      setTagAtividadeCheck(true)
+  }
+
+  const validaFormulario = () => {
+    validaDescricaoAtividade()
+    validaProjetoSelecionado()
+
+    if (projetoSelecionado === -1) {
+      validaProjetoDefaultSelecionado()
+      validaCoordenadorSelecionado()
+    }
+    else if (projetoSelecionado > 0) {
+      validaCategoriaAtividadeSelecionado()
+      validaProjetoFaseSelecionado()
+    }
+    habilitaBotao()
+  }
+  //#endregion
+
   //#region Renders
   const renderBarraProgresso = () => {
     const mesReferencia = new Date()
@@ -260,14 +287,13 @@ export default (props) => {
     return listaCategoriaAtividade.length > 1 ?
       <Grid item xs={12} sm={6} md={4} xl={4} align='center' >
         <TextField
-          error={categoriaAtividadeSelecionadoCheck}
+          error={!categoriaAtividadeSelecionadoCheck}
           fullWidth
           helperText='Selecione uma Categoria'
           id='select-projetoDefault'
           label='Categoria Atividade'
           margin='normal'
           onChange={handleChangeCategoriaAtividade}
-          onFocus={validaCategoriaAtividadeSelecionado}
           required
           select
           size='small'
@@ -286,14 +312,13 @@ export default (props) => {
     return projetoSelecionado === -1 && listaCoordenador.length > 1 ?
       <Grid item xs={12} sm={6} md={4} xl={4} align='center'>
         <TextField
-          error={coordenadorSelecionadoCheck}
+          error={!coordenadorSelecionadoCheck}
           fullWidth
           helperText='Selecione um(a) Coordenador(a)'
           id='demo-simple-select'
           label='Coordenador(a)'
           margin='normal'
           onChange={handleChangeCoordenador}
-          onFocus={validaCoordenadorSelecionado}
           required
           select
           size='small'
@@ -312,7 +337,7 @@ export default (props) => {
     return (
       <Grid item xs={12} sm={6} md={4} xl={4} align='center'>
         <TextField
-          error={descricaoAtividadeCheck}
+          error={!descricaoAtividadeCheck}
           fullWidth
           id='outlined-basic'
           label='Descreva sua atividade'
@@ -320,7 +345,6 @@ export default (props) => {
           margin='normal'
           multiline
           onChange={handleChangeDescricao}
-          onFocus={validaDescricaoAtividade}
           required
           size='small'
           value={descricaoAtividade}
@@ -333,14 +357,13 @@ export default (props) => {
     return (
       <Grid item xs={12} sm={6} md={4} xl={4} align='center'>
         <TextField
-          error={projetoSelecionadoCheck}
+          error={!projetoSelecionadoCheck}
           fullWidth
           helperText='Selecione um Projeto'
           id='select-projeto'
           label='Projeto'
           margin='normal'
           onChange={handleChangeProjeto}
-          onFocus={validaProjetoSelecionado}
           required
           select
           size='small'
@@ -352,7 +375,7 @@ export default (props) => {
             ))
           }
         </TextField>
-      </Grid>
+      </Grid >
     )
   }
 
@@ -360,14 +383,13 @@ export default (props) => {
     return projetoSelecionado === -1 && listaProjetoDefault.length > 1 ?
       <Grid item xs={12} sm={6} md={4} xl={4} align='center' >
         <TextField
-          error={projetoDefaultSelecionadoCheck}
+          error={!projetoDefaultSelecionadoCheck}
           fullWidth
           helperText='Selecione um Projeto Default'
           id='select-projeto-default'
           label='Projeto Default'
           margin='normal'
           onChange={handleChangeProjetoDefault}
-          onFocus={validaProjetoDefaultSelecionado}
           required
           select
           size='small'
@@ -386,14 +408,13 @@ export default (props) => {
     return listaProjetoFase.length > 1 ?
       <Grid item xs={12} sm={6} md={4} xl={4} align='center' >
         <TextField
-          error={projetoFaseSelecionadoCheck}
+          error={!projetoFaseSelecionadoCheck}
           fullWidth
           helperText='Selecione uma Fase'
           id='select-fase-projeto'
           label='Fase Projeto'
           margin='normal'
           onChange={handleChangeProjetoFase}
-          onFocus={validaProjetoFaseSelecionado}
           required
           select
           size='small'
