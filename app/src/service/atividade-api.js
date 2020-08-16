@@ -31,6 +31,7 @@ const AtividadeApi = {
   },
   SalvarAtividade: async (
     idAtividade,
+    diaAtividade,
     cargaAtividade,
     idProjeto,
     idProjetoDefault,
@@ -45,6 +46,7 @@ const AtividadeApi = {
       .post("Atividade/SalvarAtividade", null, {
         params: {
           idAtividade,
+          diaAtividade,
           cargaAtividade,
           idProjeto,
           idProjetoDefault,

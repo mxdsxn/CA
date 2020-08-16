@@ -189,19 +189,20 @@ export default (props) => {
   //#endregion
 
   //#region Handles
-  const handleChangeDiaAtividade = (diaAtividade) => { setProjetoSelecionado(0); setDiaAtividade(diaAtividade) }
+  const handleChangeDiaAtividade = (diaAtividade) => setDiaAtividade(diaAtividade)
   const handleChangeCargaAtividade = (cargaAtividade) => setCargaSelecionada(cargaAtividade)
   const handleChangeProjeto = (event) => setProjetoSelecionado(event.target.value)
   const handleChangeProjetoDefault = (event) => setProjetoDefaultSelecionado(event.target.value)
   const handleChangeProjetoFase = (event) => setProjetoFaseSelecionado(event.target.value)
   const handleChangeCategoriaAtividade = (event) => setCategoriaAtividadeSelecionado(event.target.value)
   const handleChangeCoordenador = (event) => setCoordenadorSelecionado(event.target.value)
-  const handleChangeDescricao = (event) => { setDescricaoAtividade(event.target.value) }
+  const handleChangeDescricao = (event) => setDescricaoAtividade(event.target.value)
   const handleChangeTag = (tags) => setTagAtividade(tags)
 
   const handleSalvarAtividade = () => {
     apiConnection.atividade.SalvarAtividade(
       null,
+      diaAtividade,
       cargaSelecionada,
       projetoSelecionado,
       projetoDefaultSelecionado,
