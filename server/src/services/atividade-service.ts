@@ -116,7 +116,7 @@ const SalvarAtividade = async (
 ) => {
   console.log('idAtividade:', idAtividade)
   console.log('diaAtividade', diaAtividade)
-  console.log('cargaAtividade:', cargaAtividade.getHours())
+  console.log('cargaAtividade:', cargaAtividade)
   console.log('idProjeto:', idProjeto)
   console.log('idProjetoDefault:', idProjetoDefault)
   console.log('idCoordenador:', idCoordenador)

@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const defaultValue = {
-  cargaZerada: moment(),
+  cargaZerada: moment().set({ hour: 0, minute: 0, second: 0 }),
   contratoDefault: { CargaHoraria: 0 },
   diaAtividade: moment(),
   idDefault: 0,
@@ -110,7 +110,6 @@ export default (props) => {
   //#endregion
 
   //#region UseEffects
-  useEffect(() => console.log(cargaSelecionada.utcOffset(0, true).format()), [cargaSelecionada])
   useEffect(() => {
     formularioCheck ??
       setFormularioCheck(false)
