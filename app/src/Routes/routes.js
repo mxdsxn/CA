@@ -1,11 +1,11 @@
-import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { Hidden } from '@material-ui/core'
 
-import MonthResume from "../screen/resumo-mes";
-import IncluirAtv from "../screen/incluir-atividade";
-import FecharSem from "../screen/fechar-semana";
-import NavBar from "../components/menu-inferior";
+import MonthResume from '../screen/resumo-mes';
+import IncluirAtv from '../screen/incluir-atividade';
+import FecharSem from '../screen/fechar-semana';
+import NavBar from '../components/menu-inferior';
 
 //<Redirect exact from='/' to='resumoMes' />
 export default () => {
@@ -14,15 +14,18 @@ export default () => {
       <Switch>
         <Route>
           <Route
-            path="/resumoMes"
+            path='/resumoMes'
             render={(props) => <MonthResume />}
           />
+          <Route path='/'>
+            <Redirect to='/resumoMes' />
+          </Route>
           <Route
-            path="/incluirAtv"
+            path='/incluirAtv'
             render={(props) => <IncluirAtv />}
           />
           <Route
-            path="/fecharSem"
+            path='/fecharSem'
             render={(props) => <FecharSem />}
           />
         </Route>
