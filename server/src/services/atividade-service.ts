@@ -104,7 +104,7 @@ const GetAtividadesByIdColaboradorDia = async (idColaborador: Number, diaReferen
 
 const SalvarAtividade = async (
   idAtividade: number,
-  diaAtividade: string,
+  diaAtividade: Date,
   cargaAtividade: string,
   idProjeto: number,
   idProjetoDefault: number,

@@ -16,6 +16,7 @@ import { default as apiConnection } from '../../service/api-connection'
 import DataPicker from './datepicker';
 import TimePicker from './timepicker/';
 import BarraProgresso from '../../components/barra-progresso'
+import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -35,9 +36,9 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const defaultValue = {
-  cargaZerada: new Date(' 1 January, 2000'),
+  cargaZerada: moment(),
   contratoDefault: { CargaHoraria: 0 },
-  diaAtividade: new Date(),
+  diaAtividade: moment(),
   idDefault: 0,
   listaProjeto: [{ IdProjeto: 0, Nome: 'Selecione' }, { IdProjeto: -1, Nome: 'Projeto Default' }],
   listaCategoriaAtividade: [{ IdProjetoCategoriaAtividade: 0, Descricao: 'Selecione' }],
@@ -109,6 +110,7 @@ export default (props) => {
   //#endregion
 
   //#region UseEffects
+  useEffect(() => console.log(cargaSelecionada.utcOffset(0, true).format()), [cargaSelecionada])
   useEffect(() => {
     formularioCheck ??
       setFormularioCheck(false)
@@ -116,13 +118,13 @@ export default (props) => {
   }, [projetoSelecionado, projetoDefaultSelecionado, coordenadorSelecionado, categoriaAtividadeSelecionado, projetoFaseSelecionado, descricaoAtividade])
 
   useEffect(() => {
-    apiConnection.colaboradorContrato.GetContratoAtivoByIdColaboradorDia(idColaboradorLogado, diaAtividade)
+    apiConnection.colaboradorContrato.GetContratoAtivoByIdColaboradorDia(idColaboradorLogado, diaAtividade.utcOffset(0, true).format())
       .then(res =>
         res ?
           setContratoAtivo(res) :
           setContratoAtivo(defaultValue.contratoDefault)
       )
-    apiConnection.projeto.GetProjetosByIdColaboradorDia(idColaboradorLogado, diaAtividade)
+    apiConnection.projeto.GetProjetosByIdColaboradorDia(idColaboradorLogado, diaAtividade.utcOffset(0, true).format())
       .then(res =>
         res ?
           setListaProjeto([].concat(defaultValue.listaProjeto, res)) :
@@ -165,14 +167,14 @@ export default (props) => {
       setCategoriaAtividadeSelecionado(0)
       setProjetoFaseSelecionado(0)
 
-      apiConnection.projeto.GetProjetosDefault(diaAtividade)
+      apiConnection.projeto.GetProjetosDefault(diaAtividade.utcOffset(0, true).format())
         .then(res =>
           res ?
             setListaProjetoDefault([].concat(defaultValue.listaProjetoDefault, res)) :
             setListaProjetoDefault(defaultValue.listaProjetoDefault)
         )
 
-      apiConnection.colaborador.GetCoordenadoresByDia(diaAtividade)
+      apiConnection.colaborador.GetCoordenadoresByDia(diaAtividade.utcOffset(0, true).format())
         .then(res =>
           res ?
             setListaCoordenador([].concat(defaultValue.listaCoordenador, res)) :
@@ -189,8 +191,8 @@ export default (props) => {
   //#endregion
 
   //#region Handles
-  const handleChangeDiaAtividade = (diaAtividade) => setDiaAtividade(diaAtividade)
-  const handleChangeCargaAtividade = (cargaAtividade) => setCargaSelecionada(cargaAtividade)
+  const handleChangeDiaAtividade = (diaAtividade) => setDiaAtividade(moment(diaAtividade))
+  const handleChangeCargaAtividade = (cargaAtividade) => setCargaSelecionada(moment(cargaAtividade))
   const handleChangeProjeto = (event) => setProjetoSelecionado(event.target.value)
   const handleChangeProjetoDefault = (event) => setProjetoDefaultSelecionado(event.target.value)
   const handleChangeProjetoFase = (event) => setProjetoFaseSelecionado(event.target.value)
@@ -202,8 +204,8 @@ export default (props) => {
   const handleSalvarAtividade = () => {
     apiConnection.atividade.SalvarAtividade(
       null,
-      diaAtividade,
-      cargaSelecionada,
+      diaAtividade.utcOffset(0, true).format(),
+      cargaSelecionada.utcOffset(0, true).format(),
       projetoSelecionado,
       projetoDefaultSelecionado,
       coordenadorSelecionado,
