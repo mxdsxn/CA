@@ -43,7 +43,7 @@ export default (props) => {
   }
 
   React.useEffect(() => {
-    apiConnection.colaborador.GetDadosBarraProgresso(idColaborador, mesReferencia)
+    apiConnection.colaborador.GetDadosBarraProgresso(idColaborador, mesReferencia.utcOffset(0, true).format())
       .then(res => {
         if (res) {
           setHorasBarra(res)
