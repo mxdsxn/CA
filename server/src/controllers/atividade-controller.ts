@@ -25,6 +25,7 @@ route.get('/Atividade/GetAtividadesByIdColaboradorDia', async (req, res) => {
 
 route.post('/Atividade/SalvarAtividade', async (req, res) => {
   const idAtividade = Number(req.query.idAtividade)
+  const diaAtividade = req.query.diaAtiviade
   const cargaAtividade = libUtc.getDateByString(req.query.cargaAtividade as string)
   const idProjeto = Number(req.query.idProjeto)
   const idProjetoDefault = Number(req.query.idProjetoDefault)
@@ -34,20 +35,22 @@ route.post('/Atividade/SalvarAtividade', async (req, res) => {
   const tagsAtividade = req.query.tagsAtividade as [string]
   const descricaoAtividade = req.query.descricaoAtividade as string
 
-  Service.SalvarAtividade(
-    idAtividade,
-    cargaAtividade,
-    idProjeto,
-    idProjetoDefault,
-    idCoordenador,
-    idProjetoFase,
-    idCategoriaAtividade,
-    tagsAtividade,
-    descricaoAtividade
-  ).then(
-    (suc) => { res.json(suc) },
-    (err) => { res.json(err) }
-  )
+  console.log(req.query)
+  // Service.SalvarAtividade(
+  //   idAtividade,
+  //   diaAtividade,
+  //   cargaAtividade,
+  //   idProjeto,
+  //   idProjetoDefault,
+  //   idCoordenador,
+  //   idProjetoFase,
+  //   idCategoriaAtividade,
+  //   tagsAtividade,
+  //   descricaoAtividade
+  // ).then(
+  //   (suc) => { res.json(suc) },
+  //   (err) => { res.json(err) }
+  // )
   res.status(200)
 })
 

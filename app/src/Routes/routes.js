@@ -17,7 +17,7 @@ export default () => {
             path='/resumoMes'
             render={(props) => <MonthResume />}
           />
-          <Route path='/'>
+          <Route path='/' exact>
             <Redirect to='/resumoMes' />
           </Route>
           <Route
