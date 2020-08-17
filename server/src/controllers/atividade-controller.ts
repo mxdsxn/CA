@@ -1,4 +1,5 @@
 import express from 'express'
+import moment from 'moment'
 import { AtividadeService as Service } from '@services'
 import libUtc from '@libUtc'
 const route = express.Router()
@@ -25,7 +26,8 @@ route.get('/Atividade/GetAtividadesByIdColaboradorDia', async (req, res) => {
 
 route.post('/Atividade/SalvarAtividade', async (req, res) => {
   const idAtividade = Number(req.query.idAtividade)
-  const cargaAtividade = libUtc.getDateByString(req.query.cargaAtividade as string)
+  const diaAtividade = moment.utc(req.query.diaAtividade as string)
+  const cargaAtividade = moment.utc(req.query.cargaAtividade as string)
   const idProjeto = Number(req.query.idProjeto)
   const idProjetoDefault = Number(req.query.idProjetoDefault)
   const idCoordenador = Number(req.query.idCoordenador)
@@ -36,6 +38,7 @@ route.post('/Atividade/SalvarAtividade', async (req, res) => {
 
   Service.SalvarAtividade(
     idAtividade,
+    diaAtividade,
     cargaAtividade,
     idProjeto,
     idProjetoDefault,

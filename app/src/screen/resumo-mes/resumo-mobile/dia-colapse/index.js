@@ -4,7 +4,7 @@ import MuiExpansionPanel from "@material-ui/core/ExpansionPanel";
 import MuiExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import MuiExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
-import { format } from 'date-fns'
+import moment from 'moment'
 
 import CardAtividade from "./atividade-card";
 
@@ -71,16 +71,7 @@ export default function CustomizedExpansionPanels(props) {
                 aria-controls="panel1d-content"
                 id="panel1d-header"
               >
-                <Typography>{format(new Date(
-                  Date.UTC(
-                    new Date(dia.dia).getUTCFullYear(),
-                    new Date(dia.dia).getUTCMonth(),
-                    new Date(dia.dia).getUTCDate(),
-                    + new Date(dia.dia).getHours(),
-                    0,
-                    0,
-                    0
-                  )), "d/MM/yyyy")}</Typography>
+                <Typography>{moment(dia.dia).utc().format('L')}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <Typography>

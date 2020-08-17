@@ -14,6 +14,7 @@ import {
 } from '@services'
 
 import libUtc from '@libUtc'
+import { Moment } from 'moment'
 
 /* retorna lista de atividades do colaborador em um mes */
 const GetAtividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date, naoAgruparDia?: boolean) => {
@@ -104,7 +105,8 @@ const GetAtividadesByIdColaboradorDia = async (idColaborador: Number, diaReferen
 
 const SalvarAtividade = async (
   idAtividade: number,
-  cargaAtividade: Date,
+  diaAtividade: Moment,
+  cargaAtividade: Moment,
   idProjeto: number,
   idProjetoDefault: number,
   idCoordenador: number,
@@ -114,7 +116,8 @@ const SalvarAtividade = async (
   descricaoAtividade: string
 ) => {
   console.log('idAtividade:', idAtividade)
-  console.log('cargaAtividade:', cargaAtividade.getHours())
+  console.log('diaAtividade', diaAtividade.toDate())
+  console.log('cargaAtividade:', cargaAtividade.toDate())
   console.log('idProjeto:', idProjeto)
   console.log('idProjetoDefault:', idProjetoDefault)
   console.log('idCoordenador:', idCoordenador)
