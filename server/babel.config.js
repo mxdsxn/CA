@@ -19,11 +19,14 @@ module.exports = {
         "@libUtc": "./src/libs/date-time-utc.ts",
         '@models': './src/models/index.ts',
         '@model/*': './src/models/*',
+        '@repositories': './src/repositories/index.ts',
+        "@repository/*": "./src/repositories/*",
         '@services': './src/services/index.ts',
         "@service/*": "./src/services/*",
         '@entities': './src/entities/index.ts',
         "@entity/*": "./src/entities/*",
-        "@routes": "./src/routes/routes.ts"
+        "@routes": "./src/routes/index.ts",
+        "@route": "./src/routes/*"
       }
     }]
   ],

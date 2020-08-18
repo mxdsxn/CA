@@ -1,10 +1,7 @@
-import express from 'express'
 import { ColaboradorContratoService as Service } from '@services'
 import libUtc from '@libUtc'
 
-const route = express.Router()
-
-route.get('/ColaboradorContrato/ContratosByDataIdColaboradorMes', async (req, res) => {
+const ContratosByDataIdColaboradorMes = async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
@@ -12,8 +9,9 @@ route.get('/ColaboradorContrato/ContratosByDataIdColaboradorMes', async (req, re
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )
-})
-route.get('/ColaboradorContrato/ContratoAtivoByIdColaboradorDia', async (req, res) => {
+}
+
+const ContratoAtivoByIdColaboradorDia = async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
@@ -21,7 +19,9 @@ route.get('/ColaboradorContrato/ContratoAtivoByIdColaboradorDia', async (req, re
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )
-})
+}
 
-const ColaboradorContratoControler = route
-export default ColaboradorContratoControler
+export default {
+  ContratosByDataIdColaboradorMes,
+  ContratoAtivoByIdColaboradorDia
+}

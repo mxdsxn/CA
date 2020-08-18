@@ -1,10 +1,8 @@
-import express from 'express'
 import moment from 'moment'
 import { AtividadeService as Service } from '@services'
 import libUtc from '@libUtc'
-const route = express.Router()
 
-route.get('/Atividade/AtividadesByIdColaboradorMes', async (req, res) => {
+const AtividadesByIdColaboradorMes = async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
@@ -12,9 +10,9 @@ route.get('/Atividade/AtividadesByIdColaboradorMes', async (req, res) => {
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )
-})
+}
 
-route.get('/Atividade/AtividadesByIdColaboradorDia', async (req, res) => {
+const AtividadesByIdColaboradorDia = async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
@@ -22,9 +20,9 @@ route.get('/Atividade/AtividadesByIdColaboradorDia', async (req, res) => {
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )
-})
+}
 
-route.post('/Atividade/SalvarAtividade', async (req, res) => {
+const SalvarAtividade = async (req, res) => {
   const idAtividade = Number(req.query.idAtividade)
   const diaAtividade = moment.utc(req.query.diaAtividade as string)
   const cargaAtividade = moment.utc(req.query.cargaAtividade as string)
@@ -52,7 +50,10 @@ route.post('/Atividade/SalvarAtividade', async (req, res) => {
     (err) => { res.json(err) }
   )
   res.status(200)
-})
+}
 
-const AtividadeController = route
-export default AtividadeController
+export default {
+  AtividadesByIdColaboradorMes,
+  AtividadesByIdColaboradorDia,
+  SalvarAtividade
+}

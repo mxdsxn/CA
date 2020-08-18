@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import routes from '@routes'
+import routes from './routes/routes'
 
 const app = express()
 
@@ -12,4 +12,4 @@ app.get('/api', (req, res) => {
   res.json({ message: 'bem vindo à api do cadastro de atividades dextra' })
 })
 
-app.listen(1111)
+app.listen(1111, () => console.log('Api CADx'))

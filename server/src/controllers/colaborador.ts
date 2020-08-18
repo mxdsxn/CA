@@ -1,10 +1,7 @@
-import express from 'express'
 import { ColaboradorService as Service } from '@services'
 import libUtc from '@libUtc'
 
-const route = express.Router()
-
-route.get('/Colaborador/CoordenadoresByDia', (req, res) => {
+const CoordenadoresByDia = (req, res) => {
   const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
   Service.CoordenadoresByDia(diaReferencia)
@@ -12,9 +9,9 @@ route.get('/Colaborador/CoordenadoresByDia', (req, res) => {
       (suc) => { res.json(suc) },
       (err) => { res.json(err) }
     )
-})
+}
 
-route.get('/Colaborador/HorasUteisMesByIdColaboradorMes', (req, res) => {
+const HorasUteisMesByIdColaboradorMes = (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
@@ -23,9 +20,9 @@ route.get('/Colaborador/HorasUteisMesByIdColaboradorMes', (req, res) => {
       (suc) => { res.json(suc) },
       (err) => { res.json(err) }
     )
-})
+}
 
-route.get('/Colaborador/HorasUteisAteHojeByIdColaboradorMes', (req, res) => {
+const HorasUteisAteHojeByIdColaboradorMes = (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
@@ -34,9 +31,9 @@ route.get('/Colaborador/HorasUteisAteHojeByIdColaboradorMes', (req, res) => {
       (suc) => { res.json(suc) },
       (err) => { res.json(err) }
     )
-})
+}
 
-route.get('/Colaborador/HorasCadastradasByIdColaboradorMes', (req, res) => {
+const HorasCadastradasByIdColaboradorMes = (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
@@ -45,9 +42,9 @@ route.get('/Colaborador/HorasCadastradasByIdColaboradorMes', (req, res) => {
       (suc) => { res.json(suc) },
       (err) => { res.json(err) }
     )
-})
+}
 
-route.get('/Colaborador/DadosBarraProgresso', (req, res) => {
+const DadosBarraProgresso = (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
@@ -56,6 +53,12 @@ route.get('/Colaborador/DadosBarraProgresso', (req, res) => {
       (suc) => { res.json(suc) },
       (err) => { res.json(err) }
     )
-})
+}
 
-export default route
+export default {
+  CoordenadoresByDia,
+  HorasUteisMesByIdColaboradorMes,
+  HorasUteisAteHojeByIdColaboradorMes,
+  HorasCadastradasByIdColaboradorMes,
+  DadosBarraProgresso
+}

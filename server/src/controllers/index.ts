@@ -1,4 +1,4 @@
-import TesteController from '@controller/easter-egg'
+import EasterEggController from '@controller/easter-egg'
 import AtividadeController from '@controller/atividade'
 import CalendarioController from '@controller/calendario'
 import ColaboradorController from '@controller/colaborador'
@@ -11,7 +11,7 @@ import ProjetoMetodologiaFaseController from '@controller/projeto-metodologia-fa
 import RegistroAuxiliarController from '@controller/registro-auxiliar'
 
 export {
-  TesteController,
+  EasterEggController,
   AtividadeController,
   CalendarioController,
   ColaboradorController,

@@ -1,10 +1,8 @@
-import express from 'express'
 import { CalendarioService as Service } from '@services'
 import libUtc from '@libUtc'
 
-const route = express.Router()
 
-route.get('/Calendario/FeriadosByMes', async (req, res) => {
+const FeriadosByMes = async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
 
@@ -12,9 +10,9 @@ route.get('/Calendario/FeriadosByMes', async (req, res) => {
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )
-})
+}
 
-route.get('/Calendario/ListaFeriadoFinalSemanaByMes', async (req, res) => {
+const ListaFeriadoFinalSemanaByMes = async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
 
@@ -22,7 +20,9 @@ route.get('/Calendario/ListaFeriadoFinalSemanaByMes', async (req, res) => {
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )
-})
+}
 
-const CalendarioController = route
-export default CalendarioController
+export default {
+  FeriadosByMes,
+  ListaFeriadoFinalSemanaByMes
+}

@@ -1,9 +1,6 @@
-import express from 'express'
 import { ProjetoCategoriaAtividadeService as Service } from '@services'
 
-const route = express.Router()
-
-route.get('/ProjetoCategoria/AtividadeProjetoCategoriaAtividadeByIdProjeto', async (req, res) => {
+const AtividadeProjetoCategoriaAtividadeByIdProjeto = async (req, res) => {
   const idProjeto = Number(req.query.idProjeto)
 
   Service.ProjetoCategoriaAtividadeByIdProjeto(idProjeto)
@@ -11,6 +8,6 @@ route.get('/ProjetoCategoria/AtividadeProjetoCategoriaAtividadeByIdProjeto', asy
       (suc) => { res.json(suc) },
       (err) => { res.json(err) }
     )
-})
+}
 
-export default route
+export default { AtividadeProjetoCategoriaAtividadeByIdProjeto }
