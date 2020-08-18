@@ -4,20 +4,20 @@ import libUtc from '@libUtc'
 
 const route = express.Router()
 
-route.get('/ColaboradorContrato/GetContratosByDataIdColaboradorMes', async (req, res) => {
+route.get('/ColaboradorContrato/ContratosByDataIdColaboradorMes', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
-  Service.GetContratosByDataIdColaboradorMes(idColaborador, mesReferencia).then(
+  Service.ContratosByDataIdColaboradorMes(idColaborador, mesReferencia).then(
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )
 })
-route.get('/ColaboradorContrato/GetContratoAtivoByIdColaboradorDia', async (req, res) => {
+route.get('/ColaboradorContrato/ContratoAtivoByIdColaboradorDia', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
-  Service.GetContratoAtivoByIdColaboradorDia(idColaborador, diaReferencia).then(
+  Service.ContratoAtivoByIdColaboradorDia(idColaborador, diaReferencia).then(
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )

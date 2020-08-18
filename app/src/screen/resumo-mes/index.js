@@ -20,7 +20,7 @@ export default (props) => {
   };
 
   useEffect(() => {
-    apiConnection.atividade.GetAtividadesByIdColaboradorMes(2359, mesReferencia.utcOffset(0, true).format())
+    apiConnection.atividade.AtividadesByIdColaboradorMes(2359, mesReferencia.utcOffset(0, true).format())
       .then(res =>
         res ?
           setAtividadesMes(res) :

@@ -4,7 +4,7 @@ import { IPonto } from '@models'
 import libUtc from '@libUtc'
 
 /* retorna todos os pontos do mes do colaborador */
-const GetPontoByIdColaboradorMes = async (idColaborador: Number, mesReferencia: Date) => {
+const PontoByIdColaboradorMes = async (idColaborador: Number, mesReferencia: Date) => {
   const mesReferenciaInicio = mesReferencia
   const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
@@ -21,7 +21,7 @@ const GetPontoByIdColaboradorMes = async (idColaborador: Number, mesReferencia: 
   return (listaPonto)
 }
 /* retorna todos os pontos do colaborador no dia */
-const GetPontoByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date) => {
+const PontoByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date) => {
   const diaReferenciaInicio = diaReferencia
   const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)
 
@@ -39,6 +39,6 @@ const GetPontoByIdColaboradorDia = async (idColaborador: Number, diaReferencia: 
 }
 
 export default {
-  GetPontoByIdColaboradorMes,
-  GetPontoByIdColaboradorDia
+  PontoByIdColaboradorMes,
+  PontoByIdColaboradorDia
 }

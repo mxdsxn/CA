@@ -4,21 +4,21 @@ import libUtc from '@libUtc'
 
 const route = express.Router()
 
-route.get('/Calendario/GetFeriadosByMes', async (req, res) => {
+route.get('/Calendario/FeriadosByMes', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
 
-  Service.GetFeriadosByMes(idColaborador, mesReferencia).then(
+  Service.FeriadosByMes(idColaborador, mesReferencia).then(
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )
 })
 
-route.get('/Calendario/GetListaFeriadoFinalSemanaByMes', async (req, res) => {
+route.get('/Calendario/ListaFeriadoFinalSemanaByMes', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
 
-  Service.GetListaFeriadoFinalSemanaByMes(idColaborador, mesReferencia).then(
+  Service.ListaFeriadoFinalSemanaByMes(idColaborador, mesReferencia).then(
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )

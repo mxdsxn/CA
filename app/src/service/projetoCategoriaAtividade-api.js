@@ -1,9 +1,9 @@
 import baseUrl from './api-baseUrl'
 
 const ProjetoCategoriaAtividadeApi = {
-  GetProjetoCategoriaAtividadeByIdProjeto: async (idProjeto) => {
+  ProjetoCategoriaAtividadeByIdProjeto: async (idProjeto) => {
     const result = await baseUrl
-      .get("ProjetoCategoriaAtividade/GetProjetoCategoriaAtividadeByIdProjeto", {
+      .get("ProjetoCategoriaAtividade/ProjetoCategoriaAtividadeByIdProjeto", {
         params: {
           idProjeto: idProjeto,
         },

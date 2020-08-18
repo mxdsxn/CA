@@ -4,7 +4,7 @@ import { IColaboradorContrato } from '@models'
 import libUtc from '@libUtc'
 
 /* retorna lista de contratos num mes para calculo de horas */
-const GetContratosByDataIdColaboradorMes = async (idColaborador: Number, mesReferencia: Date) => {
+const ContratosByDataIdColaboradorMes = async (idColaborador: Number, mesReferencia: Date) => {
   const mesReferenciaInicio = mesReferencia
   const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
@@ -22,7 +22,7 @@ const GetContratosByDataIdColaboradorMes = async (idColaborador: Number, mesRefe
   return (listaContrato)
 }
 /* retorna contrato ativo no dia para carga horaria diaria */
-const GetContratoAtivoByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date) => {
+const ContratoAtivoByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date) => {
   const diaReferenciaInicio = diaReferencia
   const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)
   const contratoAtivo = await dbConnection('pessoas.ColaboradorContrato')
@@ -41,6 +41,6 @@ const GetContratoAtivoByIdColaboradorDia = async (idColaborador: Number, diaRefe
 }
 
 export default {
-  GetContratosByDataIdColaboradorMes,
-  GetContratoAtivoByIdColaboradorDia
+  ContratosByDataIdColaboradorMes,
+  ContratoAtivoByIdColaboradorDia
 }

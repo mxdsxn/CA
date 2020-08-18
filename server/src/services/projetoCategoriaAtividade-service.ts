@@ -3,7 +3,7 @@ import dbConnection  from '@database'
 import { IProjetoCategoriaAtividade } from '@models'
 
 /* retorna lista de categorias do projeto */
-const GetProjetoCategoriaAtividadeByIdProjeto = async (IdProjeto: Number) => {
+const ProjetoCategoriaAtividadeByIdProjeto = async (IdProjeto: Number) => {
   const listaCategoriasProjeto = await dbConnection('operacoes.ProjetoCategoriaAtividade')
     .select('*')
     .where('IdProjeto', IdProjeto)
@@ -13,5 +13,5 @@ const GetProjetoCategoriaAtividadeByIdProjeto = async (IdProjeto: Number) => {
   return (listaCategoriasProjeto)
 }
 export default {
-  GetProjetoCategoriaAtividadeByIdProjeto
+  ProjetoCategoriaAtividadeByIdProjeto
 }

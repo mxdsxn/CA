@@ -17,7 +17,7 @@ import libUtc from '@libUtc'
 import { Moment } from 'moment'
 
 /* retorna lista de atividades do colaborador em um mes */
-const GetAtividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date, naoAgruparDia?: boolean) => {
+const AtividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date, naoAgruparDia?: boolean) => {
   const mesReferenciaInicio = mesReferencia
   const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
@@ -70,15 +70,15 @@ const GetAtividadesByIdColaboradorMes = async (idColaborador: number, mesReferen
     })
 
   if (!naoAgruparDia) {
-    const listaFeriadosFds = await CalendarioService.GetListaFeriadoFinalSemanaByMes(idColaborador, mesReferencia)
-    const listaContratosMes = await ColaboradorContratoService.GetContratosByDataIdColaboradorMes(idColaborador, mesReferencia)
+    const listaFeriadosFds = await CalendarioService.ListaFeriadoFinalSemanaByMes(idColaborador, mesReferencia)
+    const listaContratosMes = await ColaboradorContratoService.ContratosByDataIdColaboradorMes(idColaborador, mesReferencia)
     return AgruparAtividadesPorDia(mesReferencia, listaAtividadeMes, listaFeriadosFds, listaContratosMes)
   }
 
   return listaAtividadeMes
 }
 
-const GetAtividadesByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date) => {
+const AtividadesByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date) => {
   const listaAtividadeMes = await dbConnection('pessoas.Atividade')
     .select('*')
     .where({
@@ -156,6 +156,6 @@ const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: IAtividade
 
 export default {
   SalvarAtividade,
-  GetAtividadesByIdColaboradorMes,
-  GetAtividadesByIdColaboradorDia
+  AtividadesByIdColaboradorMes,
+  AtividadesByIdColaboradorDia
 }

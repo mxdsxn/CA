@@ -117,13 +117,13 @@ export default (props) => {
   }, [projetoSelecionado, projetoDefaultSelecionado, coordenadorSelecionado, categoriaAtividadeSelecionado, projetoFaseSelecionado, descricaoAtividade])
 
   useEffect(() => {
-    apiConnection.colaboradorContrato.GetContratoAtivoByIdColaboradorDia(idColaboradorLogado, diaAtividade.utcOffset(0, true).format())
+    apiConnection.colaboradorContrato.ContratoAtivoByIdColaboradorDia(idColaboradorLogado, diaAtividade.utcOffset(0, true).format())
       .then(res =>
         res ?
           setContratoAtivo(res) :
           setContratoAtivo(defaultValue.contratoDefault)
       )
-    apiConnection.projeto.GetProjetosByIdColaboradorDia(idColaboradorLogado, diaAtividade.utcOffset(0, true).format())
+    apiConnection.projeto.ProjetosByIdColaboradorDia(idColaboradorLogado, diaAtividade.utcOffset(0, true).format())
       .then(res =>
         res ?
           setListaProjeto([].concat(defaultValue.listaProjeto, res)) :
@@ -147,13 +147,13 @@ export default (props) => {
       setCoordenadorSelecionado(0)
       setProjetoDefaultSelecionado(0)
 
-      apiConnection.projetoCategoriaAtividade.GetProjetoCategoriaAtividadeByIdProjeto(projetoSelecionado)
+      apiConnection.projetoCategoriaAtividade.ProjetoCategoriaAtividadeByIdProjeto(projetoSelecionado)
         .then(res =>
           res ?
             setListaCategoriaAtividade([].concat(defaultValue.listaCategoriaAtividade, res)) :
             setListaCategoriaAtividade(defaultValue.listaCategoriaAtividade)
         )
-      apiConnection.projetoMetodologiaFase.GetProjetoFaseByIdProjeto(projetoSelecionado)
+      apiConnection.projetoMetodologiaFase.ProjetoFaseByIdProjeto(projetoSelecionado)
         .then(res =>
           res ?
             setListaProjetoFase([].concat(defaultValue.listaProjetoFase, res)) :
@@ -166,14 +166,14 @@ export default (props) => {
       setCategoriaAtividadeSelecionado(0)
       setProjetoFaseSelecionado(0)
 
-      apiConnection.projeto.GetProjetosDefault(diaAtividade.utcOffset(0, true).format())
+      apiConnection.projeto.ProjetosDefault(diaAtividade.utcOffset(0, true).format())
         .then(res =>
           res ?
             setListaProjetoDefault([].concat(defaultValue.listaProjetoDefault, res)) :
             setListaProjetoDefault(defaultValue.listaProjetoDefault)
         )
 
-      apiConnection.colaborador.GetCoordenadoresByDia(diaAtividade.utcOffset(0, true).format())
+      apiConnection.colaborador.CoordenadoresByDia(diaAtividade.utcOffset(0, true).format())
         .then(res =>
           res ?
             setListaCoordenador([].concat(defaultValue.listaCoordenador, res)) :

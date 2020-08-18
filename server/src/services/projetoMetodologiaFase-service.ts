@@ -3,7 +3,7 @@ import dbConnection  from '@database'
 import { IProjetoMetodologia, IProjetoMetodologiaFase } from '@models'
 
 /* retorna lista de metodologiaFase do projeto */
-const GetProjetoFaseByIdProjeto = async (IdProjeto: Number) => {
+const ProjetoFaseByIdProjeto = async (IdProjeto: Number) => {
   const listaProjetoMetodologiaFase = await dbConnection('operacoes.ProjetoMetodologia')
     .select('IdProjetoMetodologia')
     .where('IdProjeto', IdProjeto)
@@ -28,5 +28,5 @@ const GetProjetoFaseByIdProjeto = async (IdProjeto: Number) => {
 }
 
 export default {
-  GetProjetoFaseByIdProjeto
+  ProjetoFaseByIdProjeto
 }

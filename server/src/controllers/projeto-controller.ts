@@ -4,21 +4,21 @@ import libUtc from '@libUtc'
 
 const route = express.Router()
 
-route.get('/Projeto/GetProjetosByIdColaboradorDia', (req, res) => {
+route.get('/Projeto/ProjetosByIdColaboradorDia', (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
-  Service.GetProjetosByIdColaboradorDia(idColaborador, diaReferencia)
+  Service.ProjetosByIdColaboradorDia(idColaborador, diaReferencia)
     .then(
       (suc) => { res.json(suc) },
       (err) => { res.json(err) }
     )
 })
 
-route.get('/Projeto/GetProjetosDefault', (req, res) => {
+route.get('/Projeto/ProjetosDefault', (req, res) => {
   const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
-  Service.GetProjetosDefault(diaReferencia)
+  Service.ProjetosDefault(diaReferencia)
     .then(
       (suc) => { res.json(suc) },
       (err) => { res.json(err) }

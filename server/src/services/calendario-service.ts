@@ -5,7 +5,7 @@ import { ICalendario } from '@models'
 import libUtc from '@libUtc'
 
 /* retorna lista de feriados no mes */
-const GetFeriadosByMes = async (idColaborador: number, mesReferencia: Date) => {
+const FeriadosByMes = async (idColaborador: number, mesReferencia: Date) => {
   const mesReferenciaInicio = mesReferencia
   const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
@@ -37,8 +37,8 @@ const GetFeriadosByMes = async (idColaborador: number, mesReferencia: Date) => {
   return listaFeriadosMes
 }
 
-const GetListaFeriadoFinalSemanaByMes = async (idColaborador: number, mesReferencia: Date) => {
-  const listaFeriados = await GetFeriadosByMes(idColaborador, libUtc.getMonth(mesReferencia))
+const ListaFeriadoFinalSemanaByMes = async (idColaborador: number, mesReferencia: Date) => {
+  const listaFeriados = await FeriadosByMes(idColaborador, libUtc.getMonth(mesReferencia))
     .then((suc: ICalendario[]) => {
       const listaFeriadoDia = suc.map(feriado => {
         const result: DiaEntity = {
@@ -76,6 +76,6 @@ const GetListaFeriadoFinalSemanaByMes = async (idColaborador: number, mesReferen
 }
 
 export default {
-  GetFeriadosByMes,
-  GetListaFeriadoFinalSemanaByMes
+  FeriadosByMes,
+  ListaFeriadoFinalSemanaByMes
 }

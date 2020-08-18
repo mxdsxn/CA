@@ -4,7 +4,7 @@ import { IRegistroAuxiliar } from '@models'
 import libUtc from '@libUtc'
 
 /* retorna lista de registro auxiliar naquele mes */
-const GetRegistroAuxiliarByIdColaboradorMes = async (idColaborador: Number, mesReferencia: Date) => {
+const RegistroAuxiliarByIdColaboradorMes = async (idColaborador: Number, mesReferencia: Date) => {
   const mesReferenciaInicio = mesReferencia
   const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
@@ -19,5 +19,5 @@ const GetRegistroAuxiliarByIdColaboradorMes = async (idColaborador: Number, mesR
 }
 
 export default {
-  GetRegistroAuxiliarByIdColaboradorMes
+  RegistroAuxiliarByIdColaboradorMes
 }

@@ -4,21 +4,21 @@ import { AtividadeService as Service } from '@services'
 import libUtc from '@libUtc'
 const route = express.Router()
 
-route.get('/Atividade/GetAtividadesByIdColaboradorMes', async (req, res) => {
+route.get('/Atividade/AtividadesByIdColaboradorMes', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
-  Service.GetAtividadesByIdColaboradorMes(idColaborador, mesReferencia).then(
+  Service.AtividadesByIdColaboradorMes(idColaborador, mesReferencia).then(
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )
 })
 
-route.get('/Atividade/GetAtividadesByIdColaboradorDia', async (req, res) => {
+route.get('/Atividade/AtividadesByIdColaboradorDia', async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
-  Service.GetAtividadesByIdColaboradorDia(idColaborador, diaReferencia).then(
+  Service.AtividadesByIdColaboradorDia(idColaborador, diaReferencia).then(
     (suc) => { res.json(suc) },
     (err) => { res.json(err) }
   )

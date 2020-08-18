@@ -4,7 +4,7 @@ import { IProjeto, IProjetoAlocacao, IProjetoAlocacaoPeriodo, IProjetoTipo } fro
 import libUtc from '@libUtc'
 
 /* retorna lista de projetos que o colaborador esta alocado naquele dia */
-const GetProjetosByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date) => {
+const ProjetosByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date) => {
   const diaReferenciaInicio = diaReferencia
   const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)
 
@@ -65,7 +65,7 @@ const GetProjetosByIdColaboradorDia = async (idColaborador: Number, diaReferenci
   return listaProjeto
 }
 /* retorna lista de projetos default */
-const GetProjetosDefault = async (diaReferencia: Date) => {
+const ProjetosDefault = async (diaReferencia: Date) => {
   const idProjetoDefault = await dbConnection('operacoes.ProjetoTipo')
     .select('IdProjetoTipo')
     .where('Descricao', 'Default')
@@ -89,6 +89,6 @@ const GetProjetosDefault = async (diaReferencia: Date) => {
 }
 
 export default {
-  GetProjetosByIdColaboradorDia,
-  GetProjetosDefault
+  ProjetosByIdColaboradorDia,
+  ProjetosDefault
 }

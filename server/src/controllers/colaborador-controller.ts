@@ -4,54 +4,54 @@ import libUtc from '@libUtc'
 
 const route = express.Router()
 
-route.get('/Colaborador/GetCoordenadoresByDia', (req, res) => {
+route.get('/Colaborador/CoordenadoresByDia', (req, res) => {
   const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
-  Service.GetCoordenadoresByDia(diaReferencia)
+  Service.CoordenadoresByDia(diaReferencia)
     .then(
       (suc) => { res.json(suc) },
       (err) => { res.json(err) }
     )
 })
 
-route.get('/Colaborador/GetHorasUteisMesByIdColaboradorMes', (req, res) => {
+route.get('/Colaborador/HorasUteisMesByIdColaboradorMes', (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
-  Service.GetHorasUteisMesByIdColaboradorMes(idColaborador, mesReferencia)
+  Service.HorasUteisMesByIdColaboradorMes(idColaborador, mesReferencia)
     .then(
       (suc) => { res.json(suc) },
       (err) => { res.json(err) }
     )
 })
 
-route.get('/Colaborador/GetHorasUteisAteHojeByIdColaboradorMes', (req, res) => {
+route.get('/Colaborador/HorasUteisAteHojeByIdColaboradorMes', (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
-  Service.GetHorasUteisAteHojeByIdColaboradorMes(idColaborador, mesReferencia)
+  Service.HorasUteisAteHojeByIdColaboradorMes(idColaborador, mesReferencia)
     .then(
       (suc) => { res.json(suc) },
       (err) => { res.json(err) }
     )
 })
 
-route.get('/Colaborador/GetHorasCadastradasByIdColaboradorMes', (req, res) => {
+route.get('/Colaborador/HorasCadastradasByIdColaboradorMes', (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
-  Service.GetHorasCadastradasByIdColaboradorMes(idColaborador, mesReferencia)
+  Service.HorasCadastradasByIdColaboradorMes(idColaborador, mesReferencia)
     .then(
       (suc) => { res.json(suc) },
       (err) => { res.json(err) }
     )
 })
 
-route.get('/Colaborador/GetDadosBarraProgresso', (req, res) => {
+route.get('/Colaborador/DadosBarraProgresso', (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
-  Service.GetDadosBarraProgresso(idColaborador, mesReferencia)
+  Service.DadosBarraProgresso(idColaborador, mesReferencia)
     .then(
       (suc) => { res.json(suc) },
       (err) => { res.json(err) }
