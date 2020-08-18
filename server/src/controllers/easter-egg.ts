@@ -4,7 +4,7 @@ import libUtc from '@libUtc'
 
 const route = express.Router()
 
-route.get('/teste/teste', (req, res) => {
+route.get('/EasterEgg/teste', (req, res) => {
   const Data = libUtc.getDateByString(req.query.Data as string)
 
   Service.Teste(Data)

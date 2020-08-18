@@ -1,4 +1,4 @@
-import DiaEntity from '@entity/dia-entity'
+import DiaEntity from '@entity/dia'
 
 export {
   DiaEntity
