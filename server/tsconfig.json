@@ -66,7 +66,7 @@
     "baseUrl": ".",
     "paths": {
       "@controllers": [
-        "./src/controllers/controllers.ts"
+        "./src/controllers/index.ts"
       ],
       "@controller/*": [
         "./src/controllers/*"
@@ -78,19 +78,19 @@
         "./src/libs/date-time-utc.ts"
       ],
       "@models": [
-        "./src/models/models.ts"
+        "./src/models/index.ts"
       ],
       "@model/*": [
         "./src/models/*"
       ],
       "@services": [
-        "./src/services/services.ts"
+        "./src/services/index.ts"
       ],
       "@service/*": [
         "./src/services/*"
       ],
       "@entities": [
-        "./src/entities/entities.ts"
+        "./src/entities/index.ts"
       ],
       "@entity/*": [
         "./src/entities/*"
