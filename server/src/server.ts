@@ -9,7 +9,7 @@ server.use(express.json())
 server.use(routes)
 
 server.get('/api', (req, res) => {
-  res.json({ message: 'bem vindo à api do cadastro de atividades dextra' })
+  return res.json({ message: 'bem vindo à api do cadastro de atividades dextra' })
 })
 
 export default server

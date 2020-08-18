@@ -5,8 +5,8 @@ const AtividadeProjetoCategoriaAtividadeByIdProjeto = async (req, res) => {
 
   Service.ProjetoCategoriaAtividadeByIdProjeto(idProjeto)
     .then(
-      (suc) => { res.json(suc) },
-      (err) => { res.json(err) }
+      (suc) => { return res.json(suc) },
+      (err) => { return res.json(err) }
     )
 }
 

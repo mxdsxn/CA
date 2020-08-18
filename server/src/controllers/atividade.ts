@@ -7,8 +7,8 @@ const AtividadesByIdColaboradorMes = async (req, res) => {
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
   Service.AtividadesByIdColaboradorMes(idColaborador, mesReferencia).then(
-    (suc) => { res.json(suc) },
-    (err) => { res.json(err) }
+    (suc) => { return res.json(suc) },
+    (err) => { return res.json(err) }
   )
 }
 
@@ -17,8 +17,8 @@ const AtividadesByIdColaboradorDia = async (req, res) => {
   const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
   Service.AtividadesByIdColaboradorDia(idColaborador, diaReferencia).then(
-    (suc) => { res.json(suc) },
-    (err) => { res.json(err) }
+    (suc) => { return res.json(suc) },
+    (err) => { return res.json(err) }
   )
 }
 
@@ -46,10 +46,10 @@ const SalvarAtividade = async (req, res) => {
     tagsAtividade,
     descricaoAtividade
   ).then(
-    (suc) => { res.json(suc) },
-    (err) => { res.json(err) }
+    (suc) => { return res.json(suc) },
+    (err) => { return res.json(err) }
   )
-  res.status(200)
+  return res.status(200)
 }
 
 export default {
