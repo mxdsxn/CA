@@ -2,14 +2,14 @@ import express from 'express'
 import cors from 'cors'
 import routes from './routes/routes'
 
-const app = express()
+const server = express()
 
-app.use(cors())
-app.use(express.json())
-app.use(routes)
+server.use(cors())
+server.use(express.json())
+server.use(routes)
 
-app.get('/api', (req, res) => {
+server.get('/api', (req, res) => {
   res.json({ message: 'bem vindo à api do cadastro de atividades dextra' })
 })
 
-app.listen(1111, () => console.log('Api CADx'))
+export default server
