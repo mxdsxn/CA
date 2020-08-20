@@ -6,10 +6,10 @@
     "display": "standalone",
     "orientation": "portrait",
     "scope": "/",
-    "start_url": "/",
+    "start_url": ".",
     "icons": [{
-        "src": "cinq_small_new_logo.svg",
-        "sizes": "64x64 32x32 24x24 16x16",
-        "type": "image/svg"
+        "src": "favicon.png",
+        "sizes": "144x144 64x64 32x32 24x24 16x16",
+        "type": "image/png"
     }]
 }
