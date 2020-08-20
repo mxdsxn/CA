@@ -1,6 +1,7 @@
 import express from 'express'
 import {
   EasterEggRoute,
+  HealthCheckRoute,
   AtividadeRoute,
   CalendarioRoute,
   ColaboradorRoute,
@@ -17,6 +18,7 @@ const routes = express.Router()
 
 routes.use(
   EasterEggRoute,
+  HealthCheckRoute,
   AtividadeRoute,
   CalendarioRoute,
   ColaboradorRoute,

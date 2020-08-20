@@ -8,8 +8,4 @@ server.use(cors())
 server.use(express.json())
 server.use(routes)
 
-server.get('/api', (req, res) => {
-  return res.json({ message: 'bem vindo à api do cadastro de atividades dextra' })
-})
-
 export default server

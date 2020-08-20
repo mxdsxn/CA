@@ -1,4 +1,5 @@
 import EasterEggController from '@controller/easter-egg'
+import HealthCheckController from '@controller/health-check'
 import AtividadeController from '@controller/atividade'
 import CalendarioController from '@controller/calendario'
 import ColaboradorController from '@controller/colaborador'
@@ -12,6 +13,7 @@ import RegistroAuxiliarController from '@controller/registro-auxiliar'
 
 export {
   EasterEggController,
+  HealthCheckController,
   AtividadeController,
   CalendarioController,
   ColaboradorController,

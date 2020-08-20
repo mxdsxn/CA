@@ -1,4 +1,5 @@
-import TesteService from '@service/easter-egg'
+import EasterEggService from '@service/easter-egg'
+import HealthCheckService from '@service/health-check'
 import AtividadeService from '@service/atividade'
 import CalendarioService from '@service/calendario'
 import ColaboradorService from '@service/colaborador'
@@ -11,7 +12,8 @@ import ProjetoMetodologiaFaseService from '@service/projeto-metodologia-fase'
 import RegistroAuxiliarService from '@service/registro-auxiliar'
 
 export {
-  TesteService,
+  EasterEggService,
+  HealthCheckService,
   AtividadeService,
   CalendarioService,
   ColaboradorService,
