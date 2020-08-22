@@ -17,9 +17,10 @@ const FeriadosByMes = async (idColaborador: number, mesReferencia: Date) => {
         .orOn('pessoas.PostoTrabalho.IdEstado', 'pessoas.Calendario.IdEstado')
         .orOn('pessoas.PostoTrabalho.IdPais', 'pessoas.Calendario.IdPais')
     })
-    .where('IdColaborador', idColaborador)
-    .andWhere('Dia', '>=', mesReferenciaInicio)
-    .andWhere('Dia', '<=', mesReferenciaFim)
+    .where('pessoas.Colaborador.IdColaborador', idColaborador)
+    .andWhere('pessoas.Calendario.Dia', '>=', mesReferenciaInicio)
+    .andWhere('pessoas.Calendario.Dia', '<', mesReferenciaFim)
+    .orderBy('pessoas.Calendario.Dia', 'asc')
 
   return listaFeriadosMes
 }
