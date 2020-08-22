@@ -10,30 +10,17 @@ const FeriadosByMes = async (idColaborador: number, mesReferencia: Date) => {
   const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
   const listaFeriadosMes = await dbConnection('pessoas.Colaborador')
-    .select('IdPostoTrabalho')
-    .where('IdColaborador', idColaborador)
-    .first()
-    .then(ColaboradorPostoTrabalho => {
-      const idPostoTrabalho = Number(ColaboradorPostoTrabalho.IdPostoTrabalho)
-      const listaFeriadosMes = dbConnection('pessoas.PostoTrabalho')
-        .where('IdPostoTrabalho', idPostoTrabalho)
-        .first()
-        .then(PostoTrabalho => {
-          const listaFeriadosMes = dbConnection('pessoas.Calendario')
-            .select('*')
-            .where('Dia', '>=', mesReferenciaInicio)
-            .andWhere('Dia', '<=', mesReferenciaFim)
-            .andWhere(function () {
-              this.where('IdCidade', PostoTrabalho.IdCidade)
-                .orWhere('IdEstado', PostoTrabalho.IdEstado)
-                .orWhere('IdPais', PostoTrabalho.IdPais)
-            })
-            .orderBy('Dia', 'asc')
-            .then((listaFeriadosMes: ICalendario[]) => (listaFeriadosMes) || null)
-          return listaFeriadosMes
-        })
-      return listaFeriadosMes
+    .select('pessoas.Calendario.*')
+    .innerJoin('pessoas.PostoTrabalho', 'pessoas.PostoTrabalho.IdPostoTrabalho', 'pessoas.Colaborador.IdPostoTrabalho')
+    .innerJoin('pessoas.Calendario', function () {
+      this.on('pessoas.PostoTrabalho.IdCidade', 'pessoas.Calendario.IdCidade')
+        .orOn('pessoas.PostoTrabalho.IdEstado', 'pessoas.Calendario.IdEstado')
+        .orOn('pessoas.PostoTrabalho.IdPais', 'pessoas.Calendario.IdPais')
     })
+    .where('IdColaborador', idColaborador)
+    .andWhere('Dia', '>=', mesReferenciaInicio)
+    .andWhere('Dia', '<=', mesReferenciaFim)
+
   return listaFeriadosMes
 }
 
