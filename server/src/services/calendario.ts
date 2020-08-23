@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { DiaEntity } from '@entities'
-import { ICalendario } from '@models'
+import { DiaModel } from '@models'
+import { CalendarioEntity } from '@entities'
 import libUtc from '@libUtc'
 import { CalendarioRepository as Repo } from '@repositories'
 
@@ -13,9 +13,9 @@ const FeriadosByMes = async (idColaborador: number, mesReferencia: Date) => {
 
 const ListaFeriadoFinalSemanaByMes = async (idColaborador: number, mesReferencia: Date) => {
   const listaFeriados = await FeriadosByMes(idColaborador, libUtc.getMonth(mesReferencia))
-    .then((suc: ICalendario[]) => {
+    .then((suc: CalendarioEntity[]) => {
       const listaFeriadoDia = suc.map(feriado => {
-        const result: DiaEntity = {
+        const result: DiaModel = {
           Descricao: feriado.Descricao,
           Dia: feriado.Dia
         }
@@ -26,17 +26,17 @@ const ListaFeriadoFinalSemanaByMes = async (idColaborador: number, mesReferencia
 
   const mesReferenciaInicio = mesReferencia
   const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
-  var listaFinalSemana: DiaEntity[] = []
+  var listaFinalSemana: DiaModel[] = []
 
   for (let dia = mesReferenciaInicio; dia < mesReferenciaFim; dia = libUtc.addDay(dia)) {
     if (dia.getDay() === 5) {
-      const result: DiaEntity = {
+      const result: DiaModel = {
         Descricao: 'Sabado',
         Dia: dia
       }
       listaFinalSemana.push(result)
     } else if (dia.getDay() === 6) {
-      const result: DiaEntity = {
+      const result: DiaModel = {
         Descricao: 'Domingo',
         Dia: dia
       }

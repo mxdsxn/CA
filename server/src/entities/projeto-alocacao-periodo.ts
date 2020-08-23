@@ -1,4 +1,4 @@
-export default interface IProjetoAlocacaoPeriodo {
+type ProjetoAlocacaoPeriodoEntity = {
   IdProjetoAlocacaoPeriodo: Number,
   IdProjetoAlocacao: Number,
   DataInicio: Date,
@@ -14,3 +14,5 @@ export default interface IProjetoAlocacaoPeriodo {
   DataFimPrevista: Date,
   IdProjetoAlocacaoPerfilGenerico: Number
 }
+
+export default ProjetoAlocacaoPeriodoEntity

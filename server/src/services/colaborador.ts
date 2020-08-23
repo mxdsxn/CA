@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 import {
-  IAtividade,
-  ICalendario,
-  IColaboradorContrato
-} from '@models'
+  AtividadeEntity,
+  CalendarioEntity,
+  ColaboradorContratoEntity
+} from '@entities'
 
 import {
   AtividadeService,
@@ -27,10 +27,10 @@ const HorasUteisMesByIdColaboradorMes = async (idColaborador: number, mesReferen
   const inicioMes = mesReferencia
   const finalMes = libUtc.getEndMonth(mesReferencia)
 
-  const listaFeriadosMes: ICalendario[] = await CalendarioService.FeriadosByMes(idColaborador, inicioMes) || []
+  const listaFeriadosMes: CalendarioEntity[] = await CalendarioService.FeriadosByMes(idColaborador, inicioMes) || []
 
   const horasPrevistaMes: number = await ColaboradorContratoService.ContratosByDataIdColaboradorMes(idColaborador, mesReferencia)
-    .then((contratos: IColaboradorContrato[]) => {
+    .then((contratos: ColaboradorContratoEntity[]) => {
       var horasPrevistasMes = 0
       for (var dia = inicioMes; dia <= finalMes; dia = libUtc.addDay(dia)) {
         if (dia.getUTCDay() !== 6 && dia.getUTCDay() !== 0) { // se diferente de sabado e domingo
@@ -49,10 +49,10 @@ const HorasUteisAteHojeByIdColaboradorMes = async (idColaborador: number, mesRef
   const inicioMes = mesReferencia
   const diaHoje = libUtc.getDate()
 
-  const listaFeriadosMes: ICalendario[] = await CalendarioService.FeriadosByMes(idColaborador, inicioMes) || []
+  const listaFeriadosMes: CalendarioEntity[] = await CalendarioService.FeriadosByMes(idColaborador, inicioMes) || []
   const horasPrevistaAteHoje: number = inicioMes.getTime() === libUtc.getMonth().getTime()
     ? await ColaboradorContratoService.ContratosByDataIdColaboradorMes(idColaborador, mesReferencia)
-      .then((contratos: IColaboradorContrato[]) => {
+      .then((contratos: ColaboradorContratoEntity[]) => {
         var horasPrevistaAteHoje = 0
         for (var dia = inicioMes; dia <= diaHoje; dia = libUtc.addDay(dia)) {
           if (dia.getUTCDay() !== 6 && dia.getUTCDay() !== 0) { // se diferente de sabado e domingo
@@ -69,7 +69,7 @@ const HorasUteisAteHojeByIdColaboradorMes = async (idColaborador: number, mesRef
   return (horasPrevistaAteHoje)
 }
 const HorasCadastradasByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date) => {
-  const listaAtividadesMes: IAtividade[] = await AtividadeService.AtividadesByIdColaboradorMes(idColaborador, mesReferencia, true)
+  const listaAtividadesMes: AtividadeEntity[] = await AtividadeService.AtividadesByIdColaboradorMes(idColaborador, mesReferencia, true)
 
   return HorasDecimal(listaAtividadesMes)
 }
@@ -80,13 +80,13 @@ const DadosBarraProgresso = async (idColaborador: number, mesReferencia: Date) =
   return [horasUteisMes, horasUteisHoje, horasCadastradasAteHoje]
 }
 
-const CargaHorariaFeriado = (listaFeriado: ICalendario[], diaReferencia: Date) => {
+const CargaHorariaFeriado = (listaFeriado: CalendarioEntity[], diaReferencia: Date) => {
   const result = listaFeriado.find(feriado => feriado.Dia.getTime() === diaReferencia.getTime())?.HorasUteis
 
   return (result !== undefined ? result : 8) as number
 }
 
-const CargaHorariaDia = (listaContrato: IColaboradorContrato[], diaReferencia: Date) => {
+const CargaHorariaDia = (listaContrato: ColaboradorContratoEntity[], diaReferencia: Date) => {
   const result = listaContrato.find(contrato => diaReferencia >= contrato.DataInicioContrato &&
     (diaReferencia <= contrato.Termino || contrato.Termino === null))
     ?.CargaHoraria
@@ -106,7 +106,7 @@ const SomaHorasVetor = (vetorHoras: number[][]) => {
   return [horasTotal, minutosTotal]
 }
 
-const HorasDecimal = (listaAtividades: IAtividade[]) => {
+const HorasDecimal = (listaAtividades: AtividadeEntity[]) => {
   const listaCargaCadastrada = listaAtividades.map(atividade => atividade.Carga)
 
   const listaHorasVetor = listaCargaCadastrada.map(carga => HorasVetorNumero(carga))

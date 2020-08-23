@@ -1,4 +1,4 @@
-export default interface IProjetoMetodologia {
+type ProjetoMetodologiaEntity = {
   IdProjetoMetodologia: Number,
   IdMetodologia: Number,
   IdProjeto: Number,
@@ -7,3 +7,5 @@ export default interface IProjetoMetodologia {
   IdProjetoMetodologiaPai: Number,
   IdColaboradorResponsavel: Number
 }
+
+export default ProjetoMetodologiaEntity

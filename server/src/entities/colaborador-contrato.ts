@@ -1,4 +1,4 @@
-export default interface IColaboradorContrato {
+type ColaboradorContratoEntity = {
   IdColaboradorContrato: Number;
   IdColaborador: Number;
   MatriculaRM: String;
@@ -14,3 +14,5 @@ export default interface IColaboradorContrato {
   DemissaoVoluntaria: Boolean;
   IdEmployer: Number;
 }
+
+export default ColaboradorContratoEntity
