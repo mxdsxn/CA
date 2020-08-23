@@ -12,7 +12,7 @@ const FeriadosByMes = async (idColaborador: number, mesReferencia: Date) => {
 }
 
 const ListaFeriadoFinalSemanaByMes = async (idColaborador: number, mesReferencia: Date) => {
-  const listaFeriados = await FeriadosByMes(idColaborador, libUtc.getMonth(mesReferencia))
+  const listaFeriados = await Repo.FeriadosByMes(idColaborador, libUtc.getMonth(mesReferencia))
     .then((suc: CalendarioEntity[]) => {
       const listaFeriadoDia = suc.map(feriado => {
         const result: DiaModel = {
@@ -26,6 +26,7 @@ const ListaFeriadoFinalSemanaByMes = async (idColaborador: number, mesReferencia
 
   const mesReferenciaInicio = mesReferencia
   const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
+
   var listaFinalSemana: DiaModel[] = []
 
   for (let dia = mesReferenciaInicio; dia < mesReferenciaFim; dia = libUtc.addDay(dia)) {
@@ -43,10 +44,11 @@ const ListaFeriadoFinalSemanaByMes = async (idColaborador: number, mesReferencia
       listaFinalSemana.push(result)
     }
   }
-  const listaFeriadoFiltrado = listaFeriados.filter(feriado => feriado.Dia.getDay() !== 6 && feriado.Dia.getDay() !== 5)
 
-  const listaResult = listaFeriadoFiltrado.concat(listaFinalSemana).sort((x, y) => x.Dia.getTime() - y.Dia.getTime())
-  return listaResult
+  const listaFeriadoDiaDeSemana = listaFeriados.filter(feriado => feriado.Dia.getDay() !== 6 && feriado.Dia.getDay() !== 5)
+
+  const listaFeriadoFinalSemana = listaFeriadoDiaDeSemana.concat(listaFinalSemana).sort((x, y) => x.Dia.getTime() - y.Dia.getTime())
+  return listaFeriadoFinalSemana
 }
 
 export default {
