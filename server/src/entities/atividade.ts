@@ -6,7 +6,7 @@ type AtividadeEntity = {
   IdProjetoMetodologiaFase: number;
   DataCadastro: Date;
   DataAtividade: Date;
-  Carga: String;
+  Carga: string;
   Descricao: String;
   Tags: String;
   IdCoordenador: number;
