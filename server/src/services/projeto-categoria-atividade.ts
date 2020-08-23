@@ -4,7 +4,7 @@ import { ProjetoCategoriaAtividadeRepository as Repo } from '@repositories'
 const ProjetoCategoriaAtividadeByIdProjeto = async (idProjeto: Number) => {
   const listaCategoriasProjeto = await Repo.ProjetoCategoriaAtividadeByIdProjeto(idProjeto)
 
-  return (listaCategoriasProjeto)
+  return listaCategoriasProjeto
 }
 export default {
   ProjetoCategoriaAtividadeByIdProjeto

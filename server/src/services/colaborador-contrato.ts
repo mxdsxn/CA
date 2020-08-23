@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
 import { ColaboradorContratoRepository as Repo } from '@repositories'
-import libUtc from '@libUtc'
 
 /* retorna lista de contratos num mes para calculo de horas */
 const ContratosByDataIdColaboradorMes = async (idColaborador: Number, mesReferencia: Date) => {

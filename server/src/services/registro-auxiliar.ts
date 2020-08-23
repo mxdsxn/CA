@@ -4,7 +4,7 @@ import { RegistroAuxiliarRepository as Repo } from '@repositories'
 const RegistroAuxiliarByIdColaboradorMes = async (idColaborador: Number, mesReferencia: Date) => {
   const listaRegistroAuxiliar = await Repo.RegistroAuxiliarByIdColaboradorMes(idColaborador, mesReferencia)
 
-  return (listaRegistroAuxiliar)
+  return listaRegistroAuxiliar
 }
 
 export default {

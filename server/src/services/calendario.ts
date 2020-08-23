@@ -1,12 +1,11 @@
 /* eslint-disable no-unused-vars */
-import { CalendarioRepository as Repo } from '@repositories'
 import { DiaEntity } from '@entities'
 import { ICalendario } from '@models'
 import libUtc from '@libUtc'
+import { CalendarioRepository as Repo } from '@repositories'
 
 /* retorna lista de feriados no mes */
 const FeriadosByMes = async (idColaborador: number, mesReferencia: Date) => {
-
   const listaFeriadosMes = await Repo.FeriadosByMes(idColaborador, mesReferencia)
 
   return listaFeriadosMes

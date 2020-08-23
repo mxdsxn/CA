@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { PontoRepository as Repo } from '@repositories'
 
 /* retorna todos os pontos do mes do colaborador */

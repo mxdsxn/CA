@@ -3,9 +3,7 @@
 import {
   IAtividade,
   ICalendario,
-  IColaborador,
-  IColaboradorContrato,
-  IProjetoHistoricoGerente
+  IColaboradorContrato
 } from '@models'
 
 import {
@@ -13,6 +11,7 @@ import {
   CalendarioService,
   ColaboradorContratoService
 } from '@services'
+
 import { ColaboradorRepository as Repo } from '@repositories'
 
 import libUtc from '@libUtc'
@@ -21,7 +20,7 @@ import libUtc from '@libUtc'
 const CoordenadoresByDia = async (diaReferencia: Date) => {
   const listaCoordenador = await Repo.CoordenadoresByDia(diaReferencia)
 
-  return (listaCoordenador)
+  return listaCoordenador
 }
 
 const HorasUteisMesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date) => {

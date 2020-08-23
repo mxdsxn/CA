@@ -4,7 +4,7 @@ import { ProjetoAlocacaoPeriodoRepository as Repo } from '@repositories'
 const ProjetoAlocacaoPeriodoByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date) => {
   const listaProjetoAlocacaoPeriodo = await Repo.ProjetoAlocacaoPeriodoByIdColaboradorDia(idColaborador, diaReferencia)
 
-  return (listaProjetoAlocacaoPeriodo)
+  return listaProjetoAlocacaoPeriodo
 }
 
 export default {
