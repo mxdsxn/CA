@@ -22,18 +22,18 @@ const AtividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia
   const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
   const listaAtividadeMes = await dbConnection('pessoas.Atividade')
-    .select(
-      'pessoas.Atividade.*',
-      'operacoes.Projeto.Nome',
-      'operacoes.ProjetoCategoriaAtividade.Descricao as Categoria',
-      'operacoes.ProjetoMetodologiaFase.Fase'
-    )
     .innerJoin('operacoes.Projeto', 'operacoes.Projeto.IdProjeto', 'pessoas.Atividade.IdProjeto')
     .fullOuterJoin('operacoes.ProjetoCategoriaAtividade', 'operacoes.ProjetoCategoriaAtividade.IdProjetoCategoriaAtividade', 'pessoas.Atividade.IdProjetoCategoriaAtividade')
     .fullOuterJoin('operacoes.ProjetoMetodologiaFase', 'operacoes.ProjetoMetodologiaFase.IdProjetoMetodologiaFase', 'pessoas.Atividade.IdProjetoMetodologiaFase')
     .where('pessoas.Atividade.IdColaborador', idColaborador)
     .andWhere('pessoas.Atividade.DataAtividade', '>=', mesReferenciaInicio)
     .andWhere('pessoas.Atividade.DataAtividade', '<', mesReferenciaFim)
+    .select(
+      'pessoas.Atividade.*',
+      'operacoes.Projeto.Nome',
+      'operacoes.ProjetoCategoriaAtividade.Descricao as Categoria',
+      'operacoes.ProjetoMetodologiaFase.Fase'
+    )
     .orderBy('pessoas.Atividade.DataAtividade', 'asc')
 
   if (!naoAgruparDia) {
@@ -47,17 +47,17 @@ const AtividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia
 
 const AtividadesByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date) => {
   const listaAtividadeMes = await dbConnection('pessoas.Atividade')
+    .innerJoin('operacoes.Projeto', 'operacoes.Projeto.IdProjeto', 'pessoas.Atividade.IdProjeto')
+    .fullOuterJoin('operacoes.ProjetoCategoriaAtividade', 'operacoes.ProjetoCategoriaAtividade.IdProjetoCategoriaAtividade', 'pessoas.Atividade.IdProjetoCategoriaAtividade')
+    .fullOuterJoin('operacoes.ProjetoMetodologiaFase', 'operacoes.ProjetoMetodologiaFase.IdProjetoMetodologiaFase', 'pessoas.Atividade.IdProjetoMetodologiaFase')
+    .where('pessoas.Atividade.IdColaborador', idColaborador)
+    .andWhere('pessoas.Atividade.DataAtividade', diaReferencia)
     .select(
       'pessoas.Atividade.*',
       'operacoes.Projeto.Nome',
       'operacoes.ProjetoCategoriaAtividade.Descricao as Categoria',
       'operacoes.ProjetoMetodologiaFase.Fase'
     )
-    .innerJoin('operacoes.Projeto', 'operacoes.Projeto.IdProjeto', 'pessoas.Atividade.IdProjeto')
-    .fullOuterJoin('operacoes.ProjetoCategoriaAtividade', 'operacoes.ProjetoCategoriaAtividade.IdProjetoCategoriaAtividade', 'pessoas.Atividade.IdProjetoCategoriaAtividade')
-    .fullOuterJoin('operacoes.ProjetoMetodologiaFase', 'operacoes.ProjetoMetodologiaFase.IdProjetoMetodologiaFase', 'pessoas.Atividade.IdProjetoMetodologiaFase')
-    .where('pessoas.Atividade.IdColaborador', idColaborador)
-    .andWhere('pessoas.Atividade.DataAtividade', diaReferencia)
     .orderBy('pessoas.Atividade.DataAtividade', 'asc')
 
   return (listaAtividadeMes)

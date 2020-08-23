@@ -10,7 +10,6 @@ const FeriadosByMes = async (idColaborador: number, mesReferencia: Date) => {
   const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
   const listaFeriadosMes = await dbConnection('pessoas.Colaborador')
-    .select('pessoas.Calendario.*')
     .innerJoin('pessoas.PostoTrabalho', 'pessoas.PostoTrabalho.IdPostoTrabalho', 'pessoas.Colaborador.IdPostoTrabalho')
     .innerJoin('pessoas.Calendario', function () {
       this.on('pessoas.PostoTrabalho.IdCidade', 'pessoas.Calendario.IdCidade')
@@ -20,6 +19,7 @@ const FeriadosByMes = async (idColaborador: number, mesReferencia: Date) => {
     .where('pessoas.Colaborador.IdColaborador', idColaborador)
     .andWhere('pessoas.Calendario.Dia', '>=', mesReferenciaInicio)
     .andWhere('pessoas.Calendario.Dia', '<', mesReferenciaFim)
+    .select('pessoas.Calendario.*')
     .orderBy('pessoas.Calendario.Dia', 'asc')
 
   return listaFeriadosMes

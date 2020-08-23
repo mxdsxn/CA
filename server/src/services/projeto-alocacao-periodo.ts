@@ -9,11 +9,11 @@ const ProjetoAlocacaoPeriodoByIdColaboradorDia = async (idColaborador: Number, d
   const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)
 
   const listaProjetoAlocacaoPeriodo = await dbConnection('operacoes.ProjetoAlocacaoPeriodo')
-    .select('operacoes.ProjetoAlocacaoPeriodo.*')
     .innerJoin('operacoes.ProjetoAlocacao', 'operacoes.ProjetoAlocacao.IdProjetoAlocacao', 'operacoes.ProjetoAlocacaoPeriodo.IdProjetoAlocacao')
     .where('operacoes.ProjetoAlocacao.IdColaborador', idColaborador)
     .andWhere('operacoes.ProjetoAlocacaoPeriodo.DataInicio', '<=', diaReferenciaFim)
     .andWhere('operacoes.ProjetoAlocacaoPeriodo.DataFim', '>=', diaReferenciaInicio)
+    .select('operacoes.ProjetoAlocacaoPeriodo.*')
     .orderBy('operacoes.ProjetoAlocacaoPeriodo.DataInicio', 'asc')
 
   return (listaProjetoAlocacaoPeriodo)

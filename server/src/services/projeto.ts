@@ -30,18 +30,18 @@ const ProjetosDefault = async (diaReferencia: Date) => {
 
   const listaProjetosDefault = await dbConnection('operacoes.Projeto')
     .innerJoin('operacoes.ProjetoTipo', 'operacoes.ProjetoTIpo.IdProjetoTipo', 'operacoes.Projeto.IdProjetoTipo')
-    .select(
-      'operacoes.Projeto.IdProjeto',
-      'operacoes.ProjetoTipo.IdProjetoTipo',
-      'operacoes.Projeto.Nome',
-      'operacoes.ProjetoTipo.Descricao as ProjetoTipo'
-    )
     .where('operacoes.ProjetoTipo.Descricao', 'Default')
     .andWhere('DataInicial', '<=', diaReferencia)
     .andWhere(function () {
       this.where('DataFinalAceite', '>=', diaReferencia)
         .orWhere('DataFinalAceite', null)
     })
+    .select(
+      'operacoes.Projeto.IdProjeto',
+      'operacoes.ProjetoTipo.IdProjetoTipo',
+      'operacoes.Projeto.Nome',
+      'operacoes.ProjetoTipo.Descricao as ProjetoTipo'
+    )
     .orderBy('operacoes.Projeto.Nome', 'asc')
 
   return (listaProjetosDefault)

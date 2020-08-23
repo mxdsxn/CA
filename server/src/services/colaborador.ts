@@ -24,16 +24,16 @@ const CoordenadoresByDia = async (diaReferencia: Date) => {
   const mesReferenciaFim = libUtc.getEndMonth(diaReferencia)
 
   const listaCoordenador = await dbConnection('pessoas.Colaborador')
-    .select(
-      'pessoas.Colaborador.IdColaborador',
-      'pessoas.Colaborador.Nome'
-    )
     .innerJoin('operacoes.ProjetoHistoricoGerente', 'operacoes.ProjetoHistoricoGerente.IdColaborador', 'pessoas.Colaborador.IdColaborador')
     .where('operacoes.ProjetoHistoricoGerente.DataInicio', '<', mesReferenciaFim)
     .andWhere(function () {
       this.where('DataFim', '>=', mesReferenciaInicio)
         .orWhere('DataFim', null)
     })
+    .select(
+      'pessoas.Colaborador.IdColaborador',
+      'pessoas.Colaborador.Nome'
+    )
     .orderBy('pessoas.Colaborador.Nome', 'asc')
     .distinct()
 
