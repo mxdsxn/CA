@@ -1,9 +1,9 @@
 import baseUrl from './api-baseUrl'
 
 const ColaboradorApi = {
-  GetCoordenadoresByDia: async (diaReferencia) => {
+  CoordenadoresByDia: async (diaReferencia) => {
     const result = await baseUrl
-      .get("Colaborador/GetCoordenadoresByDia", {
+      .get("Colaborador/CoordenadoresByDia", {
         params: {
           diaReferencia: diaReferencia,
         },
@@ -14,9 +14,9 @@ const ColaboradorApi = {
       )
     return result
   },
-  GetDadosBarraProgresso: async (idColaborador, mesReferencia) => {
+  DadosBarraProgresso: async (idColaborador, mesReferencia) => {
     const result = await baseUrl
-      .get("Colaborador/GetDadosBarraProgresso", {
+      .get("Colaborador/DadosBarraProgresso", {
         params: {
           idColaborador: idColaborador,
           mesReferencia: mesReferencia,

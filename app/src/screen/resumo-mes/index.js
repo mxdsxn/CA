@@ -7,19 +7,20 @@ import DataPicker from "./datepicker/";
 
 import BarraProgresso from '../../components/barra-progresso'
 import { default as apiConnection } from '../../service/api-connection'
+import moment from "moment";
 
 export default (props) => {
-  const mesVigente = new Date();
+  const mesVigente = moment();
 
   const [atividadesMes, setAtividadesMes] = useState([]);
   const [mesReferencia, setMesReferencia] = useState(mesVigente);
 
   const handleDateChange = (date) => {
-    setMesReferencia(date);
+    setMesReferencia(moment(date));
   };
 
   useEffect(() => {
-    apiConnection.atividade.GetAtividadesByIdColaboradorMes(2359, mesReferencia)
+    apiConnection.atividade.AtividadesByIdColaboradorMes(2359, mesReferencia.utcOffset(0, true).format())
       .then(res =>
         res ?
           setAtividadesMes(res) :

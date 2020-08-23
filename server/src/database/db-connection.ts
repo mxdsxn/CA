@@ -3,10 +3,10 @@ import knex from 'knex'
 const connection = knex({
   client: 'mssql',
   connection: {
-    server: 'VMDEV006.dom_qp.com.br\\DEV',
-    user: 'sistemas-internos',
-    password: 'u@m8w*d6',
-    database: 'Inovacred'
+    server: process.env.SERVER,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DATABASE
   }
 })
 

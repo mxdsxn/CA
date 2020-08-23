@@ -1,9 +1,9 @@
 import baseUrl from './api-baseUrl'
 
 const CalendarioApi = {
-  GetFeriadosByMes: async (mesReferencia) => {
+  FeriadosByMes: async (mesReferencia) => {
     const result = await baseUrl
-      .get("Calendario/GetFeriadosByMes", {
+      .get("Calendario/FeriadosByMes", {
         params: {
           mesReferencia: mesReferencia,
         },
@@ -14,9 +14,9 @@ const CalendarioApi = {
       )
     return result
   },
-  GetFeriadosByDia: async (diaReferencia) => {
+  FeriadosByDia: async (diaReferencia) => {
     const result = await baseUrl
-      .get("Calendario/GetFeriadosByDia", {
+      .get("Calendario/FeriadosByDia", {
         params: {
           diaReferencia: diaReferencia,
         },
@@ -27,9 +27,9 @@ const CalendarioApi = {
       )
     return result
   },
-  GetListaFeriadoFinalSemanaByMes: async (idColaborador, mesReferencia) => {
+  ListaFeriadoFinalSemanaByMes: async (idColaborador, mesReferencia) => {
     const result = await baseUrl
-      .get("Calendario/GetListaFeriadoFinalSemanaByMes", {
+      .get("Calendario/ListaFeriadoFinalSemanaByMes", {
         params: {
           idColaborador: idColaborador,
           mesReferencia: mesReferencia,

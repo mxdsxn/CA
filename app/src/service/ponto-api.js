@@ -1,9 +1,9 @@
 import baseUrl from './api-baseUrl'
 
 const PontoApi = {
-  GetPontoByIdColaboradorMes: async (idColaborador, mesReferencia) => {
+  PontoByIdColaboradorMes: async (idColaborador, mesReferencia) => {
     const result = await baseUrl
-      .get("Ponto/GetPontoByIdColaboradorMes", {
+      .get("Ponto/PontoByIdColaboradorMes", {
         params: {
           idColaborador: idColaborador,
           mesReferencia: mesReferencia,
@@ -15,9 +15,9 @@ const PontoApi = {
       )
     return result
   },
-  GetPontoByIdColaboradorDia: async (idColaborador, diaReferencia) => {
+  PontoByIdColaboradorDia: async (idColaborador, diaReferencia) => {
     const result = await baseUrl
-      .get("Ponto/GetPontoByIdColaboradorDia", {
+      .get("Ponto/PontoByIdColaboradorDia", {
         params: {
           idColaborador: idColaborador,
           diaReferencia: diaReferencia,

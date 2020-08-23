@@ -1,32 +1,34 @@
 import express from 'express'
 import {
-  TesteController,
-  AtividadeController,
-  CalendarioController,
-  ColaboradorController,
-  ColaboradorContratoController,
-  PontoController,
-  ProjetoController,
-  ProjetoAlocacaoPeriodoController,
-  ProjetoCategoriaAtidadeController,
-  ProjetoMetodologiaFaseController,
-  RegistroAuxiliarController
-} from '@controllers'
+  EasterEggRoute,
+  HealthCheckRoute,
+  AtividadeRoute,
+  CalendarioRoute,
+  ColaboradorRoute,
+  ColaboradorContratoRoute,
+  PontoRoute,
+  ProjetoRoute,
+  ProjetoAlocacaoPeriodoRoute,
+  ProjetoCategoriaAtidadeRoute,
+  ProjetoMetodologiaFaseRoute,
+  RegistroAuxiliarRoute
+} from '@routes'
 
 const routes = express.Router()
 
 routes.use(
-  TesteController,
-  AtividadeController,
-  CalendarioController,
-  ColaboradorController,
-  ColaboradorContratoController,
-  PontoController,
-  ProjetoController,
-  ProjetoAlocacaoPeriodoController,
-  ProjetoCategoriaAtidadeController,
-  ProjetoMetodologiaFaseController,
-  RegistroAuxiliarController
+  EasterEggRoute,
+  HealthCheckRoute,
+  AtividadeRoute,
+  CalendarioRoute,
+  ColaboradorRoute,
+  ColaboradorContratoRoute,
+  PontoRoute,
+  ProjetoRoute,
+  ProjetoAlocacaoPeriodoRoute,
+  ProjetoCategoriaAtidadeRoute,
+  ProjetoMetodologiaFaseRoute,
+  RegistroAuxiliarRoute
 )
 
 export default routes
