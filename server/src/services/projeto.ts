@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import dbConnection  from '@database'
+import dbConnection from '@database'
 import { IProjeto, IProjetoAlocacao, IProjetoAlocacaoPeriodo, IProjetoTipo } from '@models'
 import libUtc from '@libUtc'
 
@@ -8,82 +8,41 @@ const ProjetosByIdColaboradorDia = async (idColaborador: Number, diaReferencia: 
   const diaReferenciaInicio = diaReferencia
   const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)
 
-  const idProjetoDefault = await dbConnection('operacoes.ProjetoTipo')
-    .select('*')
-    .where('Descricao', 'Default')
-    .first()
-    .then((TipoDefault: IProjetoTipo) => TipoDefault.IdProjetoTipo)
-
-  const listaProjeto = await dbConnection('operacoes.ProjetoAlocacao')
+  const listaProjeto = await dbConnection('operacoes.Projeto')
+    .innerJoin('operacoes.ProjetoAlocacao', 'operacoes.ProjetoAlocacao.IdProjeto', 'operacoes.Projeto.IdProjeto')
+    .innerJoin('operacoes.ProjetoAlocacaoPeriodo', 'operacoes.ProjetoAlocacaoPeriodo.IdProjetoAlocacao', 'operacoes.ProjetoAlocacao.IdProjetoAlocacao')
+    .innerJoin('operacoes.ProjetoTipo', 'operacoes.ProjetoTipo.IdProjetoTipo', 'operacoes.Projeto.IdProjetoTipo')
+    .where('operacoes.ProjetoAlocacao.IdColaborador', idColaborador)
+    .andWhere('operacoes.ProjetoAlocacaoPeriodo.DataInicio', '<=', diaReferenciaFim)
+    .andWhere('operacoes.ProjetoAlocacaoPeriodo.DataFim', '>=', diaReferenciaInicio)
     .select(
-      'IdProjetoAlocacao',
-      'IdProjeto'
+      'operacoes.Projeto.IdProjeto',
+      'operacoes.ProjetoTipo.IdProjetoTipo',
+      'operacoes.Projeto.Nome',
+      'operacoes.ProjetoTipo.Descricao as ProjetoTipo'
     )
-    .where('IdColaborador', Number(idColaborador))
-    .then((listaProjetoAlocacao: IProjetoAlocacao[]) => {
-      var listaIdProjetoAlocacao = listaProjetoAlocacao.map(x => x.IdProjetoAlocacao)
+    .orderBy('operacoes.Projeto.Nome', 'asc')
 
-      const listaProjeto = dbConnection('operacoes.ProjetoAlocacaoPeriodo')
-        .select(
-          'IdProjetoAlocacaoPeriodo',
-          'IdProjetoAlocacao'
-        )
-        .whereIn('IdProjetoAlocacao', listaIdProjetoAlocacao)
-        .where('DataInicio', '<=', diaReferenciaFim)
-        .andWhere('DataFim', '>=', diaReferenciaInicio)
-        .then((listaProjetoAlocacaoPerido: IProjetoAlocacaoPeriodo[]) => {
-          const listaIdProjetoAlocacao = listaProjetoAlocacaoPerido.map(x => x.IdProjetoAlocacao)
-
-          const listaIdProjeto = listaProjetoAlocacao.filter(x => listaIdProjetoAlocacao.includes(x.IdProjetoAlocacao))
-            .map(x => x.IdProjeto)
-
-          const listaProjeto = dbConnection('operacoes.Projeto')
-            .select(
-              'IdProjeto',
-              'IdProjetoTipo',
-              'Nome'
-            )
-            .where('IdProjetoTipo', '<>', idProjetoDefault)
-            .whereIn('IdProjeto', listaIdProjeto)
-            .orderBy('Nome', 'asc')
-            .then((listaProjeto: IProjeto[]) => {
-              const listaIdsProjetoTipo = listaProjeto.map(x => x.IdProjetoTipo)
-              return dbConnection('operacoes.ProjetoTipo')
-                .select('*')
-                .whereIn('IdProjetoTipo', listaIdsProjetoTipo)
-                .then((listaProjetoTipo: IProjetoTipo[]) => {
-                  listaProjeto.map(proj => {
-                    if (listaProjetoTipo.find(x => x.IdProjetoTipo === proj.IdProjetoTipo)) { proj.ProjetoTipo = listaProjetoTipo.filter(projTipo => projTipo.IdProjetoTipo === proj.IdProjetoTipo)[0].Descricao } else { proj.ProjetoTipo = '' }
-                  })
-                  return listaProjeto
-                })
-            })
-          return listaProjeto
-        })
-      return listaProjeto
-    })
   return listaProjeto
 }
 /* retorna lista de projetos default */
 const ProjetosDefault = async (diaReferencia: Date) => {
-  const idProjetoDefault = await dbConnection('operacoes.ProjetoTipo')
-    .select('IdProjetoTipo')
-    .where('Descricao', 'Default')
-    .first()
-    .then((TipoDefault: IProjetoTipo) => TipoDefault.IdProjetoTipo)
 
   const listaProjetosDefault = await dbConnection('operacoes.Projeto')
+    .innerJoin('operacoes.ProjetoTipo', 'operacoes.ProjetoTIpo.IdProjetoTipo', 'operacoes.Projeto.IdProjetoTipo')
     .select(
-      'IdProjeto',
-      'Nome'
+      'operacoes.Projeto.IdProjeto',
+      'operacoes.ProjetoTipo.IdProjetoTipo',
+      'operacoes.Projeto.Nome',
+      'operacoes.ProjetoTipo.Descricao as ProjetoTipo'
     )
-    .where('IdProjetoTipo', idProjetoDefault)
+    .where('operacoes.ProjetoTipo.Descricao', 'Default')
     .andWhere('DataInicial', '<=', diaReferencia)
     .andWhere(function () {
       this.where('DataFinalAceite', '>=', diaReferencia)
         .orWhere('DataFinalAceite', null)
     })
-    .then((listaProjetosDefault: IProjeto[]) => listaProjetosDefault)
+    .orderBy('operacoes.Projeto.Nome', 'asc')
 
   return (listaProjetosDefault)
 }
