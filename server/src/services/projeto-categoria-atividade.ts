@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import dbConnection  from '@database'
+import dbConnection from '@database'
 import { IProjetoCategoriaAtividade } from '@models'
 
 /* retorna lista de categorias do projeto */
@@ -8,7 +8,6 @@ const ProjetoCategoriaAtividadeByIdProjeto = async (IdProjeto: Number) => {
     .select('*')
     .where('IdProjeto', IdProjeto)
     .orderBy('Descricao', 'asc')
-    .then((listaCategoriasProjeto: IProjetoCategoriaAtividade[]) => (listaCategoriasProjeto))
 
   return (listaCategoriasProjeto)
 }

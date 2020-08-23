@@ -1,6 +1,6 @@
 import { ProjetoCategoriaAtividadeService as Service } from '@services'
 
-const AtividadeProjetoCategoriaAtividadeByIdProjeto = async (req, res) => {
+const ProjetoCategoriaAtividadeByIdProjeto = async (req, res) => {
   const idProjeto = Number(req.query.idProjeto)
 
   Service.ProjetoCategoriaAtividadeByIdProjeto(idProjeto)
@@ -10,4 +10,4 @@ const AtividadeProjetoCategoriaAtividadeByIdProjeto = async (req, res) => {
     )
 }
 
-export default { AtividadeProjetoCategoriaAtividadeByIdProjeto }
+export default { ProjetoCategoriaAtividadeByIdProjeto }

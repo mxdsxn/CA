@@ -2,7 +2,7 @@ import { ProjetoAlocacaoPeriodoService as Service } from '@services'
 import libUtc from '@libUtc'
 
 
-const PeriodoProjetoAlocacaoPeriodoByIdColaboradorDia = async (req, res) => {
+const ProjetoAlocacaoPeriodoByIdColaboradorDia = async (req, res) => {
   const idColaborador = Number(req.query.idColaborador)
   const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
@@ -13,4 +13,4 @@ const PeriodoProjetoAlocacaoPeriodoByIdColaboradorDia = async (req, res) => {
     )
 }
 
-export default { PeriodoProjetoAlocacaoPeriodoByIdColaboradorDia }
+export default { ProjetoAlocacaoPeriodoByIdColaboradorDia }
