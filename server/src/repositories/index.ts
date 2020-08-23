@@ -5,3 +5,4 @@ export { default as ColaboradorContratoRepository } from '@repository/colaborado
 export { default as HealthCheckRepository } from '@repository/health-check'
 export { default as EasterEggRepository } from '@repository/easter-egg'
 export { default as PontoRepository } from '@repository/ponto'
+export { default as ProjetoRepository } from '@repository/projeto'
