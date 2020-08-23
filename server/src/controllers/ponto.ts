@@ -21,5 +21,7 @@ const PontoByIdColaboradorDia = async (req, res) => {
   )
 }
 
-export default [PontoByIdColaboradorMes,
-  PontoByIdColaboradorDia]
+export default {
+  PontoByIdColaboradorMes,
+  PontoByIdColaboradorDia
+}

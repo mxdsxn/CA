@@ -1,8 +1,7 @@
-import { TesteService as Service } from '@services'
+import { EasterEggService as Service } from '@services'
 import libUtc from '@libUtc'
 
 const Teste = async (req, res) => {
-  const Data = libUtc.getDateByString(req.query.Data as string)
 
   Service.Teste()
     .then(
