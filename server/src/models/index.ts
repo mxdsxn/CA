@@ -1,31 +1,14 @@
-import IAtividade from '@model/atividade'
-import ICalendario from '@model/calendario'
-import IColaborador from '@model/colaborador'
-import IColaboradorContrato from '@model/colaborador-contrato'
-import IPonto from '@model/ponto'
-import IProjeto from '@model/projeto'
-import IProjetoAlocacao from '@model/projeto-alocacao'
-import IProjetoAlocacaoPeriodo from '@model/projeto-alocacao-periodo'
-import IProjetoCategoriaAtividade from '@model/projeto-categoria-atividade'
-import IProjetoMetodologia from '@model/projeto-metodologia'
-import IProjetoMetodologiaFase from '@model/projeto-metodologia-fase'
-import IProjetoTipo from '@model/projeto-tipo'
-import IRegistroAuxiliar from '@model/registro-auxiliar'
-import IProjetoHistoricoGerente from '@model/projeto-historico-gerente'
-
-export {
-  IAtividade,
-  ICalendario,
-  IColaborador,
-  IColaboradorContrato,
-  IPonto,
-  IRegistroAuxiliar,
-  IProjeto,
-  IProjetoAlocacao,
-  IProjetoAlocacaoPeriodo,
-  IProjetoCategoriaAtividade,
-  IProjetoHistoricoGerente,
-  IProjetoMetodologia,
-  IProjetoMetodologiaFase,
-  IProjetoTipo
-}
+export { default as IAtividade } from '@model/atividade'
+export { default as ICalendario } from '@model/calendario'
+export { default as IColaborador } from '@model/colaborador'
+export { default as IColaboradorContrato } from '@model/colaborador-contrato'
+export { default as IPonto } from '@model/ponto'
+export { default as IProjeto } from '@model/projeto'
+export { default as IProjetoAlocacao } from '@model/projeto-alocacao'
+export { default as IProjetoAlocacaoPeriodo } from '@model/projeto-alocacao-periodo'
+export { default as IProjetoCategoriaAtividade } from '@model/projeto-categoria-atividade'
+export { default as IProjetoMetodologia } from '@model/projeto-metodologia'
+export { default as IProjetoMetodologiaFase } from '@model/projeto-metodologia-fase'
+export { default as IProjetoTipo } from '@model/projeto-tipo'
+export { default as IRegistroAuxiliar } from '@model/registro-auxiliar'
+export { default as IProjetoHistoricoGerente } from '@model/projeto-historico-gerente'
