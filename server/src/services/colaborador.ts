@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
-import dbConnection  from '@database'
+import dbConnection from '@database'
 
 import {
   IAtividade,
@@ -23,37 +23,23 @@ const CoordenadoresByDia = async (diaReferencia: Date) => {
   const mesReferenciaInicio = libUtc.getMonth(diaReferencia)
   const mesReferenciaFim = libUtc.getEndMonth(diaReferencia)
 
-  const listaCoordenador = await dbConnection('operacoes.ProjetoHistoricoGerente')
+  const listaCoordenador = await dbConnection('pessoas.Colaborador')
     .select(
-      'IdProjetoHistoricoGerente',
-      'IdColaborador',
-      'IdProjeto',
-      'DataInicio'
+      'pessoas.Colaborador.IdColaborador',
+      'pessoas.Colaborador.Nome'
     )
-    .where('DataInicio', '<=', mesReferenciaFim)
+    .innerJoin('operacoes.ProjetoHistoricoGerente', 'operacoes.ProjetoHistoricoGerente.IdColaborador', 'pessoas.Colaborador.IdColaborador')
+    .where('operacoes.ProjetoHistoricoGerente.DataInicio', '<', mesReferenciaFim)
     .andWhere(function () {
       this.where('DataFim', '>=', mesReferenciaInicio)
         .orWhere('DataFim', null)
     })
-    .orderBy('DataInicio', 'desc')
+    .orderBy('pessoas.Colaborador.Nome', 'asc')
     .distinct()
-    .then((listaHistoricoGerente: IProjetoHistoricoGerente[]) => {
-      const listaIdColaboradorGerente = listaHistoricoGerente.map(gerente => gerente.IdColaborador)
-
-      const listaCoordenador = dbConnection('pessoas.Colaborador')
-        .select(
-          'IdColaborador',
-          'Nome'
-        )
-        .whereIn('IdColaborador', listaIdColaboradorGerente)
-        .orderBy('Nome', 'asc')
-        .then((listaCoordenador: IColaborador[]) => (listaCoordenador))
-
-      return listaCoordenador
-    })
 
   return (listaCoordenador)
 }
+
 const HorasUteisMesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date) => {
   const inicioMes = mesReferencia
   const finalMes = libUtc.getEndMonth(mesReferencia)
