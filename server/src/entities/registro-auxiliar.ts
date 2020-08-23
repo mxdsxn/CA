@@ -1,4 +1,4 @@
-export default interface IRegistroAuxiliar {
+type RegistroAuxiliarEntity = {
   IdRegistroAuxiliar: Number;
   IdColaborador: Number;
   Data: Date;
@@ -14,3 +14,5 @@ export default interface IRegistroAuxiliar {
   DescricaoAtestado: String;
   IdJustificativaPonto: Number;
 }
+
+export default RegistroAuxiliarEntity

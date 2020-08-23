@@ -1,4 +1,4 @@
-export default interface IColaboradorce {
+type ColaboradorEntity = {
   IdColaborador: Number,
   Situacao: Boolean,
   PontoRemoto: Boolean,
@@ -93,3 +93,5 @@ export default interface IColaboradorce {
   DataAtualizacao: Date,
   DataAgendamento: Date
 }
+
+export default ColaboradorEntity

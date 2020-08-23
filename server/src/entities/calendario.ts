@@ -1,4 +1,4 @@
-export default interface ICalendario {
+type CalendarioEntity = {
   IdCalendario: Number;
   Dia: Date;
   HorasUteis: Number;
@@ -9,3 +9,5 @@ export default interface ICalendario {
   IdTipoFeriado: Number;
   Recorrente: Boolean;
 }
+
+export default CalendarioEntity

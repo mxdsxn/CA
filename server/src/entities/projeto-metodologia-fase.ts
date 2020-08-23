@@ -1,4 +1,4 @@
-export default interface IProjetoMetodologiaFase {
+type ProjetoMetodologiaFaseEntity = {
   IdProjetoMetodologiaFase: Number,
   IdProjetoMetodologia: Number,
   Fase: String,
@@ -9,3 +9,5 @@ export default interface IProjetoMetodologiaFase {
   Ordem: Number,
   HorasPrevistas: Number
 }
+
+export default ProjetoMetodologiaFaseEntity

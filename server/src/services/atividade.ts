@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import {
-  IAtividade,
-  IColaboradorContrato
-} from '@models'
+  AtividadeEntity,
+  ColaboradorContratoEntity
+} from '@entities'
 
 import {
   CalendarioService,
@@ -57,8 +57,8 @@ const SalvarAtividade = async (
   console.log('descricaoAtividade:', descricaoAtividade)
 }
 
-const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: IAtividade[], listaFeriadosFds: any, listaContratos: any) => {
-  const contrato = listaContratos[0] as IColaboradorContrato
+const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: AtividadeEntity[], listaFeriadosFds: any, listaContratos: any) => {
+  const contrato = listaContratos[0] as ColaboradorContratoEntity
 
   const inicioMes = mesReferencia.getUTCMonth() === contrato.DataInicioContrato.getUTCMonth() &&
     mesReferencia.getUTCFullYear() === contrato.DataInicioContrato.getUTCFullYear()

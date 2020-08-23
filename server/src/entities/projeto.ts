@@ -1,9 +1,8 @@
-export default interface IProjeto {
+type ProjetoEntity = {
   IdProjeto: Number,
   IdProjetoStatus: Number,
   Nome: String,
   IdProjetoTipo: Number,
-  ProjetoTipo: String,
   IdCliente: Number,
   Responsavel: String,
   IdColaborador: Number,
@@ -60,3 +59,5 @@ export default interface IProjeto {
   DataInicioBizDev: Date,
   IdProjetoPMA: Number,
 }
+
+export default ProjetoEntity
