@@ -1,26 +1,13 @@
 /* eslint-disable no-unused-vars */
-import dbConnection from '@database'
+import { CalendarioRepository as Repo } from '@repositories'
 import { DiaEntity } from '@entities'
 import { ICalendario } from '@models'
 import libUtc from '@libUtc'
 
 /* retorna lista de feriados no mes */
 const FeriadosByMes = async (idColaborador: number, mesReferencia: Date) => {
-  const mesReferenciaInicio = mesReferencia
-  const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
-  const listaFeriadosMes = await dbConnection('pessoas.Colaborador')
-    .innerJoin('pessoas.PostoTrabalho', 'pessoas.PostoTrabalho.IdPostoTrabalho', 'pessoas.Colaborador.IdPostoTrabalho')
-    .innerJoin('pessoas.Calendario', function () {
-      this.on('pessoas.PostoTrabalho.IdCidade', 'pessoas.Calendario.IdCidade')
-        .orOn('pessoas.PostoTrabalho.IdEstado', 'pessoas.Calendario.IdEstado')
-        .orOn('pessoas.PostoTrabalho.IdPais', 'pessoas.Calendario.IdPais')
-    })
-    .where('pessoas.Colaborador.IdColaborador', idColaborador)
-    .andWhere('pessoas.Calendario.Dia', '>=', mesReferenciaInicio)
-    .andWhere('pessoas.Calendario.Dia', '<', mesReferenciaFim)
-    .select('pessoas.Calendario.*')
-    .orderBy('pessoas.Calendario.Dia', 'asc')
+  const listaFeriadosMes = await Repo.FeriadosByMes(idColaborador, mesReferencia)
 
   return listaFeriadosMes
 }
