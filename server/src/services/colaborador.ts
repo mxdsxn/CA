@@ -1,7 +1,5 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
-import dbConnection from '@database'
-
 import {
   IAtividade,
   ICalendario,
@@ -15,27 +13,13 @@ import {
   CalendarioService,
   ColaboradorContratoService
 } from '@services'
+import { ColaboradorRepository as Repo } from '@repositories'
 
 import libUtc from '@libUtc'
 
 /* retorna lista de coordenadores(gerentes de projetos), para aprovaçao de atividades em projetos Default */
 const CoordenadoresByDia = async (diaReferencia: Date) => {
-  const mesReferenciaInicio = libUtc.getMonth(diaReferencia)
-  const mesReferenciaFim = libUtc.getEndMonth(diaReferencia)
-
-  const listaCoordenador = await dbConnection('pessoas.Colaborador')
-    .innerJoin('operacoes.ProjetoHistoricoGerente', 'operacoes.ProjetoHistoricoGerente.IdColaborador', 'pessoas.Colaborador.IdColaborador')
-    .where('operacoes.ProjetoHistoricoGerente.DataInicio', '<', mesReferenciaFim)
-    .andWhere(function () {
-      this.where('DataFim', '>=', mesReferenciaInicio)
-        .orWhere('DataFim', null)
-    })
-    .select(
-      'pessoas.Colaborador.IdColaborador',
-      'pessoas.Colaborador.Nome'
-    )
-    .orderBy('pessoas.Colaborador.Nome', 'asc')
-    .distinct()
+  const listaCoordenador = await Repo.CoordenadoresByDia(diaReferencia)
 
   return (listaCoordenador)
 }
