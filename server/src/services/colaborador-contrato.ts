@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import dbConnection  from '@database'
+import dbConnection from '@database'
 import { IColaboradorContrato } from '@models'
 import libUtc from '@libUtc'
 
@@ -9,13 +9,13 @@ const ContratosByDataIdColaboradorMes = async (idColaborador: Number, mesReferen
   const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
   const listaContrato = await dbConnection('pessoas.ColaboradorContrato')
-    .select('*')
     .where('IdColaborador', Number(idColaborador))
     .andWhere(function () {
       this.where('Termino', '>=', mesReferenciaInicio)
         .orWhere('Termino', null)
     })
     .andWhere('DataInicioContrato', '<=', mesReferenciaFim)
+    .select('*')
     .orderBy('DataInicioContrato', 'asc')
     .then((listaContrato: IColaboradorContrato[]) => listaContrato)
 
@@ -26,16 +26,15 @@ const ContratoAtivoByIdColaboradorDia = async (idColaborador: Number, diaReferen
   const diaReferenciaInicio = diaReferencia
   const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)
   const contratoAtivo = await dbConnection('pessoas.ColaboradorContrato')
-    .select('*')
     .where('IdColaborador', idColaborador)
     .andWhere('DataInicioContrato', '<=', diaReferenciaFim)
     .andWhere(function () {
       this.where('Termino', '>=', diaReferenciaInicio)
         .orWhere('Termino', null)
     })
+    .select('*')
     .orderBy('DataInicioContrato', 'desc')
     .first()
-    .then((contratoAtivo: IColaboradorContrato) => contratoAtivo)
 
   return (contratoAtivo)
 }

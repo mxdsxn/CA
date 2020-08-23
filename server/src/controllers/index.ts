@@ -7,7 +7,7 @@ import ColaboradorContratoController from '@controller/colaborador-contrato'
 import PontoController from '@controller/ponto'
 import ProjetoController from '@controller/projeto'
 import ProjetoAlocacaoPeriodoController from '@controller/projeto-alocacao-periodo'
-import ProjetoCategoriaAtidadeController from '@controller/projeto-categoria-atividade'
+import ProjetoCategoriaAtividadeController from '@controller/projeto-categoria-atividade'
 import ProjetoMetodologiaFaseController from '@controller/projeto-metodologia-fase'
 import RegistroAuxiliarController from '@controller/registro-auxiliar'
 
@@ -21,7 +21,7 @@ export {
   PontoController,
   ProjetoController,
   ProjetoAlocacaoPeriodoController,
-  ProjetoCategoriaAtidadeController,
+  ProjetoCategoriaAtividadeController,
   ProjetoMetodologiaFaseController,
   RegistroAuxiliarController
 }

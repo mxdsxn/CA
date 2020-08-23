@@ -22,52 +22,19 @@ const AtividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia
   const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
   const listaAtividadeMes = await dbConnection('pessoas.Atividade')
-    .select('*')
-    .where({
-      IdColaborador: idColaborador
-    })
-    .where('DataAtividade', '>=', mesReferenciaInicio)
-    .andWhere('DataAtividade', '<', mesReferenciaFim)
-    .orderBy('DataAtividade', 'asc')
-    .then((listaAtividadeMes: IAtividade[]) => {
-      (listaAtividadeMes.map(x => x.DataAtividade))
-      const listaIdsProjeto = listaAtividadeMes.map(x => x.IdProjeto)
-      const listaAtividadeComNomeProjeto = dbConnection('operacoes.Projeto')
-        .select('IdProjeto', 'Nome')
-        .whereIn('IdProjeto', listaIdsProjeto)
-        .then((listaNomesProjeto: IProjeto[]) => {
-          listaAtividadeMes.map(atividade => {
-            atividade.Projeto = listaNomesProjeto.filter(nomeProjeto => nomeProjeto.IdProjeto === atividade.IdProjeto)[0].Nome || null
-          })
-
-          const listaIdsCategoria = listaAtividadeMes.map(x => x.IdProjetoCategoriaAtividade)
-          dbConnection('operacoes.ProjetoCategoriaAtividade')
-            .select('IdProjetoCategoriaAtividade', 'Descricao')
-            .whereIn('IdProjetoCategoriaAtividade', listaIdsCategoria)
-            .then((listaDescricaoCategoria: IProjetoCategoriaAtividade[]) => {
-              listaAtividadeMes.map(atividadeCat => {
-                if (listaDescricaoCategoria.find(x => x.IdProjetoCategoriaAtividade === atividadeCat.IdProjetoCategoriaAtividade)) {
-                  atividadeCat.CategoriaAtividade = listaDescricaoCategoria.filter(x => x.IdProjetoCategoriaAtividade === atividadeCat.IdProjetoCategoriaAtividade)[0].Descricao
-                } else {
-                  atividadeCat.CategoriaAtividade = ''
-                }
-              })
-            })
-
-          const listaIdsFase = listaAtividadeMes.map(x => x.IdProjetoMetodologiaFase)
-          dbConnection('operacoes.ProjetoMetodologiaFase')
-            .select('IdProjetoMetodologiaFase', 'Fase')
-            .whereIn('IdProjetoMetodologiaFase', listaIdsFase)
-            .then((listaFaseProjeto: IProjetoMetodologiaFase[]) => {
-              listaAtividadeMes.map(atividadeFase => {
-                if (listaFaseProjeto.find(x => x.IdProjetoMetodologiaFase === atividadeFase.IdProjetoMetodologiaFase)) { atividadeFase.FaseProjeto = listaFaseProjeto.filter(x => x.IdProjetoMetodologiaFase === atividadeFase.IdProjetoMetodologiaFase)[0].Fase } else { atividadeFase.FaseProjeto = '' }
-              })
-            })
-
-          return listaAtividadeMes
-        })
-      return listaAtividadeComNomeProjeto
-    })
+    .innerJoin('operacoes.Projeto', 'operacoes.Projeto.IdProjeto', 'pessoas.Atividade.IdProjeto')
+    .fullOuterJoin('operacoes.ProjetoCategoriaAtividade', 'operacoes.ProjetoCategoriaAtividade.IdProjetoCategoriaAtividade', 'pessoas.Atividade.IdProjetoCategoriaAtividade')
+    .fullOuterJoin('operacoes.ProjetoMetodologiaFase', 'operacoes.ProjetoMetodologiaFase.IdProjetoMetodologiaFase', 'pessoas.Atividade.IdProjetoMetodologiaFase')
+    .where('pessoas.Atividade.IdColaborador', idColaborador)
+    .andWhere('pessoas.Atividade.DataAtividade', '>=', mesReferenciaInicio)
+    .andWhere('pessoas.Atividade.DataAtividade', '<', mesReferenciaFim)
+    .select(
+      'pessoas.Atividade.*',
+      'operacoes.Projeto.Nome',
+      'operacoes.ProjetoCategoriaAtividade.Descricao as Categoria',
+      'operacoes.ProjetoMetodologiaFase.Fase'
+    )
+    .orderBy('pessoas.Atividade.DataAtividade', 'asc')
 
   if (!naoAgruparDia) {
     const listaFeriadosFds = await CalendarioService.ListaFeriadoFinalSemanaByMes(idColaborador, mesReferencia)
@@ -80,26 +47,19 @@ const AtividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia
 
 const AtividadesByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date) => {
   const listaAtividadeMes = await dbConnection('pessoas.Atividade')
-    .select('*')
-    .where({
-      IdColaborador: idColaborador
-    })
-    .where('DataAtividade', diaReferencia)
-    .orderBy('DataAtividade', 'asc')
-    .then((listaAtividadeMes: IAtividade[]) => {
-      (listaAtividadeMes.map(x => x.DataAtividade))
-      const listaIdsProjeto = listaAtividadeMes.map(x => x.IdProjeto)
-      const listaAtividadeComNomeProjeto = dbConnection('operacoes.Projeto')
-        .select('IdProjeto', 'Nome')
-        .whereIn('IdProjeto', listaIdsProjeto)
-        .then((listaNomesProjeto: IProjeto[]) => {
-          listaAtividadeMes.map(atividade => {
-            atividade.Projeto = listaNomesProjeto.filter(nomeProjeto => nomeProjeto.IdProjeto === atividade.IdProjeto)[0].Nome
-          })
-          return listaAtividadeMes
-        })
-      return listaAtividadeComNomeProjeto
-    })
+    .innerJoin('operacoes.Projeto', 'operacoes.Projeto.IdProjeto', 'pessoas.Atividade.IdProjeto')
+    .fullOuterJoin('operacoes.ProjetoCategoriaAtividade', 'operacoes.ProjetoCategoriaAtividade.IdProjetoCategoriaAtividade', 'pessoas.Atividade.IdProjetoCategoriaAtividade')
+    .fullOuterJoin('operacoes.ProjetoMetodologiaFase', 'operacoes.ProjetoMetodologiaFase.IdProjetoMetodologiaFase', 'pessoas.Atividade.IdProjetoMetodologiaFase')
+    .where('pessoas.Atividade.IdColaborador', idColaborador)
+    .andWhere('pessoas.Atividade.DataAtividade', diaReferencia)
+    .select(
+      'pessoas.Atividade.*',
+      'operacoes.Projeto.Nome',
+      'operacoes.ProjetoCategoriaAtividade.Descricao as Categoria',
+      'operacoes.ProjetoMetodologiaFase.Fase'
+    )
+    .orderBy('pessoas.Atividade.DataAtividade', 'asc')
+
   return (listaAtividadeMes)
 }
 

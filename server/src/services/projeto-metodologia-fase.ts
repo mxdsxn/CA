@@ -1,28 +1,19 @@
 /* eslint-disable no-unused-vars */
-import dbConnection  from '@database'
+import dbConnection from '@database'
 import { IProjetoMetodologia, IProjetoMetodologiaFase } from '@models'
 
 /* retorna lista de metodologiaFase do projeto */
 const ProjetoFaseByIdProjeto = async (IdProjeto: Number) => {
-  const listaProjetoMetodologiaFase = await dbConnection('operacoes.ProjetoMetodologia')
-    .select('IdProjetoMetodologia')
-    .where('IdProjeto', IdProjeto)
-    .orderBy('DataAtualizacao', 'desc')
-    .first()
-    .then((projetoMetodologia: IProjetoMetodologia) => {
-      if (!(projetoMetodologia)) { return null }
-      const listaIdProjetoMetodologia = projetoMetodologia.IdProjetoMetodologia
-      const listaProjetoMetodologiaFase = dbConnection('operacoes.ProjetoMetodologiaFase')
-        .select('IdProjetoMetodologiaFase', 'Fase')
-        .where({
-          IdProjetoMetodologia: listaIdProjetoMetodologia,
-          Ativa: true
-        })
-        .orderBy('Fase', 'asc')
-        .distinct()
-        .then((listaProjetoMetodologiaFase: IProjetoMetodologiaFase[]) => (listaProjetoMetodologiaFase))
-      return listaProjetoMetodologiaFase
-    })
+  const listaProjetoMetodologiaFase = await dbConnection('operacoes.ProjetoMetodologiaFase')
+    .innerJoin('operacoes.ProjetoMetodologia', 'operacoes.ProjetoMetodologia.IdProjetoMetodologia', 'operacoes.ProjetoMetodologiaFase.IdProjetoMetodologia')
+    .where('operacoes.ProjetoMetodologia.IdProjeto', IdProjeto)
+    .andWhere('operacoes.ProjetoMetodologiaFase.Ativa', true)
+    .select(
+      'operacoes.ProjetoMetodologiaFase.IdProjetoMetodologiaFase',
+      'operacoes.ProjetoMetodologiaFase.Fase'
+    )
+    .orderBy('Fase', 'asc')
+    .distinct()
 
   return listaProjetoMetodologiaFase
 }

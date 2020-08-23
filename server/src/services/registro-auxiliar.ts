@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import dbConnection  from '@database'
+import dbConnection from '@database'
 import { IRegistroAuxiliar } from '@models'
 import libUtc from '@libUtc'
 
@@ -9,11 +9,10 @@ const RegistroAuxiliarByIdColaboradorMes = async (idColaborador: Number, mesRefe
   const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
   const listaRegistroAuxiliar = await dbConnection('pessoas.RegistroAuxiliar')
-    .select('*')
     .where('Data', '>=', mesReferenciaInicio)
     .andWhere('Data', '<', mesReferenciaFim)
     .andWhere('IdColaborador', idColaborador)
-    .then((listaRegistroAuxiliar: IRegistroAuxiliar[]) => (listaRegistroAuxiliar))
+    .select('*')
 
   return (listaRegistroAuxiliar)
 }
