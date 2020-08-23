@@ -1,7 +1,8 @@
 import { ColaboradorService as Service } from '@services'
 import libUtc from '@libUtc'
+import { Request, Response } from 'express'
 
-const CoordenadoresByDia = async (req, res) => {
+const CoordenadoresByDia = async (req: Request, res: Response) => {
   const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
   Service.CoordenadoresByDia(diaReferencia)
@@ -11,7 +12,7 @@ const CoordenadoresByDia = async (req, res) => {
     )
 }
 
-const HorasUteisMesByIdColaboradorMes = async (req, res) => {
+const HorasUteisMesByIdColaboradorMes = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
@@ -22,7 +23,7 @@ const HorasUteisMesByIdColaboradorMes = async (req, res) => {
     )
 }
 
-const HorasUteisAteHojeByIdColaboradorMes = async (req, res) => {
+const HorasUteisAteHojeByIdColaboradorMes = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
@@ -33,7 +34,7 @@ const HorasUteisAteHojeByIdColaboradorMes = async (req, res) => {
     )
 }
 
-const HorasCadastradasByIdColaboradorMes = async (req, res) => {
+const HorasCadastradasByIdColaboradorMes = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
@@ -44,7 +45,7 @@ const HorasCadastradasByIdColaboradorMes = async (req, res) => {
     )
 }
 
-const DadosBarraProgresso = async (req, res) => {
+const DadosBarraProgresso = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 

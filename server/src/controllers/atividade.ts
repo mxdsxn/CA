@@ -1,8 +1,9 @@
 import moment from 'moment'
 import { AtividadeService as Service } from '@services'
 import libUtc from '@libUtc'
+import { Request, Response } from 'express'
 
-const AtividadesByIdColaboradorMes = async (req, res) => {
+const AtividadesByIdColaboradorMes = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
@@ -12,7 +13,7 @@ const AtividadesByIdColaboradorMes = async (req, res) => {
   )
 }
 
-const AtividadesByIdColaboradorDia = async (req, res) => {
+const AtividadesByIdColaboradorDia = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
@@ -22,7 +23,7 @@ const AtividadesByIdColaboradorDia = async (req, res) => {
   )
 }
 
-const SalvarAtividade = async (req, res) => {
+const SalvarAtividade = async (req: Request, res: Response) => {
   const idAtividade = Number(req.query.idAtividade)
   const diaAtividade = moment.utc(req.query.diaAtividade as string)
   const cargaAtividade = moment.utc(req.query.cargaAtividade as string)

@@ -1,8 +1,9 @@
 import { ProjetoAlocacaoPeriodoService as Service } from '@services'
 import libUtc from '@libUtc'
+import { Request, Response } from 'express'
 
 
-const ProjetoAlocacaoPeriodoByIdColaboradorDia = async (req, res) => {
+const ProjetoAlocacaoPeriodoByIdColaboradorDia = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 

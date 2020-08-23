@@ -1,8 +1,8 @@
 import { EasterEggService as Service } from '@services'
 import libUtc from '@libUtc'
+import { Request, Response } from 'express'
 
-const Teste = async (req, res) => {
-
+const Teste = async (req: Request, res: Response) => {
   Service.Teste()
     .then(
       (suc) => { return res.json(suc) },

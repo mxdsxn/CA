@@ -1,7 +1,8 @@
 import { ProjetoService as Service } from '@services'
 import libUtc from '@libUtc'
+import { Request, Response } from 'express'
 
-const ProjetosByIdColaboradorDia = async (req, res) => {
+const ProjetosByIdColaboradorDia = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
@@ -12,7 +13,7 @@ const ProjetosByIdColaboradorDia = async (req, res) => {
     )
 }
 
-const ProjetosDefault = async (req, res) => {
+const ProjetosDefault = async (req: Request, res: Response) => {
   const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
   Service.ProjetosDefault(diaReferencia)

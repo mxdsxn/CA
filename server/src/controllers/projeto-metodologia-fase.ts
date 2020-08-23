@@ -1,6 +1,7 @@
 import { ProjetoMetodologiaFaseService as Service } from '@services'
+import { Request, Response } from 'express'
 
-const ProjetoFaseByIdProjeto = async (req, res) => {
+const ProjetoFaseByIdProjeto = async (req: Request, res: Response) => {
   const idProjeto = Number(req.query.idProjeto)
 
   Service.ProjetoFaseByIdProjeto(idProjeto)
