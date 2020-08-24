@@ -1,16 +1,16 @@
-export default interface t default inferface ProjetoAlocacaoPeriodoEntity {
-  IdProjetoAlocacaoPeriodo: Number
-  IdProjetoAlocacao: Number
+export default interface ProjetoAlocacaoPeriodoEntity {
+  IdProjetoAlocacaoPeriodo: number
+  IdProjetoAlocacao: number
   DataInicio: Date
   DataFim: Date
-  Segunda: Boolean
-  Terca: Boolean
-  Quarta: Boolean
-  Quinta: Boolean
-  Sexta: Boolean
-  Sabado: Boolean
-  Domingo: Boolean
+  Segunda: boolean
+  Terca: boolean
+  Quarta: boolean
+  Quinta: boolean
+  Sexta: boolean
+  Sabado: boolean
+  Domingo: boolean
   HorasPorDia: Date
   DataFimPrevista: Date
-  IdProjetoAlocacaoPerfilGenerico: Number
+  IdProjetoAlocacaoPerfilGenerico: number
 }

@@ -7,9 +7,9 @@ export default interface AtividadeEntity {
   DataCadastro: Date
   DataAtividade: Date
   Carga: string
-  Descricao: String
-  Tags: String
+  Descricao: string
+  Tags: string
   IdCoordenador: number
-  InicioAtividade: String
-  FimAtividade: String
+  InicioAtividade: string
+  FimAtividade: string
 }

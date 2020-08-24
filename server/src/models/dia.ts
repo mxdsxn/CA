@@ -3,6 +3,6 @@ import { AtividadeEntity } from '@entities'
 
 export default interface DiaModel {
     Atividades?: AtividadeEntity[]
-    Descricao: string;
+    Descricao: string | null;
     Dia: Date;
 }

@@ -1,16 +1,16 @@
 export default interface ColaboradorContratoEntity {
-  IdColaboradorContrato: Number
-  IdColaborador: Number
-  MatriculaRM: String
-  MatriculaADP: String
-  IdContratoModalidade: Number
-  CargaHoraria: Number
-  IdContratoPeriodo: Number
+  IdColaboradorContrato: number
+  IdColaborador: number
+  MatriculaRM: string
+  MatriculaADP: string
+  IdContratoModalidade: number
+  CargaHoraria: number
+  IdContratoPeriodo: number
   DataInicioContrato: Date
   DataFimPrevistoContrato: Date
-  IdContratoDuracao: Number
+  IdContratoDuracao: number
   Termino: Date
-  MotivoDesligamento: String
-  DemissaoVoluntaria: Boolean
-  IdEmployer: Number
+  MotivoDesligamento: string
+  DemissaoVoluntaria: boolean
+  IdEmployer: number
 }

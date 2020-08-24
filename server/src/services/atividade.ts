@@ -13,6 +13,7 @@ import libUtc from '@libUtc'
 import { Moment } from 'moment'
 
 import { AtividadeRepository as Repo } from '@repositories'
+import { DiaModel } from '@models'
 
 /* retorna lista de atividades do colaborador em um mes */
 const AtividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date, naoAgruparDia?: boolean) => {
@@ -57,8 +58,8 @@ const SalvarAtividade = async (
   console.log('descricaoAtividade:', descricaoAtividade)
 }
 
-const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: AtividadeEntity[], listaFeriadosFds: any, listaContratos: any) => {
-  const contrato = listaContratos[0] as ColaboradorContratoEntity
+const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: AtividadeEntity[], listaFeriadosFds: DiaModel[], listaContratos: ColaboradorContratoEntity[]): DiaModel[] => {
+  const contrato = listaContratos[0]
 
   const inicioMes = mesReferencia.getUTCMonth() === contrato.DataInicioContrato.getUTCMonth() &&
     mesReferencia.getUTCFullYear() === contrato.DataInicioContrato.getUTCFullYear()
@@ -69,19 +70,21 @@ const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: AtividadeE
     ? libUtc.getEndDate()
     : libUtc.getEndMonth(inicioMes)
 
-  const listaAtividadePorDia: object[] = [{}]
-  listaAtividadePorDia.pop()
+  const listaAtividadePorDia: DiaModel[] = []
 
   for (let dia = inicioMes; dia <= fimMes; dia = libUtc.addDay(dia)) {
     const atividadesDia = listaAtividade.filter(x => x.DataAtividade.getTime() === dia.getTime())
-    const descricao = listaFeriadosFds.find((x: { Dia: { getTime: () => number } }) => x.Dia.getTime() === dia.getTime())
-      ? listaFeriadosFds.find((x: { Dia: { getTime: () => number } }) => x.Dia.getTime() === dia.getTime()).Descricao
-      : null
-    const result = { dia, atividadesDia, descricao }
+    const descricao = listaFeriadosFds.find(x => x.Dia.getTime() === dia.getTime())?.Descricao || null
+
+    const result: DiaModel = {
+      Dia: dia,
+      Descricao: descricao,
+      Atividades: atividadesDia
+    }
 
     listaAtividadePorDia.push(result)
   }
-  return (listaAtividadePorDia)
+  return listaAtividadePorDia
 }
 
 export default {

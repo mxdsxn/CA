@@ -1,9 +1,9 @@
 export default interface ProjetoMetodologiaEntity {
-  IdProjetoMetodologia: Number
-  IdMetodologia: Number
-  IdProjeto: Number
+  IdProjetoMetodologia: number
+  IdMetodologia: number
+  IdProjeto: number
   DataAtualizacao: Date
-  Versao: Number
-  IdProjetoMetodologiaPai: Number
-  IdColaboradorResponsavel: Number
+  Versao: number
+  IdProjetoMetodologiaPai: number
+  IdColaboradorResponsavel: number
 }

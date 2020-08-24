@@ -1,6 +1,6 @@
 export default interface ProjetoAlocacaoEntity {
-  IdProjetoAlocacao: Number
-  IdProjeto: Number
-  IdColaborador: Number
-  IdProjetoAlocacaoPapel: Number
+  IdProjetoAlocacao: number
+  IdProjeto: number
+  IdColaborador: number
+  IdProjetoAlocacaoPapel: number
 }

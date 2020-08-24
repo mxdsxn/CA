@@ -1,16 +1,16 @@
 export default interface RegistroAuxiliarEntity {
-  IdRegistroAuxiliar: Number
-  IdColaborador: Number
+  IdRegistroAuxiliar: number
+  IdColaborador: number
   Data: Date
-  Entrada: String
-  SaidaAlmoco: String
-  EntradaAlmoco: String
-  Saida: String
-  SaidaEventual: String
-  EntradaEventual: String
-  HorasAtestado: String
-  JustificativaPonto: String
-  Total: String
-  DescricaoAtestado: String
-  IdJustificativaPonto: Number
+  Entrada: string
+  SaidaAlmoco: string
+  EntradaAlmoco: string
+  Saida: string
+  SaidaEventual: string
+  EntradaEventual: string
+  HorasAtestado: string
+  JustificativaPonto: string
+  Total: string
+  DescricaoAtestado: string
+  IdJustificativaPonto: number
 }

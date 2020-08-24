@@ -1,61 +1,61 @@
 export default interface ProjetoEntity {
-  IdProjeto: Number
-  IdProjetoStatus: Number
-  Nome: String
-  IdProjetoTipo: Number
-  IdCliente: Number
-  Responsavel: String
-  IdColaborador: Number
-  IdColaboradorGerente: Number
-  IdColaboradorGerenteDes: Number
-  IdColaboradorBizDev: Number
-  IdColaboradorDiretor: Number
+  IdProjeto: number
+  IdProjetoStatus: number
+  Nome: string
+  IdProjetoTipo: number
+  IdCliente: number
+  Responsavel: string
+  IdColaborador: number
+  IdColaboradorGerente: number
+  IdColaboradorGerenteDes: number
+  IdColaboradorBizDev: number
+  IdColaboradorDiretor: number
   DataInicial: Date
   DataFinalAceite: Date
   DataFinalGarantia: Date
-  IdProjetoAreaExecutora: Number
-  IdProjetoAreaNegocio: Number
-  IdProjetoTipoServico: Number
-  IdProjetoMercado: Number
-  IdProjetoTipoUnidade: Number
-  TamanhoPrevisto: Number
-  HorasPrevistas: Number
-  ProdutividadePrevista: Number
-  OrcamentoVenda: Number
-  CalculaRetrabalho: Boolean
-  PDI: Boolean
-  ControlaCronograma: Boolean
-  Problema: String
-  Solucao: String
-  Tecnologia: String
-  Metodologia: Boolean
-  AlocacaoRecursos: Boolean
-  Milestones: Boolean
-  Comunicacao: Boolean
-  Riscos: Boolean
-  Pendencias: Boolean
-  PlanoFinanceiro: Boolean
-  RAGStatus: Boolean
+  IdProjetoAreaExecutora: number
+  IdProjetoAreaNegocio: number
+  IdProjetoTipoServico: number
+  IdProjetoMercado: number
+  IdProjetoTipoUnidade: number
+  TamanhoPrevisto: number
+  HorasPrevistas: number
+  ProdutividadePrevista: number
+  OrcamentoVenda: number
+  CalculaRetrabalho: boolean
+  PDI: boolean
+  ControlaCronograma: boolean
+  Problema: string
+  Solucao: string
+  Tecnologia: string
+  Metodologia: boolean
+  AlocacaoRecursos: boolean
+  Milestones: boolean
+  Comunicacao: boolean
+  Riscos: boolean
+  Pendencias: boolean
+  PlanoFinanceiro: boolean
+  RAGStatus: boolean
   DataCriacao: Date
   DataInicioGerente: Date
-  CspVenda: Number
-  TFSCollection: String
-  TFSProjeto: String
-  PeriodicidadeAcompanhamento: Number
-  PontosPositivos: String
-  PontosNegativos: String
-  SugestaoMelhoriaProcesso: String
-  PeriodicidadeAcompanhamentoCliente: Number
-  NomeParceiro: String
-  Comissao: Number
+  CspVenda: number
+  TFSCollection: string
+  TFSProjeto: string
+  PeriodicidadeAcompanhamento: number
+  PontosPositivos: string
+  PontosNegativos: string
+  SugestaoMelhoriaProcesso: string
+  PeriodicidadeAcompanhamentoCliente: number
+  NomeParceiro: string
+  Comissao: number
   DataRealEntrega: Date
-  MissaoProjeto: String
-  FaturamentoVendaProjeto: Number
-  IdProjetoRiscoTolerancia: Number
+  MissaoProjeto: string
+  FaturamentoVendaProjeto: number
+  IdProjetoRiscoTolerancia: number
   DataAtualizacaoProjetoRiscoTolerancia: Date
-  ResponsavelAtualizacaoProjetoRiscoTolerancia: Number
-  idMoedas: Number
-  Atestado: Boolean
+  ResponsavelAtualizacaoProjetoRiscoTolerancia: number
+  idMoedas: number
+  Atestado: boolean
   DataInicioBizDev: Date
-  IdProjetoPMA: Number
+  IdProjetoPMA: number
 }

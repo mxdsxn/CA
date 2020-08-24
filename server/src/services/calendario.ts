@@ -13,7 +13,7 @@ const FeriadosByMes = async (idColaborador: number, mesReferencia: Date) => {
 
 const ListaFeriadoFinalSemanaByMes = async (idColaborador: number, mesReferencia: Date) => {
   const listaFeriados = await Repo.FeriadosByMes(idColaborador, libUtc.getMonth(mesReferencia))
-    .then((suc: CalendarioEntity[]) => {
+    .then((suc) => {
       const listaFeriadoDia = suc.map(feriado => {
         const result: DiaModel = {
           Descricao: feriado.Descricao,

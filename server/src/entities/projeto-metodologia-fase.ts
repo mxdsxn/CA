@@ -1,11 +1,11 @@
 export default interface ProjetoMetodologiaFaseEntity {
-  IdProjetoMetodologiaFase: Number
-  IdProjetoMetodologia: Number
-  Fase: String
-  Padrao: Boolean
-  Ativa: Boolean
-  JustificativaAdaptacao: String
-  Adaptado: Boolean
-  Ordem: Number
-  HorasPrevistas: Number
+  IdProjetoMetodologiaFase: number
+  IdProjetoMetodologia: number
+  Fase: string
+  Padrao: boolean
+  Ativa: boolean
+  JustificativaAdaptacao: string
+  Adaptado: boolean
+  Ordem: number
+  HorasPrevistas: number
 }

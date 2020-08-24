@@ -1,11 +1,11 @@
 export default interface CalendarioEntity {
-  IdCalendario: Number
+  IdCalendario: number
   Dia: Date
-  HorasUteis: Number
-  Descricao: String
-  IdCidade: Number
-  IdPais: Number
-  IdEstado: Number
-  IdTipoFeriado: Number
-  Recorrente: Boolean
+  HorasUteis: number
+  Descricao: string
+  IdCidade: number
+  IdPais: number
+  IdEstado: number
+  IdTipoFeriado: number
+  Recorrente: boolean
 }

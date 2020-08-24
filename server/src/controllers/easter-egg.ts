@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { EasterEggService as Service } from '@services'
 import libUtc from '@libUtc'
 import { Request, Response } from 'express'

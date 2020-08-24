@@ -15,6 +15,7 @@ import {
 import { ColaboradorRepository as Repo } from '@repositories'
 
 import libUtc from '@libUtc'
+import { AtividadeModel } from '@models'
 
 /* retorna lista de coordenadores(gerentes de projetos), para aprovaçao de atividades em projetos Default */
 const CoordenadoresByDia = async (diaReferencia: Date) => {
@@ -75,9 +76,9 @@ const HorasUteisAteHojeByIdColaboradorMes = async (idColaborador: number, mesRef
 }
 
 const HorasCadastradasByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date) => {
-  const listaAtividadesMes: AtividadeEntity[] = await AtividadeService.AtividadesByIdColaboradorMes(idColaborador, mesReferencia, true)
+  const listaAtividadesMes = await AtividadeService.AtividadesByIdColaboradorMes(idColaborador, mesReferencia, true)
 
-  return HorasDecimal(listaAtividadesMes)
+  return HorasDecimal(listaAtividadesMes as AtividadeModel[])
 }
 
 const DadosBarraProgresso = async (idColaborador: number, mesReferencia: Date) => {
@@ -113,7 +114,7 @@ const SomaHorasVetor = (vetorHoras: number[][]) => {
   return [horasTotal, minutosTotal]
 }
 
-const HorasDecimal = (listaAtividades: AtividadeEntity[]) => {
+const HorasDecimal = (listaAtividades: AtividadeModel[]) => {
   const listaCargaCadastrada = listaAtividades.map(atividade => atividade.Carga)
 
   const listaHorasVetor = listaCargaCadastrada.map(carga => HorasVetorNumero(carga))

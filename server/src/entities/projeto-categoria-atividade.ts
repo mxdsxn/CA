@@ -1,7 +1,7 @@
 export default interface ProjetoCategoriaAtividadeEntity {
-  IdProjetoCategoriaAtividade: Number
-  IdProjeto: Number
-  Descricao: String
-  CalculaRetrabalho: Boolean
-  Ativo: Boolean
+  IdProjetoCategoriaAtividade: number
+  IdProjeto: number
+  Descricao: string
+  CalculaRetrabalho: boolean
+  Ativo: boolean
 }
