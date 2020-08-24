@@ -1,7 +1,9 @@
 import dbConnection from '@database'
 import libUtc from '@libUtc'
+// eslint-disable-next-line no-unused-vars
+import { ProjetoAlocacaoEntity } from '@entities'
 
-const ProjetoAlocacaoPeriodoByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date) => {
+const ProjetoAlocacaoPeriodoByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date): Promise<ProjetoAlocacaoEntity[]> => {
   const diaReferenciaInicio = diaReferencia
   const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)
 

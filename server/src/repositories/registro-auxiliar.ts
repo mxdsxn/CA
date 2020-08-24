@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 import dbConnection from '@database'
 import libUtc from '@libUtc'
+import { RegistroAuxiliarEntity } from '@entities'
 
-const RegistroAuxiliarByIdColaboradorMes = async (idColaborador: Number, mesReferencia: Date) => {
+const RegistroAuxiliarByIdColaboradorMes = async (idColaborador: Number, mesReferencia: Date): Promise<RegistroAuxiliarEntity> => {
   const mesReferenciaInicio = mesReferencia
   const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
@@ -10,6 +12,8 @@ const RegistroAuxiliarByIdColaboradorMes = async (idColaborador: Number, mesRefe
     .andWhere('Data', '<', mesReferenciaFim)
     .andWhere('IdColaborador', idColaborador)
     .select('*')
+    .orderBy('IdRegistroAuxiliar', 'desc')
+    .first()
 }
 
 export default {

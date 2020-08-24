@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
 import dbConnection from '@database'
 import libUtc from '@libUtc'
+import { ProjetoModel } from '@models'
 
 /* retorna lista de projetos que o colaborador esta alocado naquele dia */
-const ProjetosByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date) => {
+const ProjetosByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date): Promise<ProjetoModel[]> => {
   const diaReferenciaInicio = diaReferencia
   const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)
 
@@ -24,7 +25,7 @@ const ProjetosByIdColaboradorDia = async (idColaborador: Number, diaReferencia: 
 }
 
 /* retorna lista de projetos default */
-const ProjetosDefault = async (diaReferencia: Date) => {
+const ProjetosDefault = async (diaReferencia: Date): Promise<ProjetoModel[]> => {
   return await dbConnection('operacoes.Projeto')
     .innerJoin('operacoes.ProjetoTipo', 'operacoes.ProjetoTIpo.IdProjetoTipo', 'operacoes.Projeto.IdProjetoTipo')
     .where('operacoes.ProjetoTipo.Descricao', 'Default')
