@@ -29,7 +29,7 @@ export default function SimpleCard(props) {
     <Card className={classes.root} key={props.atv.IdAtividade}>
       <CardContent>
         <Typography variant="h6" component='h3'>
-          {props.atv.Projeto || "-"}
+          {props.atv.NomeProjeto || "-"}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
           Data Cadastro: {moment(props.atv.DataCadastro).utc().format('L') || "-"}

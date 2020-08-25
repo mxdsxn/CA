@@ -10,28 +10,28 @@ export default (props) => {
       <TableBody>
         {
           props.atvMes.map((dia) => (
-            dia.atividadesDia.length === 0 ?
+            dia.Atividades.length === 0 ?
               (
-                <TableRow key={dia.dia}>
-                  <TableCell> {moment(dia.dia).utc().format('L')} </TableCell>
+                <TableRow key={dia.Dia}>
+                  <TableCell> {moment(dia.Dia).utc().format('L')} </TableCell>
                   <TableCell colSpan={11} align="center">
                     {
-                      dia.descricao
-                        ? dia.descricao
+                      dia.Descricao
+                        ? dia.Descricao
                         : "-"
                     }
                   </TableCell>
                 </TableRow >
               ) :
               <>
-                <TableCell rowSpan={dia.atividadesDia.length + 1}>{moment(dia.dia).utc().format('L')}</TableCell>
+                <TableCell rowSpan={dia.Atividades.length + 1}>{moment(dia.Dia).utc().format('L')}</TableCell>
                 {
-                  dia.atividadesDia.map(atv => (
+                  dia.Atividades.map(atv => (
                     <TableRow>
-                      <TableCell>{atv.Projeto}</TableCell>
+                      <TableCell>{atv.NomeProjeto}</TableCell>
                       <Hidden mdDown>
-                        <TableCell>{atv.FaseProjeto || "-"}</TableCell>
-                        <TableCell>{atv.CategoriaAtividade || "-"}</TableCell>
+                        <TableCell>{atv.Fase || "-"}</TableCell>
+                        <TableCell>{atv.Categoria || "-"}</TableCell>
                         <TableCell>{atv.Tags || "-"}</TableCell>
                       </Hidden>
                       <Hidden smDown>

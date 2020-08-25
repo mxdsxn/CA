@@ -9,12 +9,12 @@ const idColaborador = 2359
 
 export default (props) => {
   const mesReferencia = props.mesReferencia
-  const [horasBarra, setHorasBarra] = React.useState([])
+  const [horasBarra, setHorasBarra] = React.useState()
 
   const calculaValoresBarra = (res) => {
-    const uteisMes = res[0]
-    const uteisHoje = res[1]
-    const cadastradas = res[2]
+    const uteisMes = res.horasUteisMes
+    const uteisHoje = res.horasUteisHoje
+    const cadastradas = res.horasCadastradasAteHoje
 
     const cadastradaPorCento = 100 * cadastradas / uteisMes
     const uteisHojePorCento = 100 * uteisHoje / uteisMes
@@ -49,7 +49,7 @@ export default (props) => {
           setHorasBarra(res)
           calculaValoresBarra(res)
         } else {
-          setHorasBarra([])
+          setHorasBarra()
         }
       })
 

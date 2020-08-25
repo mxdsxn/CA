@@ -1,15 +1,27 @@
 {
-    "name": "Cadastro Atividades - Dextra",
-    "short_name": "CA - DEXTRA",
-    "theme_color": "#a2c525",
-    "background_color": "#1c68a6",
+    "name": "Cadastro Apontamento - Intra Dextra",
+    "short_name": "Apontamento - InDex",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
     "display": "standalone",
     "orientation": "portrait",
     "scope": "/",
     "start_url": ".",
     "icons": [{
-        "src": "favicon.png",
-        "sizes": "144x144 64x64 32x32 24x24 16x16",
+        "src": "dextra-logo-novo-512x512.svg",
+        "sizes": "512x512",
+        "type": "image/svg"
+    }, {
+        "src": "dextra-logo-novo-180x180.png",
+        "sizes": "180x180 144x144 64x64",
+        "type": "image/png"
+    }, {
+        "src": "dextra-logo-novo-32x32.png",
+        "sizes": "32x32 24x24",
+        "type": "image/png"
+    }, {
+        "src": "dextra-logo-novo-16x16.png",
+        "sizes": "16x16",
         "type": "image/png"
     }]
 }
