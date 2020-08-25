@@ -11,7 +11,7 @@ const ContratosByDataIdColaboradorMes = async (idColaborador: Number, mesReferen
 const ContratoAtivoByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date) => {
   const contratoAtivo = await Repo.ContratoAtivoByIdColaboradorDia(idColaborador, diaReferencia)
 
-  return contratoAtivo
+  return contratoAtivo || null
 }
 
 export default {

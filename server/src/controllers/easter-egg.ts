@@ -4,11 +4,14 @@ import libUtc from '@libUtc'
 import { Request, Response } from 'express'
 
 const Teste = async (req: Request, res: Response) => {
-  Service.Teste()
-    .then(
-      (suc) => { return res.json(suc) },
-      (err) => { return res.json(err) }
-    )
+  try {
+    const result = await Service.Teste()
+    res.status(200)
+    res.json(result)
+  } catch (error) {
+    res.status(500)
+    res.json(error)
+  }
 }
 
 export default { Teste }

@@ -7,20 +7,28 @@ const FeriadosByMes = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
 
-  Service.FeriadosByMes(idColaborador, mesReferencia).then(
-    (suc) => { return res.json(suc) },
-    (err) => { return res.json(err) }
-  )
+  try {
+    const result = await Service.FeriadosByMes(idColaborador, mesReferencia)
+    res.status(200)
+    res.json(result)
+  } catch (error) {
+    res.status(500)
+    res.json(error)
+  }
 }
 
 const ListaFeriadoFinalSemanaByMes = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
 
-  Service.ListaFeriadoFinalSemanaByMes(idColaborador, mesReferencia).then(
-    (suc) => { return res.json(suc) },
-    (err) => { return res.json(err) }
-  )
+  try {
+    const result = await Service.ListaFeriadoFinalSemanaByMes(idColaborador, mesReferencia)
+    res.status(200)
+    res.json(result)
+  } catch (error) {
+    res.status(500)
+    res.json(error)
+  }
 }
 
 export default {

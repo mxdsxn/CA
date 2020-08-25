@@ -1,26 +1,34 @@
 import moment from 'moment'
 import { AtividadeService as Service } from '@services'
 import libUtc from '@libUtc'
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
 
-const AtividadesByIdColaboradorMes = async (req: Request, res: Response) => {
+const AtividadesByIdColaboradorMes = async (req: Request, res: Response, next: NextFunction) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
-  Service.AtividadesByIdColaboradorMes(idColaborador, mesReferencia).then(
-    (suc) => { return res.json(suc) },
-    (err) => { return res.json(err) }
-  )
+  try {
+    const result = await Service.AtividadesByIdColaboradorMes(idColaborador, mesReferencia)
+    res.status(200)
+    res.json(result)
+  } catch (error) {
+    res.status(500)
+    res.json(error)
+  }
 }
 
 const AtividadesByIdColaboradorDia = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
-  Service.AtividadesByIdColaboradorDia(idColaborador, diaReferencia).then(
-    (suc) => { return res.json(suc) },
-    (err) => { return res.json(err) }
-  )
+  try {
+    const result = await Service.AtividadesByIdColaboradorDia(idColaborador, diaReferencia)
+    res.status(200)
+    res.json(result)
+  } catch (error) {
+    res.status(500)
+    res.json(error)
+  }
 }
 
 const SalvarAtividade = async (req: Request, res: Response) => {
