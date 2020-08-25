@@ -8,10 +8,6 @@
     "scope": "/",
     "start_url": ".",
     "icons": [{
-        "src": "dextra-logo-novo-512x512.svg",
-        "sizes": "512x512",
-        "type": "image/svg"
-    }, {
         "src": "dextra-logo-novo-180x180.png",
         "sizes": "180x180 144x144 64x64",
         "type": "image/png"
