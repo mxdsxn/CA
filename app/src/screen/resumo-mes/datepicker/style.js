@@ -3,27 +3,27 @@ const tema = createMuiTheme({
   overrides: {
     MuiPickersToolbar: {
       toolbar: {
-        backgroundColor: "#ee9658",
+        backgroundColor: "#00ed39",
       },
     },
     MuiPickersCalendarHeader: {
       switchHeader: {
-        backgroundColor: "#ee9658",
+        backgroundColor: "#00ed39",
         color: "white",
       },
     },
     MuiPickersDay: {
       day: {
-        color: "#ee9658",
+        color: "#00ed39",
       },
       daySelected: {
-        backgroundColor: "#ee9658",
+        backgroundColor: "#00ed39",
       },
       dayDisabled: {
-        color: "#ee9658",
+        color: "#00ed39",
       },
       current: {
-        color: "#ee9658",
+        color: "#00ed39",
       },
     },
     MuiPickersModal: {
