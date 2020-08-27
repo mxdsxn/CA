@@ -1,7 +1,7 @@
 import baseUrl from './api-baseUrl'
 
-const RegistroAuxiliarApi = {
-  RegistroAuxiliarByIdColaboradorMes: async (idProjeto, mesReferencia) => {
+const registroAuxiliarByIdColaboradorMes = async (idProjeto, mesReferencia) => {
+  try {
     const result = await baseUrl
       .get("RegistroAuxiliar/RegistroAuxiliarByIdColaboradorMes", {
         params: {
@@ -9,12 +9,11 @@ const RegistroAuxiliarApi = {
           mesReferencia: mesReferencia
         },
       })
-      .then(
-        res => res.data,
-        err => console.log(err)
-      )
     return result
+
+  } catch (error) {
+    console.error(error)
   }
 }
 
-export default RegistroAuxiliarApi
+export default { registroAuxiliarByIdColaboradorMes }

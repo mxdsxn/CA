@@ -1,7 +1,7 @@
 import baseUrl from './api-baseUrl'
 
-const AtividadeApi = {
-  AtividadesByIdColaboradorMes: async (idColaborador, mesReferencia) => {
+const atividadesByIdColaboradorMes = async (idColaborador, mesReferencia) => {
+  try {
     const result = await baseUrl
       .get("Atividade/AtividadesByIdColaboradorMes", {
         params: {
@@ -9,13 +9,15 @@ const AtividadeApi = {
           mesReferencia: mesReferencia,
         },
       })
-      .then(
-        res => res.data,
-        err => console.log(err)
-      )
     return result
-  },
-  AtividadesByIdColaboradorDia: async (idColaborador, diaReferencia) => {
+
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const atividadesByIdColaboradorDia = async (idColaborador, diaReferencia) => {
+  try {
     const result = await baseUrl
       .get("Atividade/AtividadesByIdColaboradorDia", {
         params: {
@@ -23,41 +25,46 @@ const AtividadeApi = {
           diaReferencia: diaReferencia,
         },
       })
-      .then(
-        res => res.data,
-        err => console.log(err)
-      )
     return result
-  },
-  SalvarAtividade: async (
-    idAtividade,
-    diaAtividade,
-    cargaAtividade,
-    idProjeto,
-    idProjetoDefault,
-    idCoordenador,
-    idProjetoFase,
-    idCategoriaAtividade,
-    tagsAtividade,
-    descricaoAtividade
-  ) => {
 
-    await baseUrl
-      .post("Atividade/SalvarAtividade", null, {
-        params: {
-          idAtividade,
-          diaAtividade,
-          cargaAtividade,
-          idProjeto,
-          idProjetoDefault,
-          idCoordenador,
-          idProjetoFase,
-          idCategoriaAtividade,
-          tagsAtividade,
-          descricaoAtividade
-        }
-      })
+  } catch (error) {
+    console.error(error)
   }
 }
 
-export default AtividadeApi
+const salvarAtividade = async (
+  idAtividade,
+  diaAtividade,
+  cargaAtividade,
+  idProjeto,
+  idProjetoDefault,
+  idCoordenador,
+  idProjetoFase,
+  idCategoriaAtividade,
+  tagsAtividade,
+  descricaoAtividade
+) => {
+
+  await baseUrl
+    .post("Atividade/SalvarAtividade", null, {
+      params: {
+        idAtividade,
+        diaAtividade,
+        cargaAtividade,
+        idProjeto,
+        idProjetoDefault,
+        idCoordenador,
+        idProjetoFase,
+        idCategoriaAtividade,
+        tagsAtividade,
+        descricaoAtividade
+      }
+    })
+}
+
+
+export default {
+  atividadesByIdColaboradorDia,
+  atividadesByIdColaboradorMes,
+  salvarAtividade
+}

@@ -1,7 +1,7 @@
 import baseUrl from './api-baseUrl'
 
-const PontoApi = {
-  PontoByIdColaboradorMes: async (idColaborador, mesReferencia) => {
+const pontoByIdColaboradorMes = async (idColaborador, mesReferencia) => {
+  try {
     const result = await baseUrl
       .get("Ponto/PontoByIdColaboradorMes", {
         params: {
@@ -9,13 +9,15 @@ const PontoApi = {
           mesReferencia: mesReferencia,
         },
       })
-      .then(
-        res => res.data,
-        err => console.log(err)
-      )
     return result
-  },
-  PontoByIdColaboradorDia: async (idColaborador, diaReferencia) => {
+
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const pontoByIdColaboradorDia = async (idColaborador, diaReferencia) => {
+  try {
     const result = await baseUrl
       .get("Ponto/PontoByIdColaboradorDia", {
         params: {
@@ -23,12 +25,15 @@ const PontoApi = {
           diaReferencia: diaReferencia,
         },
       })
-      .then(
-        res => res.data,
-        err => console.log(err)
-      )
     return result
+
+  } catch (error) {
+    console.error(error)
   }
 }
 
-export default PontoApi
+
+export default {
+  pontoByIdColaboradorDia,
+  pontoByIdColaboradorMes
+}

@@ -1,19 +1,18 @@
 import baseUrl from './api-baseUrl'
 
-const ProjetoCategoriaAtividadeApi = {
-  ProjetoCategoriaAtividadeByIdProjeto: async (idProjeto) => {
+const projetoCategoriaAtividadeByIdProjeto = async (idProjeto) => {
+  try {
     const result = await baseUrl
       .get("ProjetoCategoriaAtividade/ProjetoCategoriaAtividadeByIdProjeto", {
         params: {
           idProjeto: idProjeto,
         },
       })
-      .then(
-        res => res.data,
-        err => console.log(err)
-      )
     return result
+
+  } catch (error) {
+    console.error(error)
   }
 }
 
-export default ProjetoCategoriaAtividadeApi
+export default { projetoCategoriaAtividadeByIdProjeto }

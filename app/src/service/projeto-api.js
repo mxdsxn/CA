@@ -1,7 +1,7 @@
 import baseUrl from './api-baseUrl'
 
-const ProjetoApi = {
-  ProjetosByIdColaboradorDia: async (idColaborador, diaReferencia) => {
+const projetosByIdColaboradorDia = async (idColaborador, diaReferencia) => {
+  try {
     const result = await baseUrl
       .get("Projeto/ProjetosByIdColaboradorDia", {
         params: {
@@ -9,25 +9,29 @@ const ProjetoApi = {
           diaReferencia: diaReferencia,
         },
       })
-      .then(
-        res => res.data,
-        err => console.log(err)
-      )
     return result
-  },
-  ProjetosDefault: async (diaReferencia) => {
+    
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const projetosDefault = async (diaReferencia) => {
+  try {
     const result = await baseUrl
       .get("Projeto/ProjetosDefault", {
         params: {
           diaReferencia: diaReferencia,
         },
       })
-      .then(
-        res => res.data,
-        err => console.log(err)
-      )
     return result
+    
+  } catch (error) {
+   console.error(error) 
   }
 }
 
-export default ProjetoApi
+export default {
+  projetosByIdColaboradorDia,
+  projetosDefault
+}
