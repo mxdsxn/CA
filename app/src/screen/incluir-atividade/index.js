@@ -127,17 +127,10 @@ export default (props) => {
 
   useEffect(() => {
     colaboradorContratoApi.contratoAtivoByIdColaboradorDia(idColaboradorLogado, diaAtividade.utcOffset(0, true).format())
-      .then(res =>
-        res ?
-          setContratoAtivo(res) :
-          setContratoAtivo(defaultValue.contratoDefault)
+      .then(res => res ? setContratoAtivo(res) : setContratoAtivo(defaultValue.contratoDefault)
       )
     projetoApi.projetosByIdColaboradorDia(idColaboradorLogado, diaAtividade.utcOffset(0, true).format())
-      .then(res =>
-        res ?
-          setListaProjeto([].concat(defaultValue.listaProjeto, res)) :
-          setListaProjeto(defaultValue.listaProjeto)
-      )
+      .then(res => res ? setListaProjeto([].concat(defaultValue.listaProjeto, res)) : setListaProjeto(defaultValue.listaProjeto))
 
     setDescricaoAtividade('')
     setListaCategoriaAtividade([])
@@ -157,17 +150,9 @@ export default (props) => {
       setProjetoDefaultSelecionado(0)
 
       projetoCategoriaAtividadeApi.projetoCategoriaAtividadeByIdProjeto(projetoSelecionado)
-        .then(res =>
-          res ?
-            setListaCategoriaAtividade([].concat(defaultValue.listaCategoriaAtividade, res)) :
-            setListaCategoriaAtividade(defaultValue.listaCategoriaAtividade)
-        )
+        .then(res => res ? setListaCategoriaAtividade([].concat(defaultValue.listaCategoriaAtividade, res)) : setListaCategoriaAtividade(defaultValue.listaCategoriaAtividade))
       projetoMetodologiaFaseApi.projetoFaseByIdProjeto(projetoSelecionado)
-        .then(res =>
-          res ?
-            setListaProjetoFase([].concat(defaultValue.listaProjetoFase, res)) :
-            setListaProjetoFase(defaultValue.listaProjetoFase)
-        )
+        .then(res => res ? setListaProjetoFase([].concat(defaultValue.listaProjetoFase, res)) : setListaProjetoFase(defaultValue.listaProjetoFase))
     } else if (projetoSelecionado === -1) {
       // se projeto é default (-1), carrega projetos default e coordenadores 
       setListaCategoriaAtividade([])
@@ -176,18 +161,10 @@ export default (props) => {
       setProjetoFaseSelecionado(0)
 
       projetoApi.projetosDefault(diaAtividade.utcOffset(0, true).format())
-        .then(res =>
-          res ?
-            setListaProjetoDefault([].concat(defaultValue.listaProjetoDefault, res)) :
-            setListaProjetoDefault(defaultValue.listaProjetoDefault)
-        )
+        .then(res => res ? setListaProjetoDefault([].concat(defaultValue.listaProjetoDefault, res)) : setListaProjetoDefault(defaultValue.listaProjetoDefault))
 
       colaboradorApi.coordenadoresByDia(diaAtividade.utcOffset(0, true).format())
-        .then(res =>
-          res ?
-            setListaCoordenador([].concat(defaultValue.listaCoordenador, res)) :
-            setListaCoordenador(defaultValue.listaCoordenador)
-        )
+        .then(res => res ? setListaCoordenador([].concat(defaultValue.listaCoordenador, res)) : setListaCoordenador(defaultValue.listaCoordenador))
     } else if (projetoSelecionado === 0) {
       setListaProjetoFase([])
       setListaCategoriaAtividade([])

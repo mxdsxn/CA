@@ -21,10 +21,7 @@ export default (props) => {
 
   useEffect(() => {
     atividadeApi.atividadesByIdColaboradorMes(2359, mesReferencia.utcOffset(0, true).format())
-      .then(res =>
-        res ?
-          setAtividadesMes(res) :
-          setAtividadesMes([])
+      .then(res => res ? setAtividadesMes(res) : setAtividadesMes([])
       )
   }, [mesReferencia])
 
