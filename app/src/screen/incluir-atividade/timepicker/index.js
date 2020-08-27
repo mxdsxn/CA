@@ -1,6 +1,10 @@
 import React from "react";
 
-import { MuiPickersUtilsProvider, KeyboardTimePicker } from "@material-ui/pickers";
+import {
+  KeyboardTimePicker,
+  MuiPickersUtilsProvider
+} from "@material-ui/pickers";
+
 import { ThemeProvider } from "@material-ui/styles";
 
 import "date-fns";
@@ -13,9 +17,7 @@ export default (props) => {
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={pt_br}>
-      <ThemeProvider
-      // theme={tema}
-      >
+      <ThemeProvider /* theme={tema}*/>
         <KeyboardTimePicker
           ampm={false}
           variant="standard"
@@ -25,6 +27,6 @@ export default (props) => {
           autoOk
         />
       </ThemeProvider>
-    </MuiPickersUtilsProvider>
+    </MuiPickersUtilsProvider >
   );
 }

@@ -6,7 +6,7 @@ import ResumoDesktop from "./resumo-desktop";
 import DataPicker from "./datepicker/";
 
 import BarraProgresso from '../../components/barra-progresso'
-import { default as apiConnection } from '../../service/api-connection'
+import { atividadeApi } from '../../service/api-connection'
 import moment from "moment";
 
 export default (props) => {
@@ -20,7 +20,7 @@ export default (props) => {
   };
 
   useEffect(() => {
-    apiConnection.atividade.AtividadesByIdColaboradorMes(2359, mesReferencia.utcOffset(0, true).format())
+    atividadeApi.atividadesByIdColaboradorMes(2359, mesReferencia.utcOffset(0, true).format())
       .then(res =>
         res ?
           setAtividadesMes(res) :

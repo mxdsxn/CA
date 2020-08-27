@@ -1,9 +1,12 @@
 import React from "react";
-import "./style.css";
-import { ProgressBar } from "react-bootstrap";
-import { Container } from "@material-ui/core";
 
-import { default as apiConnection } from '../../service/api-connection'
+import { Container } from "@material-ui/core";
+import { ProgressBar } from "react-bootstrap";
+
+import { colaboradorApi } from '../../service/api-connection'
+
+import "./style.css";
+
 
 const idColaborador = 2359
 
@@ -43,7 +46,7 @@ export default (props) => {
   }
 
   React.useEffect(() => {
-    apiConnection.colaborador.DadosBarraProgresso(idColaborador, mesReferencia.utcOffset(0, true).format())
+    colaboradorApi.dadosBarraProgresso(idColaborador, mesReferencia.utcOffset(0, true).format())
       .then(res => {
         if (res) {
           setHorasBarra(res)
@@ -52,8 +55,8 @@ export default (props) => {
           setHorasBarra()
         }
       })
-
   }, [mesReferencia])
+
   const [cadastradas, setCadastradas] = React.useState();
   const [faltaCadastrar, setFaltaCadastrar] = React.useState();
   const [restante, setRestante] = React.useState();

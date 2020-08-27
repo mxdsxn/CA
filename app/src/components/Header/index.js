@@ -1,10 +1,21 @@
-import React from "react";
-import "./style.css";
-import { Image, Container } from "react-bootstrap/";
-import logo_full from "./dextra-mutant-logo-novo.png";
-import logo from "./dextra-logo-novo-180x180.png";
+import React from "react"
 
-import { AppBar, Toolbar, makeStyles, Hidden } from "@material-ui/core/";
+import {
+  Container,
+  Image
+} from "react-bootstrap/"
+
+import {
+  AppBar,
+  Hidden,
+  makeStyles,
+  Toolbar
+} from "@material-ui/core/"
+
+import logo_full from "./dextra-mutant-logo-novo.png"
+import logo from "./dextra-logo-novo-180x180.png"
+
+import "./style.css"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,10 +31,10 @@ const useStyles = makeStyles((theme) => ({
     background: "#ffffff",
     color: "#000000",
   },
-}));
+}))
 
 export default () => {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <div className={classes.root}>
@@ -40,5 +51,5 @@ export default () => {
         </Toolbar>
       </AppBar>
     </div>
-  );
-};
+  )
+}

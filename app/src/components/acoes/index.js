@@ -1,8 +1,14 @@
-import React from "react";
-import "./style.css";
-import { Container, Hidden } from "@material-ui/core";
-import BtnIncluir from "./incluir-atividade/";
-import BtnFechar from "./fechar-semana/";
+import React from "react"
+
+import {
+  Container,
+  Hidden
+} from "@material-ui/core"
+
+import BtnIncluir from "./incluir-atividade/"
+import BtnFechar from "./fechar-semana/"
+
+import "./style.css"
 
 export default () => {
   return (
@@ -22,5 +28,5 @@ export default () => {
         </div>
       </Container>
     </div>
-  );
-};
+  )
+}

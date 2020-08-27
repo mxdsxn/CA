@@ -9,7 +9,7 @@ const atividadesByIdColaboradorMes = async (idColaborador, mesReferencia) => {
           mesReferencia: mesReferencia,
         },
       })
-    return result
+    return result.data
 
   } catch (error) {
     console.error(error)
@@ -25,7 +25,7 @@ const atividadesByIdColaboradorDia = async (idColaborador, diaReferencia) => {
           diaReferencia: diaReferencia,
         },
       })
-    return result
+    return result.data
 
   } catch (error) {
     console.error(error)

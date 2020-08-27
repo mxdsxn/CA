@@ -9,7 +9,7 @@ const projetoAlocacaoPeriodoByIdColaboradorDia = async (idColaborador, diaRefere
           diaReferencia: diaReferencia,
         },
       })
-    return result
+    return result.data
 
   }
   catch (error) {

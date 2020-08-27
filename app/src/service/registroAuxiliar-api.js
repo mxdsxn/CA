@@ -9,7 +9,7 @@ const registroAuxiliarByIdColaboradorMes = async (idProjeto, mesReferencia) => {
           mesReferencia: mesReferencia
         },
       })
-    return result
+    return result.data
 
   } catch (error) {
     console.error(error)

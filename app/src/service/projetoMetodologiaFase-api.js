@@ -8,7 +8,7 @@ const projetoFaseByIdProjeto = async (idProjeto) => {
           idProjeto: idProjeto,
         },
       })
-    return result
+    return result.data
 
   } catch (error) {
     console.error(error)

@@ -1,13 +1,19 @@
-import React from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import React from 'react'
+
+import {
+  BrowserRouter,
+  Redirect,
+  Route,
+  Switch
+} from 'react-router-dom'
+
 import { Hidden } from '@material-ui/core'
 
-import MonthResume from '../screen/resumo-mes';
-import IncluirAtv from '../screen/incluir-atividade';
-import FecharSem from '../screen/fechar-semana';
-import NavBar from '../components/menu-inferior';
+import MonthResume from '../screen/resumo-mes'
+import IncluirAtv from '../screen/incluir-atividade'
+import FecharSem from '../screen/fechar-semana'
+import NavBar from '../components/menu-inferior'
 
-//<Redirect exact from='/' to='resumoMes' />
 export default () => {
   return (
     <BrowserRouter>
@@ -34,5 +40,5 @@ export default () => {
         <NavBar />
       </Hidden>
     </BrowserRouter>
-  );
-};
+  )
+}

@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useState
 } from 'react'
+
 import {
   Grid,
   Button,
@@ -11,12 +12,20 @@ import {
   makeStyles,
 } from '@material-ui/core'
 import ChipInput from 'material-ui-chip-input'
+import moment from 'moment'
 
-import { default as apiConnection } from '../../service/api-connection'
-import DataPicker from './datepicker';
-import TimePicker from './timepicker/';
 import BarraProgresso from '../../components/barra-progresso'
-import moment from 'moment';
+import DataPicker from './datepicker'
+import TimePicker from './timepicker/'
+
+import {
+  atividadeApi,
+  colaboradorApi,
+  colaboradorContratoApi,
+  projetoApi,
+  projetoCategoriaAtividadeApi,
+  projetoMetodologiaFaseApi,
+} from '../../service/api-connection'
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -117,13 +126,13 @@ export default (props) => {
   }, [projetoSelecionado, projetoDefaultSelecionado, coordenadorSelecionado, categoriaAtividadeSelecionado, projetoFaseSelecionado, descricaoAtividade])
 
   useEffect(() => {
-    apiConnection.colaboradorContrato.ContratoAtivoByIdColaboradorDia(idColaboradorLogado, diaAtividade.utcOffset(0, true).format())
+    colaboradorContratoApi.contratoAtivoByIdColaboradorDia(idColaboradorLogado, diaAtividade.utcOffset(0, true).format())
       .then(res =>
         res ?
           setContratoAtivo(res) :
           setContratoAtivo(defaultValue.contratoDefault)
       )
-    apiConnection.projeto.ProjetosByIdColaboradorDia(idColaboradorLogado, diaAtividade.utcOffset(0, true).format())
+    projetoApi.projetosByIdColaboradorDia(idColaboradorLogado, diaAtividade.utcOffset(0, true).format())
       .then(res =>
         res ?
           setListaProjeto([].concat(defaultValue.listaProjeto, res)) :
@@ -147,13 +156,13 @@ export default (props) => {
       setCoordenadorSelecionado(0)
       setProjetoDefaultSelecionado(0)
 
-      apiConnection.projetoCategoriaAtividade.ProjetoCategoriaAtividadeByIdProjeto(projetoSelecionado)
+      projetoCategoriaAtividadeApi.projetoCategoriaAtividadeByIdProjeto(projetoSelecionado)
         .then(res =>
           res ?
             setListaCategoriaAtividade([].concat(defaultValue.listaCategoriaAtividade, res)) :
             setListaCategoriaAtividade(defaultValue.listaCategoriaAtividade)
         )
-      apiConnection.projetoMetodologiaFase.ProjetoFaseByIdProjeto(projetoSelecionado)
+      projetoMetodologiaFaseApi.projetoFaseByIdProjeto(projetoSelecionado)
         .then(res =>
           res ?
             setListaProjetoFase([].concat(defaultValue.listaProjetoFase, res)) :
@@ -166,14 +175,14 @@ export default (props) => {
       setCategoriaAtividadeSelecionado(0)
       setProjetoFaseSelecionado(0)
 
-      apiConnection.projeto.ProjetosDefault(diaAtividade.utcOffset(0, true).format())
+      projetoApi.projetosDefault(diaAtividade.utcOffset(0, true).format())
         .then(res =>
           res ?
             setListaProjetoDefault([].concat(defaultValue.listaProjetoDefault, res)) :
             setListaProjetoDefault(defaultValue.listaProjetoDefault)
         )
 
-      apiConnection.colaborador.CoordenadoresByDia(diaAtividade.utcOffset(0, true).format())
+      colaboradorApi.coordenadoresByDia(diaAtividade.utcOffset(0, true).format())
         .then(res =>
           res ?
             setListaCoordenador([].concat(defaultValue.listaCoordenador, res)) :
@@ -201,7 +210,7 @@ export default (props) => {
   const handleChangeTag = (tags) => setTagAtividade(tags)
 
   const handleSalvarAtividade = () => {
-    apiConnection.atividade.SalvarAtividade(
+    atividadeApi.salvarAtividade(
       null,
       diaAtividade.utcOffset(0, true).format(),
       cargaSelecionada.utcOffset(0, true).format(),

@@ -8,7 +8,7 @@ const coordenadoresByDia = async (diaReferencia) => {
           diaReferencia: diaReferencia,
         },
       })
-    return result
+    return result.data
 
   } catch (error) {
     console.error(error)
@@ -24,7 +24,7 @@ const dadosBarraProgresso = async (idColaborador, mesReferencia) => {
           mesReferencia: mesReferencia,
         },
       })
-    return result
+    return result.data
 
   } catch (error) {
     console.error(error)

@@ -1,7 +1,12 @@
-import React from "react";
-import "./style.css";
+import React from "react"
+import "./style.css"
 
-import { TableCell, TableRow, TableFooter, Hidden } from "@material-ui/core";
+import {
+  Hidden,
+  TableCell,
+  TableFooter,
+  TableRow
+} from "@material-ui/core"
 
 export default () => {
   return (
@@ -26,5 +31,5 @@ export default () => {
         <TableCell>-</TableCell>
       </TableRow>
     </TableFooter>
-  );
+  )
 }

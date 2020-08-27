@@ -9,7 +9,7 @@ const projetosByIdColaboradorDia = async (idColaborador, diaReferencia) => {
           diaReferencia: diaReferencia,
         },
       })
-    return result
+    return result.data
     
   } catch (error) {
     console.error(error)
@@ -24,7 +24,7 @@ const projetosDefault = async (diaReferencia) => {
           diaReferencia: diaReferencia,
         },
       })
-    return result
+    return result.data
     
   } catch (error) {
    console.error(error) 

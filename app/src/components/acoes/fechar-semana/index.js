@@ -1,5 +1,5 @@
-import React from "react";
-import "./style.css";
+import React from "react"
+
 import {
   Button,
   Dialog,
@@ -7,20 +7,22 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from "@material-ui/core/";
+} from "@material-ui/core/"
 
 import FecharSemana from '../../../screen/fechar-semana'
+
+import "./style.css"
 
 export default () => {
   const [open, setOpen] = React.useState(false)
 
   const handleClickOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
   return (
     <div>
       <Button className="botoes" variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -50,6 +52,6 @@ export default () => {
         </DialogActions>
       </Dialog>
     </div>
-  );
+  )
 }
 
