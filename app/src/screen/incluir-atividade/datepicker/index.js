@@ -33,6 +33,7 @@ export default (props) => {
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={pt_br}>
       <ThemeProvider /* theme={tema}*/ >
         <DatePicker
+          fullWidth={props.fullWidth || false}
           autoOk={true}
           disableToolbar
           format="dd/MM/yyyy"
