@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react"
 import { Container, Divider } from "@material-ui/core"
 
 import Header from "../../components/header"
-import Acoes from "../../components/acoes"
 import ResumoMobile from "./resumo-mobile"
 import ResumoDesktop from "./resumo-desktop"
 import DataPicker from "./datepicker/"
