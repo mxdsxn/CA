@@ -12,21 +12,24 @@ import "./style.css"
 
 export default () => {
   return (
-    <div className="linha">
-      <Container className="grid">
-        <div className="row">
-          <div className="col-sm-6" align="left">
-            <Hidden smDown>
-              <BtnIncluir />
-            </Hidden>
+    <Hidden smDown>
+      <div className="linha">
+        <Container className="grid">
+          <div className="row">
+            <div className="col-sm-6" align="left">
+              <Hidden smDown>
+                <BtnIncluir />
+              </Hidden>
+            </div>
+            <div className="col-sm-6" align="right">
+              <Hidden smDown>
+                <BtnFechar />{" "}
+              </Hidden>
+            </div>
           </div>
-          <div className="col-sm-6" align="right">
-            <Hidden smDown>
-              <BtnFechar />{" "}
-            </Hidden>
-          </div>
-        </div>
-      </Container>
-    </div>
+        </Container>
+      </div>
+    </Hidden>
+
   )
 }
