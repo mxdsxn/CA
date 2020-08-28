@@ -12,7 +12,6 @@ const idColaborador = 2359
 
 export default (props) => {
   const mesReferencia = props.mesReferencia
-  const [horasBarra, setHorasBarra] = React.useState()
 
   const calculaValoresBarra = (res) => {
     const uteisMes = res.horasUteisMes
@@ -49,10 +48,9 @@ export default (props) => {
     colaboradorApi.dadosBarraProgresso(idColaborador, mesReferencia.utcOffset(0, true).format())
       .then(res => {
         if (res) {
-          setHorasBarra(res)
           calculaValoresBarra(res)
         } else {
-          setHorasBarra()
+          calculaValoresBarra([0, 0, 0])
         }
       })
   }, [mesReferencia])

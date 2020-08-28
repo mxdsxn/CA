@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, {
   useEffect,
@@ -8,20 +9,18 @@ import {
   Grid,
   Button,
   TextField,
-  MenuItem,
   makeStyles,
 } from '@material-ui/core'
 import ChipInput from 'material-ui-chip-input'
 import moment from 'moment'
 
-import BarraProgresso from '../../components/barra-progresso'
 import DataPicker from './datepicker'
-import TimePicker from './timepicker/'
+import TimePicker from './timepicker'
+import SelectComponent from '../../components/select-component'
 
 import {
   atividadeApi,
   colaboradorApi,
-  colaboradorContratoApi,
   projetoApi,
   projetoCategoriaAtividadeApi,
   projetoMetodologiaFaseApi,
@@ -49,14 +48,10 @@ const defaultValue = {
   contratoDefault: { CargaHoraria: 0 },
   diaAtividade: moment(),
   idDefault: 0,
-  listaProjeto: [{ IdProjeto: 0, Nome: 'Selecione' }, { IdProjeto: -1, Nome: 'Projeto Default' }],
-  listaCategoriaAtividade: [{ IdProjetoCategoriaAtividade: 0, Descricao: 'Selecione' }],
-  listaCoordenador: [{ IdColaborador: 0, Nome: 'Selecione' }],
-  listaProjetoDefault: [{ IdProjeto: 0, Nome: 'Selecione' }],
-  listaProjetoFase: [{ IdProjetoMetodologiaFase: 0, Fase: 'Selecione' }],
+  listaProjeto: [{ IdProjeto: -1, Nome: 'Projeto Default' }],
 }
 
-export default (props) => {
+export default (_props) => {
   //#region Constantes
   const classes = useStyles()
   const idColaboradorLogado = 2359
@@ -64,52 +59,28 @@ export default (props) => {
 
   //#region States
   // states do formulario
-  const [listaCategoriaAtividade, setListaCategoriaAtividade] = useState(defaultValue.listaCategoriaAtividade)
-  const [listaCoordenador, setListaCoordenador] = useState(defaultValue.listaCoordenador)
-  const [listaProjeto, setListaProjeto] = useState(defaultValue.listaProjeto)
-  const [listaProjetoDefault, setListaProjetoDefault] = useState(defaultValue.listaProjetoDefault)
-  const [listaProjetoFase, setListaProjetoFase] = useState(defaultValue.listaProjetoFase)
+  const [listaProjeto, setListaProjeto] = useState([])
+  const [listaProjetoDefault, setListaProjetoDefault] = useState([])
+  const [listaCoordenador, setListaCoordenador] = useState([])
+  const [listaProjetoFase, setListaProjetoFase] = useState([])
+  const [listaCategoriaAtividade, setListaCategoriaAtividade] = useState([])
 
   // states selecionados
-  const [cargaSelecionada, setCargaSelecionada] = useState(defaultValue.cargaZerada)
-  const [categoriaAtividadeSelecionado, setCategoriaAtividadeSelecionado] = useState(defaultValue.idDefault)
-  const [coordenadorSelecionado, setCoordenadorSelecionado] = useState(defaultValue.idDefault)
-  const [contratoAtivoDia, setContratoAtivo] = useState(defaultValue.contratoDefault)
-  const [descricaoAtividade, setDescricaoAtividade] = useState('')
   const [diaAtividade, setDiaAtividade] = useState(defaultValue.diaAtividade)
-  const [projetoDefaultSelecionado, setProjetoDefaultSelecionado] = useState(defaultValue.idDefault)
-  const [projetoFaseSelecionado, setProjetoFaseSelecionado] = useState(defaultValue.idDefault)
+  const [cargaSelecionada, setCargaSelecionada] = useState(defaultValue.cargaZerada)
   const [projetoSelecionado, setProjetoSelecionado] = useState(defaultValue.idDefault)
+  const [projetoDefaultSelecionado, setProjetoDefaultSelecionado] = useState(defaultValue.idDefault)
+  const [coordenadorSelecionado, setCoordenadorSelecionado] = useState(defaultValue.idDefault)
+  const [projetoFaseSelecionado, setProjetoFaseSelecionado] = useState(defaultValue.idDefault)
+  const [categoriaAtividadeSelecionado, setCategoriaAtividadeSelecionado] = useState(defaultValue.idDefault)
+  const [descricaoAtividade, setDescricaoAtividade] = useState('')
   const [tagAtividade, setTagAtividade] = useState('')
 
   // state validacao
-  const [descricaoAtividadeCheck, setDescricaoAtividadeCheck] = useState(false)
-  const [categoriaAtividadeSelecionadoCheck, setCategoriaAtividadeSelecionadoCheck] = useState(false)
-  const [coordenadorSelecionadoCheck, setCoordenadorSelecionadoCheck] = useState(false)
-  const [projetoDefaultSelecionadoCheck, setProjetoDefaultSelecionadoCheck] = useState(false)
-  const [projetoFaseSelecionadoCheck, setProjetoFaseSelecionadoCheck] = useState(false)
-  const [projetoSelecionadoCheck, setProjetoSelecionadoCheck] = useState(false)
-  const [tagAtividadeCheck, setTagAtividadeCheck] = useState(false)
   const [formularioCheck, setFormularioCheck] = useState(false)
   //#endregion
 
   //#region Funcoes
-  const habilitaBotao = () => {
-    if (descricaoAtividadeCheck) {
-      if (projetoSelecionado === -1) {
-        projetoDefaultSelecionadoCheck && coordenadorSelecionadoCheck
-          ? setFormularioCheck(true)
-          : setFormularioCheck(false)
-      }
-      else if (projetoSelecionado > 0) {
-        projetoFaseSelecionadoCheck && categoriaAtividadeSelecionadoCheck
-          ? setFormularioCheck(true)
-          : setFormularioCheck(false)
-      }
-    } else
-      setFormularioCheck(false)
-  }
-
   const zeraIdSelecionados = () => {
     setCoordenadorSelecionado(0)
     setProjetoDefaultSelecionado(0)
@@ -120,17 +91,8 @@ export default (props) => {
 
   //#region UseEffects
   useEffect(() => {
-    formularioCheck ??
-      setFormularioCheck(false)
-    validaFormulario()
-  }, [projetoSelecionado, projetoDefaultSelecionado, coordenadorSelecionado, categoriaAtividadeSelecionado, projetoFaseSelecionado, descricaoAtividade])
-
-  useEffect(() => {
-    colaboradorContratoApi.contratoAtivoByIdColaboradorDia(idColaboradorLogado, diaAtividade.utcOffset(0, true).format())
-      .then(res => res ? setContratoAtivo(res) : setContratoAtivo(defaultValue.contratoDefault)
-      )
     projetoApi.projetosByIdColaboradorDia(idColaboradorLogado, diaAtividade.utcOffset(0, true).format())
-      .then(res => res ? setListaProjeto([].concat(defaultValue.listaProjeto, res)) : setListaProjeto(defaultValue.listaProjeto))
+      .then(res => res ? setListaProjeto(res) : setListaProjeto([]))
 
     setDescricaoAtividade('')
     setListaCategoriaAtividade([])
@@ -142,6 +104,7 @@ export default (props) => {
   }, [diaAtividade])
 
   useEffect(() => {
+    setDescricaoAtividade('')
     // se algum projeto(>0) selecionado, carregar Fase e Categoria, caso existam
     if (projetoSelecionado > 0) {
       setListaCoordenador([])
@@ -150,9 +113,10 @@ export default (props) => {
       setProjetoDefaultSelecionado(0)
 
       projetoCategoriaAtividadeApi.projetoCategoriaAtividadeByIdProjeto(projetoSelecionado)
-        .then(res => res ? setListaCategoriaAtividade([].concat(defaultValue.listaCategoriaAtividade, res)) : setListaCategoriaAtividade(defaultValue.listaCategoriaAtividade))
+        .then(res => res ? setListaCategoriaAtividade(res) : setListaCategoriaAtividade([]))
+
       projetoMetodologiaFaseApi.projetoFaseByIdProjeto(projetoSelecionado)
-        .then(res => res ? setListaProjetoFase([].concat(defaultValue.listaProjetoFase, res)) : setListaProjetoFase(defaultValue.listaProjetoFase))
+        .then(res => res ? setListaProjetoFase(res) : setListaProjetoFase([]))
     } else if (projetoSelecionado === -1) {
       // se projeto é default (-1), carrega projetos default e coordenadores 
       setListaCategoriaAtividade([])
@@ -161,10 +125,11 @@ export default (props) => {
       setProjetoFaseSelecionado(0)
 
       projetoApi.projetosDefault(diaAtividade.utcOffset(0, true).format())
-        .then(res => res ? setListaProjetoDefault([].concat(defaultValue.listaProjetoDefault, res)) : setListaProjetoDefault(defaultValue.listaProjetoDefault))
+        .then(res => res ? setListaProjetoDefault(res) : setListaProjetoDefault([]))
 
       colaboradorApi.coordenadoresByDia(diaAtividade.utcOffset(0, true).format())
-        .then(res => res ? setListaCoordenador([].concat(defaultValue.listaCoordenador, res)) : setListaCoordenador(defaultValue.listaCoordenador))
+        .then(res => res ? setListaCoordenador(res) : setListaCoordenador([]))
+
     } else if (projetoSelecionado === 0) {
       setListaProjetoFase([])
       setListaCategoriaAtividade([])
@@ -173,19 +138,22 @@ export default (props) => {
       zeraIdSelecionados()
     }
   }, [projetoSelecionado])
+
+  useEffect(() => {
+    validaFormulario()
+  }, [projetoDefaultSelecionado, coordenadorSelecionado, categoriaAtividadeSelecionado, projetoFaseSelecionado, descricaoAtividade, cargaSelecionada])
   //#endregion
 
   //#region Handles
   const handleChangeDiaAtividade = (diaAtividade) => setDiaAtividade(moment(diaAtividade))
   const handleChangeCargaAtividade = (cargaAtividade) => setCargaSelecionada(moment(cargaAtividade))
-  const handleChangeProjeto = (event) => setProjetoSelecionado(event.target.value)
-  const handleChangeProjetoDefault = (event) => setProjetoDefaultSelecionado(event.target.value)
-  const handleChangeProjetoFase = (event) => setProjetoFaseSelecionado(event.target.value)
-  const handleChangeCategoriaAtividade = (event) => setCategoriaAtividadeSelecionado(event.target.value)
-  const handleChangeCoordenador = (event) => setCoordenadorSelecionado(event.target.value)
+  const handleChangeProjeto = (value) => setProjetoSelecionado(value)
+  const handleChangeProjetoDefault = (value) => setProjetoDefaultSelecionado(value)
+  const handleChangeProjetoFase = (value) => setProjetoFaseSelecionado(value)
+  const handleChangeCategoriaAtividade = (value) => setCategoriaAtividadeSelecionado(value)
+  const handleChangeCoordenador = (value) => setCoordenadorSelecionado(value)
   const handleChangeDescricao = (event) => setDescricaoAtividade(event.target.value)
   const handleChangeTag = (tags) => setTagAtividade(tags)
-
   const handleSalvarAtividade = () => {
     atividadeApi.salvarAtividade(
       null,
@@ -203,129 +171,71 @@ export default (props) => {
   //#endregion
 
   //#region Validacoes
-  // const validaCargaSelecionada = () => {}
-  const validaCategoriaAtividadeSelecionado = () => {
-    if (listaCategoriaAtividade.length > 1 && categoriaAtividadeSelecionado === 0)
-      setCategoriaAtividadeSelecionadoCheck(false)
-    else
-      setCategoriaAtividadeSelecionadoCheck(true)
-  }
-  const validaCoordenadorSelecionado = () => {
-    if (listaCoordenador.length > 1 && coordenadorSelecionado === 0)
-      setCoordenadorSelecionadoCheck(false)
-    else
-      setCoordenadorSelecionadoCheck(true)
-  }
-  // const validaContratoAtivoDia = () => { }
-  const validaDescricaoAtividade = () => {
-    if (descricaoAtividade === '')
-      setDescricaoAtividadeCheck(false)
-    else
-      setDescricaoAtividadeCheck(true)
-  }
-  // const validaDiaAtividade = () => {}
-  const validaProjetoDefaultSelecionado = () => {
-    if (listaProjetoDefault.length > 1 && projetoDefaultSelecionado === 0)
-      setProjetoDefaultSelecionadoCheck(false)
-    else
-      setProjetoDefaultSelecionadoCheck(true)
-  }
-  const validaProjetoFaseSelecionado = () => {
-    if (listaProjetoFase.length > 1 && projetoFaseSelecionado === 0)
-      setProjetoFaseSelecionadoCheck(false)
-    else
-      setProjetoFaseSelecionadoCheck(true)
-  }
-  const validaProjetoSelecionado = () => {
-    if (listaProjeto.length > 1 && projetoSelecionado === 0)
-      setProjetoSelecionadoCheck(false)
-    else
-      setProjetoSelecionadoCheck(true)
-  }
-  const validaTagAtividade = () => {
-    if (tagAtividade === '')
-      setTagAtividadeCheck(false)
-    else
-      setTagAtividadeCheck(true)
-  }
-
   const validaFormulario = () => {
-    validaDescricaoAtividade()
-    validaProjetoSelecionado()
-
-    if (projetoSelecionado === -1) {
-      validaProjetoDefaultSelecionado()
-      validaCoordenadorSelecionado()
-    }
-    else if (projetoSelecionado > 0) {
-      validaCategoriaAtividadeSelecionado()
-      validaProjetoFaseSelecionado()
-    }
-    habilitaBotao()
+    if (descricaoAtividade !== '' && (cargaSelecionada.hour() > 0 || cargaSelecionada.minute() > 0)) {
+      if (projetoSelecionado === -1) {
+        if (listaProjetoDefault.length > 0 && listaCoordenador.length > 0 && projetoDefaultSelecionado > 0 && coordenadorSelecionado > 0)
+          setFormularioCheck(true)
+        else setFormularioCheck(false)
+      }
+      else if (projetoSelecionado > 0) {
+        if ((listaProjetoFase.length > 0 ? (projetoFaseSelecionado > 0 ? true : false) : true) && (listaCategoriaAtividade.length > 0 ? categoriaAtividadeSelecionado > 0 ? true : false : true))
+          setFormularioCheck(true)
+        else setFormularioCheck(false)
+      }
+    } else
+      setFormularioCheck(false)
   }
   //#endregion
 
   //#region Renders
-  const renderBarraProgresso = () => {
-    const mesReferencia = new Date()
-    return <BarraProgresso mesReferencia={mesReferencia} />
-  }
 
   const renderCampoCategoriaAtividade = () => {
-    return listaCategoriaAtividade.length > 1 ?
-      <Grid item xs={12} sm={6} md={4} xl={4} align='center' >
-        <TextField
-          error={!categoriaAtividadeSelecionadoCheck}
+    return listaCategoriaAtividade.length > 0
+      ? <Grid item xs={12} sm={6} md={4} xl={4} align='center' >
+        <SelectComponent
+          dataList={listaCategoriaAtividade}
           fullWidth
           helperText='Selecione uma Categoria'
-          id='select-projetoDefault'
+          id='select-catetoria'
           label='Categoria Atividade'
           margin='normal'
           onChange={handleChangeCategoriaAtividade}
           required
           select
           size='small'
+          typeSelect='categoria'
           value={categoriaAtividadeSelecionado}
-        >
-          {
-            listaCategoriaAtividade.map((categoriaAtividade) => (
-              <MenuItem value={categoriaAtividade.IdProjetoCategoriaAtividade} key={categoriaAtividade.IdProjetoCategoriaAtividade}>{categoriaAtividade.Descricao}</MenuItem>
-            ))
-          }
-        </TextField>
-      </Grid> : null
+        />
+      </Grid>
+      : null
   }
 
   const renderCampoCoordenador = () => {
-    return projetoSelecionado === -1 && listaCoordenador.length > 1 ?
-      <Grid item xs={12} sm={6} md={4} xl={4} align='center'>
-        <TextField
-          error={!coordenadorSelecionadoCheck}
+    return listaCoordenador.length > 0
+      ? <Grid item xs={12} sm={6} md={4} xl={4} align='center'>
+        <SelectComponent
+          dataList={listaCoordenador}
           fullWidth
           helperText='Selecione um(a) Coordenador(a)'
-          id='demo-simple-select'
+          id='select-coordenador'
           label='Coordenador(a)'
           margin='normal'
           onChange={handleChangeCoordenador}
           required
           select
           size='small'
+          typeSelect='coordenador'
           value={coordenadorSelecionado}
-        >
-          {
-            listaCoordenador.map((coordenador) => (
-              <MenuItem value={coordenador.IdColaborador} key={coordenador.IdColaborador}>{coordenador.Nome}</MenuItem>
-            ))
-          }
-        </TextField>
-      </Grid> : null
+        />
+      </Grid>
+      : null
   }
 
   const renderCampoDescricao = () => {
     return (
       <Grid item xs={12} sm={6} md={4} xl={4} align='center'>
         <TextField
-          error={!descricaoAtividadeCheck}
           fullWidth
           id='outlined-basic'
           label='Descreva sua atividade'
@@ -344,8 +254,8 @@ export default (props) => {
   const renderCampoProjeto = () => {
     return (
       <Grid item xs={12} sm={6} md={4} xl={4} align='center'>
-        <TextField
-          error={!projetoSelecionadoCheck}
+        <SelectComponent
+          dataList={listaProjeto}
           fullWidth
           helperText='Selecione um Projeto'
           id='select-projeto'
@@ -353,25 +263,19 @@ export default (props) => {
           margin='normal'
           onChange={handleChangeProjeto}
           required
-          select
           size='small'
+          typeSelect='projeto'
           value={projetoSelecionado}
-        >
-          {
-            listaProjeto.map((proj) => (
-              <MenuItem value={proj.IdProjeto} key={proj.IdProjeto}>{proj.Nome}</MenuItem>
-            ))
-          }
-        </TextField>
+        />
       </Grid >
     )
   }
 
   const renderCampoProjetoDefault = () => {
-    return projetoSelecionado === -1 && listaProjetoDefault.length > 1 ?
-      <Grid item xs={12} sm={6} md={4} xl={4} align='center' >
-        <TextField
-          error={!projetoDefaultSelecionadoCheck}
+    return listaProjetoDefault.length > 0
+      ? <Grid item xs={12} sm={6} md={4} xl={4} align='center' >
+        <SelectComponent
+          dataList={listaProjetoDefault}
           fullWidth
           helperText='Selecione um Projeto Default'
           id='select-projeto-default'
@@ -379,24 +283,19 @@ export default (props) => {
           margin='normal'
           onChange={handleChangeProjetoDefault}
           required
-          select
           size='small'
+          typeSelect='projeto-default'
           value={projetoDefaultSelecionado}
-        >
-          {
-            listaProjetoDefault.map((projDef) => (
-              <MenuItem value={projDef.IdProjeto} key={projDef.IdProjeto}>{projDef.Nome}</MenuItem>
-            ))
-          }
-        </TextField>
-      </Grid> : null
+        />
+      </Grid>
+      : null
   }
 
   const renderCampoProjetoFase = () => {
-    return listaProjetoFase.length > 1 ?
-      <Grid item xs={12} sm={6} md={4} xl={4} align='center' >
-        <TextField
-          error={!projetoFaseSelecionadoCheck}
+    return listaProjetoFase.length > 0
+      ? <Grid item xs={12} sm={6} md={4} xl={4} align='center' >
+        <SelectComponent
+          dataList={listaProjetoFase}
           fullWidth
           helperText='Selecione uma Fase'
           id='select-fase-projeto'
@@ -406,14 +305,11 @@ export default (props) => {
           required
           select
           size='small'
+          typeSelect='fase'
           value={projetoFaseSelecionado}
-        >
-          {
-            listaProjetoFase.map((projFase) => (
-              <MenuItem value={projFase.IdProjetoMetodologiaFase} key={projFase.IdProjetoMetodologiaFase}>{projFase.Fase}</MenuItem>
-            ))}
-        </TextField>
-      </Grid> : null
+        />
+      </Grid>
+      : null
   }
 
   const renderCampoTag = () => {
@@ -432,19 +328,25 @@ export default (props) => {
 
   const renderCargaAtividadePicker = () => {
     return (
-      <TimePicker
-        onChange={handleChangeCargaAtividade}
-        value={cargaSelecionada}
-      />
+      <Grid item xs={12} sm={6} md={4} xl={4} align='center'>
+        <TimePicker
+          fullWidth
+          onChange={handleChangeCargaAtividade}
+          value={cargaSelecionada}
+        />
+      </Grid>
     )
   }
 
   const renderDiaAtividadePicker = () => {
     return (
-      <DataPicker
-        onChange={handleChangeDiaAtividade}
-        value={diaAtividade}
-      />
+      <Grid item xs={12} sm={6} md={4} xl={4} align='center'>
+        <DataPicker
+          fullWidth
+          onChange={handleChangeDiaAtividade}
+          value={diaAtividade}
+        />
+      </Grid>
     )
   }
 
@@ -452,10 +354,9 @@ export default (props) => {
 
   return (
     <div className='container'>
-      {/* {renderBarraProgresso()} */}
-      {renderDiaAtividadePicker()}
-      {renderCargaAtividadePicker()}
-      <Grid container spacing={3}>
+      <Grid container spacing={4}>
+        {renderDiaAtividadePicker()}
+        {renderCargaAtividadePicker()}
         {renderCampoProjeto()}
         {renderCampoProjetoFase()}
         {renderCampoCategoriaAtividade()}

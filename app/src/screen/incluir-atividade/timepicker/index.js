@@ -19,6 +19,7 @@ export default (props) => {
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={pt_br}>
       <ThemeProvider /* theme={tema}*/>
         <KeyboardTimePicker
+          fullWidth={props.fullWidth || false}
           ampm={false}
           variant="standard"
           label="Seleciona a carga da atividade"

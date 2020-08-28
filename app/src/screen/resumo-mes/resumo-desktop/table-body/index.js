@@ -10,8 +10,6 @@ import {
 } from "@material-ui/core"
 
 export default (props) => {
-  console.log(props.atvMes)
-
   if (props.atvMes != null && props.atvMes.length > 0) {
     return (
       <TableBody>
