@@ -1,7 +1,7 @@
 import baseUrl from './api-baseUrl'
 
-const ProjetoAlocacaoApi = {
-  ProjetoAlocacaoPeriodoByIdColaboradorDia: async (idColaborador, diaReferencia) => {
+const projetoAlocacaoPeriodoByIdColaboradorDia = async (idColaborador, diaReferencia) => {
+  try {
     const result = await baseUrl
       .get("ProjetoAlocacao/ProjetoAlocacaoPeriodoByIdColaboradorDia", {
         params: {
@@ -9,12 +9,12 @@ const ProjetoAlocacaoApi = {
           diaReferencia: diaReferencia,
         },
       })
-      .then(
-        res => res.data,
-        err => console.log(err)
-      )
-    return result
+    return result.data
+
+  }
+  catch (error) {
+    console.error(error)
   }
 }
 
-export default ProjetoAlocacaoApi
+export default { projetoAlocacaoPeriodoByIdColaboradorDia }

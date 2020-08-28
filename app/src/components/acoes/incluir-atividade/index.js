@@ -1,5 +1,5 @@
 import React from "react";
-import "./style.css";
+
 import {
   Button,
   Dialog,
@@ -10,6 +10,8 @@ import {
 } from "@material-ui/core/";
 
 import IncluirAtv from "../../../screen/incluir-atividade";
+
+import "./style.css";
 
 export default () => {
   const [open, setOpen] = React.useState(false);

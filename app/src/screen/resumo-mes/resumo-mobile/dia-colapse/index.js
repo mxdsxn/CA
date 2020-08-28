@@ -57,26 +57,26 @@ export default function CustomizedExpansionPanels(props) {
   };
 
   if (props.atvMes != null && props.atvMes.length > 0) {
-    handleChange(props.atvMes[0].dia)
+    handleChange(props.atvMes[0].Dia)
     return (
       <>
         {props.atvMes.map((dia) => (
-          dia.atividadesDia.length === 0 ? null : (
+          dia.Atividades.length === 0 ? null : (
             <ExpansionPanel
               square
-              expanded={expanded === dia.dia}
-              onChange={handleChange(dia.dia)}
+              expanded={expanded === dia.Dia}
+              onChange={handleChange(dia.Dia)}
             >
               <ExpansionPanelSummary
                 aria-controls="panel1d-content"
                 id="panel1d-header"
               >
-                <Typography>{moment(dia.dia).utc().format('L')}</Typography>
+                <Typography>{moment(dia.Dia).utc().format('L')}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <Typography>
                   {
-                    dia.atividadesDia.map(atv =>
+                    dia.Atividades.map(atv =>
                       <>
                         <CardAtividade atv={atv} />
                       </>

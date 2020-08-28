@@ -1,6 +1,10 @@
 import React from "react";
 
-import { MuiPickersUtilsProvider, KeyboardTimePicker } from "@material-ui/pickers";
+import {
+  KeyboardTimePicker,
+  MuiPickersUtilsProvider
+} from "@material-ui/pickers";
+
 import { ThemeProvider } from "@material-ui/styles";
 
 import "date-fns";
@@ -13,10 +17,9 @@ export default (props) => {
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={pt_br}>
-      <ThemeProvider
-      // theme={tema}
-      >
+      <ThemeProvider /* theme={tema}*/>
         <KeyboardTimePicker
+          fullWidth={props.fullWidth || false}
           ampm={false}
           variant="standard"
           label="Seleciona a carga da atividade"
@@ -25,6 +28,6 @@ export default (props) => {
           autoOk
         />
       </ThemeProvider>
-    </MuiPickersUtilsProvider>
+    </MuiPickersUtilsProvider >
   );
 }

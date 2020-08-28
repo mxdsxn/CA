@@ -1,16 +1,18 @@
-export default interface IAtividade {
-  IdAtividade: number;
-  IdColaborador: number;
-  IdProjeto: number;
-  Projeto: String;
-  IdProjetoCategoriaAtividade: number;
-  CategoriaAtividade: String;
-  IdProjetoMetodologiaFase: number;
-  FaseProjeto: String;
-  DataCadastro: Date;
-  DataAtividade: Date;
-  Carga: String;
-  Descricao: String;
-  Tags: String;
-  IdCoordenador: number;
+export default interface AtividadeModel {
+    IdAtividade: number
+    IdColaborador: number
+    IdProjeto: number
+    IdProjetoCategoriaAtividade: number
+    IdProjetoMetodologiaFase: number
+    DataCadastro: Date
+    DataAtividade: Date
+    Carga: string
+    Descricao: string
+    Tags: string
+    IdCoordenador: number
+    InicioAtividade: string
+    FimAtividade: string
+    NomeProjeto: string
+    Categoria: string
+    Fase: string
 }

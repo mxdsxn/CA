@@ -1,33 +1,37 @@
 import baseUrl from './api-baseUrl'
 
-const CalendarioApi = {
-  FeriadosByMes: async (mesReferencia) => {
+const feriadosByMes = async (mesReferencia) => {
+  try {
     const result = await baseUrl
       .get("Calendario/FeriadosByMes", {
         params: {
           mesReferencia: mesReferencia,
         },
       })
-      .then(
-        res => res.data,
-        err => console.log(err)
-      )
-    return result
-  },
-  FeriadosByDia: async (diaReferencia) => {
+    return result.data
+
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const feriadosByDia = async (diaReferencia) => {
+  try {
     const result = await baseUrl
       .get("Calendario/FeriadosByDia", {
         params: {
           diaReferencia: diaReferencia,
         },
       })
-      .then(
-        res => res.data,
-        err => console.log(err)
-      )
-    return result
-  },
-  ListaFeriadoFinalSemanaByMes: async (idColaborador, mesReferencia) => {
+    return result.data
+
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const listaFeriadoFinalSemanaByMes = async (idColaborador, mesReferencia) => {
+  try {
     const result = await baseUrl
       .get("Calendario/ListaFeriadoFinalSemanaByMes", {
         params: {
@@ -35,12 +39,15 @@ const CalendarioApi = {
           mesReferencia: mesReferencia,
         },
       })
-      .then(
-        res => res.data,
-        err => console.log(err)
-      )
-    return result
+    return result.data
+
+  } catch (error) {
+    console.error(error)
   }
 }
 
-export default CalendarioApi
+export default {
+  feriadosByDia,
+  feriadosByMes,
+  listaFeriadoFinalSemanaByMes
+}

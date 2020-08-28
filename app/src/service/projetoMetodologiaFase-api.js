@@ -1,19 +1,18 @@
 import baseUrl from './api-baseUrl'
 
-const ProjetoMetodologiaFaseApi = {
-  ProjetoFaseByIdProjeto: async (idProjeto) => {
+const projetoFaseByIdProjeto = async (idProjeto) => {
+  try {
     const result = await baseUrl
       .get("ProjetoMetodologiaFase/ProjetoFaseByIdProjeto", {
         params: {
           idProjeto: idProjeto,
         },
       })
-      .then(
-        res => res.data,
-        err => console.log(err)
-      )
-    return result
+    return result.data
+
+  } catch (error) {
+    console.error(error)
   }
 }
 
-export default ProjetoMetodologiaFaseApi
+export default { projetoFaseByIdProjeto }

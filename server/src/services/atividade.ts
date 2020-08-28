@@ -1,12 +1,8 @@
 /* eslint-disable no-unused-vars */
-import dbConnection from '@database'
 import {
-  IAtividade,
-  IColaboradorContrato,
-  IProjeto,
-  IProjetoCategoriaAtividade,
-  IProjetoMetodologiaFase
-} from '@models'
+  AtividadeEntity,
+  ColaboradorContratoEntity
+} from '@entities'
 
 import {
   CalendarioService,
@@ -16,27 +12,14 @@ import {
 import libUtc from '@libUtc'
 import { Moment } from 'moment'
 
+import { AtividadeRepository as Repo } from '@repositories'
+import { DiaModel } from '@models'
+
 /* retorna lista de atividades do colaborador em um mes */
 const AtividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date, naoAgruparDia?: boolean) => {
-  const mesReferenciaInicio = mesReferencia
-  const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
+  const listaAtividadeMes = await Repo.AtividadesByIdColaboradorMes(idColaborador, mesReferencia)
 
-  const listaAtividadeMes = await dbConnection('pessoas.Atividade')
-    .innerJoin('operacoes.Projeto', 'operacoes.Projeto.IdProjeto', 'pessoas.Atividade.IdProjeto')
-    .fullOuterJoin('operacoes.ProjetoCategoriaAtividade', 'operacoes.ProjetoCategoriaAtividade.IdProjetoCategoriaAtividade', 'pessoas.Atividade.IdProjetoCategoriaAtividade')
-    .fullOuterJoin('operacoes.ProjetoMetodologiaFase', 'operacoes.ProjetoMetodologiaFase.IdProjetoMetodologiaFase', 'pessoas.Atividade.IdProjetoMetodologiaFase')
-    .where('pessoas.Atividade.IdColaborador', idColaborador)
-    .andWhere('pessoas.Atividade.DataAtividade', '>=', mesReferenciaInicio)
-    .andWhere('pessoas.Atividade.DataAtividade', '<', mesReferenciaFim)
-    .select(
-      'pessoas.Atividade.*',
-      'operacoes.Projeto.Nome',
-      'operacoes.ProjetoCategoriaAtividade.Descricao as Categoria',
-      'operacoes.ProjetoMetodologiaFase.Fase'
-    )
-    .orderBy('pessoas.Atividade.DataAtividade', 'asc')
-
-  if (!naoAgruparDia) {
+  if (!naoAgruparDia && listaAtividadeMes.length > 0) {
     const listaFeriadosFds = await CalendarioService.ListaFeriadoFinalSemanaByMes(idColaborador, mesReferencia)
     const listaContratosMes = await ColaboradorContratoService.ContratosByDataIdColaboradorMes(idColaborador, mesReferencia)
     return AgruparAtividadesPorDia(mesReferencia, listaAtividadeMes, listaFeriadosFds, listaContratosMes)
@@ -46,21 +29,9 @@ const AtividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia
 }
 
 const AtividadesByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date) => {
-  const listaAtividadeMes = await dbConnection('pessoas.Atividade')
-    .innerJoin('operacoes.Projeto', 'operacoes.Projeto.IdProjeto', 'pessoas.Atividade.IdProjeto')
-    .fullOuterJoin('operacoes.ProjetoCategoriaAtividade', 'operacoes.ProjetoCategoriaAtividade.IdProjetoCategoriaAtividade', 'pessoas.Atividade.IdProjetoCategoriaAtividade')
-    .fullOuterJoin('operacoes.ProjetoMetodologiaFase', 'operacoes.ProjetoMetodologiaFase.IdProjetoMetodologiaFase', 'pessoas.Atividade.IdProjetoMetodologiaFase')
-    .where('pessoas.Atividade.IdColaborador', idColaborador)
-    .andWhere('pessoas.Atividade.DataAtividade', diaReferencia)
-    .select(
-      'pessoas.Atividade.*',
-      'operacoes.Projeto.Nome',
-      'operacoes.ProjetoCategoriaAtividade.Descricao as Categoria',
-      'operacoes.ProjetoMetodologiaFase.Fase'
-    )
-    .orderBy('pessoas.Atividade.DataAtividade', 'asc')
+  const listaAtividadeDia = await Repo.AtividadesByIdColaboradorDia(idColaborador, diaReferencia)
 
-  return (listaAtividadeMes)
+  return listaAtividadeDia
 }
 
 const SalvarAtividade = async (
@@ -87,8 +58,8 @@ const SalvarAtividade = async (
   console.log('descricaoAtividade:', descricaoAtividade)
 }
 
-const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: IAtividade[], listaFeriadosFds: any, listaContratos: any) => {
-  const contrato = listaContratos[0] as IColaboradorContrato
+const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: AtividadeEntity[], listaFeriadosFds: DiaModel[], listaContratos: ColaboradorContratoEntity[]): DiaModel[] => {
+  const contrato = listaContratos[0]
 
   const inicioMes = mesReferencia.getUTCMonth() === contrato.DataInicioContrato.getUTCMonth() &&
     mesReferencia.getUTCFullYear() === contrato.DataInicioContrato.getUTCFullYear()
@@ -99,19 +70,21 @@ const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: IAtividade
     ? libUtc.getEndDate()
     : libUtc.getEndMonth(inicioMes)
 
-  const listaAtividadePorDia: object[] = [{}]
-  listaAtividadePorDia.pop()
+  const listaAtividadePorDia: DiaModel[] = []
 
   for (let dia = inicioMes; dia <= fimMes; dia = libUtc.addDay(dia)) {
     const atividadesDia = listaAtividade.filter(x => x.DataAtividade.getTime() === dia.getTime())
-    const descricao = listaFeriadosFds.find((x: { Dia: { getTime: () => number } }) => x.Dia.getTime() === dia.getTime())
-      ? listaFeriadosFds.find((x: { Dia: { getTime: () => number } }) => x.Dia.getTime() === dia.getTime()).Descricao
-      : null
-    const result = { dia, atividadesDia, descricao }
+    const descricao = listaFeriadosFds.find(x => x.Dia.getTime() === dia.getTime())?.Descricao || null
+
+    const result: DiaModel = {
+      Dia: dia,
+      Descricao: descricao,
+      Atividades: atividadesDia
+    }
 
     listaAtividadePorDia.push(result)
   }
-  return (listaAtividadePorDia)
+  return listaAtividadePorDia
 }
 
 export default {

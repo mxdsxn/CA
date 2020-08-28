@@ -1,14 +1,10 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
-import dbConnection from '@database'
-
 import {
-  IAtividade,
-  ICalendario,
-  IColaborador,
-  IColaboradorContrato,
-  IProjetoHistoricoGerente
-} from '@models'
+  AtividadeEntity,
+  CalendarioEntity,
+  ColaboradorContratoEntity
+} from '@entities'
 
 import {
   AtividadeService,
@@ -16,94 +12,89 @@ import {
   ColaboradorContratoService
 } from '@services'
 
+import { ColaboradorRepository as Repo } from '@repositories'
+
 import libUtc from '@libUtc'
+import { AtividadeModel } from '@models'
 
 /* retorna lista de coordenadores(gerentes de projetos), para aprovaçao de atividades em projetos Default */
 const CoordenadoresByDia = async (diaReferencia: Date) => {
-  const mesReferenciaInicio = libUtc.getMonth(diaReferencia)
-  const mesReferenciaFim = libUtc.getEndMonth(diaReferencia)
+  const listaCoordenador = await Repo.CoordenadoresByDia(diaReferencia)
 
-  const listaCoordenador = await dbConnection('pessoas.Colaborador')
-    .innerJoin('operacoes.ProjetoHistoricoGerente', 'operacoes.ProjetoHistoricoGerente.IdColaborador', 'pessoas.Colaborador.IdColaborador')
-    .where('operacoes.ProjetoHistoricoGerente.DataInicio', '<', mesReferenciaFim)
-    .andWhere(function () {
-      this.where('DataFim', '>=', mesReferenciaInicio)
-        .orWhere('DataFim', null)
-    })
-    .select(
-      'pessoas.Colaborador.IdColaborador',
-      'pessoas.Colaborador.Nome'
-    )
-    .orderBy('pessoas.Colaborador.Nome', 'asc')
-    .distinct()
-
-  return (listaCoordenador)
+  return listaCoordenador
 }
 
 const HorasUteisMesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date) => {
   const inicioMes = mesReferencia
   const finalMes = libUtc.getEndMonth(mesReferencia)
 
-  const listaFeriadosMes: ICalendario[] = await CalendarioService.FeriadosByMes(idColaborador, inicioMes) || []
+  const listaFeriadosMes: CalendarioEntity[] = await CalendarioService.FeriadosByMes(idColaborador, inicioMes) || []
+  const listaContratosMes: ColaboradorContratoEntity[] = await ColaboradorContratoService.ContratosByDataIdColaboradorMes(idColaborador, mesReferencia)
 
-  const horasPrevistaMes: number = await ColaboradorContratoService.ContratosByDataIdColaboradorMes(idColaborador, mesReferencia)
-    .then((contratos: IColaboradorContrato[]) => {
-      var horasPrevistasMes = 0
-      for (var dia = inicioMes; dia <= finalMes; dia = libUtc.addDay(dia)) {
-        if (dia.getUTCDay() !== 6 && dia.getUTCDay() !== 0) { // se diferente de sabado e domingo
-          const cargaContrato = CargaHorariaDia(contratos, dia) // carga horaria do contrato naquele dia
-          const cargaFeriadoNoDia = CargaHorariaFeriado(listaFeriadosMes, dia) // carga horaria se houver feriado
+  var horasPrevistasMes = 0
 
-          cargaContrato // caso exista carga horaria naquele dia, ou seja, caso existe algum contrato ativo
-            ? horasPrevistasMes += cargaContrato > cargaFeriadoNoDia ? cargaFeriadoNoDia : cargaContrato : null
-        }
-      }
-      return horasPrevistasMes
-    })
-  return (horasPrevistaMes)
+  for (var dia = inicioMes; dia <= finalMes; dia = libUtc.addDay(dia)) {
+    if (dia.getUTCDay() !== 6 && dia.getUTCDay() !== 0) { // se diferente de sabado e domingo
+      const cargaContrato = CargaHorariaDia(listaContratosMes, dia) // carga horaria do contrato naquele dia
+      const cargaFeriadoNoDia = CargaHorariaFeriado(listaFeriadosMes, dia) // carga horaria se houver feriado
+
+      // caso exista carga horaria naquele dia, ou seja, caso existe algum contrato ativo
+      cargaContrato
+        ? horasPrevistasMes += cargaContrato > cargaFeriadoNoDia
+          ? cargaFeriadoNoDia
+          : cargaContrato
+        : null
+    }
+  }
+  return horasPrevistasMes
 }
+
 const HorasUteisAteHojeByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date) => {
   const inicioMes = mesReferencia
   const diaHoje = libUtc.getDate()
 
-  const listaFeriadosMes: ICalendario[] = await CalendarioService.FeriadosByMes(idColaborador, inicioMes) || []
-  const horasPrevistaAteHoje: number = inicioMes.getTime() === libUtc.getMonth().getTime()
-    ? await ColaboradorContratoService.ContratosByDataIdColaboradorMes(idColaborador, mesReferencia)
-      .then((contratos: IColaboradorContrato[]) => {
-        var horasPrevistaAteHoje = 0
-        for (var dia = inicioMes; dia <= diaHoje; dia = libUtc.addDay(dia)) {
-          if (dia.getUTCDay() !== 6 && dia.getUTCDay() !== 0) { // se diferente de sabado e domingo
-            const cargaContrato = CargaHorariaDia(contratos, dia) // carga horaria do contrato naquele dia
-            const cargaFeriadoNoDia = CargaHorariaFeriado(listaFeriadosMes, dia) // carga horaria se houver feriado
+  if (inicioMes.getTime() !== libUtc.getMonth().getTime()) { return 0 }
 
-            cargaContrato // caso exista carga horaria naquele dia, ou seja, caso existe algum contrato ativo
-              ? horasPrevistaAteHoje += cargaContrato > cargaFeriadoNoDia ? cargaFeriadoNoDia : cargaContrato : null
-          }
-        }
-        return horasPrevistaAteHoje
-      })
-    : 0
-  return (horasPrevistaAteHoje)
+  const listaFeriadosMes: CalendarioEntity[] = await CalendarioService.FeriadosByMes(idColaborador, inicioMes) || []
+  const listaContratosMes: ColaboradorContratoEntity[] = await ColaboradorContratoService.ContratosByDataIdColaboradorMes(idColaborador, mesReferencia)
+
+  var horasPrevistaAteHoje = 0
+  for (var dia = inicioMes; dia <= diaHoje; dia = libUtc.addDay(dia)) {
+    if (dia.getUTCDay() !== 6 && dia.getUTCDay() !== 0) { // se diferente de sabado e domingo
+      const cargaContrato = CargaHorariaDia(listaContratosMes, dia) // carga horaria do contrato naquele dia
+      const cargaFeriadoNoDia = CargaHorariaFeriado(listaFeriadosMes, dia) // carga horaria se houver feriado
+
+      cargaContrato // caso exista carga horaria naquele dia, ou seja, caso existe algum contrato ativo
+        ? horasPrevistaAteHoje += cargaContrato > cargaFeriadoNoDia
+          ? cargaFeriadoNoDia
+          : cargaContrato
+        : null
+    }
+  }
+
+  return horasPrevistaAteHoje
 }
+
 const HorasCadastradasByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date) => {
-  const listaAtividadesMes: IAtividade[] = await AtividadeService.AtividadesByIdColaboradorMes(idColaborador, mesReferencia, true)
+  const listaAtividadesMes = await AtividadeService.AtividadesByIdColaboradorMes(idColaborador, mesReferencia, true)
 
-  return HorasDecimal(listaAtividadesMes)
+  return HorasDecimal(listaAtividadesMes as AtividadeModel[])
 }
+
 const DadosBarraProgresso = async (idColaborador: number, mesReferencia: Date) => {
   const horasUteisMes = await HorasUteisMesByIdColaboradorMes(idColaborador, mesReferencia)
   const horasUteisHoje = await HorasUteisAteHojeByIdColaboradorMes(idColaborador, mesReferencia)
   const horasCadastradasAteHoje = await HorasCadastradasByIdColaboradorMes(idColaborador, mesReferencia)
-  return [horasUteisMes, horasUteisHoje, horasCadastradasAteHoje]
+  return { horasUteisMes, horasUteisHoje, horasCadastradasAteHoje }
 }
 
-const CargaHorariaFeriado = (listaFeriado: ICalendario[], diaReferencia: Date) => {
+const CargaHorariaFeriado = (listaFeriado: CalendarioEntity[], diaReferencia: Date) => {
   const result = listaFeriado.find(feriado => feriado.Dia.getTime() === diaReferencia.getTime())?.HorasUteis
 
   return (result !== undefined ? result : 8) as number
 }
 
-const CargaHorariaDia = (listaContrato: IColaboradorContrato[], diaReferencia: Date) => {
+const CargaHorariaDia = (listaContrato: ColaboradorContratoEntity[], diaReferencia: Date) => {
   const result = listaContrato.find(contrato => diaReferencia >= contrato.DataInicioContrato &&
     (diaReferencia <= contrato.Termino || contrato.Termino === null))
     ?.CargaHoraria
@@ -123,7 +114,7 @@ const SomaHorasVetor = (vetorHoras: number[][]) => {
   return [horasTotal, minutosTotal]
 }
 
-const HorasDecimal = (listaAtividades: IAtividade[]) => {
+const HorasDecimal = (listaAtividades: AtividadeModel[]) => {
   const listaCargaCadastrada = listaAtividades.map(atividade => atividade.Carga)
 
   const listaHorasVetor = listaCargaCadastrada.map(carga => HorasVetorNumero(carga))

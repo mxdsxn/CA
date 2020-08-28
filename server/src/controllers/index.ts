@@ -1,27 +1,12 @@
-import EasterEggController from '@controller/easter-egg'
-import HealthCheckController from '@controller/health-check'
-import AtividadeController from '@controller/atividade'
-import CalendarioController from '@controller/calendario'
-import ColaboradorController from '@controller/colaborador'
-import ColaboradorContratoController from '@controller/colaborador-contrato'
-import PontoController from '@controller/ponto'
-import ProjetoController from '@controller/projeto'
-import ProjetoAlocacaoPeriodoController from '@controller/projeto-alocacao-periodo'
-import ProjetoCategoriaAtividadeController from '@controller/projeto-categoria-atividade'
-import ProjetoMetodologiaFaseController from '@controller/projeto-metodologia-fase'
-import RegistroAuxiliarController from '@controller/registro-auxiliar'
-
-export {
-  EasterEggController,
-  HealthCheckController,
-  AtividadeController,
-  CalendarioController,
-  ColaboradorController,
-  ColaboradorContratoController,
-  PontoController,
-  ProjetoController,
-  ProjetoAlocacaoPeriodoController,
-  ProjetoCategoriaAtividadeController,
-  ProjetoMetodologiaFaseController,
-  RegistroAuxiliarController
-}
+export { default as EasterEggController } from '@controller/easter-egg'
+export { default as HealthCheckController } from '@controller/health-check'
+export { default as AtividadeController } from '@controller/atividade'
+export { default as CalendarioController } from '@controller/calendario'
+export { default as ColaboradorController } from '@controller/colaborador'
+export { default as ColaboradorContratoController } from '@controller/colaborador-contrato'
+export { default as PontoController } from '@controller/ponto'
+export { default as ProjetoController } from '@controller/projeto'
+export { default as ProjetoAlocacaoPeriodoController } from '@controller/projeto-alocacao-periodo'
+export { default as ProjetoCategoriaAtividadeController } from '@controller/projeto-categoria-atividade'
+export { default as ProjetoMetodologiaFaseController } from '@controller/projeto-metodologia-fase'
+export { default as RegistroAuxiliarController } from '@controller/registro-auxiliar'

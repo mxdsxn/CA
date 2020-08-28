@@ -1,20 +1,22 @@
 import React from "react";
-import "./style.css";
-import { ProgressBar } from "react-bootstrap";
-import { Container } from "@material-ui/core";
 
-import { default as apiConnection } from '../../service/api-connection'
+import { Container } from "@material-ui/core";
+import { ProgressBar } from "react-bootstrap";
+
+import { colaboradorApi } from '../../service/api-connection'
+
+import "./style.css";
+
 
 const idColaborador = 2359
 
 export default (props) => {
   const mesReferencia = props.mesReferencia
-  const [horasBarra, setHorasBarra] = React.useState([])
 
   const calculaValoresBarra = (res) => {
-    const uteisMes = res[0]
-    const uteisHoje = res[1]
-    const cadastradas = res[2]
+    const uteisMes = res.horasUteisMes
+    const uteisHoje = res.horasUteisHoje
+    const cadastradas = res.horasCadastradasAteHoje
 
     const cadastradaPorCento = 100 * cadastradas / uteisMes
     const uteisHojePorCento = 100 * uteisHoje / uteisMes
@@ -43,17 +45,16 @@ export default (props) => {
   }
 
   React.useEffect(() => {
-    apiConnection.colaborador.DadosBarraProgresso(idColaborador, mesReferencia.utcOffset(0, true).format())
+    colaboradorApi.dadosBarraProgresso(idColaborador, mesReferencia.utcOffset(0, true).format())
       .then(res => {
         if (res) {
-          setHorasBarra(res)
           calculaValoresBarra(res)
         } else {
-          setHorasBarra([])
+          calculaValoresBarra([0, 0, 0])
         }
       })
-
   }, [mesReferencia])
+
   const [cadastradas, setCadastradas] = React.useState();
   const [faltaCadastrar, setFaltaCadastrar] = React.useState();
   const [restante, setRestante] = React.useState();

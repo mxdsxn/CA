@@ -1,20 +1,22 @@
 import baseUrl from './api-baseUrl'
 
-const ColaboradorApi = {
-  CoordenadoresByDia: async (diaReferencia) => {
+const coordenadoresByDia = async (diaReferencia) => {
+  try {
     const result = await baseUrl
       .get("Colaborador/CoordenadoresByDia", {
         params: {
           diaReferencia: diaReferencia,
         },
       })
-      .then(
-        res => res.data,
-        err => console.log(err)
-      )
-    return result
-  },
-  DadosBarraProgresso: async (idColaborador, mesReferencia) => {
+    return result.data
+
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const dadosBarraProgresso = async (idColaborador, mesReferencia) => {
+  try {
     const result = await baseUrl
       .get("Colaborador/DadosBarraProgresso", {
         params: {
@@ -22,12 +24,14 @@ const ColaboradorApi = {
           mesReferencia: mesReferencia,
         },
       })
-      .then(
-        res => res.data,
-        err => console.log(err)
-      )
-    return result
+    return result.data
+
+  } catch (error) {
+    console.error(error)
   }
 }
 
-export default ColaboradorApi
+export default {
+  coordenadoresByDia,
+  dadosBarraProgresso
+}
