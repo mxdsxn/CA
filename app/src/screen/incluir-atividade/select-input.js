@@ -1,30 +1,54 @@
+/* eslint-disable no-unreachable */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-restricted-globals */
 import React from 'react'
-
 
 import {
     TextField,
     MenuItem,
 } from '@material-ui/core'
-import { useState } from 'react'
-import { useEffect } from 'react'
 
 export default (props) => {
-    const defaultList = [{ idItem: 0, labelItem: 'Selecione' }]
-    const [dataList, setDataList] = useState(props.dataList)
+    const emptyList = () => <MenuItem value={0} key={0}>Selecione</MenuItem>
+    const defaultList = () => <MenuItem value={-1} key={-1}>Projeto Default</MenuItem>
 
     const handleChangeValue = (event) => props.onChange(event.target.value)
 
-    useEffect(() => {
-        setDataList([].concat(
-            defaultList,
-            props.defaultList || [],
-            props.dataList || []
-        ))
-    }, [])
 
-    console.log(dataList, props.id)
+    const renderMenuItemList = () => {
+        switch (props.typeSelect) {
+            case 'projeto':
+                return [].concat(
+                    emptyList(),
+                    defaultList(),
+                    props.dataList.map((item) => (<MenuItem value={item.IdProjeto} key={item.IdProjeto}>{item.Nome}</MenuItem>)))
+                break
+            case 'projeto-default':
+                return [].concat(
+                    emptyList(),
+                    props.dataList.map((item) => (<MenuItem value={item.IdProjeto} key={item.IdProjeto}>{item.Nome}</MenuItem>)))
+                break
+            case 'fase':
+                return [].concat(
+                    emptyList(),
+                    props.dataList.map((item) => (<MenuItem value={item.IdProjetoMetodologiaFase} key={item.IdProjetoMetodologiaFase}>{item.Fase}</MenuItem>)))
+                break
+            case 'categoria':
+                return [].concat(
+                    emptyList(),
+                    props.dataList.map((item) => (<MenuItem value={item.IdProjetoCategoriaAtividade} key={item.IdProjetoCategoriaAtividade}>{item.Descricao}</MenuItem>)))
+                break
+            case 'coordenador':
+                return [].concat(
+                    emptyList(),
+                    props.dataList.map((item) => (<MenuItem value={item.IdColaborador} key={item.IdColaborador}>{item.Nome}</MenuItem>)))
+                break
+            default:
+                return emptyList()
+                break
+        }
+    }
+
     return (
         <TextField
             error={props.error || false}
@@ -39,11 +63,7 @@ export default (props) => {
             size={props.size || 'small'}
             value={props.value || 0}
         >
-            {
-                dataList.map((item) => (
-                    <MenuItem value={item.idItem} key={item.idItem}>{item.labelItem}</MenuItem>
-                ))
-            }
+            {renderMenuItemList()}
         </TextField>
     )
 }

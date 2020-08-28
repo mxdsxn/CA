@@ -126,7 +126,7 @@ export default (props) => {
       .then(res => res ? setContratoAtivo(res) : setContratoAtivo(defaultValue.contratoDefault)
       )
     projetoApi.projetosByIdColaboradorDia(idColaboradorLogado, diaAtividade.utcOffset(0, true).format())
-      .then(res => res ? setListaProjeto([].concat(defaultValue.listaProjeto, res)) : setListaProjeto([]))
+      .then(res => res ? setListaProjeto(res) : setListaProjeto([]))
 
     setDescricaoAtividade('')
     setListaCategoriaAtividade([])
@@ -270,12 +270,10 @@ export default (props) => {
   }
 
   const renderCampoCategoriaAtividade = () => {
-    return listaCategoriaAtividade.length > 0 ?
-      <Grid item xs={12} sm={6} md={4} xl={4} align='center' >
+    return listaCategoriaAtividade.length > 0
+      ? <Grid item xs={12} sm={6} md={4} xl={4} align='center' >
         <SelectComponent
-          dataList={
-            listaCategoriaAtividade.map((categoriaAtividade) => ({ idItem: categoriaAtividade.IdProjetoCategoriaAtividade, labelItem: categoriaAtividade.Descricao }))
-          }
+          dataList={listaCategoriaAtividade}
           fullWidth
           helperText='Selecione uma Categoria'
           id='select-catetoria'
@@ -285,18 +283,18 @@ export default (props) => {
           required
           select
           size='small'
+          typeSelect='categoria'
           value={categoriaAtividadeSelecionado}
         />
-      </Grid> : null
+      </Grid>
+      : null
   }
 
   const renderCampoCoordenador = () => {
-    return listaCoordenador.length > 0 ?
-      <Grid item xs={12} sm={6} md={4} xl={4} align='center'>
+    return listaCoordenador.length > 0
+      ? <Grid item xs={12} sm={6} md={4} xl={4} align='center'>
         <SelectComponent
-          dataList={
-            listaCoordenador.map((coordenador) => ({ idItem: coordenador.IdColaborador, labelItem: coordenador.Nome }))
-          }
+          dataList={listaCoordenador}
           fullWidth
           helperText='Selecione um(a) Coordenador(a)'
           id='select-coordenador'
@@ -306,9 +304,11 @@ export default (props) => {
           required
           select
           size='small'
+          typeSelect='coordenador'
           value={coordenadorSelecionado}
         />
-      </Grid> : null
+      </Grid>
+      : null
   }
 
   const renderCampoDescricao = () => {
@@ -331,12 +331,10 @@ export default (props) => {
   }
 
   const renderCampoProjeto = () => {
-    return listaProjeto.length > 0 ?
+    return (
       <Grid item xs={12} sm={6} md={4} xl={4} align='center'>
         <SelectComponent
-          dataList={
-            listaProjeto.map((proj) => ({ idItem: proj.IdProjeto, labelItem: proj.Nome }))
-          }
+          dataList={listaProjeto}
           fullWidth
           helperText='Selecione um Projeto'
           id='select-projeto'
@@ -345,19 +343,18 @@ export default (props) => {
           onChange={handleChangeProjeto}
           required
           size='small'
+          typeSelect='projeto'
           value={projetoSelecionado}
         />
-      </Grid > : null
-
+      </Grid >
+    )
   }
 
   const renderCampoProjetoDefault = () => {
-    return listaProjetoDefault.length > 0 ?
-      <Grid item xs={12} sm={6} md={4} xl={4} align='center' >
+    return listaProjetoDefault.length > 0
+      ? <Grid item xs={12} sm={6} md={4} xl={4} align='center' >
         <SelectComponent
-          dataList={
-            listaProjetoDefault.map((proj) => ({ idItem: proj.IdProjeto, labelItem: proj.Nome }))
-          }
+          dataList={listaProjetoDefault}
           fullWidth
           helperText='Selecione um Projeto Default'
           id='select-projeto-default'
@@ -366,18 +363,18 @@ export default (props) => {
           onChange={handleChangeProjetoDefault}
           required
           size='small'
+          typeSelect='projeto-default'
           value={projetoDefaultSelecionado}
         />
-      </Grid> : null
+      </Grid>
+      : null
   }
 
   const renderCampoProjetoFase = () => {
-    return listaProjetoFase.length > 0 ?
-      <Grid item xs={12} sm={6} md={4} xl={4} align='center' >
+    return listaProjetoFase.length > 0
+      ? <Grid item xs={12} sm={6} md={4} xl={4} align='center' >
         <SelectComponent
-          dataList={
-            listaProjetoFase.map((fase) => ({ idItem: fase.IdProjetoMetodologiaFase, labelItem: fase.Fase }))
-          }
+          dataList={listaProjetoFase}
           fullWidth
           helperText='Selecione uma Fase'
           id='select-fase-projeto'
@@ -387,9 +384,11 @@ export default (props) => {
           required
           select
           size='small'
+          typeSelect='fase'
           value={projetoFaseSelecionado}
         />
-      </Grid> : null
+      </Grid>
+      : null
   }
 
   const renderCampoTag = () => {
