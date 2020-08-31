@@ -74,7 +74,7 @@ export default (_props) => {
   const [projetoFaseSelecionado, setProjetoFaseSelecionado] = useState(defaultValue.idDefault)
   const [categoriaAtividadeSelecionado, setCategoriaAtividadeSelecionado] = useState(defaultValue.idDefault)
   const [descricaoAtividade, setDescricaoAtividade] = useState('')
-  const [tagAtividade, setTagAtividade] = useState('')
+  const [tagAtividade, setTagAtividade] = useState([])
 
   // state validacao
   const [formularioCheck, setFormularioCheck] = useState(false)
@@ -99,7 +99,7 @@ export default (_props) => {
     setListaCoordenador([])
     setListaProjetoFase([])
     setListaProjetoDefault([])
-    setTagAtividade('')
+    setTagAtividade([])
     zeraIdSelecionados()
   }, [diaAtividade])
 
