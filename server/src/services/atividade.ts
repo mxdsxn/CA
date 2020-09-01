@@ -64,7 +64,10 @@ const SalvarAtividade = async (
   if (atividade.cargaAtividade.hours() > 24) { resultado.mensagem.push('Carga da atividade invalida.') }
 
   const contratoAtivo = await ColaboradorContratoRepository.ContratoAtivoByIdColaboradorDia(atividade.idColaborador, atividade.diaAtividade.toDate())
-  if (!contratoAtivo) { resultado.mensagem.push('Não existe contrato ativo nesse dia') }
+  if (!contratoAtivo) { resultado.mensagem.push('Não existe contrato ativo nesse dia.') }
+
+  const cargaMaxima = contratoAtivo.CargaHoraria + 2
+  if (atividade.cargaAtividade.minute() + atividade.cargaAtividade.hour() * 60 > cargaMaxima * 60) { resultado.mensagem.push('Carga do apontamento excede o máximo permitido por dia.') }
 
   if (contratoAtivo.DataInicioContrato.getUTCMonth() + 1 < atividade.diaAtividade.month() + 1 || contratoAtivo.DataInicioContrato.getUTCFullYear() < atividade.diaAtividade.year()) {
     const mesAnterior = moment(atividade.diaAtividade).subtract(1, 'month')
@@ -75,13 +78,13 @@ const SalvarAtividade = async (
   }
 
   const statusSemanaAtividade = await AtividadeFechamentoSemanaRepository.statusAtividadeFechamentoSemanaByIdColaboradorSemanaMesAno(atividade.idColaborador, atividade.diaAtividade.week(), atividade.diaAtividade.month() + 1, atividade.diaAtividade.year())
-  if (statusSemanaAtividade.IdAtividadeFechamentoStatus !== 1) { resultado.mensagem.push('Essa semana não está aberta para cadastrar novos apontamentos') }
+  if (statusSemanaAtividade.IdAtividadeFechamentoStatus !== 1) { resultado.mensagem.push('Essa semana não está aberta para cadastrar novos apontamentos.') }
 
   const semanaAnterior = moment(atividade.diaAtividade).subtract(1, 'week')
   const atividadeFechamentoSemanaAnterior = await AtividadeFechamentoSemanaRepository.atividadeFechamentoSemanaByIdColaboradorSemanaAno(atividade.idColaborador, semanaAnterior.week(), semanaAnterior.year())
 
   const semanaAnteriorAberta = atividadeFechamentoSemanaAnterior.find(x => x.IdAtividadeFechamentoStatus === 1)
-  if (semanaAnteriorAberta) { resultado.mensagem.push('Semana anterior está aberta') }
+  if (semanaAnteriorAberta) { resultado.mensagem.push('Semana anterior está aberta.') }
 
   console.log(resultado)
 }
