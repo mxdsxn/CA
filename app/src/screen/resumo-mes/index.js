@@ -11,13 +11,13 @@ import { atividadeApi } from '../../service/api-connection'
 import moment from "moment"
 
 export default (props) => {
-  const mesVigente = moment()
+  const mesVigente = moment.utc()
 
   const [atividadesMes, setAtividadesMes] = useState([])
   const [mesReferencia, setMesReferencia] = useState(mesVigente)
-
+  console.log(mesVigente.toDate())
   const handleDateChange = (date) => {
-    setMesReferencia(moment(date))
+    setMesReferencia(moment.utc(date))
   }
 
   useEffect(() => {
