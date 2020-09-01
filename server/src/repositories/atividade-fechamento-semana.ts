@@ -2,6 +2,16 @@
 import dbConnection from '@database'
 import libUtc from '@libUtc'
 
+const atividadeFechamentoSemanaByIdColaboradorSemanaAno = async (idColaborador: number, semana: number, ano: number) => {
+    return dbConnection('pessoas.AtividadeFechamentoSemana')
+        .where({
+            IdColaborador: idColaborador,
+            Semana: semana,
+            Ano: ano
+        })
+        .select('*')
+}
+
 const atividadeFechamentoSemanaByIdColaboradorMesAno = async (idColaborador: number, mes: number, ano: number) => {
     return dbConnection('pessoas.AtividadeFechamentoSemana')
         .where({
@@ -25,6 +35,7 @@ const statusAtividadeFechamentoSemanaByIdColaboradorSemanaMesAno = async (idCola
 }
 
 export default {
+    atividadeFechamentoSemanaByIdColaboradorSemanaAno,
     atividadeFechamentoSemanaByIdColaboradorMesAno,
     statusAtividadeFechamentoSemanaByIdColaboradorSemanaMesAno
 }

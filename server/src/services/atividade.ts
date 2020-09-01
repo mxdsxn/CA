@@ -68,15 +68,22 @@ const SalvarAtividade = async (
 
   if (contratoAtivo.DataInicioContrato.getUTCMonth() + 1 < atividade.diaAtividade.month() + 1 || contratoAtivo.DataInicioContrato.getUTCFullYear() < atividade.diaAtividade.year()) {
     const mesAnterior = moment(atividade.diaAtividade).subtract(1, 'month')
-    const fechamentoSemanaListaMes = await AtividadeFechamentoSemanaRepository.atividadeFechamentoSemanaByIdColaboradorMesAno(atividade.idColaborador, mesAnterior.month() + 1, mesAnterior.year())
+    const atividadeFechamentoSemanaListaMes = await AtividadeFechamentoSemanaRepository.atividadeFechamentoSemanaByIdColaboradorMesAno(atividade.idColaborador, mesAnterior.month() + 1, mesAnterior.year())
 
-    if (fechamentoSemanaListaMes.find(x => x.IdAtividadeFechamentoStatus !== 2 && x.IdAtividadeFechamentoStatus !== 3)) { resultado.mensagem.push(`Há uma ou mais semanas abertas no mes de ${mesAnterior.locale('pt-br').format('MMMM').toUpperCase()}.`) }
+    const mesAnteriorAberto = atividadeFechamentoSemanaListaMes.find(x => x.IdAtividadeFechamentoStatus === 1)
+    if (mesAnteriorAberto) { resultado.mensagem.push(`Há uma ou mais semanas abertas no mes de ${mesAnterior.locale('pt-br').format('MMMM').toUpperCase()}.`) }
   }
 
   const statusSemanaAtividade = await AtividadeFechamentoSemanaRepository.statusAtividadeFechamentoSemanaByIdColaboradorSemanaMesAno(atividade.idColaborador, atividade.diaAtividade.week(), atividade.diaAtividade.month() + 1, atividade.diaAtividade.year())
   if (statusSemanaAtividade.IdAtividadeFechamentoStatus !== 1) { resultado.mensagem.push('Essa semana não está aberta para cadastrar novos apontamentos') }
 
-  console.log(resultado, atividade.diaAtividade)
+  const semanaAnterior = moment(atividade.diaAtividade).subtract(1, 'week')
+  const atividadeFechamentoSemanaAnterior = await AtividadeFechamentoSemanaRepository.atividadeFechamentoSemanaByIdColaboradorSemanaAno(atividade.idColaborador, semanaAnterior.week(), semanaAnterior.year())
+
+  const semanaAnteriorAberta = atividadeFechamentoSemanaAnterior.find(x => x.IdAtividadeFechamentoStatus === 1)
+  if (semanaAnteriorAberta) { resultado.mensagem.push('Semana anterior está aberta') }
+
+  console.log(resultado)
 }
 
 const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: AtividadeEntity[], listaFeriadosFds: DiaModel[], listaContratos: ColaboradorContratoEntity[]): DiaModel[] => {
