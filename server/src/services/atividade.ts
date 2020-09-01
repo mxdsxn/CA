@@ -10,7 +10,7 @@ import {
 } from '@services'
 
 import libUtc from '@libUtc'
-import { Moment } from 'moment'
+import moment, { Moment } from 'moment'
 
 import { AtividadeRepository as Repo, ColaboradorContratoRepository, AtividadeFechamentoSemanaRepository } from '@repositories'
 import { DiaModel } from '@models'
@@ -67,10 +67,16 @@ const SalvarAtividade = async (
   if (!contratoAtivo) { resultado.mensagem.push('Não existe contrato ativo nesse dia') }
 
   if (contratoAtivo.DataInicioContrato.getUTCMonth() + 1 < atividade.diaAtividade.month() + 1 || contratoAtivo.DataInicioContrato.getUTCFullYear() < atividade.diaAtividade.year()) {
-    const mesAnterior = atividade.diaAtividade.subtract('month', 1)
-    const fechamentoSemanaListaMes = await AtividadeFechamentoSemanaRepository.fechamentoSemanaByIdColaboradorMesAno(atividade.idColaborador, mesAnterior.month() + 1, mesAnterior.year())
-    if (fechamentoSemanaListaMes.find(x => x.IdAtividadeFechamentoStatus !== 2 || x.IdAtividadeFechamentoStatus !== 3)) { console.log(`Há uma ou mais semanas abertas no mes de ${mesAnterior.locale('pt-br').format('MMMM').toUpperCase()}.`) }
+    const mesAnterior = moment(atividade.diaAtividade).subtract(1, 'month')
+    const fechamentoSemanaListaMes = await AtividadeFechamentoSemanaRepository.atividadeFechamentoSemanaByIdColaboradorMesAno(atividade.idColaborador, mesAnterior.month() + 1, mesAnterior.year())
+
+    if (fechamentoSemanaListaMes.find(x => x.IdAtividadeFechamentoStatus !== 2 && x.IdAtividadeFechamentoStatus !== 3)) { resultado.mensagem.push(`Há uma ou mais semanas abertas no mes de ${mesAnterior.locale('pt-br').format('MMMM').toUpperCase()}.`) }
   }
+
+  const statusSemanaAtividade = await AtividadeFechamentoSemanaRepository.statusAtividadeFechamentoSemanaByIdColaboradorSemanaMesAno(atividade.idColaborador, atividade.diaAtividade.week(), atividade.diaAtividade.month() + 1, atividade.diaAtividade.year())
+  if (statusSemanaAtividade.IdAtividadeFechamentoStatus !== 1) { resultado.mensagem.push('Essa semana não está aberta para cadastrar novos apontamentos') }
+
+  console.log(resultado, atividade.diaAtividade)
 }
 
 const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: AtividadeEntity[], listaFeriadosFds: DiaModel[], listaContratos: ColaboradorContratoEntity[]): DiaModel[] => {
