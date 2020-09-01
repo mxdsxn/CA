@@ -12,7 +12,7 @@ import {
 import libUtc from '@libUtc'
 import { Moment } from 'moment'
 
-import { AtividadeRepository as Repo } from '@repositories'
+import { AtividadeRepository as Repo, ColaboradorContratoRepository, AtividadeFechamentoSemanaRepository } from '@repositories'
 import { DiaModel } from '@models'
 
 /* retorna lista de atividades do colaborador em um mes */
@@ -35,27 +35,42 @@ const AtividadesByIdColaboradorDia = async (idColaborador: Number, diaReferencia
 }
 
 const SalvarAtividade = async (
-  idAtividade: number,
-  diaAtividade: Moment,
-  cargaAtividade: Moment,
-  idProjeto: number,
-  idProjetoDefault: number,
-  idCoordenador: number,
-  idProjetoFase: number,
-  idCategoriaAtividade: number,
-  tagsAtividade: [string],
-  descricaoAtividade: string
+  atividade: {
+    idColaborador: number,
+    idAtividade: number,
+    diaAtividade: Moment,
+    cargaAtividade: Moment,
+    idProjeto: number,
+    idProjetoDefault: number,
+    idCoordenador: number,
+    idProjetoFase: number,
+    idCategoriaAtividade: number,
+    tagsAtividade: [string],
+    descricaoAtividade: string
+  }
 ) => {
-  console.log('idAtividade:', idAtividade)
-  console.log('diaAtividade', diaAtividade.toDate())
-  console.log('cargaAtividade:', cargaAtividade.toDate())
-  console.log('idProjeto:', idProjeto)
-  console.log('idProjetoDefault:', idProjetoDefault)
-  console.log('idCoordenador:', idCoordenador)
-  console.log('idProjetoFase:', idProjetoFase)
-  console.log('idCategoriaAtividade:', idCategoriaAtividade)
-  console.log('tagsAtividade:', tagsAtividade)
-  console.log('descricaoAtividade:', descricaoAtividade)
+  // console.log('idAtividade:', atividade.idAtividade)
+  // console.log('diaAtividade', atividade.diaAtividade.toDate())
+  // console.log('cargaAtividade:', atividade.cargaAtividade.toDate())
+  // console.log('idProjeto:', atividade.idProjeto)
+  // console.log('idProjetoDefault:', atividade.idProjetoDefault)
+  // console.log('idCoordenador:', atividade.idCoordenador)
+  // console.log('idProjetoFase:', atividade.idProjetoFase)
+  // console.log('idCategoriaAtividade:', atividade.idCategoriaAtividade)
+  // console.log('tagsAtividade:', atividade.tagsAtividade)
+  // console.log('descricaoAtividade:', atividade.descricaoAtividade)
+  const resultado: { tipo: string, mensagem: [string] } = { tipo: 'Sucesso', mensagem: ['Apontamento cadastrado com sucesso!'] }
+
+  if (atividade.cargaAtividade.hours() > 24) { resultado.mensagem.push('Carga da atividade invalida.') }
+
+  const contratoAtivo = await ColaboradorContratoRepository.ContratoAtivoByIdColaboradorDia(atividade.idColaborador, atividade.diaAtividade.toDate())
+  if (!contratoAtivo) { resultado.mensagem.push('Não existe contrato ativo nesse dia') }
+
+  if (contratoAtivo.DataInicioContrato.getUTCMonth() + 1 < atividade.diaAtividade.month() + 1 || contratoAtivo.DataInicioContrato.getUTCFullYear() < atividade.diaAtividade.year()) {
+    const mesAnterior = atividade.diaAtividade.subtract('month', 1)
+    const fechamentoSemanaListaMes = await AtividadeFechamentoSemanaRepository.fechamentoSemanaByIdColaboradorMesAno(atividade.idColaborador, mesAnterior.month() + 1, mesAnterior.year())
+    if (fechamentoSemanaListaMes.find(x => x.IdAtividadeFechamentoStatus !== 2 || x.IdAtividadeFechamentoStatus !== 3)) { console.log(`Há uma ou mais semanas abertas no mes de ${mesAnterior.locale('pt-br').format('MMMM').toUpperCase()}.`) }
+  }
 }
 
 const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: AtividadeEntity[], listaFeriadosFds: DiaModel[], listaContratos: ColaboradorContratoEntity[]): DiaModel[] => {

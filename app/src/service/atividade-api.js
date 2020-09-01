@@ -33,6 +33,7 @@ const atividadesByIdColaboradorDia = async (idColaborador, diaReferencia) => {
 }
 
 const salvarAtividade = async (
+  idColaborador,
   idAtividade,
   diaAtividade,
   cargaAtividade,
@@ -48,6 +49,7 @@ const salvarAtividade = async (
   await baseUrl
     .post("Atividade/SalvarAtividade", null, {
       params: {
+        idColaborador,
         idAtividade,
         diaAtividade,
         cargaAtividade,

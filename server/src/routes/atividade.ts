@@ -11,9 +11,10 @@ route.get('/Atividade/AtividadesByIdColaboradorMes', async (req, res, next) => C
 route.get('/Atividade/AtividadesByIdColaboradorDia', async (req, res) => Controller.AtividadesByIdColaboradorDia(req, res))
 
 route.post('/Atividade/SalvarAtividade', [
+  query('idColaborador').isInt(),
   query('idAtividade').isInt().optional(),
-  query('diaAtividade', 'Dia da atividade é obrigatorio').custom((value: string) => moment.utc(value).isValid()),
-  query('cargaAtividade', 'Carga da atividade é obrigatorio').custom((value: string) => moment.utc(value).isValid()),
+  query('diaAtividade', 'Dia da atividade é obrigatorio').custom((value: string) => value === undefined ? false : moment.utc(value).isValid()),
+  query('cargaAtividade', 'Carga da atividade é obrigatorio').custom((value: string) => value === undefined ? false : moment.utc(value).isValid()),
   query('idProjeto', 'Projeto é obrigatorio').isInt(),
   query('idProjetoDefault', 'Projeto Default é obrigatorio').isInt(),
   query('idCoordenador', 'Coordenador é obrigatorio').isInt(),

@@ -145,8 +145,8 @@ export default (_props) => {
   //#endregion
 
   //#region Handles
-  const handleChangeDiaAtividade = (diaAtividade) => setDiaAtividade(moment(diaAtividade))
-  const handleChangeCargaAtividade = (cargaAtividade) => setCargaSelecionada(moment(cargaAtividade))
+  const handleChangeDiaAtividade = (diaAtividade) => setDiaAtividade(moment.utc(diaAtividade))
+  const handleChangeCargaAtividade = (cargaAtividade) => setCargaSelecionada(moment.utc(cargaAtividade))
   const handleChangeProjeto = (value) => setProjetoSelecionado(value)
   const handleChangeProjetoDefault = (value) => setProjetoDefaultSelecionado(value)
   const handleChangeProjetoFase = (value) => setProjetoFaseSelecionado(value)
@@ -156,6 +156,7 @@ export default (_props) => {
   const handleChangeTag = (tags) => setTagAtividade(tags)
   const handleSalvarAtividade = () => {
     atividadeApi.salvarAtividade(
+      idColaboradorLogado,
       null,
       diaAtividade.utcOffset(0, true).format(),
       cargaSelecionada.utcOffset(0, true).format(),

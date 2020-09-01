@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 import moment from 'moment'
 import { AtividadeService as Service } from '@services'
 import libUtc from '@libUtc'
-import { Request, Response, NextFunction } from 'express'
+import { Request, Response } from 'express'
 
-const AtividadesByIdColaboradorMes = async (req: Request, res: Response, next: NextFunction) => {
+const AtividadesByIdColaboradorMes = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
@@ -32,6 +33,7 @@ const AtividadesByIdColaboradorDia = async (req: Request, res: Response) => {
 }
 
 const SalvarAtividade = async (req: Request, res: Response) => {
+  const idColaborador = Number(req.query.idColaborador)
   const idAtividade = Number(req.query.idAtividade)
   const diaAtividade = moment.utc(req.query.diaAtividade as string)
   const cargaAtividade = moment.utc(req.query.cargaAtividade as string)
@@ -43,7 +45,8 @@ const SalvarAtividade = async (req: Request, res: Response) => {
   const tagsAtividade = req.query.tagsAtividade as [string]
   const descricaoAtividade = req.query.descricaoAtividade as string
 
-  Service.SalvarAtividade(
+  Service.SalvarAtividade({
+    idColaborador,
     idAtividade,
     diaAtividade,
     cargaAtividade,
@@ -54,7 +57,7 @@ const SalvarAtividade = async (req: Request, res: Response) => {
     idCategoriaAtividade,
     tagsAtividade,
     descricaoAtividade
-  ).then(
+  }).then(
     (suc) => { return res.json(suc) },
     (err) => { return res.json(err) }
   )
