@@ -22,6 +22,13 @@ const CoordenadoresByDia = async (diaReferencia: Date): Promise<ColaboradorContr
     .distinct()
 }
 
+const colaboradorById = (idColaborador: number) => {
+  return dbConnection('pessoas.Colaborador')
+    .where({ IdColaborador: idColaborador })
+    .first()
+}
+
 export default {
+  colaboradorById,
   CoordenadoresByDia
 }

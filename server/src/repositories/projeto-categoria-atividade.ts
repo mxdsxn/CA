@@ -9,6 +9,14 @@ const ProjetoCategoriaAtividadeByIdProjeto = async (IdProjeto: Number): Promise<
     .orderBy('Descricao', 'asc')
 }
 
+const projetoCategoriaAtividadeById = async (idProjetoCategoriaAtividade: Number): Promise<ProjetoCategoriaAtividadeEntity> => {
+  return await dbConnection('operacoes.ProjetoCategoriaAtividade')
+    .where('IdProjetoCategoriaAtividade', idProjetoCategoriaAtividade)
+    .select('*')
+    .first()
+}
+
 export default {
+  projetoCategoriaAtividadeById,
   ProjetoCategoriaAtividadeByIdProjeto
 }

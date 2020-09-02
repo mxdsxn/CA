@@ -2,6 +2,7 @@
 import dbConnection from '@database'
 import libUtc from '@libUtc'
 import { ProjetoModel } from '@models'
+import { ProjetoEntity } from '@entities'
 
 /* retorna lista de projetos que o colaborador esta alocado naquele dia */
 const ProjetosByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date): Promise<ProjetoModel[]> => {
@@ -43,7 +44,14 @@ const ProjetosDefault = async (diaReferencia: Date): Promise<ProjetoModel[]> => 
     .orderBy('operacoes.Projeto.Nome', 'asc')
 }
 
+const projetoById = (idProjeto: number): Promise<ProjetoEntity> => {
+  return dbConnection('operacoes.Projeto')
+    .where({ IdProjeto: idProjeto })
+    .first()
+}
+
 export default {
+  projetoById,
   ProjetosByIdColaboradorDia,
   ProjetosDefault
 }
