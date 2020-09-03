@@ -2,6 +2,7 @@
 import dbConnection from '@database'
 import libUtc from '@libUtc'
 import { AtividadeModel } from '@models'
+import { AtividadeEntity } from '@entities'
 
 const AtividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date): Promise<AtividadeModel[]> => {
   const mesReferenciaInicio = mesReferencia
@@ -39,7 +40,26 @@ const AtividadesByIdColaboradorDia = async (idColaborador: Number, diaReferencia
     .orderBy('pessoas.Atividade.DataAtividade', 'asc')
 }
 
+const salvarAtividade = async (atividade: AtividadeEntity): Promise<AtividadeEntity> => {
+  return await dbConnection('pessoas.Atividade')
+    .insert({
+      IdColaborador: atividade.IdColaborador,
+      IdProjeto: atividade.IdProjeto,
+      IdProjetoCategoriaAtividade: atividade.IdProjetoCategoriaAtividade || null,
+      IdProjetoMetodologiaFase: atividade.IdProjetoMetodologiaFase || null,
+      DataCadastro: atividade.DataCadastro,
+      DataAtividade: atividade.DataAtividade,
+      Carga: '06:00',
+      Descricao: atividade.Descricao,
+      Tags: atividade.Tags || null,
+      IdCoordenador: atividade.IdCoordenador || null,
+      InicioAtividade: atividade.InicioAtividade || null,
+      FimAtividade: atividade.FimAtividade || null
+    })
+}
+
 export default {
   AtividadesByIdColaboradorDia,
-  AtividadesByIdColaboradorMes
+  AtividadesByIdColaboradorMes,
+  salvarAtividade
 }

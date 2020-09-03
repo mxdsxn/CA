@@ -10,11 +10,11 @@ const AtividadesByIdColaboradorMes = async (req: Request, res: Response) => {
 
   try {
     const result = await Service.AtividadesByIdColaboradorMes(idColaborador, mesReferencia)
-    res.status(200)
     res.json(result)
+    return res.status(200)
   } catch (error) {
-    res.status(500)
     res.json(error)
+    return res.status(500)
   }
 }
 
@@ -24,11 +24,11 @@ const AtividadesByIdColaboradorDia = async (req: Request, res: Response) => {
 
   try {
     const result = await Service.AtividadesByIdColaboradorDia(idColaborador, diaReferencia)
-    res.status(200)
     res.json(result)
+    return res.status(200)
   } catch (error) {
-    res.status(500)
     res.json(error)
+    return res.status(500)
   }
 }
 
@@ -45,23 +45,28 @@ const SalvarAtividade = async (req: Request, res: Response) => {
   const tagsAtividade = req.query.tagsAtividade as [string]
   const descricaoAtividade = req.query.descricaoAtividade as string
 
-  Service.SalvarAtividade({
-    idColaborador,
-    idAtividade,
-    diaAtividade,
-    cargaAtividade,
-    idProjeto,
-    idProjetoDefault,
-    idCoordenador,
-    idProjetoFase,
-    idCategoriaAtividade,
-    tagsAtividade,
-    descricaoAtividade
-  }).then(
-    (suc) => { return res.json(suc) },
-    (err) => { return res.json(err) }
-  )
-  return res.status(200)
+  try {
+    const result = await Service.SalvarAtividade({
+      idColaborador,
+      idAtividade,
+      diaAtividade,
+      cargaAtividade,
+      idProjeto,
+      idProjetoDefault,
+      idCoordenador,
+      idProjetoFase,
+      idCategoriaAtividade,
+      tagsAtividade,
+      descricaoAtividade
+    })
+    res.json(result)
+    console.log(result)
+    return res.status(200)
+  } catch (error) {
+    console.log(error)
+    res.json(error)
+    return res.status(500)
+  }
 }
 
 export default {
