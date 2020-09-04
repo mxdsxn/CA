@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const defaultValue = {
-  cargaZerada: moment().set({ hour: 0, minute: 0, second: 0 }),
+  cargaZerada: moment(),
   contratoDefault: { CargaHoraria: 0 },
   diaAtividade: moment(),
   idDefault: 0,
@@ -67,7 +67,7 @@ export default (_props) => {
 
   // states selecionados
   const [diaAtividade, setDiaAtividade] = useState(defaultValue.diaAtividade)
-  const [cargaSelecionada, setCargaSelecionada] = useState(defaultValue.cargaZerada)
+  const [cargaSelecionada, setCargaSelecionada] = useState(defaultValue.cargaZerada.set({ hour: 0, minute: 0, second: 0 }))
   const [projetoSelecionado, setProjetoSelecionado] = useState(defaultValue.idDefault)
   const [projetoDefaultSelecionado, setProjetoDefaultSelecionado] = useState(defaultValue.idDefault)
   const [coordenadorSelecionado, setCoordenadorSelecionado] = useState(defaultValue.idDefault)
@@ -146,7 +146,7 @@ export default (_props) => {
 
   //#region Handles
   const handleChangeDiaAtividade = (diaAtividade) => setDiaAtividade(moment.utc(diaAtividade))
-  const handleChangeCargaAtividade = (cargaAtividade) => setCargaSelecionada(moment.utc(cargaAtividade))
+  const handleChangeCargaAtividade = (cargaAtividade) => setCargaSelecionada(moment(cargaAtividade))
   const handleChangeProjeto = (value) => setProjetoSelecionado(value)
   const handleChangeProjetoDefault = (value) => setProjetoDefaultSelecionado(value)
   const handleChangeProjetoFase = (value) => setProjetoFaseSelecionado(value)
@@ -158,8 +158,8 @@ export default (_props) => {
     atividadeApi.salvarAtividade(
       idColaboradorLogado,
       null,
-      diaAtividade.utcOffset(0, true).format(),
-      cargaSelecionada.utcOffset(0, true).format(),
+      diaAtividade.utcOffset(0).set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).format(),
+      cargaSelecionada.format('YYYY-MM-DDTHH:mm:ss'),
       projetoSelecionado,
       projetoDefaultSelecionado,
       coordenadorSelecionado,

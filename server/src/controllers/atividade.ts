@@ -35,8 +35,8 @@ const AtividadesByIdColaboradorDia = async (req: Request, res: Response) => {
 const SalvarAtividade = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const idAtividade = Number(req.query.idAtividade)
-  const diaAtividade = moment.utc(req.query.diaAtividade as string)
-  const cargaAtividade = moment.utc(req.query.cargaAtividade as string)
+  const diaAtividade = moment(req.query.diaAtividade as string)
+  const cargaAtividade = moment(req.query.cargaAtividade as string)
   const idProjeto = Number(req.query.idProjeto)
   const idProjetoDefault = Number(req.query.idProjetoDefault)
   const idCoordenador = Number(req.query.idCoordenador)
@@ -60,7 +60,7 @@ const SalvarAtividade = async (req: Request, res: Response) => {
       descricaoAtividade
     })
     res.json(result)
-    console.log(result)
+    // console.log(result)
     return res.status(200)
   } catch (error) {
     console.log(error)

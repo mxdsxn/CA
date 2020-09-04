@@ -7,7 +7,8 @@ import {
 
 import {
   CalendarioService,
-  ColaboradorContratoService
+  ColaboradorContratoService,
+  ColaboradorService
 } from '@services'
 
 import libUtc from '@libUtc'
@@ -29,8 +30,14 @@ const AtividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia
   return listaAtividadeMes
 }
 
-const AtividadesByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date) => {
+const AtividadesByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date, naoAgruparDia?: boolean) => {
   const listaAtividadeDia = await Repo.AtividadesByIdColaboradorDia(idColaborador, diaReferencia)
+
+  if (!naoAgruparDia && listaAtividadeDia.length > 0) {
+    const listaFeriadosFds = await CalendarioService.ListaFeriadoFinalSemanaByMes(idColaborador, diaReferencia)
+    const listaContratosMes = await ColaboradorContratoService.ContratosByDataIdColaboradorMes(idColaborador, diaReferencia)
+    return AgruparAtividadesPorDia(diaReferencia, listaAtividadeDia, listaFeriadosFds, listaContratosMes)
+  }
 
   return listaAtividadeDia
 }
@@ -50,8 +57,6 @@ const SalvarAtividade = async (
     descricaoAtividade: string
   }
 ) => {
-  console.log(atividade)
-
   const novaAtividade: AtividadeEntity = {
     IdAtividade: 0,
     IdColaborador: atividade.idColaborador,
@@ -67,7 +72,7 @@ const SalvarAtividade = async (
     InicioAtividade: '',
     FimAtividade: ''
   }
-  const diaCadastro = moment.utc()
+  const diaCadastro = moment.utc().utcOffset(0).set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
   const resultado: {
     tipo: string,
     mensagem: [string],
@@ -99,6 +104,8 @@ const SalvarAtividade = async (
       //* hora extra nao pode exceder o maximo permitido
 
       const feriadoDia = await CalendarioRepository.feriadoByIdColaboradorDia(atividade.idColaborador, atividade.diaAtividade.utcOffset(0, true).format())
+      const horasCadastradasDia = await ColaboradorService.horasCadastradasByIdColaboradorDia(atividade.idColaborador, atividade.diaAtividade.utcOffset(0, true).toDate())
+
       const cargaHorariaDia = feriadoDia
         ? (feriadoDia.HorasUteis < contratoAtivo.CargaHoraria
           ? feriadoDia.HorasUteis
@@ -106,8 +113,10 @@ const SalvarAtividade = async (
         : contratoAtivo.CargaHoraria
 
       const cargaMaximaDia = cargaHorariaDia > 0 ? cargaHorariaDia + 2 : 0
+      const cargaHorasRestantes = cargaMaximaDia - horasCadastradasDia
 
-      if (atividade.cargaAtividade.minute() + atividade.cargaAtividade.hour() * 60 > cargaMaximaDia * 60) {
+      if (atividade.cargaAtividade.minute() + atividade.cargaAtividade.hour() * 60 + horasCadastradasDia * 60 > cargaHorariaDia * 60 &&
+        atividade.cargaAtividade.minute() + atividade.cargaAtividade.hour() * 60 + horasCadastradasDia * 60 <= cargaMaximaDia * 60) {
         const permissaoHoraExtra = await PermissaoHoraExtraRepository.permissaoHoraExtraByIdColaboradorDia(atividade.idColaborador, atividade.diaAtividade.utcOffset(0, true).format())
 
         if (permissaoHoraExtra) {
@@ -125,13 +134,15 @@ const SalvarAtividade = async (
           if (contratoAtivo.IdContratoModalidade === 4 && (!ultimoDiaUtil.isSame(atividade.diaAtividade) || !diaCadastro.isSame(atividade.diaAtividade))) {
             resultado.mensagem.push('Estagiarios só podem cadastrar horas extras para Hoje ou para o último dia util')
           } else {
-            novaAtividade.Carga = atividade.cargaAtividade.toString()
+            novaAtividade.Carga = atividade.cargaAtividade.format('hh:mm')
           }
         } else {
           resultado.mensagem.push('Você não tem permissão para cadastrar horas extras')
         }
+      } else if (cargaHorasRestantes <= 0) {
+        resultado.mensagem.push('Você já cadastrou todas as horas para esse dia')
       } else {
-        novaAtividade.Carga = atividade.cargaAtividade.toString()
+        novaAtividade.Carga = atividade.cargaAtividade.format('hh:mm')
       }
 
       // Mes Anterior e Semana Anterior da Atividade Fechados
@@ -174,10 +185,8 @@ const SalvarAtividade = async (
     resultado.mensagem.shift()
     return (resultado)
   } else {
-    novaAtividade.DataAtividade = atividade.diaAtividade.toDate()
-    const diaCadastroDate = diaCadastro.toDate()
-    diaCadastroDate.setUTCHours(diaCadastroDate.getHours())
-    novaAtividade.DataCadastro = diaCadastroDate
+    novaAtividade.DataAtividade = atividade.diaAtividade.utcOffset(0).set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).toDate()
+    novaAtividade.DataCadastro = diaCadastro.toDate()
   }
 
   // Validaçao de dados referente a Projeto, Fase, Categoria e Coordenador
@@ -227,8 +236,7 @@ const SalvarAtividade = async (
     resultado.mensagem.shift()
     return (resultado)
   } else {
-    const atividadeResult = await AtividadeRepository.salvarAtividade(novaAtividade)
-    console.log(atividadeResult)
+    // const atividadeResult = await AtividadeRepository.salvarAtividade(novaAtividade)
     resultado.atividade = novaAtividade
     return (resultado)
   }
