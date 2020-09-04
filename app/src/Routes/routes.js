@@ -7,12 +7,9 @@ import {
   Switch
 } from 'react-router-dom'
 
-import { Hidden } from '@material-ui/core'
-
-import MonthResume from '../screen/resumo-mes'
-import IncluirAtv from '../screen/incluir-atividade'
-import FecharSem from '../screen/fechar-semana'
-import NavBar from '../components/menu-inferior'
+import HistoricoMensal from '../screen/historico-mensal'
+import CadastroApontamento from '../screen/cadastrar-apontamento'
+import FecharSemana from '../screen/fechar-semana'
 
 export default () => {
   return (
@@ -20,25 +17,22 @@ export default () => {
       <Switch>
         <Route>
           <Route
-            path='/resumoMes'
-            render={(props) => <MonthResume />}
+            path='/historico-mensal'
+            render={(props) => <HistoricoMensal />}
           />
           <Route path='/' exact>
-            <Redirect to='/incluirAtv' />
+            <Redirect to='/cadastro-apontamento' />
           </Route>
           <Route
-            path='/incluirAtv'
-            render={(props) => <IncluirAtv />}
+            path='/cadastro-apontamento'
+            render={(props) => <CadastroApontamento />}
           />
           <Route
-            path='/fecharSem'
-            render={(props) => <FecharSem />}
+            path='/fechar-semana'
+            render={(props) => <FecharSemana />}
           />
         </Route>
       </Switch>
-      <Hidden mdUp>
-        <NavBar />
-      </Hidden>
     </BrowserRouter>
   )
 }
