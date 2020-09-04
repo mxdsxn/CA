@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const defaultValue = {
-  cargaZerada: moment().set({ hour: 0, minute: 0, second: 0 }),
+  cargaZerada: moment(),
   contratoDefault: { CargaHoraria: 0 },
   diaAtividade: moment(),
   idDefault: 0,
@@ -67,14 +67,14 @@ export default (_props) => {
 
   // states selecionados
   const [diaAtividade, setDiaAtividade] = useState(defaultValue.diaAtividade)
-  const [cargaSelecionada, setCargaSelecionada] = useState(defaultValue.cargaZerada)
+  const [cargaSelecionada, setCargaSelecionada] = useState(defaultValue.cargaZerada.set({ hour: 0, minute: 0, second: 0 }))
   const [projetoSelecionado, setProjetoSelecionado] = useState(defaultValue.idDefault)
   const [projetoDefaultSelecionado, setProjetoDefaultSelecionado] = useState(defaultValue.idDefault)
   const [coordenadorSelecionado, setCoordenadorSelecionado] = useState(defaultValue.idDefault)
   const [projetoFaseSelecionado, setProjetoFaseSelecionado] = useState(defaultValue.idDefault)
   const [categoriaAtividadeSelecionado, setCategoriaAtividadeSelecionado] = useState(defaultValue.idDefault)
   const [descricaoAtividade, setDescricaoAtividade] = useState('')
-  const [tagAtividade, setTagAtividade] = useState('')
+  const [tagAtividade, setTagAtividade] = useState([])
 
   // state validacao
   const [formularioCheck, setFormularioCheck] = useState(false)
@@ -99,7 +99,7 @@ export default (_props) => {
     setListaCoordenador([])
     setListaProjetoFase([])
     setListaProjetoDefault([])
-    setTagAtividade('')
+    setTagAtividade([])
     zeraIdSelecionados()
   }, [diaAtividade])
 
@@ -145,7 +145,7 @@ export default (_props) => {
   //#endregion
 
   //#region Handles
-  const handleChangeDiaAtividade = (diaAtividade) => setDiaAtividade(moment(diaAtividade))
+  const handleChangeDiaAtividade = (diaAtividade) => setDiaAtividade(moment.utc(diaAtividade))
   const handleChangeCargaAtividade = (cargaAtividade) => setCargaSelecionada(moment(cargaAtividade))
   const handleChangeProjeto = (value) => setProjetoSelecionado(value)
   const handleChangeProjetoDefault = (value) => setProjetoDefaultSelecionado(value)
@@ -156,9 +156,10 @@ export default (_props) => {
   const handleChangeTag = (tags) => setTagAtividade(tags)
   const handleSalvarAtividade = () => {
     atividadeApi.salvarAtividade(
+      idColaboradorLogado,
       null,
-      diaAtividade.utcOffset(0, true).format(),
-      cargaSelecionada.utcOffset(0, true).format(),
+      diaAtividade.utcOffset(0).set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).format(),
+      cargaSelecionada.format('YYYY-MM-DDTHH:mm:ss'),
       projetoSelecionado,
       projetoDefaultSelecionado,
       coordenadorSelecionado,

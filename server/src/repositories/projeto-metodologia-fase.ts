@@ -15,6 +15,14 @@ const ProjetoFaseByIdProjeto = async (IdProjeto: Number): Promise<ProjetoMetodol
     .distinct()
 }
 
+const projetoFaseById = async (idProjetoMetologiaFase: number): Promise<ProjetoMetodologiaFaseEntity> => {
+  return await dbConnection('operacoes.ProjetoMetodologiaFase')
+    .where('IdProjetoMetodologiaFase', idProjetoMetologiaFase)
+    .andWhere('operacoes.ProjetoMetodologiaFase.Ativa', true)
+    .first()
+}
+
 export default {
+  projetoFaseById,
   ProjetoFaseByIdProjeto
 }
