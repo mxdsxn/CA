@@ -81,6 +81,12 @@ const HorasCadastradasByIdColaboradorMes = async (idColaborador: number, mesRefe
   return HorasDecimal(listaAtividadesMes as AtividadeModel[])
 }
 
+const horasCadastradasByIdColaboradorDia = async (idColaborador: number, diaReferecnai: Date) => {
+  const listaAtividadesMes = await AtividadeService.AtividadesByIdColaboradorDia(idColaborador, diaReferecnai, true)
+
+  return HorasDecimal(listaAtividadesMes as AtividadeModel[])
+}
+
 const DadosBarraProgresso = async (idColaborador: number, mesReferencia: Date) => {
   const horasUteisMes = await HorasUteisMesByIdColaboradorMes(idColaborador, mesReferencia)
   const horasUteisHoje = await HorasUteisAteHojeByIdColaboradorMes(idColaborador, mesReferencia)
@@ -129,5 +135,6 @@ export default {
   HorasUteisMesByIdColaboradorMes,
   HorasUteisAteHojeByIdColaboradorMes,
   HorasCadastradasByIdColaboradorMes,
+  horasCadastradasByIdColaboradorDia,
   DadosBarraProgresso
 }

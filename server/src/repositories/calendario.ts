@@ -21,6 +21,41 @@ const FeriadosByMes = async (idColaborador: number, mesReferencia: Date): Promis
     .orderBy('pessoas.Calendario.Dia', 'asc')
 }
 
+const feriadoByIdColaboradorDia = async (idColaborador: number, dia: string): Promise<CalendarioEntity> => {
+  return dbConnection('pessoas.Colaborador')
+    .innerJoin('pessoas.PostoTrabalho', 'pessoas.PostoTrabalho.IdPostoTrabalho', 'pessoas.Colaborador.IdPostoTrabalho')
+    .innerJoin('pessoas.Calendario', function () {
+      this.on('pessoas.Calendario.IdCidade', 'pessoas.PostoTrabalho.IdCidade')
+        .orOn('pessoas.Calendario.IdEstado', 'pessoas.PostoTrabalho.IdEstado')
+        .orOn('pessoas.Calendario.IdPais', 'pessoas.PostoTrabalho.IdPais')
+    })
+    .where({
+      'pessoas.Colaborador.IdColaborador': idColaborador,
+      'pessoas.Calendario.Dia': dia,
+    })
+    .select('pessoas.Calendario.*')
+    .first()
+}
+
+const listaFeriadoNaoUtilByIdColaboradorDia = async (idColaborador: number, dia: string): Promise<CalendarioEntity[]> => {
+  return dbConnection('pessoas.Colaborador')
+    .innerJoin('pessoas.PostoTrabalho', 'pessoas.PostoTrabalho.IdPostoTrabalho', 'pessoas.Colaborador.IdPostoTrabalho')
+    .innerJoin('pessoas.Calendario', function () {
+      this.on('pessoas.Calendario.IdCidade', 'pessoas.PostoTrabalho.IdCidade')
+        .orOn('pessoas.Calendario.IdEstado', 'pessoas.PostoTrabalho.IdEstado')
+        .orOn('pessoas.Calendario.IdPais', 'pessoas.PostoTrabalho.IdPais')
+    })
+    .where({
+      'pessoas.Colaborador.IdColaborador': idColaborador,
+      'pessoas.Calendario.Dia': dia,
+      'pessoas.Calendario.HorasUteis': 0
+    })
+    .select('pessoas.Calendario.*')
+    .orderBy('pessoas.Calendario.Dia', 'asc')
+}
+
 export default {
-  FeriadosByMes
+  feriadoByIdColaboradorDia,
+  FeriadosByMes,
+  listaFeriadoNaoUtilByIdColaboradorDia
 }
