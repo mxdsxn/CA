@@ -3,10 +3,10 @@ import dbConnection from '@database'
 
 import libUtc from '@libUtc'
 
-const Teste = async () => {
+const easterEgg = async () => {
   return null
 }
 
 export default {
-  Teste
+  easterEgg
 }

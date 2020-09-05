@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
+
 import { EasterEggRepository as Repo } from '@repositories'
 
-const Teste = async () => {
-  return null
+const easterEgg = async () => {
+  return await Repo.easterEgg()
 }
 
 export default {
-  Teste
+  easterEgg
 }
