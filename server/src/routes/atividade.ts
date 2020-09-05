@@ -31,5 +31,8 @@ route.post('/atividade', [
   return await Controller.SalvarAtividade(req, res)
 })
 
+
+route.get('/atividade/horas', async (req, res) => await Controller.DadosBarraProgresso(req, res))
+
 const AtividadeRoute = route
 export default AtividadeRoute

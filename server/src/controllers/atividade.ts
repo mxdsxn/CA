@@ -69,8 +69,23 @@ const SalvarAtividade = async (req: Request, res: Response) => {
   }
 }
 
+const DadosBarraProgresso = async (req: Request, res: Response) => {
+  const idColaborador = Number(req.query.idColaborador)
+  const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
+
+  try {
+    const result = await Service.DadosBarraProgresso(idColaborador, mesReferencia)
+    res.status(200)
+    res.json(result)
+  } catch (error) {
+    res.status(500)
+    res.json(error)
+  }
+}
+
 export default {
   AtividadesByIdColaboradorMes,
   AtividadesByIdColaboradorDia,
-  SalvarAtividade
+  SalvarAtividade,
+  DadosBarraProgresso
 }
