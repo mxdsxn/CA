@@ -3,7 +3,7 @@ import baseUrl from './api-baseUrl'
 const projetosByIdColaboradorDia = async (idColaborador, diaReferencia) => {
   try {
     const result = await baseUrl
-      .get("Projeto/ProjetosByIdColaboradorDia", {
+      .get("/projeto/list", {
         params: {
           idColaborador: idColaborador,
           diaReferencia: diaReferencia,
@@ -19,7 +19,7 @@ const projetosByIdColaboradorDia = async (idColaborador, diaReferencia) => {
 const projetosDefault = async (diaReferencia) => {
   try {
     const result = await baseUrl
-      .get("Projeto/ProjetosDefault", {
+      .get("/projeto/default/list", {
         params: {
           diaReferencia: diaReferencia,
         },

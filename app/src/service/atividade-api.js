@@ -3,7 +3,7 @@ import baseUrl from './api-baseUrl'
 const atividadesByIdColaboradorMes = async (idColaborador, mesReferencia) => {
   try {
     const result = await baseUrl
-      .get("Atividade/AtividadesByIdColaboradorMes", {
+      .get("/atividade/list/mes", {
         params: {
           idColaborador: idColaborador,
           mesReferencia: mesReferencia,
@@ -19,7 +19,7 @@ const atividadesByIdColaboradorMes = async (idColaborador, mesReferencia) => {
 const atividadesByIdColaboradorDia = async (idColaborador, diaReferencia) => {
   try {
     const result = await baseUrl
-      .get("Atividade/AtividadesByIdColaboradorDia", {
+      .get("/atividade/list/dia", {
         params: {
           idColaborador: idColaborador,
           diaReferencia: diaReferencia,
@@ -47,10 +47,9 @@ const salvarAtividade = async (
 ) => {
 
   await baseUrl
-    .post("Atividade/SalvarAtividade", null, {
+    .post("/atividade", null, {
       params: {
         idColaborador,
-        idAtividade,
         diaAtividade,
         cargaAtividade,
         idProjeto,
