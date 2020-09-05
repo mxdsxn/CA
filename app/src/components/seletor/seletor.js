@@ -19,30 +19,24 @@ export default (props) => {
                     emptyList(),
                     defaultList(),
                     props.dataList.map((item) => (<MenuItem value={item.IdProjeto} key={item.IdProjeto}>{item.Nome}</MenuItem>)))
-                break
             case 'projeto-default':
                 return [].concat(
                     emptyList(),
                     props.dataList.map((item) => (<MenuItem value={item.IdProjeto} key={item.IdProjeto}>{item.Nome}</MenuItem>)))
-                break
             case 'fase':
                 return [].concat(
                     emptyList(),
                     props.dataList.map((item) => (<MenuItem value={item.IdProjetoMetodologiaFase} key={item.IdProjetoMetodologiaFase}>{item.Fase}</MenuItem>)))
-                break
             case 'categoria':
                 return [].concat(
                     emptyList(),
                     props.dataList.map((item) => (<MenuItem value={item.IdProjetoCategoriaAtividade} key={item.IdProjetoCategoriaAtividade}>{item.Descricao}</MenuItem>)))
-                break
             case 'coordenador':
                 return [].concat(
                     emptyList(),
                     props.dataList.map((item) => (<MenuItem value={item.IdColaborador} key={item.IdColaborador}>{item.Nome}</MenuItem>)))
-                break
             default:
                 return emptyList()
-                break
         }
     }
 
