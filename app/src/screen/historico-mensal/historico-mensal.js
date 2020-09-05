@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from 'react'
 
 import {
   Container,
   Divider
-} from "@material-ui/core"
+} from '@material-ui/core'
 
-import moment from "moment"
+import moment from 'moment'
 
-import DataPicker from "./datepicker"
-import HistoricoTable from "./historico-table"
-import HistoricoMobile from "./historico-mobile"
+import DataPicker from './datepicker'
+import HistoricoTable from './historico-table'
+import HistoricoMobile from './historico-mobile'
 import BarraProgresso from '../../components/barra-progresso'
-import Cabecalho from "../../components/cabecalho"
+import Cabecalho from '../../components/cabecalho'
 
 import { atividadeApi } from '../../service/api-connection'
 
@@ -40,7 +40,7 @@ export default (props) => {
       <Divider />
       <Container>
         <BarraProgresso mesReferencia={mesReferencia} />
-        <div align="center">
+        <div align='center'>
           <DataPicker onChange={handleDateChange} value={mesReferencia} />
         </div>
         <HistoricoMobile historicoMensal={historicoMensal} />

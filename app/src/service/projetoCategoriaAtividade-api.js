@@ -3,7 +3,7 @@ import baseUrl from './api-baseUrl'
 const projetoCategoriaAtividadeByIdProjeto = async (idProjeto) => {
   try {
     const result = await baseUrl
-      .get("projeto-categoria-atividade/list", {
+      .get('projeto-categoria-atividade/list', {
         params: {
           idProjeto: idProjeto,
         },

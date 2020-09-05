@@ -3,7 +3,7 @@ import baseUrl from './api-baseUrl'
 const coordenadoresByDia = async (diaReferencia) => {
   try {
     const result = await baseUrl
-      .get("/colaboraodor/coordenador/list/dia", {
+      .get('/colaboraodor/coordenador/list/dia', {
         params: {
           diaReferencia: diaReferencia,
         },
@@ -18,7 +18,7 @@ const coordenadoresByDia = async (diaReferencia) => {
 const dadosBarraProgresso = async (idColaborador, mesReferencia) => {
   try {
     const result = await baseUrl
-      .get("/atividade/horas", {
+      .get('/atividade/horas', {
         params: {
           idColaborador: idColaborador,
           mesReferencia: mesReferencia,

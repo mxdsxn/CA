@@ -1,13 +1,13 @@
-import React from "react"
+import React from 'react'
 
-import "./style.css"
+import './style.css'
 
 import {
   Hidden,
   TableCell,
   TableHead,
   TableRow,
-} from "@material-ui/core"
+} from '@material-ui/core'
 
 export default () => {
   return (

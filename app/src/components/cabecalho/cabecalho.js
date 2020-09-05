@@ -1,21 +1,21 @@
-import React from "react"
+import React from 'react'
 
 import {
   Container,
   Image
-} from "react-bootstrap/"
+} from 'react-bootstrap/'
 
 import {
   AppBar,
   Hidden,
   makeStyles,
   Toolbar
-} from "@material-ui/core/"
+} from '@material-ui/core/'
 
-import "./style.css"
+import './style.css'
 
-import logo_full from "./dextra-mutant-logo-novo.png"
-import logo from "./dextra-logo-novo-180x180.png"
+import logo_full from './dextra-mutant-logo-novo.png'
+import logo from './dextra-logo-novo-180x180.png'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   colorDefault: {
-    background: "#ffffff",
-    color: "#000000",
+    background: '#ffffff',
+    color: '#000000',
   },
 }))
 
@@ -38,14 +38,14 @@ export default () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" className={classes.colorDefault}>
+      <AppBar position='static' className={classes.colorDefault}>
         <Toolbar>
-          <Container align="center">
+          <Container align='center'>
             <Hidden smDown>
-              <Image src={logo_full} width={130} fluid align="center" />
+              <Image src={logo_full} width={130} fluid align='center' />
             </Hidden>
             <Hidden mdUp>
-              <Image src={logo} width={50} fluid align="center" />
+              <Image src={logo} width={50} fluid align='center' />
             </Hidden>
           </Container>
         </Toolbar>

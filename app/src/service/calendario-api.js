@@ -3,7 +3,7 @@ import baseUrl from './api-baseUrl'
 const feriadosByMes = async (mesReferencia) => {
   try {
     const result = await baseUrl
-      .get("/calendario/list/mes", {
+      .get('/calendario/list/mes', {
         params: {
           mesReferencia: mesReferencia,
         },

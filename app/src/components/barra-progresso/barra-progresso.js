@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
+import React from 'react'
 
-import { Container } from "@material-ui/core";
-import { ProgressBar } from "react-bootstrap";
+import { Container } from '@material-ui/core'
+import { ProgressBar } from 'react-bootstrap'
 
 import { colaboradorApi } from '../../service/api-connection'
 
-import "./style.css";
+import './style.css'
 
 export default (props) => {
   const mesReferencia = props.mesReferencia
@@ -54,19 +54,19 @@ export default (props) => {
       })
   }, [mesReferencia])
 
-  const [cadastradas, setCadastradas] = React.useState();
-  const [faltaCadastrar, setFaltaCadastrar] = React.useState();
-  const [restante, setRestante] = React.useState();
-  const [extra, setExtra] = React.useState();
+  const [cadastradas, setCadastradas] = React.useState()
+  const [faltaCadastrar, setFaltaCadastrar] = React.useState()
+  const [restante, setRestante] = React.useState()
+  const [extra, setExtra] = React.useState()
 
   return (
     <Container>
-      <ProgressBar className="barra-progresso">
-        <ProgressBar variant="success" now={cadastradas} key={2} />
-        <ProgressBar animated variant="success" now={faltaCadastrar} key={1} />
+      <ProgressBar className='barra-progresso'>
+        <ProgressBar variant='success' now={cadastradas} key={2} />
+        <ProgressBar animated variant='success' now={faltaCadastrar} key={1} />
         <ProgressBar animated now={restante} key={3} />
-        <ProgressBar variant="warning" now={extra} key={4} />
+        <ProgressBar variant='warning' now={extra} key={4} />
       </ProgressBar>
     </Container>
-  );
-};
+  )
+}

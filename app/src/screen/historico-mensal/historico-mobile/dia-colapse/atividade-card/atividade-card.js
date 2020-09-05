@@ -1,10 +1,10 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import Card from '@material-ui/core/Card'
+import CardActions from '@material-ui/core/CardActions'
+import CardContent from '@material-ui/core/CardContent'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
 import moment from 'moment'
 
 const useStyles = makeStyles({
@@ -20,27 +20,27 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
-});
+})
 
 export default function SimpleCard(props) {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <Card className={classes.root} key={props.atividade.IdAtividade}>
       <CardContent>
-        <Typography variant="h6" component='h3'>
-          {props.atividade.NomeProjeto || "-"}
+        <Typography variant='h6' component='h3'>
+          {props.atividade.NomeProjeto || '-'}
         </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          Data Cadastro: {moment(props.atividade.DataCadastro).utc().format('L') || "-"}
+        <Typography className={classes.pos} color='textSecondary'>
+          Data Cadastro: {moment(props.atividade.DataCadastro).utc().format('L') || '-'}
         </Typography>
-        <Typography variant="body2" component="p">
-          {props.atividade.Descricao || "-"}
+        <Typography variant='body2' component='p'>
+          {props.atividade.Descricao || '-'}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Editar</Button>
+        <Button size='small'>Editar</Button>
       </CardActions>
     </Card>
-  );
+  )
 }

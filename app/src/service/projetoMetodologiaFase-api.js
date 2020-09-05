@@ -3,7 +3,7 @@ import baseUrl from './api-baseUrl'
 const projetoFaseByIdProjeto = async (idProjeto) => {
   try {
     const result = await baseUrl
-      .get("/projeto-metodologia-fase/list", {
+      .get('/projeto-metodologia-fase/list', {
         params: {
           idProjeto: idProjeto,
         },
