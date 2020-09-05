@@ -6,12 +6,9 @@ import {
   CalendarioRoute,
   ColaboradorRoute,
   ColaboradorContratoRoute,
-  PontoRoute,
   ProjetoRoute,
-  ProjetoAlocacaoPeriodoRoute,
   ProjetoCategoriaAtidadeRoute,
-  ProjetoMetodologiaFaseRoute,
-  RegistroAuxiliarRoute
+  ProjetoMetodologiaFaseRoute
 } from '@routes'
 
 const routes = express.Router()
@@ -23,12 +20,9 @@ routes.use(
   CalendarioRoute,
   ColaboradorRoute,
   ColaboradorContratoRoute,
-  PontoRoute,
   ProjetoRoute,
-  ProjetoAlocacaoPeriodoRoute,
   ProjetoCategoriaAtidadeRoute,
-  ProjetoMetodologiaFaseRoute,
-  RegistroAuxiliarRoute
+  ProjetoMetodologiaFaseRoute
 )
 
 export default routes

@@ -6,11 +6,11 @@ import { AtividadeController as Controller } from '@controllers'
 
 const route = express.Router()
 
-route.get('/Atividade/AtividadesByIdColaboradorMes', async (req, res) => Controller.AtividadesByIdColaboradorMes(req, res))
+route.get('/atividade/list/mes', async (req, res) => await Controller.AtividadesByIdColaboradorMes(req, res))
 
-route.get('/Atividade/AtividadesByIdColaboradorDia', async (req, res) => Controller.AtividadesByIdColaboradorDia(req, res))
+route.get('/atividade/list/dia', async (req, res) => await Controller.AtividadesByIdColaboradorDia(req, res))
 
-route.post('/Atividade/SalvarAtividade', [
+route.post('/atividade', [
   query('idColaborador').isInt(),
   query('idAtividade').isInt().optional(),
   query('diaAtividade', 'Dia da atividade é obrigatorio').custom((value: string) => value === undefined ? false : moment.utc(value).isValid()),
@@ -28,7 +28,7 @@ route.post('/Atividade/SalvarAtividade', [
     console.log({ errors: errors.array() })
     return res.status(400).json({ errors: errors.array() })
   }
-  return Controller.SalvarAtividade(req, res)
+  return await Controller.SalvarAtividade(req, res)
 })
 
 const AtividadeRoute = route

@@ -3,6 +3,7 @@
 import { HealthCheckRepository as Repo } from '@repositories'
 
 const HealthCheck = async () => {
+  return { message: 'bem vindo à api do cadastro de atividades dextra' }
 }
 
 export default {
