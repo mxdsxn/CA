@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const defaultValue = {
-  cargaZerada: moment().startOf('day').utcOffset(false),
+  cargaZerada: moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 }),
   diaAtividade: moment().startOf('day').utcOffset(false),
   idDefault: 0,
   listaProjeto: [{ IdProjeto: -1, Nome: 'Projeto Default' }],
@@ -90,7 +90,7 @@ export default (_props) => {
 
   //#region UseEffects
   useEffect(() => {
-    projetoApi.projetosByIdColaboradorDia(idColaboradorLogado, diaAtividade.utcOffset(0, true).format())
+    projetoApi.projetosByIdColaboradorDia(idColaboradorLogado, diaAtividade.format('MM/DD/YYYY'))
       .then(res => res ? setListaProjeto(res) : setListaProjeto([]))
 
     setDescricaoAtividade('')
@@ -123,10 +123,10 @@ export default (_props) => {
       setCategoriaAtividadeSelecionado(0)
       setProjetoFaseSelecionado(0)
 
-      projetoApi.projetosDefault(diaAtividade.utcOffset(0, true).format())
+      projetoApi.projetosDefault(diaAtividade.format('MM/DD/YYYY'))
         .then(res => res ? setListaProjetoDefault(res) : setListaProjetoDefault([]))
 
-      colaboradorApi.coordenadoresByDia(diaAtividade.utcOffset(0, true).format())
+      colaboradorApi.coordenadoresByDia(diaAtividade.format('MM/DD/YYYY'))
         .then(res => res ? setListaCoordenador(res) : setListaCoordenador([]))
 
     } else if (projetoSelecionado === 0) {

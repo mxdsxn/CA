@@ -26,11 +26,6 @@ export default (props) => {
   const minDate = moment().startOf('month', 'day').subtract(1, 'month').utcOffset(false)
   const maxDate = moment().startOf('month', 'day').add(1, 'month').utcOffset(false)
 
-  console.log('teste')
-  console.log(minDate.format('MM/DD/YYYY'), minDate)
-  console.log(mesReferencia.format('MM/DD/YYYY'), mesReferencia)
-  console.log(maxDate.format('MM/DD/YYYY'), maxDate)
-
   useEffect(() => {
     atividadeApi.atividadesByIdColaboradorMes(idColaborador, mesReferencia.format('MM/DD/YYYY'))
       .then(res => res
