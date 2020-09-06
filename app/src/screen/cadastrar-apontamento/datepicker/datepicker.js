@@ -1,51 +1,35 @@
 import React from 'react'
-import './style.css'
 
 import {
   DatePicker,
-  MuiPickersUtilsProvider,
+  MuiPickersUtilsProvider
 } from '@material-ui/pickers'
+import moment from 'moment'
+import MomentUtils from '@date-io/moment'
+import 'moment/locale/pt-br'
 
-import { ThemeProvider } from '@material-ui/styles'
-
-import 'date-fns'
-import DateFnsUtils from '@date-io/date-fns'
-import ptbrLocale from 'date-fns/locale/pt-BR'
+moment.locale('pt_br')
 
 export default (props) => {
-  const pt_br = ptbrLocale
+  const locale = 'pt_br'
 
-  const diaHoje = new Date()
-  const inicioDatePicker = new Date('01/01/2020')
-  const fimDatePicker = new Date(
-    Date.UTC(
-      diaHoje.getUTCFullYear(),
-      diaHoje.getUTCMonth() + 1,
-      0,
-      23,
-      59,
-      59,
-      999
-    )
-  )
+  const handleChange = date => props.onChange(date.utcOffset(false))
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={pt_br}>
-      <ThemeProvider /* theme={tema}*/ >
-        <DatePicker
-          fullWidth={props.fullWidth || false}
-          autoOk={true}
-          disableToolbar
-          format='dd/MM/yyyy'
-          label='Selecione o dia da atividade'
-          minDate={inicioDatePicker}
-          maxDate={fimDatePicker}
-          onChange={props.onChange}
-          value={props.value}
-          variant='inline'
-          views={['year', 'month', 'date']}
-        />
-      </ThemeProvider>
+    <MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils} locale={locale}>
+      <DatePicker
+        fullWidth={props.fullWidth || false}
+        autoOk={true}
+        disableToolbar
+        format='DD/MM/yyyy'
+        label='Selecione o dia da atividade'
+        minDate={props.minDate || undefined}
+        maxDate={props.maxDate || undefined}
+        onChange={handleChange}
+        value={props.value}
+        variant='inline'
+        views={['year', 'month', 'date']}
+      />
     </MuiPickersUtilsProvider>
   )
 }

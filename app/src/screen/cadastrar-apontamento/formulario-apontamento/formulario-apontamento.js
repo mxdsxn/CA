@@ -44,8 +44,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const defaultValue = {
-  cargaZerada: moment(),
-  diaAtividade: moment(),
+  cargaZerada: moment().startOf('day').utcOffset(false),
+  diaAtividade: moment().startOf('day').utcOffset(false),
   idDefault: 0,
   listaProjeto: [{ IdProjeto: -1, Nome: 'Projeto Default' }],
 }
@@ -66,7 +66,7 @@ export default (_props) => {
 
   // states selecionados
   const [diaAtividade, setDiaAtividade] = useState(defaultValue.diaAtividade)
-  const [cargaSelecionada, setCargaSelecionada] = useState(defaultValue.cargaZerada.set({ hour: 0, minute: 0, second: 0 }))
+  const [cargaSelecionada, setCargaSelecionada] = useState(defaultValue.cargaZerada)
   const [projetoSelecionado, setProjetoSelecionado] = useState(defaultValue.idDefault)
   const [projetoDefaultSelecionado, setProjetoDefaultSelecionado] = useState(defaultValue.idDefault)
   const [coordenadorSelecionado, setCoordenadorSelecionado] = useState(defaultValue.idDefault)
@@ -117,7 +117,7 @@ export default (_props) => {
       projetoMetodologiaFaseApi.projetoFaseByIdProjeto(projetoSelecionado)
         .then(res => res ? setListaProjetoFase(res) : setListaProjetoFase([]))
     } else if (projetoSelecionado === -1) {
-      // se projeto é default (-1), carrega projetos default e coordenadores 
+      // se projeto é default (-1), carrega projetos default e coordenadores
       setListaCategoriaAtividade([])
       setListaProjetoFase([])
       setCategoriaAtividadeSelecionado(0)
@@ -144,7 +144,6 @@ export default (_props) => {
   //#endregion
 
   //#region Handles
-  const handleChangeDiaAtividade = (diaAtividade) => setDiaAtividade(moment.utc(diaAtividade))
   const handleChangeCargaAtividade = (cargaAtividade) => setCargaSelecionada(moment(cargaAtividade))
   const handleChangeProjeto = (value) => setProjetoSelecionado(value)
   const handleChangeProjetoDefault = (value) => setProjetoDefaultSelecionado(value)
@@ -157,8 +156,8 @@ export default (_props) => {
     atividadeApi.salvarAtividade(
       idColaboradorLogado,
       null,
-      diaAtividade.utcOffset(0).set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).format(),
-      cargaSelecionada.format('YYYY-MM-DDTHH:mm:ss'),
+      diaAtividade.format('MM/DD/YYYY'),
+      cargaSelecionada.format('HH:mm'),
       projetoSelecionado,
       projetoDefaultSelecionado,
       coordenadorSelecionado,
@@ -343,7 +342,7 @@ export default (_props) => {
       <Grid item xs={12} sm={6} md={4} xl={4} align='center'>
         <DataPicker
           fullWidth
-          onChange={handleChangeDiaAtividade}
+          onChange={setDiaAtividade}
           value={diaAtividade}
         />
       </Grid>

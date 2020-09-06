@@ -27,9 +27,9 @@ export default (props) => {
   const maxDate = moment().startOf('month', 'day').add(1, 'month').utcOffset(false)
 
   console.log('teste')
-  console.log(minDate.format('MM/DD/YYYY'))
-  console.log(mesReferencia.format('MM/DD/YYYY'))
-  console.log(maxDate.format('MM/DD/YYYY'))
+  console.log(minDate.format('MM/DD/YYYY'), minDate)
+  console.log(mesReferencia.format('MM/DD/YYYY'), mesReferencia)
+  console.log(maxDate.format('MM/DD/YYYY'), maxDate)
 
   useEffect(() => {
     atividadeApi.atividadesByIdColaboradorMes(idColaborador, mesReferencia.format('MM/DD/YYYY'))
@@ -47,6 +47,8 @@ export default (props) => {
         <BarraProgresso mesReferencia={mesReferencia} />
         <div align='center'>
           <DataPicker
+            minDate={minDate}
+            maxDate={maxDate}
             onChange={setMesReferencia}
             value={mesReferencia} />
         </div>
