@@ -4,12 +4,12 @@ import { AtividadeService as Service } from '@services'
 import libUtc from '@libUtc'
 import { Request, Response } from 'express'
 
-const AtividadesByIdColaboradorMes = async (req: Request, res: Response) => {
+const atividadesByIdColaboradorMes = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
   try {
-    const result = await Service.AtividadesByIdColaboradorMes(idColaborador, mesReferencia)
+    const result = await Service.atividadesByIdColaboradorMes(idColaborador, mesReferencia)
     res.json(result)
     return res.status(200)
   } catch (error) {
@@ -18,12 +18,12 @@ const AtividadesByIdColaboradorMes = async (req: Request, res: Response) => {
   }
 }
 
-const AtividadesByIdColaboradorDia = async (req: Request, res: Response) => {
+const atividadesByIdColaboradorDia = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
   try {
-    const result = await Service.AtividadesByIdColaboradorDia(idColaborador, diaReferencia)
+    const result = await Service.atividadesByIdColaboradorDia(idColaborador, diaReferencia)
     res.json(result)
     return res.status(200)
   } catch (error) {
@@ -32,7 +32,7 @@ const AtividadesByIdColaboradorDia = async (req: Request, res: Response) => {
   }
 }
 
-const SalvarAtividade = async (req: Request, res: Response) => {
+const salvarAtividade = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const idAtividade = Number(req.query.idAtividade)
   const diaAtividade = moment(req.query.diaAtividade as string)
@@ -46,7 +46,7 @@ const SalvarAtividade = async (req: Request, res: Response) => {
   const descricaoAtividade = req.query.descricaoAtividade as string
 
   try {
-    const result = await Service.SalvarAtividade({
+    const result = await Service.salvarAtividade({
       idColaborador,
       idAtividade,
       diaAtividade,
@@ -69,12 +69,12 @@ const SalvarAtividade = async (req: Request, res: Response) => {
   }
 }
 
-const DadosBarraProgresso = async (req: Request, res: Response) => {
+const horasMesByIdColaborador = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
 
   try {
-    const result = await Service.DadosBarraProgresso(idColaborador, mesReferencia)
+    const result = await Service.horasMesByIdColaborador(idColaborador, mesReferencia)
     res.status(200)
     res.json(result)
   } catch (error) {
@@ -84,8 +84,8 @@ const DadosBarraProgresso = async (req: Request, res: Response) => {
 }
 
 export default {
-  AtividadesByIdColaboradorMes,
-  AtividadesByIdColaboradorDia,
-  SalvarAtividade,
-  DadosBarraProgresso
+  atividadesByIdColaboradorMes,
+  atividadesByIdColaboradorDia,
+  salvarAtividade,
+  horasMesByIdColaborador
 }

@@ -3,7 +3,7 @@ import dbConnection from '@database'
 import libUtc from '@libUtc'
 import { ColaboradorContratoEntity } from '@entities'
 
-const ContratosByDataIdColaboradorMes = async (idColaborador: Number, mesReferencia: Date): Promise<ColaboradorContratoEntity[]> => {
+const contratosByIdColaborador = async (idColaborador: Number, mesReferencia: Date): Promise<ColaboradorContratoEntity[]> => {
   const mesReferenciaInicio = mesReferencia
   const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
@@ -18,7 +18,7 @@ const ContratosByDataIdColaboradorMes = async (idColaborador: Number, mesReferen
     .orderBy('DataInicioContrato', 'asc')
 }
 
-const ContratoAtivoByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date): Promise<ColaboradorContratoEntity> => {
+const contratoAtivoByIdColaborador = async (idColaborador: Number, diaReferencia: Date): Promise<ColaboradorContratoEntity> => {
   const diaReferenciaInicio = diaReferencia
   const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)
 
@@ -35,6 +35,6 @@ const ContratoAtivoByIdColaboradorDia = async (idColaborador: Number, diaReferen
 }
 
 export default {
-  ContratosByDataIdColaboradorMes,
-  ContratoAtivoByIdColaboradorDia
+  contratoAtivoByIdColaborador,
+  contratosByIdColaborador
 }

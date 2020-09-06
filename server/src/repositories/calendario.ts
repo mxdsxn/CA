@@ -3,7 +3,7 @@ import dbConnection from '@database'
 import libUtc from '@libUtc'
 import { CalendarioEntity } from '@entities'
 
-const FeriadosByMes = async (idColaborador: number, mesReferencia: Date): Promise<CalendarioEntity[]> => {
+const feriadosByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date): Promise<CalendarioEntity[]> => {
   const mesReferenciaInicio = mesReferencia
   const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
@@ -56,6 +56,6 @@ const listaFeriadoNaoUtilByIdColaboradorDia = async (idColaborador: number, dia:
 
 export default {
   feriadoByIdColaboradorDia,
-  FeriadosByMes,
+  feriadosByIdColaboradorMes,
   listaFeriadoNaoUtilByIdColaboradorDia
 }

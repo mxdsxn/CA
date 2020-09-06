@@ -18,12 +18,12 @@ import libUtc from '@libUtc'
 import { AtividadeModel } from '@models'
 
 /* retorna lista de coordenadores(gerentes de projetos), para aprovaçao de atividades em projetos Default */
-const CoordenadoresByDia = async (diaReferencia: Date) => {
-  const listaCoordenador = await Repo.CoordenadoresByDia(diaReferencia)
+const coordenadorByDiaÏ = async (diaReferencia: Date) => {
+  const listaCoordenador = await Repo.coordenadorByDiaÏ(diaReferencia)
 
   return listaCoordenador
 }
 
 export default {
-  CoordenadoresByDia
+  coordenadorByDiaÏ
 }

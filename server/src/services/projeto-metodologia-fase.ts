@@ -1,12 +1,12 @@
 import { ProjetoMetodologiaFaseRepository as Repo } from '@repositories'
 
 /* retorna lista de metodologiaFase do projeto */
-const ProjetoFaseByIdProjeto = async (idProjeto: Number) => {
-  const listaProjetoMetodologiaFase = await Repo.ProjetoFaseByIdProjeto(idProjeto)
+const projetoFaseByIdProjeto = async (idProjeto: Number) => {
+  const listaProjetoMetodologiaFase = await Repo.projetoFaseByIdProjeto(idProjeto)
 
   return listaProjetoMetodologiaFase
 }
 
 export default {
-  ProjetoFaseByIdProjeto
+  projetoFaseByIdProjeto
 }

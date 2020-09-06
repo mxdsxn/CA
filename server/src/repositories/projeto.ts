@@ -5,7 +5,7 @@ import { ProjetoModel } from '@models'
 import { ProjetoEntity } from '@entities'
 
 /* retorna lista de projetos que o colaborador esta alocado naquele dia */
-const ProjetosByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date): Promise<ProjetoModel[]> => {
+const projetosByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date): Promise<ProjetoModel[]> => {
   const diaReferenciaInicio = diaReferencia
   const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)
 
@@ -26,7 +26,7 @@ const ProjetosByIdColaboradorDia = async (idColaborador: Number, diaReferencia: 
 }
 
 /* retorna lista de projetos default */
-const ProjetosDefault = async (diaReferencia: Date): Promise<ProjetoModel[]> => {
+const projetosDefault = async (diaReferencia: Date): Promise<ProjetoModel[]> => {
   return await dbConnection('operacoes.Projeto')
     .innerJoin('operacoes.ProjetoTipo', 'operacoes.ProjetoTIpo.IdProjetoTipo', 'operacoes.Projeto.IdProjetoTipo')
     .where('operacoes.ProjetoTipo.Descricao', 'Default')
@@ -52,6 +52,6 @@ const projetoById = (idProjeto: number): Promise<ProjetoEntity> => {
 
 export default {
   projetoById,
-  ProjetosByIdColaboradorDia,
-  ProjetosDefault
+  projetosByIdColaboradorDia,
+  projetosDefault
 }

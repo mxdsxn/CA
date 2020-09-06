@@ -2,11 +2,11 @@ import { ColaboradorService as Service } from '@services'
 import libUtc from '@libUtc'
 import { Request, Response } from 'express'
 
-const CoordenadoresByDia = async (req: Request, res: Response) => {
+const coordenadorByDiaÏ = async (req: Request, res: Response) => {
   const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
 
   try {
-    const result = await Service.CoordenadoresByDia(diaReferencia)
+    const result = await Service.coordenadorByDiaÏ(diaReferencia)
     res.status(200)
     res.json(result)
   } catch (error) {
@@ -17,5 +17,5 @@ const CoordenadoresByDia = async (req: Request, res: Response) => {
 
 
 export default {
-  CoordenadoresByDia
+  coordenadorByDiaÏ
 }

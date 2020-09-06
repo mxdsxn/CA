@@ -6,9 +6,9 @@ import { AtividadeController as Controller } from '@controllers'
 
 const route = express.Router()
 
-route.get('/atividade/list/mes', async (req, res) => await Controller.AtividadesByIdColaboradorMes(req, res))
+route.get('/atividade/list/mes', async (req, res) => await Controller.atividadesByIdColaboradorMes(req, res))
 
-route.get('/atividade/list/dia', async (req, res) => await Controller.AtividadesByIdColaboradorDia(req, res))
+route.get('/atividade/list/dia', async (req, res) => await Controller.atividadesByIdColaboradorDia(req, res))
 
 route.post('/atividade', [
   query('idColaborador').isInt(),
@@ -28,11 +28,11 @@ route.post('/atividade', [
     console.log({ errors: errors.array() })
     return res.status(400).json({ errors: errors.array() })
   }
-  return await Controller.SalvarAtividade(req, res)
+  return await Controller.salvarAtividade(req, res)
 })
 
 
-route.get('/atividade/horas', async (req, res) => await Controller.DadosBarraProgresso(req, res))
+route.get('/atividade/horas', async (req, res) => await Controller.horasMesByIdColaborador(req, res))
 
 const AtividadeRoute = route
 export default AtividadeRoute

@@ -2,7 +2,7 @@
 import dbConnection from '@database'
 import { ProjetoCategoriaAtividadeEntity } from '@entities'
 
-const ProjetoCategoriaAtividadeByIdProjeto = async (IdProjeto: Number): Promise<ProjetoCategoriaAtividadeEntity[]> => {
+const projetoCategoriaAtividadeByIdProjeto = async (IdProjeto: Number): Promise<ProjetoCategoriaAtividadeEntity[]> => {
   return await dbConnection('operacoes.ProjetoCategoriaAtividade')
     .where('IdProjeto', IdProjeto)
     .select('*')
@@ -18,5 +18,5 @@ const projetoCategoriaAtividadeById = async (idProjetoCategoriaAtividade: Number
 
 export default {
   projetoCategoriaAtividadeById,
-  ProjetoCategoriaAtividadeByIdProjeto
+  projetoCategoriaAtividadeByIdProjeto
 }

@@ -3,7 +3,7 @@ import dbConnection from '@database'
 import libUtc from '@libUtc'
 import { ColaboradorContratoEntity } from '@entities'
 
-const CoordenadoresByDia = async (diaReferencia: Date): Promise<ColaboradorContratoEntity[]> => {
+const coordenadorByDiaÏ = async (diaReferencia: Date): Promise<ColaboradorContratoEntity[]> => {
   const mesReferenciaInicio = libUtc.getMonth(diaReferencia)
   const mesReferenciaFim = libUtc.getEndMonth(diaReferencia)
 
@@ -30,5 +30,5 @@ const colaboradorById = (idColaborador: number) => {
 
 export default {
   colaboradorById,
-  CoordenadoresByDia
+  coordenadorByDiaÏ
 }

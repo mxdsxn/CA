@@ -5,14 +5,14 @@ import libUtc from '@libUtc'
 import { CalendarioRepository as Repo } from '@repositories'
 
 /* retorna lista de feriados no mes */
-const FeriadosByMes = async (idColaborador: number, mesReferencia: Date) => {
-  const listaFeriadosMes = await Repo.FeriadosByMes(idColaborador, mesReferencia)
+const feriadosByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date) => {
+  const listaFeriadosMes = await Repo.feriadosByIdColaboradorMes(idColaborador, mesReferencia)
 
   return listaFeriadosMes
 }
 
 const ListaFeriadoFinalSemanaByMes = async (idColaborador: number, mesReferencia: Date) => {
-  const listaFeriados = await Repo.FeriadosByMes(idColaborador, libUtc.getMonth(mesReferencia))
+  const listaFeriados = await Repo.feriadosByIdColaboradorMes(idColaborador, libUtc.getMonth(mesReferencia))
     .then((suc) => {
       const listaFeriadoDia = suc.map(feriado => {
         const result: DiaModel = {
@@ -52,6 +52,6 @@ const ListaFeriadoFinalSemanaByMes = async (idColaborador: number, mesReferencia
 }
 
 export default {
-  FeriadosByMes,
+  feriadosByIdColaboradorMes,
   ListaFeriadoFinalSemanaByMes
 }

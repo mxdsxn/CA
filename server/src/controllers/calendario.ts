@@ -3,12 +3,12 @@ import libUtc from '@libUtc'
 import { Request, Response } from 'express'
 
 
-const FeriadosByMes = async (req: Request, res: Response) => {
+const feriadosByIdColaboradorMes = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
 
   try {
-    const result = await Service.FeriadosByMes(idColaborador, mesReferencia)
+    const result = await Service.feriadosByIdColaboradorMes(idColaborador, mesReferencia)
     res.status(200)
     res.json(result)
   } catch (error) {
@@ -32,6 +32,6 @@ const ListaFeriadoFinalSemanaByMes = async (req: Request, res: Response) => {
 }
 
 export default {
-  FeriadosByMes,
+  feriadosByIdColaboradorMes,
   ListaFeriadoFinalSemanaByMes
 }

@@ -28,31 +28,31 @@ import {
 import { DiaModel, AtividadeModel } from '@models'
 
 /* retorna lista de atividades do colaborador em um mes */
-const AtividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date, naoAgruparDia?: boolean) => {
-  const listaAtividadeMes = await Repo.AtividadesByIdColaboradorMes(idColaborador, mesReferencia)
+const atividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date, naoAgruparDia?: boolean) => {
+  const listaAtividadeMes = await Repo.atividadesByIdColaboradorMes(idColaborador, mesReferencia)
 
   if (!naoAgruparDia && listaAtividadeMes.length > 0) {
     const listaFeriadosFds = await CalendarioService.ListaFeriadoFinalSemanaByMes(idColaborador, mesReferencia)
-    const listaContratosMes = await ColaboradorContratoService.ContratosByDataIdColaboradorMes(idColaborador, mesReferencia)
+    const listaContratosMes = await ColaboradorContratoService.contratosByIdColaborador(idColaborador, mesReferencia)
     return AgruparAtividadesPorDia(mesReferencia, listaAtividadeMes, listaFeriadosFds, listaContratosMes)
   }
 
   return listaAtividadeMes
 }
 
-const AtividadesByIdColaboradorDia = async (idColaborador: number, diaReferencia: Date, naoAgruparDia?: boolean) => {
-  const listaAtividadeDia = await Repo.AtividadesByIdColaboradorDia(idColaborador, diaReferencia)
+const atividadesByIdColaboradorDia = async (idColaborador: number, diaReferencia: Date, naoAgruparDia?: boolean) => {
+  const listaAtividadeDia = await Repo.atividadesByIdColaboradorDia(idColaborador, diaReferencia)
 
   if (!naoAgruparDia && listaAtividadeDia.length > 0) {
     const listaFeriadosFds = await CalendarioService.ListaFeriadoFinalSemanaByMes(idColaborador, diaReferencia)
-    const listaContratosMes = await ColaboradorContratoService.ContratosByDataIdColaboradorMes(idColaborador, diaReferencia)
+    const listaContratosMes = await ColaboradorContratoService.contratosByIdColaborador(idColaborador, diaReferencia)
     return AgruparAtividadesPorDia(diaReferencia, listaAtividadeDia, listaFeriadosFds, listaContratosMes)
   }
 
   return listaAtividadeDia
 }
 
-const SalvarAtividade = async (
+const salvarAtividade = async (
   atividade: {
     idColaborador: number,
     idAtividade: number,
@@ -102,7 +102,7 @@ const SalvarAtividade = async (
     // Contrato Ativo
     //* é obrigatorio ter contrato ativo no dia da atividade
 
-    const contratoAtivo = await ColaboradorContratoRepository.ContratoAtivoByIdColaboradorDia(atividade.idColaborador, atividade.diaAtividade.toDate())
+    const contratoAtivo = await ColaboradorContratoRepository.contratoAtivoByIdColaborador(atividade.idColaborador, atividade.diaAtividade.toDate())
 
     if (!contratoAtivo) {
       resultado.mensagem.push('Não existe contrato ativo nesse dia.')
@@ -216,7 +216,7 @@ const SalvarAtividade = async (
         resultado.mensagem.push('Selecione um coordenador')
       }
     } else {
-      const listaCategoriaAtividade = await ProjetoCategoriaAtividadeRepository.ProjetoCategoriaAtividadeByIdProjeto(idProjeto)
+      const listaCategoriaAtividade = await ProjetoCategoriaAtividadeRepository.projetoCategoriaAtividadeByIdProjeto(idProjeto)
       const categoriaAtividade = await ProjetoCategoriaAtividadeRepository.projetoCategoriaAtividadeById(atividade.idCategoriaAtividade)
       if (listaCategoriaAtividade.length > 0 && categoriaAtividade) {
         novaAtividade.IdProjetoCategoriaAtividade = atividade.idCategoriaAtividade
@@ -224,7 +224,7 @@ const SalvarAtividade = async (
         resultado.mensagem.push('Selecione uma categoria para o apontamento')
       }
 
-      const listaProjetoFase = await ProjetoMetodologiaFaseRepository.ProjetoFaseByIdProjeto(idProjeto)
+      const listaProjetoFase = await ProjetoMetodologiaFaseRepository.projetoFaseByIdProjeto(idProjeto)
       const projetoFase = await ProjetoMetodologiaFaseRepository.projetoFaseById(atividade.idProjetoFase)
 
       if (listaProjetoFase.length > 0 && projetoFase) {
@@ -285,8 +285,8 @@ const HorasUteisMesByIdColaboradorMes = async (idColaborador: number, mesReferen
   const inicioMes = mesReferencia
   const finalMes = libUtc.getEndMonth(mesReferencia)
 
-  const listaFeriadosMes: CalendarioEntity[] = await CalendarioService.FeriadosByMes(idColaborador, inicioMes) || []
-  const listaContratosMes: ColaboradorContratoEntity[] = await ColaboradorContratoService.ContratosByDataIdColaboradorMes(idColaborador, mesReferencia)
+  const listaFeriadosMes: CalendarioEntity[] = await CalendarioService.feriadosByIdColaboradorMes(idColaborador, inicioMes) || []
+  const listaContratosMes: ColaboradorContratoEntity[] = await ColaboradorContratoService.contratosByIdColaborador(idColaborador, mesReferencia)
 
   var horasPrevistasMes = 0
 
@@ -312,8 +312,8 @@ const HorasUteisAteHojeByIdColaboradorMes = async (idColaborador: number, mesRef
 
   if (inicioMes.getTime() !== libUtc.getMonth().getTime()) { return 0 }
 
-  const listaFeriadosMes: CalendarioEntity[] = await CalendarioService.FeriadosByMes(idColaborador, inicioMes) || []
-  const listaContratosMes: ColaboradorContratoEntity[] = await ColaboradorContratoService.ContratosByDataIdColaboradorMes(idColaborador, mesReferencia)
+  const listaFeriadosMes: CalendarioEntity[] = await CalendarioService.feriadosByIdColaboradorMes(idColaborador, inicioMes) || []
+  const listaContratosMes: ColaboradorContratoEntity[] = await ColaboradorContratoService.contratosByIdColaborador(idColaborador, mesReferencia)
 
   var horasPrevistaAteHoje = 0
   for (var dia = inicioMes; dia <= diaHoje; dia = libUtc.addDay(dia)) {
@@ -333,18 +333,18 @@ const HorasUteisAteHojeByIdColaboradorMes = async (idColaborador: number, mesRef
 }
 
 const HorasCadastradasByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date) => {
-  const listaAtividadesMes = await AtividadesByIdColaboradorMes(idColaborador, mesReferencia, true)
+  const listaAtividadesMes = await atividadesByIdColaboradorMes(idColaborador, mesReferencia, true)
 
   return HorasDecimal(listaAtividadesMes as AtividadeModel[])
 }
 
 const horasCadastradasByIdColaboradorDia = async (idColaborador: number, diaReferecnai: Date) => {
-  const listaAtividadesMes = await AtividadesByIdColaboradorDia(idColaborador, diaReferecnai, true)
+  const listaAtividadesMes = await atividadesByIdColaboradorDia(idColaborador, diaReferecnai, true)
 
   return HorasDecimal(listaAtividadesMes as AtividadeModel[])
 }
 
-const DadosBarraProgresso = async (idColaborador: number, mesReferencia: Date) => {
+const horasMesByIdColaborador = async (idColaborador: number, mesReferencia: Date) => {
   const horasUteisMes = await HorasUteisMesByIdColaboradorMes(idColaborador, mesReferencia)
   const horasUteisHoje = await HorasUteisAteHojeByIdColaboradorMes(idColaborador, mesReferencia)
   const horasCadastradasAteHoje = await HorasCadastradasByIdColaboradorMes(idColaborador, mesReferencia)
@@ -388,8 +388,8 @@ const HorasDecimal = (listaAtividades: AtividadeModel[]) => {
 }
 
 export default {
-  SalvarAtividade,
-  AtividadesByIdColaboradorMes,
-  AtividadesByIdColaboradorDia,
-  DadosBarraProgresso
+  salvarAtividade,
+  atividadesByIdColaboradorMes,
+  atividadesByIdColaboradorDia,
+  horasMesByIdColaborador
 }

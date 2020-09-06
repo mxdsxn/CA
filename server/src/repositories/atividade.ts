@@ -5,7 +5,7 @@ import libUtc from '@libUtc'
 import { AtividadeModel } from '@models'
 import { AtividadeEntity } from '@entities'
 
-const AtividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date): Promise<AtividadeModel[]> => {
+const atividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date): Promise<AtividadeModel[]> => {
   const mesReferenciaInicio = mesReferencia
   const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
 
@@ -25,7 +25,7 @@ const AtividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia
     .orderBy('pessoas.Atividade.DataAtividade', 'asc')
 }
 
-const AtividadesByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date): Promise<AtividadeModel[]> => {
+const atividadesByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date): Promise<AtividadeModel[]> => {
   console.log( moment(diaReferencia).utcOffset(0, true).format())
   return await dbConnection('pessoas.Atividade')
     .innerJoin('operacoes.Projeto', 'operacoes.Projeto.IdProjeto', 'pessoas.Atividade.IdProjeto')
@@ -61,7 +61,7 @@ const salvarAtividade = async (atividade: AtividadeEntity): Promise<AtividadeEnt
 }
 
 export default {
-  AtividadesByIdColaboradorDia,
-  AtividadesByIdColaboradorMes,
+  atividadesByIdColaboradorDia,
+  atividadesByIdColaboradorMes,
   salvarAtividade
 }
