@@ -19,18 +19,23 @@ import { atividadeApi } from '../../service/api-connection'
 
 export default (props) => {
   const idColaborador = props.idColaborador || 2359
-  const mesVigente = moment.utc()
 
   const [historicoMensal, setHistoricoMensal] = useState([])
-  const [mesReferencia, setMesReferencia] = useState(mesVigente)
+  const [mesReferencia, setMesReferencia] = useState(moment().startOf('month', 'day').utcOffset(false))
 
-  const handleDateChange = (date) => {
-    setMesReferencia(moment.utc(date))
-  }
+  const minDate = moment().startOf('month', 'day').subtract(1, 'month').utcOffset(false)
+  const maxDate = moment().startOf('month', 'day').add(1, 'month').utcOffset(false)
+
+  console.log('teste')
+  console.log(minDate.format('MM/DD/YYYY'))
+  console.log(mesReferencia.format('MM/DD/YYYY'))
+  console.log(maxDate.format('MM/DD/YYYY'))
 
   useEffect(() => {
-    atividadeApi.atividadesByIdColaboradorMes(idColaborador, mesReferencia.utcOffset(0, true).format())
-      .then(res => res ? setHistoricoMensal(res) : setHistoricoMensal([])
+    atividadeApi.atividadesByIdColaboradorMes(idColaborador, mesReferencia.format('MM/DD/YYYY'))
+      .then(res => res
+        ? setHistoricoMensal(res)
+        : setHistoricoMensal([])
       )
   }, [mesReferencia])
 
@@ -41,7 +46,9 @@ export default (props) => {
       <Container>
         <BarraProgresso mesReferencia={mesReferencia} />
         <div align='center'>
-          <DataPicker onChange={handleDateChange} value={mesReferencia} />
+          <DataPicker
+            onChange={setMesReferencia}
+            value={mesReferencia} />
         </div>
         <HistoricoMobile historicoMensal={historicoMensal} />
         <HistoricoTable historicoMensal={historicoMensal} />
