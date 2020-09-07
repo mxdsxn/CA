@@ -1,10 +1,12 @@
+import moment from 'moment'
+
 import { ColaboradorContratoService as Service } from '@services'
 import libUtc from '@libUtc'
 import { Request, Response } from 'express'
 
 const contratosByIdColaborador = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
-  const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
+  const mesReferencia = moment(req.query.mesReferencia as string).utcOffset(0, true).startOf('month')
 
   try {
     const result = await Service.contratosByIdColaborador(idColaborador, mesReferencia)
@@ -18,7 +20,7 @@ const contratosByIdColaborador = async (req: Request, res: Response) => {
 
 const contratoAtivoByIdColaborador = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
-  const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
+  const diaReferencia = moment(req.query.diaReferencia as string).utcOffset(0, true).startOf('day')
 
   try {
     const result = await Service.contratoAtivoByIdColaborador(idColaborador, diaReferencia)
