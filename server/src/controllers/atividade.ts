@@ -45,7 +45,6 @@ const salvarAtividade = async (req: Request, res: Response) => {
   const tagsAtividade = req.query.tagsAtividade as [string]
   const descricaoAtividade = req.query.descricaoAtividade as string
 
-  console.log(diaAtividade.format(),diaAtividade.utcOffset(0, true).format())
   try {
     const result = await Service.salvarAtividade({
       idColaborador,
