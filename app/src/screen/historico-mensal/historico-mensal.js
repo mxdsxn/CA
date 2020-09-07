@@ -20,11 +20,11 @@ import { atividadeApi } from '../../service/api-connection'
 export default (props) => {
   const idColaborador = props.idColaborador || 2359
 
-  const [historicoMensal, setHistoricoMensal] = useState([])
-  const [mesReferencia, setMesReferencia] = useState(moment().startOf('month', 'day').utcOffset(false))
+  const mesAtual = moment().startOf('month', 'day').utcOffset(false)
+  const mesMin = moment().startOf('month', 'day').subtract(3, 'month').utcOffset(false)
 
-  const minDate = moment().startOf('month', 'day').subtract(1, 'month').utcOffset(false)
-  const maxDate = moment().startOf('month', 'day').add(1, 'month').utcOffset(false)
+  const [historicoMensal, setHistoricoMensal] = useState([])
+  const [mesReferencia, setMesReferencia] = useState(mesAtual)
 
   useEffect(() => {
     atividadeApi.atividadesByIdColaboradorMes(idColaborador, mesReferencia.format('MM/DD/YYYY'))
@@ -42,8 +42,8 @@ export default (props) => {
         <BarraProgresso mesReferencia={mesReferencia} />
         <div align='center'>
           <DataPicker
-            minDate={minDate}
-            maxDate={maxDate}
+            minDate={mesMin}
+            maxDate={mesAtual}
             onChange={setMesReferencia}
             value={mesReferencia} />
         </div>

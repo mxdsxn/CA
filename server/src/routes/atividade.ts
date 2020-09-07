@@ -14,7 +14,7 @@ route.post('/atividade', [
   query('idColaborador').isInt(),
   query('idAtividade').isInt().optional(),
   query('diaAtividade', 'Dia da atividade é obrigatorio').custom((value: string) => value === undefined ? false : moment.utc(value).isValid()),
-  query('cargaAtividade', 'Carga da atividade é obrigatorio').custom((value: string) => value === undefined ? false : moment.utc(value).isValid()),
+  // query('cargaAtividade', 'Carga da atividade é obrigatorio').custom((value: string) => value === undefined ? false : moment.utc(value).isValid()),
   query('idProjeto', 'Projeto é obrigatorio').isInt(),
   query('idProjetoDefault', 'Projeto Default é obrigatorio').isInt(),
   query('idCoordenador', 'Coordenador é obrigatorio').isInt(),
@@ -25,7 +25,6 @@ route.post('/atividade', [
 ], async (req: Request, res: Response) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    console.log({ errors: errors.array() })
     return res.status(400).json({ errors: errors.array() })
   }
   return await Controller.salvarAtividade(req, res)

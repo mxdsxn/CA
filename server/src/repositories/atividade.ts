@@ -26,7 +26,6 @@ const atividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia
 }
 
 const atividadesByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date): Promise<AtividadeModel[]> => {
-  console.log( moment(diaReferencia).utcOffset(0, true).format())
   return await dbConnection('pessoas.Atividade')
     .innerJoin('operacoes.Projeto', 'operacoes.Projeto.IdProjeto', 'pessoas.Atividade.IdProjeto')
     .fullOuterJoin('operacoes.ProjetoCategoriaAtividade', 'operacoes.ProjetoCategoriaAtividade.IdProjetoCategoriaAtividade', 'pessoas.Atividade.IdProjetoCategoriaAtividade')
