@@ -316,8 +316,6 @@ const HorasUteisAteHojeByIdColaboradorMes = async (idColaborador: number, mesRef
       const cargaContrato = CargaHorariaDia(listaContratosMes, dia) // carga horaria do contrato naquele dia
       const cargaFeriadoNoDia = CargaHorariaFeriado(listaFeriadosMes, dia) // carga horaria se houver feriado
 
-      // console.log(dia)
-      // console.log(cargaContrato, cargaFeriadoNoDia)
       cargaContrato // caso exista carga horaria naquele dia, ou seja, caso existe algum contrato ativo
         ? horasPrevistaAteHoje += cargaContrato > cargaFeriadoNoDia
           ? cargaFeriadoNoDia

@@ -8,7 +8,6 @@ import { AtividadeEntity } from '@entities'
 const atividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Moment): Promise<AtividadeModel[]> => {
   const mesReferenciaInicio = moment(mesReferencia).utcOffset(0, true).startOf('month')
   const mesReferenciaFim = moment(mesReferencia).utcOffset(0, true).endOf('month')
-  console.log(mesReferenciaInicio)
 
   return await dbConnection('pessoas.Atividade')
     .innerJoin('operacoes.Projeto', 'operacoes.Projeto.IdProjeto', 'pessoas.Atividade.IdProjeto')

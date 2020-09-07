@@ -7,7 +7,9 @@ import moment, { Moment } from 'moment'
 
 /* retorna lista de projetos que o colaborador esta alocado naquele dia */
 const projetosByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Moment): Promise<ProjetoModel[]> => {
-  const diaReferenciaFim = moment(diaReferencia).endOf('day')
+  const diaReferenciaInicio = moment(diaReferencia).utcOffset(0, true).startOf('day')
+  const diaReferenciaFim = moment(diaReferencia).utcOffset(0, true).endOf('day')
+
 
   return await dbConnection('operacoes.Projeto')
     .innerJoin('operacoes.ProjetoAlocacao', 'operacoes.ProjetoAlocacao.IdProjeto', 'operacoes.Projeto.IdProjeto')
@@ -15,7 +17,7 @@ const projetosByIdColaboradorDia = async (idColaborador: Number, diaReferencia: 
     .innerJoin('operacoes.ProjetoTipo', 'operacoes.ProjetoTipo.IdProjetoTipo', 'operacoes.Projeto.IdProjetoTipo')
     .where('operacoes.ProjetoAlocacao.IdColaborador', idColaborador)
     .andWhere('operacoes.ProjetoAlocacaoPeriodo.DataInicio', '<=', diaReferenciaFim.toISOString())
-    .andWhere('operacoes.ProjetoAlocacaoPeriodo.DataFim', '>=', diaReferencia.toISOString())
+    .andWhere('operacoes.ProjetoAlocacaoPeriodo.DataFim', '>=', diaReferenciaInicio.toISOString())
     .select(
       'operacoes.Projeto.IdProjeto',
       'operacoes.ProjetoTipo.IdProjetoTipo',

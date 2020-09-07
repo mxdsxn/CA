@@ -5,12 +5,13 @@ import { ColaboradorContratoEntity } from '@entities'
 import moment, { Moment } from 'moment'
 
 const contratosByIdColaborador = async (idColaborador: Number, mesReferencia: Moment): Promise<ColaboradorContratoEntity[]> => {
-  const mesReferenciaFim = moment(mesReferencia).endOf('month')
+  const mesReferenciaInicio = moment(mesReferencia).utcOffset(0, true).startOf('month')
+  const mesReferenciaFim = moment(mesReferencia).utcOffset(0, true).endOf('month')
 
   return await dbConnection('pessoas.ColaboradorContrato')
     .where('IdColaborador', Number(idColaborador))
     .andWhere(function () {
-      this.where('Termino', '>=', mesReferencia.toISOString())
+      this.where('Termino', '>=', mesReferenciaInicio.toISOString())
         .orWhere('Termino', null)
     })
     .andWhere('DataInicioContrato', '<=', mesReferenciaFim.toISOString())
@@ -19,12 +20,13 @@ const contratosByIdColaborador = async (idColaborador: Number, mesReferencia: Mo
 }
 
 const contratoAtivoByIdColaborador = async (idColaborador: Number, diaReferencia: Moment): Promise<ColaboradorContratoEntity> => {
-  const diaReferenciaFim = moment(diaReferencia).endOf('day')
+  const diaReferenciaInicio = moment(diaReferencia).utcOffset(0, true).startOf('day')
+  const diaReferenciaFim = moment(diaReferencia).utcOffset(0, true).endOf('day')
 
   return await dbConnection('pessoas.ColaboradorContrato')
     .where('IdColaborador', idColaborador)
     .andWhere(function () {
-      this.where('Termino', '>=', diaReferencia.toISOString())
+      this.where('Termino', '>=', diaReferenciaInicio.toISOString())
         .orWhere('Termino', null)
     })
     .andWhere('DataInicioContrato', '<=', diaReferenciaFim.toISOString())

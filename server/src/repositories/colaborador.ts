@@ -5,8 +5,8 @@ import { ColaboradorContratoEntity } from '@entities'
 import moment, { Moment } from 'moment'
 
 const coordenadorByDia = async (diaReferencia: Moment): Promise<ColaboradorContratoEntity[]> => {
-  const mesReferenciaInicio = moment(diaReferencia).startOf('month')
-  const mesReferenciaFim = moment(diaReferencia).endOf('month')
+  const mesReferenciaInicio = moment(diaReferencia).utcOffset(0, true).startOf('month')
+  const mesReferenciaFim = moment(diaReferencia).utcOffset(0, true).endOf('month')
 
   return await dbConnection('pessoas.Colaborador')
     .innerJoin('operacoes.ProjetoHistoricoGerente', 'operacoes.ProjetoHistoricoGerente.IdColaborador', 'pessoas.Colaborador.IdColaborador')
