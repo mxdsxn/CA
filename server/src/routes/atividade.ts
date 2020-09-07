@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import express, { Request, Response } from 'express'
 import { query, validationResult } from 'express-validator'
 import moment from 'moment'
@@ -29,7 +30,6 @@ route.post('/atividade', [
   }
   return await Controller.salvarAtividade(req, res)
 })
-
 
 route.get('/atividade/horas', async (req, res) => await Controller.horasMesByIdColaborador(req, res))
 

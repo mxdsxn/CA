@@ -2,11 +2,10 @@
 import dbConnection from '@database'
 import libUtc from '@libUtc'
 import { ColaboradorContratoEntity } from '@entities'
-import { Moment } from 'moment'
+import moment, { Moment } from 'moment'
 
 const contratosByIdColaborador = async (idColaborador: Number, mesReferencia: Moment): Promise<ColaboradorContratoEntity[]> => {
-  const mesReferenciaFim = mesReferencia.endOf('month')
-
+  const mesReferenciaFim = moment(mesReferencia).endOf('month')
 
   return await dbConnection('pessoas.ColaboradorContrato')
     .where('IdColaborador', Number(idColaborador))
@@ -20,7 +19,7 @@ const contratosByIdColaborador = async (idColaborador: Number, mesReferencia: Mo
 }
 
 const contratoAtivoByIdColaborador = async (idColaborador: Number, diaReferencia: Moment): Promise<ColaboradorContratoEntity> => {
-  const diaReferenciaFim = diaReferencia.endOf('day')
+  const diaReferenciaFim = moment(diaReferencia).endOf('day')
 
   return await dbConnection('pessoas.ColaboradorContrato')
     .where('IdColaborador', idColaborador)

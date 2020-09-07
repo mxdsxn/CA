@@ -2,11 +2,10 @@
 import dbConnection from '@database'
 import libUtc from '@libUtc'
 import { CalendarioEntity } from '@entities'
-import { Moment } from 'moment'
+import moment, { Moment } from 'moment'
 
 const feriadosByIdColaboradorMes = async (idColaborador: number, mesReferencia: Moment): Promise<CalendarioEntity[]> => {
-  const mesReferenciaFim = mesReferencia.endOf('month')
-  console.log(mesReferenciaFim)
+  const mesReferenciaFim = moment(mesReferencia).endOf('month')
 
   return await dbConnection('pessoas.Colaborador')
     .innerJoin('pessoas.PostoTrabalho', 'pessoas.PostoTrabalho.IdPostoTrabalho', 'pessoas.Colaborador.IdPostoTrabalho')

@@ -28,26 +28,26 @@ import {
 import { DiaModel, AtividadeModel } from '@models'
 
 /* retorna lista de atividades do colaborador em um mes */
-const atividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date, naoAgruparDia?: boolean) => {
+const atividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Moment, naoAgruparDia?: boolean) => {
   const listaAtividadeMes = await Repo.atividadesByIdColaboradorMes(idColaborador, mesReferencia)
 
-  if (!naoAgruparDia && listaAtividadeMes.length > 0) {
-    const listaFeriadosFds = await CalendarioService.ListaFeriadoFinalSemanaByMes(idColaborador, mesReferencia)
-    const listaContratosMes = await ColaboradorContratoService.contratosByIdColaborador(idColaborador, mesReferencia)
-    return AgruparAtividadesPorDia(mesReferencia, listaAtividadeMes, listaFeriadosFds, listaContratosMes)
-  }
+  // if (!naoAgruparDia && listaAtividadeMes.length > 0) {
+  //   const listaFeriadosFds = await CalendarioService.ListaFeriadoFinalSemanaByMes(idColaborador, mesReferencia)
+  //   const listaContratosMes = await ColaboradorContratoService.contratosByIdColaborador(idColaborador, mesReferencia)
+  //   return AgruparAtividadesPorDia(mesReferencia, listaAtividadeMes, listaFeriadosFds, listaContratosMes)
+  // }
 
   return listaAtividadeMes
 }
 
-const atividadesByIdColaboradorDia = async (idColaborador: number, diaReferencia: Date, naoAgruparDia?: boolean) => {
+const atividadesByIdColaboradorDia = async (idColaborador: number, diaReferencia: Moment, naoAgruparDia?: boolean) => {
   const listaAtividadeDia = await Repo.atividadesByIdColaboradorDia(idColaborador, diaReferencia)
 
-  if (!naoAgruparDia && listaAtividadeDia.length > 0) {
-    const listaFeriadosFds = await CalendarioService.ListaFeriadoFinalSemanaByMes(idColaborador, diaReferencia)
-    const listaContratosMes = await ColaboradorContratoService.contratosByIdColaborador(idColaborador, diaReferencia)
-    return AgruparAtividadesPorDia(diaReferencia, listaAtividadeDia, listaFeriadosFds, listaContratosMes)
-  }
+  // if (!naoAgruparDia && listaAtividadeDia.length > 0) {
+  //   const listaFeriadosFds = await CalendarioService.ListaFeriadoFinalSemanaByMes(idColaborador, diaReferencia)
+  //   const listaContratosMes = await ColaboradorContratoService.contratosByIdColaborador(idColaborador, diaReferencia)
+  //   return AgruparAtividadesPorDia(diaReferencia, listaAtividadeDia, listaFeriadosFds, listaContratosMes)
+  // }
 
   return listaAtividadeDia
 }

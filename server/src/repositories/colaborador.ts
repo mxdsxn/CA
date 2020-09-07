@@ -2,11 +2,11 @@
 import dbConnection from '@database'
 import libUtc from '@libUtc'
 import { ColaboradorContratoEntity } from '@entities'
-import { Moment } from 'moment'
+import moment, { Moment } from 'moment'
 
 const coordenadorByDia = async (diaReferencia: Moment): Promise<ColaboradorContratoEntity[]> => {
-  const mesReferenciaInicio = diaReferencia.startOf('month')
-  const mesReferenciaFim = diaReferencia.endOf('month')
+  const mesReferenciaInicio = moment(diaReferencia).startOf('month')
+  const mesReferenciaFim = moment(diaReferencia).endOf('month')
 
   return await dbConnection('pessoas.Colaborador')
     .innerJoin('operacoes.ProjetoHistoricoGerente', 'operacoes.ProjetoHistoricoGerente.IdColaborador', 'pessoas.Colaborador.IdColaborador')

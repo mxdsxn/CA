@@ -3,11 +3,11 @@ import dbConnection from '@database'
 import libUtc from '@libUtc'
 import { ProjetoModel } from '@models'
 import { ProjetoEntity } from '@entities'
-import { Moment } from 'moment'
+import moment, { Moment } from 'moment'
 
 /* retorna lista de projetos que o colaborador esta alocado naquele dia */
 const projetosByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Moment): Promise<ProjetoModel[]> => {
-  const diaReferenciaFim = diaReferencia.endOf('day')
+  const diaReferenciaFim = moment(diaReferencia).endOf('day')
 
   return await dbConnection('operacoes.Projeto')
     .innerJoin('operacoes.ProjetoAlocacao', 'operacoes.ProjetoAlocacao.IdProjeto', 'operacoes.Projeto.IdProjeto')
