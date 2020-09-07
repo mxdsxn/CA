@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 import {
   AtividadeEntity,
@@ -31,23 +32,17 @@ import { DiaModel, AtividadeModel } from '@models'
 const atividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Moment, naoAgruparDia?: boolean) => {
   const listaAtividadeMes = await Repo.atividadesByIdColaboradorMes(idColaborador, mesReferencia)
 
-  // if (!naoAgruparDia && listaAtividadeMes.length > 0) {
-  //   const listaFeriadosFds = await CalendarioService.ListaFeriadoFinalSemanaByMes(idColaborador, mesReferencia)
-  //   const listaContratosMes = await ColaboradorContratoService.contratosByIdColaborador(idColaborador, mesReferencia)
-  //   return AgruparAtividadesPorDia(mesReferencia, listaAtividadeMes, listaFeriadosFds, listaContratosMes)
-  // }
+  if (!naoAgruparDia && listaAtividadeMes.length > 0) {
+    const listaFeriadosFds = await CalendarioService.ListaFeriadoFinalSemanaByMes(idColaborador, mesReferencia)
+    const listaContratosMes = await ColaboradorContratoService.contratosByIdColaborador(idColaborador, mesReferencia)
+    return AgruparAtividadesPorDia(mesReferencia, listaAtividadeMes, listaFeriadosFds, listaContratosMes)
+  }
 
   return listaAtividadeMes
 }
 
 const atividadesByIdColaboradorDia = async (idColaborador: number, diaReferencia: Moment, naoAgruparDia?: boolean) => {
   const listaAtividadeDia = await Repo.atividadesByIdColaboradorDia(idColaborador, diaReferencia)
-
-  // if (!naoAgruparDia && listaAtividadeDia.length > 0) {
-  //   const listaFeriadosFds = await CalendarioService.ListaFeriadoFinalSemanaByMes(idColaborador, diaReferencia)
-  //   const listaContratosMes = await ColaboradorContratoService.contratosByIdColaborador(idColaborador, diaReferencia)
-  //   return AgruparAtividadesPorDia(diaReferencia, listaAtividadeDia, listaFeriadosFds, listaContratosMes)
-  // }
 
   return listaAtividadeDia
 }
@@ -252,23 +247,23 @@ const salvarAtividade = async (
   }
 }
 
-const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: AtividadeEntity[], listaFeriadosFds: DiaModel[], listaContratos: ColaboradorContratoEntity[]): DiaModel[] => {
+const AgruparAtividadesPorDia = (mesReferencia: Moment, listaAtividade: AtividadeEntity[], listaFeriadosFds: DiaModel[], listaContratos: ColaboradorContratoEntity[]): DiaModel[] => {
   const contrato = listaContratos[0]
 
-  const inicioMes = mesReferencia.getUTCMonth() === contrato.DataInicioContrato.getUTCMonth() &&
-    mesReferencia.getUTCFullYear() === contrato.DataInicioContrato.getUTCFullYear()
-    ? libUtc.getDate(contrato.DataInicioContrato)
-    : libUtc.getMonth(mesReferencia)
+  const inicioMes = mesReferencia.month() === moment(contrato.DataInicioContrato).utcOffset(0, false).month() &&
+    mesReferencia.year() === moment(contrato.DataInicioContrato).year()
+    ? moment(contrato.DataInicioContrato).utcOffset(0, false).startOf('day')
+    : mesReferencia
 
-  const fimMes = libUtc.getEndMonth(inicioMes).getTime() === libUtc.getEndMonth().getTime()
-    ? libUtc.getEndDate()
-    : libUtc.getEndMonth(inicioMes)
+  const fimMes = moment(inicioMes).utcOffset(0, false).endOf('month').isSame(moment().utcOffset(0, true).endOf('month'))
+    ? moment().utcOffset(0, true).endOf('month')
+    : moment(inicioMes).endOf('month')
 
   const listaAtividadePorDia: DiaModel[] = []
 
-  for (let dia = inicioMes; dia <= fimMes; dia = libUtc.addDay(dia)) {
-    const atividadesDia = listaAtividade.filter(x => x.DataAtividade.getTime() === dia.getTime())
-    const descricao = listaFeriadosFds.find(x => x.Dia.getTime() === dia.getTime())?.Descricao || null
+  for (let dia = inicioMes; dia.isBefore(fimMes); dia = moment(dia).add(1, 'day')) {
+    const atividadesDia = listaAtividade.filter(x => moment(x.DataAtividade).isSame(dia))
+    const descricao = listaFeriadosFds.find(x => x.Dia.isSame(dia))?.Descricao || null
 
     const result: DiaModel = {
       Dia: dia,
