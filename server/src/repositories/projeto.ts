@@ -3,19 +3,19 @@ import dbConnection from '@database'
 import libUtc from '@libUtc'
 import { ProjetoModel } from '@models'
 import { ProjetoEntity } from '@entities'
+import { Moment } from 'moment'
 
 /* retorna lista de projetos que o colaborador esta alocado naquele dia */
-const projetosByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date): Promise<ProjetoModel[]> => {
-  const diaReferenciaInicio = diaReferencia
-  const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)
+const projetosByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Moment): Promise<ProjetoModel[]> => {
+  const diaReferenciaFim = diaReferencia.endOf('day')
 
   return await dbConnection('operacoes.Projeto')
     .innerJoin('operacoes.ProjetoAlocacao', 'operacoes.ProjetoAlocacao.IdProjeto', 'operacoes.Projeto.IdProjeto')
     .innerJoin('operacoes.ProjetoAlocacaoPeriodo', 'operacoes.ProjetoAlocacaoPeriodo.IdProjetoAlocacao', 'operacoes.ProjetoAlocacao.IdProjetoAlocacao')
     .innerJoin('operacoes.ProjetoTipo', 'operacoes.ProjetoTipo.IdProjetoTipo', 'operacoes.Projeto.IdProjetoTipo')
     .where('operacoes.ProjetoAlocacao.IdColaborador', idColaborador)
-    .andWhere('operacoes.ProjetoAlocacaoPeriodo.DataInicio', '<=', diaReferenciaFim)
-    .andWhere('operacoes.ProjetoAlocacaoPeriodo.DataFim', '>=', diaReferenciaInicio)
+    .andWhere('operacoes.ProjetoAlocacaoPeriodo.DataInicio', '<=', diaReferenciaFim.toISOString())
+    .andWhere('operacoes.ProjetoAlocacaoPeriodo.DataFim', '>=', diaReferencia.toISOString())
     .select(
       'operacoes.Projeto.IdProjeto',
       'operacoes.ProjetoTipo.IdProjetoTipo',
@@ -26,14 +26,14 @@ const projetosByIdColaboradorDia = async (idColaborador: Number, diaReferencia: 
 }
 
 /* retorna lista de projetos default */
-const projetosDefault = async (diaReferencia: Date): Promise<ProjetoModel[]> => {
+const projetosDefault = async (diaReferencia: Moment): Promise<ProjetoModel[]> => {
   return await dbConnection('operacoes.Projeto')
     .innerJoin('operacoes.ProjetoTipo', 'operacoes.ProjetoTIpo.IdProjetoTipo', 'operacoes.Projeto.IdProjetoTipo')
     .where('operacoes.ProjetoTipo.Descricao', 'Default')
-    .andWhere('DataInicial', '<=', diaReferencia)
+    .andWhere('operacoes.Projeto.DataInicial', '<=', diaReferencia.toISOString())
     .andWhere(function () {
-      this.where('DataFinalAceite', '>=', diaReferencia)
-        .orWhere('DataFinalAceite', null)
+      this.where('operacoes.Projeto.DataFinalAceite', '>=', diaReferencia.toISOString())
+        .orWhere('operacoes.Projeto.DataFinalAceite', null)
     })
     .select(
       'operacoes.Projeto.IdProjeto',

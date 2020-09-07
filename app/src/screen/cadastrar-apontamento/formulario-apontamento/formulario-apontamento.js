@@ -90,7 +90,7 @@ export default (_props) => {
 
   //#region UseEffects
   useEffect(() => {
-    projetoApi.projetosByIdColaboradorDia(idColaboradorLogado, diaAtividade.format('MM/DD/YYYY'))
+    projetoApi.projetosByIdColaboradorDia(idColaboradorLogado, diaAtividade.format('YYYY-MM-DD'))
       .then(res => res ? setListaProjeto(res) : setListaProjeto([]))
 
     setDescricaoAtividade('')
@@ -123,10 +123,10 @@ export default (_props) => {
       setCategoriaAtividadeSelecionado(0)
       setProjetoFaseSelecionado(0)
 
-      projetoApi.projetosDefault(diaAtividade.format('MM/DD/YYYY'))
+      projetoApi.projetosDefault(diaAtividade.format('YYYY-MM-DD'))
         .then(res => res ? setListaProjetoDefault(res) : setListaProjetoDefault([]))
 
-      colaboradorApi.coordenadoresByDia(diaAtividade.format('MM/DD/YYYY'))
+      colaboradorApi.coordenadoresByDia(diaAtividade.format('YYYY-MM-DD'))
         .then(res => res ? setListaCoordenador(res) : setListaCoordenador([]))
 
     } else if (projetoSelecionado === 0) {
@@ -156,7 +156,7 @@ export default (_props) => {
     atividadeApi.salvarAtividade(
       idColaboradorLogado,
       null,
-      diaAtividade.format('MM/DD/YYYY'),
+      diaAtividade.format('YYYY-MM-DD'),
       cargaSelecionada.format('HH:mm'),
       projetoSelecionado,
       projetoDefaultSelecionado,

@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 import moment from 'moment'
 
 const coordenadorByDia = async (req: Request, res: Response) => {
-  const diaReferencia = moment(req.query.diaReferencia as string).utcOffset(0, true)
+  const diaReferencia = moment(req.query.diaReferencia as string).utcOffset(0, true).startOf('day')
 
   try {
     const result = await Service.coordenadorByDia(diaReferencia)
@@ -14,7 +14,6 @@ const coordenadorByDia = async (req: Request, res: Response) => {
     res.json(error)
   }
 }
-
 
 export default {
   coordenadorByDia
