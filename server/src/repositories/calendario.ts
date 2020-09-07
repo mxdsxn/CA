@@ -5,6 +5,7 @@ import { CalendarioEntity } from '@entities'
 import moment, { Moment } from 'moment'
 
 const feriadosByIdColaboradorMes = async (idColaborador: number, mesReferencia: Moment): Promise<CalendarioEntity[]> => {
+  const mesReferenciaInicio = moment(mesReferencia).utcOffset(0, true).startOf('month')
   const mesReferenciaFim = moment(mesReferencia).endOf('month')
 
   return await dbConnection('pessoas.Colaborador')
@@ -15,7 +16,7 @@ const feriadosByIdColaboradorMes = async (idColaborador: number, mesReferencia: 
         .orOn('pessoas.PostoTrabalho.IdPais', 'pessoas.Calendario.IdPais')
     })
     .where('pessoas.Colaborador.IdColaborador', idColaborador)
-    .andWhere('pessoas.Calendario.Dia', '>=', mesReferencia.toISOString())
+    .andWhere('pessoas.Calendario.Dia', '>=', mesReferenciaInicio.toISOString())
     .andWhere('pessoas.Calendario.Dia', '<', mesReferenciaFim.toISOString())
     .select('pessoas.Calendario.*')
     .orderBy('pessoas.Calendario.Dia', 'asc')

@@ -69,7 +69,7 @@ const salvarAtividade = async (req: Request, res: Response) => {
 
 const horasMesByIdColaborador = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
-  const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
+  const mesReferencia = moment(req.query.mesReferencia as string).startOf('month')
 
   try {
     const result = await Service.horasMesByIdColaborador(idColaborador, mesReferencia)

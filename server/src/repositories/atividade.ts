@@ -6,14 +6,16 @@ import { AtividadeModel } from '@models'
 import { AtividadeEntity } from '@entities'
 
 const atividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Moment): Promise<AtividadeModel[]> => {
-  const mesReferenciaFim = moment(mesReferencia).endOf('month')
+  const mesReferenciaInicio = moment(mesReferencia).utcOffset(0, true).startOf('month')
+  const mesReferenciaFim = moment(mesReferencia).utcOffset(0, true).endOf('month')
+  console.log(mesReferenciaInicio)
 
   return await dbConnection('pessoas.Atividade')
     .innerJoin('operacoes.Projeto', 'operacoes.Projeto.IdProjeto', 'pessoas.Atividade.IdProjeto')
     .fullOuterJoin('operacoes.ProjetoCategoriaAtividade', 'operacoes.ProjetoCategoriaAtividade.IdProjetoCategoriaAtividade', 'pessoas.Atividade.IdProjetoCategoriaAtividade')
     .fullOuterJoin('operacoes.ProjetoMetodologiaFase', 'operacoes.ProjetoMetodologiaFase.IdProjetoMetodologiaFase', 'pessoas.Atividade.IdProjetoMetodologiaFase')
     .where('pessoas.Atividade.IdColaborador', idColaborador)
-    .andWhere('pessoas.Atividade.DataAtividade', '>=', mesReferencia.toISOString())
+    .andWhere('pessoas.Atividade.DataAtividade', '>=', mesReferenciaInicio.toISOString())
     .andWhere('pessoas.Atividade.DataAtividade', '<', mesReferenciaFim.toISOString())
     .select(
       'pessoas.Atividade.*',
