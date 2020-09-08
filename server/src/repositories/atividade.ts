@@ -1,21 +1,21 @@
 /* eslint-disable no-unused-vars */
 import dbConnection from '@database'
-import moment from 'moment'
+import moment, { Moment } from 'moment'
 import libUtc from '@libUtc'
 import { AtividadeModel } from '@models'
 import { AtividadeEntity } from '@entities'
 
-const atividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date): Promise<AtividadeModel[]> => {
-  const mesReferenciaInicio = mesReferencia
-  const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
+const atividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Moment): Promise<AtividadeModel[]> => {
+  const mesReferenciaInicio = moment(mesReferencia).utcOffset(0, true).startOf('month')
+  const mesReferenciaFim = moment(mesReferencia).utcOffset(0, true).endOf('month')
 
   return await dbConnection('pessoas.Atividade')
     .innerJoin('operacoes.Projeto', 'operacoes.Projeto.IdProjeto', 'pessoas.Atividade.IdProjeto')
     .fullOuterJoin('operacoes.ProjetoCategoriaAtividade', 'operacoes.ProjetoCategoriaAtividade.IdProjetoCategoriaAtividade', 'pessoas.Atividade.IdProjetoCategoriaAtividade')
     .fullOuterJoin('operacoes.ProjetoMetodologiaFase', 'operacoes.ProjetoMetodologiaFase.IdProjetoMetodologiaFase', 'pessoas.Atividade.IdProjetoMetodologiaFase')
     .where('pessoas.Atividade.IdColaborador', idColaborador)
-    .andWhere('pessoas.Atividade.DataAtividade', '>=', mesReferenciaInicio)
-    .andWhere('pessoas.Atividade.DataAtividade', '<', mesReferenciaFim)
+    .andWhere('pessoas.Atividade.DataAtividade', '>=', mesReferenciaInicio.toISOString())
+    .andWhere('pessoas.Atividade.DataAtividade', '<', mesReferenciaFim.toISOString())
     .select(
       'pessoas.Atividade.*',
       'operacoes.Projeto.Nome as NomeProjeto',
@@ -25,13 +25,13 @@ const atividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia
     .orderBy('pessoas.Atividade.DataAtividade', 'asc')
 }
 
-const atividadesByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date): Promise<AtividadeModel[]> => {
+const atividadesByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Moment): Promise<AtividadeModel[]> => {
   return await dbConnection('pessoas.Atividade')
     .innerJoin('operacoes.Projeto', 'operacoes.Projeto.IdProjeto', 'pessoas.Atividade.IdProjeto')
     .fullOuterJoin('operacoes.ProjetoCategoriaAtividade', 'operacoes.ProjetoCategoriaAtividade.IdProjetoCategoriaAtividade', 'pessoas.Atividade.IdProjetoCategoriaAtividade')
     .fullOuterJoin('operacoes.ProjetoMetodologiaFase', 'operacoes.ProjetoMetodologiaFase.IdProjetoMetodologiaFase', 'pessoas.Atividade.IdProjetoMetodologiaFase')
     .where('pessoas.Atividade.IdColaborador', idColaborador)
-    .andWhere('pessoas.Atividade.DataAtividade', libUtc.getDate(diaReferencia))
+    .andWhere('pessoas.Atividade.DataAtividade', diaReferencia.toISOString())
     .select(
       'pessoas.Atividade.*',
       'operacoes.Projeto.Nome as NomeProjeto',

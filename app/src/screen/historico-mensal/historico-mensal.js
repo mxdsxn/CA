@@ -27,7 +27,7 @@ export default (props) => {
   const [mesReferencia, setMesReferencia] = useState(mesAtual)
 
   useEffect(() => {
-    atividadeApi.atividadesByIdColaboradorMes(idColaborador, mesReferencia.format('MM/DD/YYYY'))
+    atividadeApi.atividadesByIdColaboradorMes(idColaborador, mesReferencia.format('YYYY-MM-DD'))
       .then(res => res
         ? setHistoricoMensal(res)
         : setHistoricoMensal([])

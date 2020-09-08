@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 import {
   AtividadeEntity,
@@ -28,26 +29,20 @@ import {
 import { DiaModel, AtividadeModel } from '@models'
 
 /* retorna lista de atividades do colaborador em um mes */
-const atividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date, naoAgruparDia?: boolean) => {
+const atividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Moment, naoAgruparDia?: boolean) => {
   const listaAtividadeMes = await Repo.atividadesByIdColaboradorMes(idColaborador, mesReferencia)
 
   if (!naoAgruparDia && listaAtividadeMes.length > 0) {
     const listaFeriadosFds = await CalendarioService.ListaFeriadoFinalSemanaByMes(idColaborador, mesReferencia)
     const listaContratosMes = await ColaboradorContratoService.contratosByIdColaborador(idColaborador, mesReferencia)
-    return AgruparAtividadesPorDia(mesReferencia, listaAtividadeMes, listaFeriadosFds, listaContratosMes)
+    return agruparAtividadesDia(mesReferencia, listaAtividadeMes, listaFeriadosFds, listaContratosMes)
   }
 
   return listaAtividadeMes
 }
 
-const atividadesByIdColaboradorDia = async (idColaborador: number, diaReferencia: Date, naoAgruparDia?: boolean) => {
+const atividadesByIdColaboradorDia = async (idColaborador: number, diaReferencia: Moment, naoAgruparDia?: boolean) => {
   const listaAtividadeDia = await Repo.atividadesByIdColaboradorDia(idColaborador, diaReferencia)
-
-  if (!naoAgruparDia && listaAtividadeDia.length > 0) {
-    const listaFeriadosFds = await CalendarioService.ListaFeriadoFinalSemanaByMes(idColaborador, diaReferencia)
-    const listaContratosMes = await ColaboradorContratoService.contratosByIdColaborador(idColaborador, diaReferencia)
-    return AgruparAtividadesPorDia(diaReferencia, listaAtividadeDia, listaFeriadosFds, listaContratosMes)
-  }
 
   return listaAtividadeDia
 }
@@ -102,7 +97,7 @@ const salvarAtividade = async (
     // Contrato Ativo
     //* é obrigatorio ter contrato ativo no dia da atividade
 
-    const contratoAtivo = await ColaboradorContratoRepository.contratoAtivoByIdColaborador(atividade.idColaborador, atividade.diaAtividade.toDate())
+    const contratoAtivo = await ColaboradorContratoRepository.contratoAtivoByIdColaborador(atividade.idColaborador, atividade.diaAtividade)
 
     if (!contratoAtivo) {
       resultado.mensagem.push('Não existe contrato ativo nesse dia.')
@@ -114,7 +109,7 @@ const salvarAtividade = async (
       //* hora extra nao pode exceder o maximo permitido
 
       const feriadoDia = await CalendarioRepository.feriadoByIdColaboradorDia(atividade.idColaborador, atividade.diaAtividade.utcOffset(0, true).format())
-      const horasCadastradasDia = await horasCadastradasByIdColaboradorDia(atividade.idColaborador, atividade.diaAtividade.utcOffset(0, true).toDate())
+      const horasCadastradasDia = await horasCadastradasByIdColaboradorDia(atividade.idColaborador, atividade.diaAtividade.utcOffset(0, true))
 
       const cargaHorariaDia = feriadoDia
         ? (feriadoDia.HorasUteis < contratoAtivo.CargaHoraria
@@ -159,7 +154,7 @@ const salvarAtividade = async (
       //* mes anterior deve estar fechado caso o mes anterior nao seja anterior ao contrato ativo
       //* semana anterior da atividade deve estar fechada caso nao seja anterior ao contrato ativo
 
-      if (atividade.diaAtividade.isAfter(moment.utc(contratoAtivo.DataInicioContrato).startOf('month').add(1, 'month'))) {
+      if (atividade.diaAtividade.isAfter(moment(contratoAtivo.DataInicioContrato).startOf('month').add(1, 'month'))) {
         const mesAnterior = moment(atividade.diaAtividade).subtract(1, 'month')
         const atividadeFechamentoSemanaListaMes = await AtividadeFechamentoSemanaRepository.listaAtividadeFechamentoSemanaByIdColaboradorMesAno(atividade.idColaborador, mesAnterior.month() + 1, mesAnterior.year())
 
@@ -169,7 +164,7 @@ const salvarAtividade = async (
         }
       }
 
-      if (atividade.diaAtividade.isAfter(moment.utc(contratoAtivo.DataInicioContrato).add(1, 'week'))) {
+      if (atividade.diaAtividade.isAfter(moment(contratoAtivo.DataInicioContrato).startOf('day').add(1, 'week'))) {
         const semanaAnterior = moment(atividade.diaAtividade).subtract(1, 'week')
         const atividadeFechamentoSemanaAnterior = await AtividadeFechamentoSemanaRepository.listaAtividadeFechamentoSemanaByIdColaboradorSemanaAno(atividade.idColaborador, semanaAnterior.isoWeek(), semanaAnterior.year())
 
@@ -252,23 +247,23 @@ const salvarAtividade = async (
   }
 }
 
-const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: AtividadeEntity[], listaFeriadosFds: DiaModel[], listaContratos: ColaboradorContratoEntity[]): DiaModel[] => {
+const agruparAtividadesDia = (mesReferencia: Moment, listaAtividade: AtividadeEntity[], listaFeriadosFds: DiaModel[], listaContratos: ColaboradorContratoEntity[]): DiaModel[] => {
   const contrato = listaContratos[0]
 
-  const inicioMes = mesReferencia.getUTCMonth() === contrato.DataInicioContrato.getUTCMonth() &&
-    mesReferencia.getUTCFullYear() === contrato.DataInicioContrato.getUTCFullYear()
-    ? libUtc.getDate(contrato.DataInicioContrato)
-    : libUtc.getMonth(mesReferencia)
+  const inicioMes = mesReferencia.month() === moment(contrato.DataInicioContrato).utcOffset(0, false).month() &&
+    mesReferencia.year() === moment(contrato.DataInicioContrato).year()
+    ? moment(contrato.DataInicioContrato).utcOffset(0, false).startOf('day')
+    : mesReferencia
 
-  const fimMes = libUtc.getEndMonth(inicioMes).getTime() === libUtc.getEndMonth().getTime()
-    ? libUtc.getEndDate()
-    : libUtc.getEndMonth(inicioMes)
+  const fimMes = moment(inicioMes).utcOffset(0, false).endOf('month').isSame(moment().utcOffset(0, true).endOf('month'))
+    ? moment().utcOffset(0, true).endOf('month')
+    : moment(inicioMes).utcOffset(0, true).endOf('month')
 
   const listaAtividadePorDia: DiaModel[] = []
 
-  for (let dia = inicioMes; dia <= fimMes; dia = libUtc.addDay(dia)) {
-    const atividadesDia = listaAtividade.filter(x => x.DataAtividade.getTime() === dia.getTime())
-    const descricao = listaFeriadosFds.find(x => x.Dia.getTime() === dia.getTime())?.Descricao || null
+  for (let dia = inicioMes; dia.isSameOrBefore(fimMes); dia = moment(dia).add(1, 'day')) {
+    const atividadesDia = listaAtividade.filter(x => moment(x.DataAtividade).isSame(dia))
+    const descricao = listaFeriadosFds.find(x => x.Dia.isSame(dia))?.Descricao || null
 
     const result: DiaModel = {
       Dia: dia,
@@ -281,17 +276,17 @@ const AgruparAtividadesPorDia = (mesReferencia: Date, listaAtividade: AtividadeE
   return listaAtividadePorDia
 }
 
-const HorasUteisMesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date) => {
-  const inicioMes = mesReferencia
-  const finalMes = libUtc.getEndMonth(mesReferencia)
+const HorasUteisMesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Moment) => {
+  const inicioMes = moment(mesReferencia).utcOffset(0, true).startOf('month')
+  const finalMes = moment(inicioMes).utcOffset(0, false).endOf('month')
 
   const listaFeriadosMes: CalendarioEntity[] = await CalendarioService.feriadosByIdColaboradorMes(idColaborador, inicioMes) || []
   const listaContratosMes: ColaboradorContratoEntity[] = await ColaboradorContratoService.contratosByIdColaborador(idColaborador, mesReferencia)
 
   var horasPrevistasMes = 0
 
-  for (var dia = inicioMes; dia <= finalMes; dia = libUtc.addDay(dia)) {
-    if (dia.getUTCDay() !== 6 && dia.getUTCDay() !== 0) { // se diferente de sabado e domingo
+  for (let dia = inicioMes; dia.isSameOrBefore(finalMes); dia = moment(dia).add(1, 'day')) {
+    if (dia.weekday() !== 6 && dia.weekday() !== 0) { // se diferente de sabado e domingo
       const cargaContrato = CargaHorariaDia(listaContratosMes, dia) // carga horaria do contrato naquele dia
       const cargaFeriadoNoDia = CargaHorariaFeriado(listaFeriadosMes, dia) // carga horaria se houver feriado
 
@@ -306,18 +301,18 @@ const HorasUteisMesByIdColaboradorMes = async (idColaborador: number, mesReferen
   return horasPrevistasMes
 }
 
-const HorasUteisAteHojeByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date) => {
-  const inicioMes = mesReferencia
-  const diaHoje = libUtc.getDate()
-
-  if (inicioMes.getTime() !== libUtc.getMonth().getTime()) { return 0 }
+const HorasUteisAteHojeByIdColaboradorMes = async (idColaborador: number, mesReferencia: Moment) => {
+  const inicioMes = moment(mesReferencia).utcOffset(0, true).startOf('month')
+  const diaFinal = inicioMes.isSame(moment().utcOffset(0, true).startOf('month'))
+    ? moment().utcOffset(0, false).endOf('day')
+    : moment(inicioMes).utcOffset(0, false).endOf('month')
 
   const listaFeriadosMes: CalendarioEntity[] = await CalendarioService.feriadosByIdColaboradorMes(idColaborador, inicioMes) || []
   const listaContratosMes: ColaboradorContratoEntity[] = await ColaboradorContratoService.contratosByIdColaborador(idColaborador, mesReferencia)
 
   var horasPrevistaAteHoje = 0
-  for (var dia = inicioMes; dia <= diaHoje; dia = libUtc.addDay(dia)) {
-    if (dia.getUTCDay() !== 6 && dia.getUTCDay() !== 0) { // se diferente de sabado e domingo
+  for (let dia = inicioMes; dia.isSameOrBefore(diaFinal); dia = moment(dia).add(1, 'day')) {
+    if (dia.weekday() !== 6 && dia.weekday() !== 0) { // se diferente de sabado e domingo
       const cargaContrato = CargaHorariaDia(listaContratosMes, dia) // carga horaria do contrato naquele dia
       const cargaFeriadoNoDia = CargaHorariaFeriado(listaFeriadosMes, dia) // carga horaria se houver feriado
 
@@ -332,35 +327,35 @@ const HorasUteisAteHojeByIdColaboradorMes = async (idColaborador: number, mesRef
   return horasPrevistaAteHoje
 }
 
-const HorasCadastradasByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date) => {
+const HorasCadastradasByIdColaboradorMes = async (idColaborador: number, mesReferencia: Moment) => {
   const listaAtividadesMes = await atividadesByIdColaboradorMes(idColaborador, mesReferencia, true)
 
   return HorasDecimal(listaAtividadesMes as AtividadeModel[])
 }
 
-const horasCadastradasByIdColaboradorDia = async (idColaborador: number, diaReferecnai: Date) => {
-  const listaAtividadesMes = await atividadesByIdColaboradorDia(idColaborador, diaReferecnai, true)
+const horasCadastradasByIdColaboradorDia = async (idColaborador: number, diaReferencia: Moment) => {
+  const listaAtividadesMes = await atividadesByIdColaboradorDia(idColaborador, diaReferencia)
 
   return HorasDecimal(listaAtividadesMes as AtividadeModel[])
 }
 
-const horasMesByIdColaborador = async (idColaborador: number, mesReferencia: Date) => {
+const horasMesByIdColaborador = async (idColaborador: number, mesReferencia: Moment) => {
   const horasUteisMes = await HorasUteisMesByIdColaboradorMes(idColaborador, mesReferencia)
   const horasUteisHoje = await HorasUteisAteHojeByIdColaboradorMes(idColaborador, mesReferencia)
   const horasCadastradasAteHoje = await HorasCadastradasByIdColaboradorMes(idColaborador, mesReferencia)
+
   return { horasUteisMes, horasUteisHoje, horasCadastradasAteHoje }
 }
 
-const CargaHorariaFeriado = (listaFeriado: CalendarioEntity[], diaReferencia: Date) => {
-  const result = listaFeriado.find(feriado => feriado.Dia.getTime() === diaReferencia.getTime())?.HorasUteis
+const CargaHorariaFeriado = (listaFeriado: CalendarioEntity[], diaReferencia: Moment) => {
+  const result = listaFeriado.find(feriado => diaReferencia.isSame(feriado.Dia))?.HorasUteis
 
   return (result !== undefined ? result : 8) as number
 }
 
-const CargaHorariaDia = (listaContrato: ColaboradorContratoEntity[], diaReferencia: Date) => {
-  const result = listaContrato.find(contrato => diaReferencia >= contrato.DataInicioContrato &&
-    (diaReferencia <= contrato.Termino || contrato.Termino === null))
-    ?.CargaHoraria
+const CargaHorariaDia = (listaContrato: ColaboradorContratoEntity[], diaReferencia: Moment) => {
+  const result = listaContrato.find(contrato => diaReferencia.isSameOrAfter(contrato.DataInicioContrato) &&
+    (diaReferencia.isSameOrBefore(contrato.Termino) || contrato.Termino === null))?.CargaHoraria
 
   return (result || 0) as number
 }

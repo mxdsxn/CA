@@ -1,11 +1,11 @@
 import { CalendarioService as Service } from '@services'
 import libUtc from '@libUtc'
 import { Request, Response } from 'express'
-
+import moment from 'moment'
 
 const feriadosByIdColaboradorMes = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
-  const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
+  const mesReferencia = moment(req.query.mesReferencia as string).utcOffset(0, true).startOf('month')
 
   try {
     const result = await Service.feriadosByIdColaboradorMes(idColaborador, mesReferencia)
@@ -19,7 +19,7 @@ const feriadosByIdColaboradorMes = async (req: Request, res: Response) => {
 
 const ListaFeriadoFinalSemanaByMes = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
-  const mesReferencia = libUtc.getDateByString(req.query.mesReferencia as string)
+  const mesReferencia = moment(req.query.mesReferencia as string).utcOffset(0, true).startOf('month')
 
   try {
     const result = await Service.ListaFeriadoFinalSemanaByMes(idColaborador, mesReferencia)

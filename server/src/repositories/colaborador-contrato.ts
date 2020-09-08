@@ -2,33 +2,34 @@
 import dbConnection from '@database'
 import libUtc from '@libUtc'
 import { ColaboradorContratoEntity } from '@entities'
+import moment, { Moment } from 'moment'
 
-const contratosByIdColaborador = async (idColaborador: Number, mesReferencia: Date): Promise<ColaboradorContratoEntity[]> => {
-  const mesReferenciaInicio = mesReferencia
-  const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
+const contratosByIdColaborador = async (idColaborador: Number, mesReferencia: Moment): Promise<ColaboradorContratoEntity[]> => {
+  const mesReferenciaInicio = moment(mesReferencia).utcOffset(0, true).startOf('month')
+  const mesReferenciaFim = moment(mesReferencia).utcOffset(0, true).endOf('month')
 
   return await dbConnection('pessoas.ColaboradorContrato')
     .where('IdColaborador', Number(idColaborador))
     .andWhere(function () {
-      this.where('Termino', '>=', mesReferenciaInicio)
+      this.where('Termino', '>=', mesReferenciaInicio.toISOString())
         .orWhere('Termino', null)
     })
-    .andWhere('DataInicioContrato', '<=', mesReferenciaFim)
+    .andWhere('DataInicioContrato', '<=', mesReferenciaFim.toISOString())
     .select('*')
     .orderBy('DataInicioContrato', 'asc')
 }
 
-const contratoAtivoByIdColaborador = async (idColaborador: Number, diaReferencia: Date): Promise<ColaboradorContratoEntity> => {
-  const diaReferenciaInicio = diaReferencia
-  const diaReferenciaFim = libUtc.getEndDate(diaReferenciaInicio)
+const contratoAtivoByIdColaborador = async (idColaborador: Number, diaReferencia: Moment): Promise<ColaboradorContratoEntity> => {
+  const diaReferenciaInicio = moment(diaReferencia).utcOffset(0, true).startOf('day')
+  const diaReferenciaFim = moment(diaReferencia).utcOffset(0, true).endOf('day')
 
   return await dbConnection('pessoas.ColaboradorContrato')
     .where('IdColaborador', idColaborador)
-    .andWhere('DataInicioContrato', '<=', diaReferenciaFim)
     .andWhere(function () {
-      this.where('Termino', '>=', diaReferenciaInicio)
+      this.where('Termino', '>=', diaReferenciaInicio.toISOString())
         .orWhere('Termino', null)
     })
+    .andWhere('DataInicioContrato', '<=', diaReferenciaFim.toISOString())
     .select('*')
     .orderBy('DataInicioContrato', 'desc')
     .first()

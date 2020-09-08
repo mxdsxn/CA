@@ -1,12 +1,12 @@
 import { ColaboradorService as Service } from '@services'
-import libUtc from '@libUtc'
 import { Request, Response } from 'express'
+import moment from 'moment'
 
-const coordenadorByDiaÏ = async (req: Request, res: Response) => {
-  const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
+const coordenadorByDia = async (req: Request, res: Response) => {
+  const diaReferencia = moment(req.query.diaReferencia as string).utcOffset(0, true).startOf('day')
 
   try {
-    const result = await Service.coordenadorByDiaÏ(diaReferencia)
+    const result = await Service.coordenadorByDia(diaReferencia)
     res.status(200)
     res.json(result)
   } catch (error) {
@@ -15,7 +15,6 @@ const coordenadorByDiaÏ = async (req: Request, res: Response) => {
   }
 }
 
-
 export default {
-  coordenadorByDiaÏ
+  coordenadorByDia
 }

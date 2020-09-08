@@ -6,7 +6,7 @@ import { Request, Response } from 'express'
 
 const atividadesByIdColaboradorMes = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
-  const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
+  const mesReferencia = moment(req.query.mesReferencia as string).utcOffset(0, true)
 
   try {
     const result = await Service.atividadesByIdColaboradorMes(idColaborador, mesReferencia)
@@ -20,7 +20,7 @@ const atividadesByIdColaboradorMes = async (req: Request, res: Response) => {
 
 const atividadesByIdColaboradorDia = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
-  const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
+  const diaReferencia = moment(req.query.diaReferencia as string).utcOffset(0, true)
 
   try {
     const result = await Service.atividadesByIdColaboradorDia(idColaborador, diaReferencia)
@@ -45,7 +45,6 @@ const salvarAtividade = async (req: Request, res: Response) => {
   const tagsAtividade = req.query.tagsAtividade as [string]
   const descricaoAtividade = req.query.descricaoAtividade as string
 
-  console.log(diaAtividade.format(),diaAtividade.utcOffset(0, true).format())
   try {
     const result = await Service.salvarAtividade({
       idColaborador,
@@ -70,7 +69,7 @@ const salvarAtividade = async (req: Request, res: Response) => {
 
 const horasMesByIdColaborador = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
-  const mesReferencia = libUtc.getMonth(libUtc.getDateByString(req.query.mesReferencia as string))
+  const mesReferencia = moment(req.query.mesReferencia as string).startOf('month')
 
   try {
     const result = await Service.horasMesByIdColaborador(idColaborador, mesReferencia)
