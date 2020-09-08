@@ -120,6 +120,8 @@ const salvarAtividade = async (
       const cargaMaximaDia = cargaHorariaDia > 0 ? cargaHorariaDia + 2 : 0
       const cargaHorasRestantes = cargaMaximaDia - horasCadastradasDia
 
+      console.log({ horasCadastradasDia, cargaHorariaDia, cargaMaximaDia, cargaHorasRestantes })
+
       if (atividade.cargaAtividade.minute() + atividade.cargaAtividade.hour() * 60 + horasCadastradasDia * 60 > cargaHorariaDia * 60 &&
         atividade.cargaAtividade.minute() + atividade.cargaAtividade.hour() * 60 + horasCadastradasDia * 60 <= cargaMaximaDia * 60) {
         const permissaoHoraExtra = await PermissaoHoraExtraRepository.permissaoHoraExtraByIdColaboradorDia(atividade.idColaborador, atividade.diaAtividade.utcOffset(0, true).format())
@@ -137,14 +139,16 @@ const salvarAtividade = async (
           }
 
           if (contratoAtivo.IdContratoModalidade === 4 && (!ultimoDiaUtil.isSame(atividade.diaAtividade) || !diaCadastro.isSame(atividade.diaAtividade))) {
-            resultado.mensagem.push('Estagiarios só podem cadastrar horas extras para Hoje ou para o último dia util')
+            resultado.mensagem.push('Estagiarios só podem cadastrar horas extras para Hoje ou para o último dia util.')
           } else {
             novaAtividade.Carga = atividade.cargaAtividade.format('hh:mm')
           }
         } else {
-          resultado.mensagem.push('Você não tem permissão para cadastrar horas extras')
+          resultado.mensagem.push('Você não tem permissão para cadastrar horas extras.')
         }
-      } else if (cargaHorasRestantes <= 0) {
+      } else if (atividade.cargaAtividade.minute() + atividade.cargaAtividade.hour() * 60 + horasCadastradasDia * 60 > cargaMaximaDia * 60) {
+        resultado.mensagem.push('Essa carga ultrapassa o máximo permitido.')
+      } else if (cargaHorasRestantes < 0) {
         resultado.mensagem.push('Você já cadastrou todas as horas para esse dia')
       } else {
         novaAtividade.Carga = atividade.cargaAtividade.format('hh:mm')
@@ -199,7 +203,7 @@ const salvarAtividade = async (
   const projeto = await ProjetoRepository.projetoById(idProjeto)
 
   if (!projeto) {
-    resultado.mensagem.push('Projeto não encontrado')
+    resultado.mensagem.push('Projeto não encontrado.')
   } else {
     novaAtividade.IdProjeto = idProjeto
 
@@ -208,7 +212,7 @@ const salvarAtividade = async (
       if (coordenador) {
         novaAtividade.IdCoordenador = atividade.idCoordenador
       } else if (!coordenador) {
-        resultado.mensagem.push('Selecione um coordenador')
+        resultado.mensagem.push('Selecione um coordenador.')
       }
     } else {
       const listaCategoriaAtividade = await ProjetoCategoriaAtividadeRepository.projetoCategoriaAtividadeByIdProjeto(idProjeto)
@@ -216,7 +220,7 @@ const salvarAtividade = async (
       if (listaCategoriaAtividade.length > 0 && categoriaAtividade) {
         novaAtividade.IdProjetoCategoriaAtividade = atividade.idCategoriaAtividade
       } else if (listaCategoriaAtividade.length > 0 && !categoriaAtividade) {
-        resultado.mensagem.push('Selecione uma categoria para o apontamento')
+        resultado.mensagem.push('Selecione uma categoria para o apontamento.')
       }
 
       const listaProjetoFase = await ProjetoMetodologiaFaseRepository.projetoFaseByIdProjeto(idProjeto)
@@ -225,7 +229,7 @@ const salvarAtividade = async (
       if (listaProjetoFase.length > 0 && projetoFase) {
         novaAtividade.IdProjetoMetodologiaFase = atividade.idProjetoFase
       } else if (listaProjetoFase.length > 0 && !projetoFase) {
-        resultado.mensagem.push('Selecione uma fase para o apontamento')
+        resultado.mensagem.push('Selecione uma fase para o apontamento.')
       }
     }
   }

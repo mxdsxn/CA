@@ -157,7 +157,7 @@ export default (_props) => {
       idColaboradorLogado,
       null,
       diaAtividade.format('YYYY-MM-DD'),
-      cargaSelecionada.format('HH:mm'),
+      cargaSelecionada.format('YYYY-MM-DD HH:mm'),
       projetoSelecionado,
       projetoDefaultSelecionado,
       coordenadorSelecionado,
