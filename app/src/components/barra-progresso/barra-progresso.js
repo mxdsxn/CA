@@ -27,7 +27,12 @@ export default (props) => {
         setRestante(100 - uteisHojePorCento)
       } else if (cadastradaPorCento > uteisHojePorCento) {
         setCadastradas(cadastradaPorCento)
+        setFaltaCadastrar(0)
         setRestante(100 - cadastradaPorCento)
+      } else if (cadastradaPorCento === 100) {
+        setCadastradas(cadastradaPorCento)
+        setFaltaCadastrar(0)
+        setRestante(0)
       }
     } else {
       setCadastradas(cadastradaPorCento)
@@ -49,7 +54,11 @@ export default (props) => {
         if (res) {
           calculaValoresBarra(res)
         } else {
-          calculaValoresBarra([0, 0, 0])
+          calculaValoresBarra({
+            horasCadastradasAteHoje: 0,
+            horasUteisHoje: 0,
+            horasUteisMes: 0
+          })
         }
       })
   }, [mesReferencia])

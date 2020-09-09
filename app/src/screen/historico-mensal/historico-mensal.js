@@ -21,7 +21,7 @@ export default (props) => {
   const idColaborador = props.idColaborador || 2359
 
   const mesAtual = moment().startOf('month', 'day').utcOffset(false)
-  const mesMin = moment().startOf('month', 'day').subtract(3, 'month').utcOffset(false)
+  const mesMin = moment(mesAtual).startOf('year').utcOffset(false)
 
   const [historicoMensal, setHistoricoMensal] = useState([])
   const [mesReferencia, setMesReferencia] = useState(mesAtual)
