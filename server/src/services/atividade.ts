@@ -120,8 +120,6 @@ const salvarAtividade = async (
       const cargaMaximaDia = cargaHorariaDia > 0 ? cargaHorariaDia + 2 : 0
       const cargaHorasRestantes = cargaMaximaDia - horasCadastradasDia
 
-      console.log({ horasCadastradasDia, cargaHorariaDia, cargaMaximaDia, cargaHorasRestantes })
-
       if (atividade.cargaAtividade.minute() + atividade.cargaAtividade.hour() * 60 + horasCadastradasDia * 60 > cargaHorariaDia * 60 &&
         atividade.cargaAtividade.minute() + atividade.cargaAtividade.hour() * 60 + horasCadastradasDia * 60 <= cargaMaximaDia * 60) {
         const permissaoHoraExtra = await PermissaoHoraExtraRepository.permissaoHoraExtraByIdColaboradorDia(atividade.idColaborador, atividade.diaAtividade.utcOffset(0, true).format())

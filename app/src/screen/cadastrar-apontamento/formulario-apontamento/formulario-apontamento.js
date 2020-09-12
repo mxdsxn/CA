@@ -85,6 +85,7 @@ export default (_props) => {
     setProjetoDefaultSelecionado(0)
     setCategoriaAtividadeSelecionado(0)
     setProjetoFaseSelecionado(0)
+    setProjetoSelecionado(0)
   }
   //#endregion
 
