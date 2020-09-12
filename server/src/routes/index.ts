@@ -1,6 +1,7 @@
 export { default as EasterEggRoute } from './easter-egg'
 export { default as HealthCheckRoute } from './health-check'
 export { default as AtividadeRoute } from './atividade'
+export { default as AtividadeFechamentSemanaRoute } from './atividade-fechamento-semana'
 export { default as CalendarioRoute } from './calendario'
 export { default as ColaboradorRoute } from './colaborador'
 export { default as ColaboradorContratoRoute } from './colaborador-contrato'

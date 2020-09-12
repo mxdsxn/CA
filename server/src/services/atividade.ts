@@ -8,8 +8,7 @@ import {
 
 import {
   CalendarioService,
-  ColaboradorContratoService,
-  ColaboradorService
+  ColaboradorContratoService
 } from '@services'
 
 import libUtc from '@libUtc'
