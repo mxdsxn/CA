@@ -8,7 +8,6 @@ const listaAtividadeFechamentoSemanaByIdColaboradorMesAno = async (req: Request,
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = moment(req.query.mesReferencia as string).utcOffset(0, true)
 
-  console.log(req.query)
   try {
     const result = await Service.listaAtividadeFechamentoSemanaByIdColaboradorMesAno(idColaborador, mesReferencia)
     res.json(result)
