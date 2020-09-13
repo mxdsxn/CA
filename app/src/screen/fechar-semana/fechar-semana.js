@@ -34,7 +34,6 @@ export default (props) => {
       <Cabecalho />
       <Divider />
       <Container align='center'>
-        <Paper elevation={3}>
           <div align='center'>
             <DataPicker
               minDate={mesMin}
@@ -43,7 +42,6 @@ export default (props) => {
               value={mesReferencia} />
           </div>
           <FormularioFecharSemana semanasMes={semanasMes} mesReferencia={mesReferencia} />
-        </Paper>
       </Container>
     </>
   )
