@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import moment from 'moment'
 import { AtividadeFechamentoSemanaService as Service } from '@services'
-import libUtc from '@libUtc'
 import { Request, Response } from 'express'
 
 const listaAtividadeFechamentoSemanaByIdColaboradorMesAno = async (req: Request, res: Response) => {

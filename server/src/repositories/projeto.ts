@@ -10,7 +10,6 @@ const projetosByIdColaboradorDia = async (idColaborador: Number, diaReferencia: 
   const diaReferenciaInicio = moment(diaReferencia).utcOffset(0, true).startOf('day')
   const diaReferenciaFim = moment(diaReferencia).utcOffset(0, true).endOf('day')
 
-
   return await dbConnection('operacoes.Projeto')
     .innerJoin('operacoes.ProjetoAlocacao', 'operacoes.ProjetoAlocacao.IdProjeto', 'operacoes.Projeto.IdProjeto')
     .innerJoin('operacoes.ProjetoAlocacaoPeriodo', 'operacoes.ProjetoAlocacaoPeriodo.IdProjetoAlocacao', 'operacoes.ProjetoAlocacao.IdProjetoAlocacao')
@@ -25,6 +24,45 @@ const projetosByIdColaboradorDia = async (idColaborador: Number, diaReferencia: 
       'operacoes.ProjetoTipo.Descricao as ProjetoTipo'
     )
     .orderBy('operacoes.Projeto.Nome', 'asc')
+}
+
+const projetosByIdColaboradorSemana = async (idColaborador: Number, diaReferencia: Moment): Promise<ProjetoModel[]> => {
+  const inicioSem = inicioSemana(diaReferencia)
+  const fimSem = fimSemana(diaReferencia)
+
+  return await dbConnection('operacoes.Projeto')
+    .innerJoin('operacoes.ProjetoAlocacao', 'operacoes.ProjetoAlocacao.IdProjeto', 'operacoes.Projeto.IdProjeto')
+    .innerJoin('operacoes.ProjetoAlocacaoPeriodo', 'operacoes.ProjetoAlocacaoPeriodo.IdProjetoAlocacao', 'operacoes.ProjetoAlocacao.IdProjetoAlocacao')
+    .innerJoin('operacoes.ProjetoTipo', 'operacoes.ProjetoTipo.IdProjetoTipo', 'operacoes.Projeto.IdProjetoTipo')
+    .where('operacoes.ProjetoAlocacao.IdColaborador', idColaborador)
+    .andWhere('operacoes.ProjetoAlocacaoPeriodo.DataInicio', '<=', fimSem.toISOString())
+    .andWhere('operacoes.ProjetoAlocacaoPeriodo.DataFim', '>=', inicioSem.toISOString())
+    .select(
+      'operacoes.Projeto.IdProjeto',
+      'operacoes.ProjetoTipo.IdProjetoTipo',
+      'operacoes.Projeto.Nome',
+      'operacoes.ProjetoTipo.Descricao as ProjetoTipo'
+    )
+}
+
+const projetoDefaultCadastradoSemana = async (idColaborador: Number, diaReferencia: Moment): Promise<ProjetoModel[]> => {
+  const inicioSem = inicioSemana(diaReferencia)
+  const fimSem = fimSemana(diaReferencia)
+  console.log({ inicioSem, fimSem })
+
+  return await dbConnection('operacoes.Projeto')
+    .innerJoin('pessoas.Atividade', 'pessoas.Atividade.IdProjeto', 'operacoes.Projeto.IdProjeto')
+    .innerJoin('operacoes.ProjetoTipo', 'operacoes.ProjetoTipo.IdProjetoTipo', 'operacoes.Projeto.IdProjetoTipo')
+    .where('pessoas.Atividade.IdColaborador', idColaborador)
+    .andWhere('pessoas.Atividade.DataAtividade', '<=', fimSem.toISOString())
+    .andWhere('pessoas.Atividade.DataAtividade', '>=', inicioSem.toISOString())
+    .andWhere('operacoes.ProjetoTipo.Descricao', 'Default')
+    .select(
+      'operacoes.Projeto.IdProjeto',
+      'operacoes.ProjetoTipo.IdProjetoTipo',
+      'operacoes.Projeto.Nome',
+      'operacoes.ProjetoTipo.Descricao as ProjetoTipo'
+    )
 }
 
 /* retorna lista de projetos default */
@@ -55,5 +93,27 @@ const projetoById = (idProjeto: number): Promise<ProjetoEntity> => {
 export default {
   projetoById,
   projetosByIdColaboradorDia,
-  projetosDefault
+  projetosByIdColaboradorSemana,
+  projetosDefault,
+  projetoDefaultCadastradoSemana
+}
+
+const inicioSemana = (data: Moment) => {
+  let result = moment()
+  if (moment(data.format('YYYY-MM-DD')).startOf('isoWeek').month() !== data.month()) {
+    result = moment(data.format('YYYY-MM-DD')).startOf('month')
+  } else {
+    result = moment(data.format('YYYY-MM-DD')).startOf('isoWeek')
+  }
+  return result
+}
+
+const fimSemana = (data: Moment) => {
+  let result = moment()
+  if (moment(data.format('YYYY-MM-DD')).endOf('isoWeek').month() !== data.month()) {
+    result = moment(data.format('YYYY-MM-DD')).endOf('month')
+  } else {
+    result = moment(data.format('YYYY-MM-DD')).endOf('isoWeek')
+  }
+  return result
 }

@@ -1,6 +1,7 @@
 export { default as EasterEggController } from '@controller/easter-egg'
 export { default as HealthCheckController } from '@controller/health-check'
 export { default as AtividadeController } from '@controller/atividade'
+export { default as AtividadeFechamentoController } from '@controller/atividade-fechamento'
 export { default as AtividadeFechamentoSemanaController } from '@controller/atividade-fechamento-semana'
 export { default as CalendarioController } from '@controller/calendario'
 export { default as ColaboradorController } from '@controller/colaborador'

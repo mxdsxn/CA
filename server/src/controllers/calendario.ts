@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { CalendarioService as Service } from '@services'
 import libUtc from '@libUtc'
 import { Request, Response } from 'express'

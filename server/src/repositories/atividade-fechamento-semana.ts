@@ -28,13 +28,26 @@ const statusAtividadeFechamentoSemanaByIdColaboradorSemanaMesAno = async (idCola
       Semana: semana,
       Mes: mes,
       Ano: ano,
-      idColaborador: idColaborador
+      IdColaborador: idColaborador
     })
     .select('IdAtividadeFechamentoStatus')
     .first()
 }
 
+const atividadeFechamentoSemanaByIdColaboradorSemanaMesAno = async (idColaborador: number, semana: number, mes: number, ano: number): Promise<AtividadeFechamentoSemanaEntity> => {
+  return await dbConnection('pessoas.AtividadeFechamentoSemana')
+    .where({
+      Semana: semana,
+      Mes: mes,
+      Ano: ano,
+      IdColaborador: idColaborador
+    })
+    .select('*')
+    .first()
+}
+
 export default {
+  atividadeFechamentoSemanaByIdColaboradorSemanaMesAno,
   listaAtividadeFechamentoSemanaByIdColaboradorSemanaAno,
   listaAtividadeFechamentoSemanaByIdColaboradorMesAno,
   statusAtividadeFechamentoSemanaByIdColaboradorSemanaMesAno

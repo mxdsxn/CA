@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 interface AtividadeFechamentoSemanaEntity {
   IdAtividadeFechamentoSemana: number,
   IdColaborador: number,
