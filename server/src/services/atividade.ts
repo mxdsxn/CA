@@ -138,7 +138,7 @@ const salvarAtividade = async (
           if (contratoAtivo.IdContratoModalidade === 4 && (!ultimoDiaUtil.isSame(atividade.diaAtividade) || !diaCadastro.isSame(atividade.diaAtividade))) {
             resultado.mensagem.push('Estagiarios só podem cadastrar horas extras para Hoje ou para o último dia util.')
           } else {
-            novaAtividade.Carga = atividade.cargaAtividade.format('hh:mm')
+            novaAtividade.Carga = atividade.cargaAtividade.format('HH:mm')
           }
         } else {
           resultado.mensagem.push('Você não tem permissão para cadastrar horas extras.')
@@ -148,7 +148,7 @@ const salvarAtividade = async (
       } else if (cargaHorasRestantes < 0) {
         resultado.mensagem.push('Você já cadastrou todas as horas para esse dia')
       } else {
-        novaAtividade.Carga = atividade.cargaAtividade.format('hh:mm')
+        novaAtividade.Carga = atividade.cargaAtividade.format('HH:mm')
       }
 
       // Mes Anterior e Semana Anterior da Atividade Fechados
@@ -242,8 +242,7 @@ const salvarAtividade = async (
     resultado.mensagem.shift()
     return (resultado)
   } else {
-    // const atividadeResult = await AtividadeRepository.salvarAtividade(novaAtividade)
-    resultado.atividade = novaAtividade
+    // const atividadeResult = await Repo.salvarAtividade(novaAtividade)
     return (resultado)
   }
 }
