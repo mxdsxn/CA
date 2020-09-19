@@ -8,7 +8,6 @@ import { atividadeFechamentoSemanaApi } from '../../service/api-connection'
 import {
   Container,
   Divider,
-  Paper
 } from '@material-ui/core'
 
 import moment from 'moment'

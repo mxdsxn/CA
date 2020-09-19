@@ -48,7 +48,6 @@ const projetosByIdColaboradorSemana = async (idColaborador: Number, diaReferenci
 const projetoDefaultCadastradoSemana = async (idColaborador: Number, diaReferencia: Moment): Promise<ProjetoModel[]> => {
   const inicioSem = inicioSemana(diaReferencia)
   const fimSem = fimSemana(diaReferencia)
-  console.log({ inicioSem, fimSem })
 
   return await dbConnection('operacoes.Projeto')
     .innerJoin('pessoas.Atividade', 'pessoas.Atividade.IdProjeto', 'operacoes.Projeto.IdProjeto')
@@ -63,6 +62,7 @@ const projetoDefaultCadastradoSemana = async (idColaborador: Number, diaReferenc
       'operacoes.Projeto.Nome',
       'operacoes.ProjetoTipo.Descricao as ProjetoTipo'
     )
+    .distinct()
 }
 
 /* retorna lista de projetos default */
@@ -101,9 +101,9 @@ export default {
 const inicioSemana = (data: Moment) => {
   let result = moment()
   if (moment(data.format('YYYY-MM-DD')).startOf('isoWeek').month() !== data.month()) {
-    result = moment(data.format('YYYY-MM-DD')).startOf('month')
+    result = moment(data.format('YYYY-MM-DD')).utcOffset(0, true).startOf('month')
   } else {
-    result = moment(data.format('YYYY-MM-DD')).startOf('isoWeek')
+    result = moment(data.format('YYYY-MM-DD')).utcOffset(0, true).startOf('isoWeek')
   }
   return result
 }
@@ -111,9 +111,9 @@ const inicioSemana = (data: Moment) => {
 const fimSemana = (data: Moment) => {
   let result = moment()
   if (moment(data.format('YYYY-MM-DD')).endOf('isoWeek').month() !== data.month()) {
-    result = moment(data.format('YYYY-MM-DD')).endOf('month')
+    result = moment(data.format('YYYY-MM-DD')).utcOffset(0, true).endOf('month')
   } else {
-    result = moment(data.format('YYYY-MM-DD')).endOf('isoWeek')
+    result = moment(data.format('YYYY-MM-DD')).utcOffset(0, true).endOf('isoWeek')
   }
   return result
 }
