@@ -14,4 +14,22 @@ const atividadeFechamentoByIdColaboradorSemanaMesAno = async (idColaborador: num
     .first()
 }
 
-export default { atividadeFechamentoByIdColaboradorSemanaMesAno }
+const salvarAtividadeFechamento = async (atividadeFechamento: AtividadeFechamentoEntity): Promise<AtividadeFechamentoEntity> => {
+  return await dbConnection('pessoas.AtividadeFechamento')
+    .insert({
+      IdColaborador: atividadeFechamento.IdColaborador,
+      IdProjeto: atividadeFechamento.IdProjeto || null,
+      IdColaboradorAprovador?: atividadeFechamento.IdColaboradorAprovador || null,
+      IdAtividadeFechamentoStatus: atividadeFechamento.IdAtividadeFechamentoStatus,
+      Ano: atividadeFechamento.Ano,
+      Mes: atividadeFechamento.Mes,
+      Semana: atividadeFechamento.Semana,
+      DataFechamento: atividadeFechamento.DataFechamento.toISOString(),
+      DataAprovacao: atividadeFechamento.DataAprovacao?.toISOString() || null
+    })
+}
+
+export default {
+  atividadeFechamentoByIdColaboradorSemanaMesAno,
+  salvarAtividadeFechamento
+}

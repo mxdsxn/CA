@@ -62,6 +62,7 @@ const atividadesByIdColaboradorSemana = async (idColaborador: Number, diaReferen
 
 const salvarAtividade = async (atividade: AtividadeEntity): Promise<AtividadeEntity> => {
   return await dbConnection('pessoas.Atividade')
+    .returning('*')
     .insert({
       IdColaborador: atividade.IdColaborador,
       IdProjeto: atividade.IdProjeto,
@@ -76,6 +77,7 @@ const salvarAtividade = async (atividade: AtividadeEntity): Promise<AtividadeEnt
       InicioAtividade: atividade.InicioAtividade || null,
       FimAtividade: atividade.FimAtividade || null
     })
+
 }
 
 export default {
