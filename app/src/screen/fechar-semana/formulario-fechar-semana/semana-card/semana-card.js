@@ -11,6 +11,8 @@ import {
 
 // import moment from 'moment'
 
+import { atividadeFechamentoApi } from '../../../../service/api-connection'
+
 const useStyles = makeStyles({
   root: { marginBottom: 10 },
   bullet: {
@@ -25,6 +27,7 @@ const useStyles = makeStyles({
 
 export default (props) => {
   const classes = useStyles()
+  const idColaborador = 2359
 
   return (
     <Container maxWidth='sm'>
@@ -42,7 +45,7 @@ export default (props) => {
           props.atividadeFechamentoSemana.IdAtividadeFechamentoStatus === 1
             ? (
               <CardActions>
-                <Button size='small'>Fechar</Button>
+                <Button onClick={() => atividadeFechamentoApi.fecharSemana(idColaborador, props.inicioSemana.format('YYYY-MM-DD'))} size='small'>Fechar</Button>
               </CardActions>
             )
             : null

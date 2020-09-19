@@ -64,7 +64,7 @@ export default function CustomizedExpansionPanels(props) {
         {props.historicoMensal.map((dia) => (
           dia.Atividades.length === 0 ? null : (
             <>
-              <Typography>{moment(dia.Dia).format('ddd, D MMMM, YYYY').toUpperCase()}</Typography>
+              <Typography>{moment(dia.Dia).utc().format('ddd, D MMMM, YYYY').toUpperCase()}</Typography>
               <Typography>
                 {
                   dia.Atividades.map(atividade =>

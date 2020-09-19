@@ -2,27 +2,29 @@
 
 import { AtividadeFechamentoEntity } from '@entities'
 import { AtividadeFechamentoRepository as Repo, AtividadeRepository, AtividadeFechamentoSemanaRepository, ProjetoRepository } from '@repositories'
-import { Moment } from 'moment'
+import moment, { Moment } from 'moment'
 
-const fecharSemana = async (idColaborador: number, diaFechamento: Moment) => {
-  const atividadeFechamentoSemana = await AtividadeFechamentoSemanaRepository.atividadeFechamentoSemanaByIdColaboradorSemanaMesAno(idColaborador, diaFechamento.isoWeek(), diaFechamento.month() + 1, diaFechamento.year()) || {
+const fecharSemana = async (idColaborador: number, diaSemana: Moment) => {
+  const diaFechamento = moment().utcOffset(0, true)
+
+  const atividadeFechamentoSemana = await AtividadeFechamentoSemanaRepository.atividadeFechamentoSemanaByIdColaboradorSemanaMesAno(idColaborador, diaSemana.isoWeek(), diaSemana.month() + 1, diaSemana.year()) || {
     IdAtividadeFechamentoSemana: 0,
     IdAtividadeFechamentoStatus: 1,
     IdColaborador: idColaborador,
-    Semana: diaFechamento.isoWeek(),
-    Mes: diaFechamento.month() + 1,
-    Ano: diaFechamento.year()
+    Semana: diaSemana.isoWeek(),
+    Mes: diaSemana.month() + 1,
+    Ano: diaSemana.year()
   }
-  console.log(atividadeFechamentoSemana)
+
   if (atividadeFechamentoSemana.IdAtividadeFechamentoStatus === 1) {
-    const listaProjetosAlocadosSemana = await ProjetoRepository.projetosByIdColaboradorSemana(idColaborador, diaFechamento)
-    const listaProjetoDefaultCadastradoSemana = await ProjetoRepository.projetoDefaultCadastradoSemana(idColaborador, diaFechamento)
+    const listaProjetosAlocadosSemana = await ProjetoRepository.projetosByIdColaboradorSemana(idColaborador, diaSemana)
+    const listaProjetoDefaultCadastradoSemana = await ProjetoRepository.projetoDefaultCadastradoSemana(idColaborador, diaSemana)
 
     const listaIdProjetosSemana = listaProjetoDefaultCadastradoSemana.map(x => x.IdProjeto).concat(listaProjetosAlocadosSemana.map(x => x.IdProjeto))
 
     const listaAtividadeFechamento: AtividadeFechamentoEntity[] = []
 
-    const atividadesSemanaByProjeto = await AtividadeRepository.atividadesByIdColaboradorSemana(idColaborador, diaFechamento)
+    const atividadesSemanaByProjeto = await AtividadeRepository.atividadesByIdColaboradorSemana(idColaborador, diaSemana)
 
     if (listaIdProjetosSemana.length > 0) {
       listaIdProjetosSemana.map(async idProjeto => {
@@ -31,9 +33,9 @@ const fecharSemana = async (idColaborador: number, diaFechamento: Moment) => {
 
         const result: AtividadeFechamentoEntity = {
           IdAtividadeFechamento: 0,
-          Ano: diaFechamento.year(),
-          Semana: diaFechamento.isoWeek(),
-          Mes: diaFechamento.month() + 1,
+          Ano: diaSemana.year(),
+          Semana: diaSemana.isoWeek(),
+          Mes: diaSemana.month() + 1,
           IdColaborador: idColaborador,
           IdProjeto: idProjeto,
           DataFechamento: diaFechamento,
@@ -46,9 +48,9 @@ const fecharSemana = async (idColaborador: number, diaFechamento: Moment) => {
       // se nao houver atividade na semana, aprovar semana
       const result: AtividadeFechamentoEntity = {
         IdAtividadeFechamento: 0,
-        Ano: diaFechamento.year(),
-        Semana: diaFechamento.isoWeek(),
-        Mes: diaFechamento.month() + 1,
+        Ano: diaSemana.year(),
+        Semana: diaSemana.isoWeek(),
+        Mes: diaSemana.month() + 1,
         IdColaborador: idColaborador,
         DataFechamento: diaFechamento,
         IdAtividadeFechamentoStatus: 3
@@ -57,17 +59,19 @@ const fecharSemana = async (idColaborador: number, diaFechamento: Moment) => {
       listaAtividadeFechamento.push(result)
     }
 
-    const aprovadasAutomatico = listaAtividadeFechamento.map(x => x.IdAtividadeFechamentoStatus === 6).length
-    const abertas = listaAtividadeFechamento.map(x => x.IdAtividadeFechamentoStatus === 1).length
-    const fechadas = listaAtividadeFechamento.map(x => x.IdAtividadeFechamentoStatus === 2).length
-    const aprovadas = listaAtividadeFechamento.map(x => x.IdAtividadeFechamentoStatus === 3).length
+    const aprovadasAutomatico = listaAtividadeFechamento.filter(x => x.IdAtividadeFechamentoStatus === 6).length
+    const abertas = listaAtividadeFechamento.filter(x => x.IdAtividadeFechamentoStatus === 1).length
+    const fechadas = listaAtividadeFechamento.filter(x => x.IdAtividadeFechamentoStatus === 2).length
+    const aprovadas = listaAtividadeFechamento.filter(x => x.IdAtividadeFechamentoStatus === 3).length
     const totalProjetos = listaIdProjetosSemana.length
     let idAtividadeStatusSemana = 1
 
     if (totalProjetos === aprovadasAutomatico) {
       idAtividadeStatusSemana = 3
     } else {
-      if (abertas === totalProjetos) { idAtividadeStatusSemana = 1 } else {
+      if (abertas === totalProjetos) {
+        idAtividadeStatusSemana = 1
+      } else {
         if (fechadas + aprovadasAutomatico === totalProjetos) {
           idAtividadeStatusSemana = 2
         } else {
@@ -88,7 +92,6 @@ const fecharSemana = async (idColaborador: number, diaFechamento: Moment) => {
 
     atividadeFechamentoSemana.IdAtividadeFechamentoStatus = idAtividadeStatusSemana
 
-    console.log({ atividadeFechamentoSemana, listaAtividadeFechamento })
     // const resultListaAtividadeFechamento = listaAtividadeFechamento.map(atividadeFechamento => {
     //   Repo.salvarAtividadeFechamento(atividadeFechamento)
     // })

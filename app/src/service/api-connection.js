@@ -1,4 +1,5 @@
 export { default as atividadeApi } from './atividade-api'
+export { default as atividadeFechamentoApi } from './atividade-fechamento-api'
 export { default as atividadeFechamentoSemanaApi } from './atividade-fechamento-semana-api'
 export { default as calendarioApi } from './calendario-api'
 export { default as colaboradorApi } from './colaborador-api'

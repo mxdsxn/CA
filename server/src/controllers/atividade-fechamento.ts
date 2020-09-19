@@ -6,6 +6,7 @@ import { Request, Response } from 'express'
 const fecharSemana = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const diaSemana = moment(req.query.diaSemana as string).utcOffset(0, true)
+  console.log(req.query)
 
   try {
     const result = Service.fecharSemana(idColaborador, diaSemana)
