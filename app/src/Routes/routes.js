@@ -21,10 +21,10 @@ export default () => {
             render={(props) => <HistoricoMensal />}
           />
           <Route path='/' exact>
-            <Redirect to='/cadastro-apontamento' />
+            <Redirect to='/cadastro-atividade' />
           </Route>
           <Route
-            path='/cadastro-apontamento'
+            path='/cadastro-atividade'
             render={(props) => <CadastroApontamento />}
           />
           <Route

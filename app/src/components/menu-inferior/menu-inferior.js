@@ -18,7 +18,7 @@ export default (props) => {
       case '/historico-mensal':
         setValueNavBar(0)
         break
-      case '/cadastro-apontamento':
+      case '/cadastro-atividade':
         setValueNavBar(1)
         break
       case '/fechar-semana':
@@ -41,19 +41,19 @@ export default (props) => {
     >
       <BottomNavigationAction
         onClick={() => history.push('/historico-mensal')}
-        label='Resumo Mes'
+        label='Historico'
         icon={<Today />}
       />
 
       <BottomNavigationAction
-        onClick={() => history.push('/cadastro-apontamento')}
-        label='Incluir Atividade'
+        onClick={() => history.push('/cadastro-atividade')}
+        label='Cadastro'
         icon={<PostAdd />}
       />
 
       <BottomNavigationAction
         onClick={() => history.push('/fechar-semana')}
-        label='Fechar Semana'
+        label='Semanas'
         icon={<EventAvailable />}
       />
     </BottomNavigation>

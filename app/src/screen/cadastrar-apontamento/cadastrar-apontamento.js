@@ -6,11 +6,11 @@ import FormularioApontamento from './formulario-apontamento'
 
 export default () => {
 
-    return (
-        <>
-            <Cabecalho />
-            <Divider />
-            <FormularioApontamento />
-        </>
-    )
+  return (
+    <>
+      <Cabecalho />
+      <Divider />
+      <FormularioApontamento />
+    </>
+  )
 }

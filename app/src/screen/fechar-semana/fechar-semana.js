@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Cabecalho from '../../components/cabecalho'
 import FormularioFecharSemana from './formulario-fechar-semana'
 import DataPicker from './datepicker'
+
 import { atividadeFechamentoSemanaApi } from '../../service/api-connection'
 
 import {
@@ -33,14 +34,14 @@ export default (props) => {
       <Cabecalho />
       <Divider />
       <Container align='center'>
-          <div align='center'>
-            <DataPicker
-              minDate={mesMin}
-              maxDate={mesAtual}
-              onChange={setMesReferencia}
-              value={mesReferencia} />
-          </div>
-          <FormularioFecharSemana semanasMes={semanasMes} mesReferencia={mesReferencia} />
+        <div align='center'>
+          <DataPicker
+            minDate={mesMin}
+            maxDate={mesAtual}
+            onChange={setMesReferencia}
+            value={mesReferencia} />
+        </div>
+        <FormularioFecharSemana semanasMes={semanasMes} mesReferencia={mesReferencia} />
       </Container>
     </>
   )
