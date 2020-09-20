@@ -8,18 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import moment from 'moment'
 
 const useStyles = makeStyles({
-  root: { marginBottom: 10 },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
+  root: { marginBottom: 10 }
 })
 
 export default function SimpleCard(props) {
@@ -28,10 +17,10 @@ export default function SimpleCard(props) {
   return (
     <Card className={classes.root} key={props.atividade.IdAtividade}>
       <CardContent>
-        <Typography variant='h6' component='h3'>
+        <Typography variant='button'>
           {props.atividade.NomeProjeto || '-'}
         </Typography>
-        <Typography className={classes.pos} color='textSecondary'>
+        <Typography variant='subtitle2' color='textSecondary'>
           Data Cadastro: {moment(props.atividade.DataCadastro).utc().format('L') || '-'}
         </Typography>
         <Typography variant='body2' component='p'>
@@ -39,7 +28,11 @@ export default function SimpleCard(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size='small'>Editar</Button>
+        {/* <Button size='small'>
+          <Typography variant='button'>
+            Editar
+          </Typography>
+        </Button> */}
       </CardActions>
     </Card>
   )
