@@ -1,17 +1,18 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import Drawer from '@material-ui/core/Drawer'
-import Divider from '@material-ui/core/Divider'
-import Button from '@material-ui/core/Button'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
+import {
+  Drawer,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText
+} from '@material-ui/core'
 
 import PostAdd from '@material-ui/icons/PostAdd'
 import Today from '@material-ui/icons/Today'
 import EventAvailable from '@material-ui/icons/EventAvailable'
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 
 
 export default (props) => {

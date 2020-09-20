@@ -13,6 +13,8 @@ import {
 
 import moment from 'moment'
 
+import './style.css'
+
 export default (props) => {
   const idColaborador = 2359
 
@@ -34,7 +36,7 @@ export default (props) => {
       <Cabecalho />
       <Divider />
       <Container align='center'>
-        <div align='center'>
+        <div align='center' className='datepicker'>
           <DataPicker
             minDate={mesMin}
             maxDate={mesAtual}

@@ -16,6 +16,7 @@ import Cabecalho from '../../components/cabecalho'
 
 import { atividadeApi } from '../../service/api-connection'
 
+import './style.css'
 
 export default (props) => {
   const idColaborador = props.idColaborador || 2359
@@ -47,8 +48,10 @@ export default (props) => {
             onChange={setMesReferencia}
             value={mesReferencia} />
         </div>
-        <HistoricoMobile historicoMensal={historicoMensal} />
-        <HistoricoTable historicoMensal={historicoMensal} />
+        <div className='historico'>
+          <HistoricoMobile historicoMensal={historicoMensal} />
+          <HistoricoTable historicoMensal={historicoMensal} />
+        </div>
       </Container>
     </>
   )

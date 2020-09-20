@@ -26,6 +26,8 @@ import {
   projetoMetodologiaFaseApi,
 } from '../../../service/api-connection'
 
+import './style.css'
+
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -353,7 +355,7 @@ export default (_props) => {
   //#endregion
 
   return (
-    <div className='container'>
+    <div className='container cadastro'>
       <Grid container spacing={4}>
         {renderDiaAtividadePicker()}
         {renderCargaAtividadePicker()}
