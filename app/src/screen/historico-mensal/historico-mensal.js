@@ -38,7 +38,6 @@ export default (props) => {
   return (
     <>
       <Cabecalho />
-      {console.log(process.env)}
       <Divider />
       <Container>
         <BarraProgresso mesReferencia={mesReferencia} />

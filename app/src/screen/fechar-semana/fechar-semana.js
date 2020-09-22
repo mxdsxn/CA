@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react'
 
 import Cabecalho from '../../components/cabecalho'
@@ -43,7 +44,10 @@ export default (props) => {
             onChange={setMesReferencia}
             value={mesReferencia} />
         </div>
-        <FormularioFecharSemana semanasMes={semanasMes} mesReferencia={mesReferencia} />
+        <FormularioFecharSemana
+          semanasMes={semanasMes}
+          mesReferencia={mesReferencia}
+        />
       </Container>
     </>
   )

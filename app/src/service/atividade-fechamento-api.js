@@ -2,7 +2,6 @@ import baseUrl from './api-baseUrl'
 
 const fecharSemana = async (idColaborador, diaSemana) => {
   try {
-    console.log(idColaborador, diaSemana)
     const result = await baseUrl
       .post('/atividade-fechamento', null, {
         params: {
