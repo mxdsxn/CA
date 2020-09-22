@@ -19,7 +19,7 @@ import { atividadeApi } from '../../service/api-connection'
 import './style.css'
 
 export default (props) => {
-  const idColaborador = props.idColaborador || 2359
+  const idColaborador = props.idColaborador || process.env.REACT_APP_ID_COL
 
   const mesAtual = moment().startOf('month', 'day').utcOffset(false)
   const mesMin = moment(mesAtual).startOf('year').utcOffset(false)
@@ -38,6 +38,7 @@ export default (props) => {
   return (
     <>
       <Cabecalho />
+      {console.log(process.env)}
       <Divider />
       <Container>
         <BarraProgresso mesReferencia={mesReferencia} />

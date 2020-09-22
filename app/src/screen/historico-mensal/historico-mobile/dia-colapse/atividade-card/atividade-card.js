@@ -28,11 +28,11 @@ export default function SimpleCard(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        {/* <Button size='small'>
+        <Button size='small'>
           <Typography variant='button'>
             Editar
           </Typography>
-        </Button> */}
+        </Button>
       </CardActions>
     </Card>
   )

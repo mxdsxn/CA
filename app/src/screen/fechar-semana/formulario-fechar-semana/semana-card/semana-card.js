@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 
 export default (props) => {
   const classes = useStyles()
-  const idColaborador = 2359
+  const idColaborador = process.env.REACT_APP_ID_COL
 
   return (
     <Container maxWidth='sm'>

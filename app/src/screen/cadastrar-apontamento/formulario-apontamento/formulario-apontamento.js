@@ -55,7 +55,7 @@ const defaultValue = {
 export default (_props) => {
   //#region Constantes
   const classes = useStyles()
-  const idColaboradorLogado = 2359
+  const idColaboradorLogado = process.env.REACT_APP_ID_COL
   //#endregion
 
   //#region States

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const baseUrl = axios.create({
-  baseURL: 'http://192.168.0.10:1111',
+  baseURL: process.env.REACT_APP_API_URL,
 })
 
 export default baseUrl

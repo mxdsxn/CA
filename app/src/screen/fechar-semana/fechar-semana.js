@@ -16,7 +16,7 @@ import moment from 'moment'
 import './style.css'
 
 export default (props) => {
-  const idColaborador = 2359
+  const idColaborador = process.env.REACT_APP_ID_COL
 
   const mesAtual = moment().startOf('month', 'day').utcOffset(false)
   const mesMin = moment(mesAtual).startOf('year').utcOffset(false)

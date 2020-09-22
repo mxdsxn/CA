@@ -10,7 +10,7 @@ import './style.css'
 
 export default (props) => {
   const mesReferencia = props.mesReferencia
-  const idColaborador = props.idColaborador || 2359
+  const idColaborador = props.idColaborador || process.env.REACT_APP_ID_COL
 
   const calculaValoresBarra = (res) => {
     const uteisMes = res.horasUteisMes
