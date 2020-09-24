@@ -92,15 +92,15 @@ const fecharSemana = async (idColaborador: number, diaSemana: Moment) => {
 
     atividadeFechamentoSemana.IdAtividadeFechamentoStatus = idAtividadeStatusSemana
 
-    // const resultListaAtividadeFechamento = listaAtividadeFechamento.map(atividadeFechamento => {
-    //   Repo.salvarAtividadeFechamento(atividadeFechamento)
-    // })
+    const resultListaAtividadeFechamento = listaAtividadeFechamento.map(atividadeFechamento => {
+      Repo.salvarAtividadeFechamento(atividadeFechamento)
+    })
 
-    // if (atividadeFechamentoSemana.IdAtividadeFechamentoSemana === 0) {
-    //   const resultAtividadeFechamentoSemana = AtividadeFechamentoSemanaRepository.salvarAtividadeFechamentoSemana(atividadeFechamentoSemana)
-    // } else {
-    //   const resultAtividadeFechamentoSemana = AtividadeFechamentoSemanaRepository.atualizarAtividadeFechamentoSemana(atividadeFechamentoSemana)
-    // }
+    if (atividadeFechamentoSemana.IdAtividadeFechamentoSemana === 0) {
+      const resultAtividadeFechamentoSemana = AtividadeFechamentoSemanaRepository.salvarAtividadeFechamentoSemana(atividadeFechamentoSemana)
+    } else {
+      const resultAtividadeFechamentoSemana = AtividadeFechamentoSemanaRepository.atualizarAtividadeFechamentoSemana(atividadeFechamentoSemana)
+    }
   }
 
   return null

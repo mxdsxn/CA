@@ -34,7 +34,7 @@ const atividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia
   if (!naoAgruparDia && listaAtividadeMes.length > 0) {
     const listaFeriadosFds = await CalendarioService.ListaFeriadoFinalSemanaByMes(idColaborador, mesReferencia)
     const listaContratosMes = await ColaboradorContratoService.contratosByIdColaborador(idColaborador, mesReferencia)
-    return agruparAtividadesDia(mesReferencia, listaAtividadeMes, listaFeriadosFds, listaContratosMes)
+    return await agruparAtividadesDia(mesReferencia, listaAtividadeMes, listaFeriadosFds, listaContratosMes, idColaborador)
   }
 
   return listaAtividadeMes
@@ -434,8 +434,6 @@ const editarAtividade = async (
     }
   }
 
-  console.log({ novaAtividade, velhaAtividade })
-
   if (resultado.mensagem.length > 1) {
     resultado.tipo = 'Erro'
     resultado.mensagem.shift()
@@ -456,7 +454,7 @@ const deletaAtividade = async (idAtividade: number) => {
   return await Repo.deletaAtividade(idAtividade)
 }
 
-const agruparAtividadesDia = (mesReferencia: Moment, listaAtividade: AtividadeEntity[], listaFeriadosFds: DiaModel[], listaContratos: ColaboradorContratoEntity[]): DiaModel[] => {
+const agruparAtividadesDia = async (mesReferencia: Moment, listaAtividade: AtividadeEntity[], listaFeriadosFds: DiaModel[], listaContratos: ColaboradorContratoEntity[], idColaborador: number): DiaModel[] => {
   const contrato = listaContratos[0]
 
   const inicioMes = mesReferencia.month() === moment(contrato.DataInicioContrato).utcOffset(0, false).month() &&
@@ -473,11 +471,13 @@ const agruparAtividadesDia = (mesReferencia: Moment, listaAtividade: AtividadeEn
   for (let dia = inicioMes; dia.isSameOrBefore(fimMes); dia = moment(dia).add(1, 'day')) {
     const atividadesDia = listaAtividade.filter(x => moment(x.DataAtividade).isSame(dia))
     const descricao = listaFeriadosFds.find(x => x.Dia.isSame(dia))?.Descricao || null
+    const statusSemana = await AtividadeFechamentoSemanaRepository.statusAtividadeFechamentoSemanaByIdColaboradorSemanaMesAno(idColaborador, dia.isoWeek(), dia.month() + 1, dia.year())
 
     const result: DiaModel = {
       Dia: dia,
       Descricao: descricao,
-      Atividades: atividadesDia
+      Atividades: atividadesDia,
+      Aberto: statusSemana.IdAtividadeFechamentoStatus === 1 || false
     }
 
     listaAtividadePorDia.push(result)

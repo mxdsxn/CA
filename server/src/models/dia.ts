@@ -6,4 +6,5 @@ export default interface DiaModel {
     Atividades?: AtividadeEntity[]
     Descricao: string | null;
     Dia: Moment;
+    Aberto?: boolean;
 }
