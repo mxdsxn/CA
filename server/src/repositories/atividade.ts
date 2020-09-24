@@ -96,6 +96,12 @@ const atualizarAtividade = async (atividade: AtividadeEntity) => {
     })
 }
 
+const deletaAtividade = async (idAtividade: number) => {
+  return await dbConnection('pessoas.Atividade')
+    .where('pessoas.Atividade.IdAtividade', idAtividade)
+    .del()
+}
+
 const atividadeById = async (idAtividade: number): Promise<AtividadeEntity> => {
   return await dbConnection('pessoas.Atividade')
     .select('*')
@@ -109,7 +115,8 @@ export default {
   atividadesByIdColaboradorDia,
   atividadesByIdColaboradorMes,
   salvarAtividade,
-  atualizarAtividade
+  atualizarAtividade,
+  deletaAtividade
 }
 
 const inicioSemana = (data: Moment) => {

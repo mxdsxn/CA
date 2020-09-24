@@ -452,6 +452,10 @@ const editarAtividade = async (
   }
 }
 
+const deletaAtividade = async (idAtividade: number) => {
+  return await Repo.deletaAtividade(idAtividade)
+}
+
 const agruparAtividadesDia = (mesReferencia: Moment, listaAtividade: AtividadeEntity[], listaFeriadosFds: DiaModel[], listaContratos: ColaboradorContratoEntity[]): DiaModel[] => {
   const contrato = listaContratos[0]
 
@@ -590,6 +594,7 @@ const HorasDecimal = (listaAtividades: AtividadeModel[]) => {
 export default {
   salvarAtividade,
   editarAtividade,
+  deletaAtividade,
   atividadesByIdColaboradorMes,
   atividadesByIdColaboradorDia,
   horasMesByIdColaborador

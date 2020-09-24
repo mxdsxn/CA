@@ -51,6 +51,17 @@ route.put('/atividade', [
   return await Controller.editarAtividade(req, res)
 })
 
+route.delete('/atividade', [
+  query('idAtividade').isInt()
+],
+async (req: Request, res: Response) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  }
+  return await Controller.deletaAtividade(req, res)
+})
+
 route.get('/atividade/horas', async (req, res) => await Controller.horasMesByIdColaborador(req, res))
 
 const AtividadeRoute = route

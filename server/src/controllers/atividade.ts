@@ -102,6 +102,19 @@ const editarAtividade = async (req: Request, res: Response) => {
   }
 }
 
+const deletaAtividade = async (req: Request, res: Response) => {
+  const idAtividade = Number(req.query.idAtividade)
+
+  try {
+    const result = Service.deletaAtividade(idAtividade)
+    res.json(result)
+    return res.status(200)
+  } catch (error) {
+    res.json(error)
+    return res.status(500)
+  }
+}
+
 const horasMesByIdColaborador = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = moment(req.query.mesReferencia as string).startOf('month')
@@ -121,5 +134,6 @@ export default {
   atividadesByIdColaboradorDia,
   salvarAtividade,
   editarAtividade,
+  deletaAtividade,
   horasMesByIdColaborador
 }
