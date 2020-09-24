@@ -67,6 +67,41 @@ const salvarAtividade = async (req: Request, res: Response) => {
   }
 }
 
+const editarAtividade = async (req: Request, res: Response) => {
+  const idColaborador = Number(req.query.idColaborador)
+  const idAtividade = Number(req.query.idAtividade)
+  const diaAtividade = moment(req.query.diaAtividade as string)
+  const cargaAtividade = moment(req.query.cargaAtividade as string)
+  const idProjeto = Number(req.query.idProjeto)
+  const idProjetoDefault = Number(req.query.idProjetoDefault)
+  const idCoordenador = Number(req.query.idCoordenador)
+  const idProjetoFase = Number(req.query.idProjetoFase)
+  const idCategoriaAtividade = Number(req.query.idCategoriaAtividade)
+  const tagsAtividade = req.query.tagsAtividade as [string]
+  const descricaoAtividade = req.query.descricaoAtividade as string
+
+  try {
+    const result = await Service.editarAtividade({
+      idColaborador,
+      idAtividade,
+      diaAtividade,
+      cargaAtividade,
+      idProjeto,
+      idProjetoDefault,
+      idCoordenador,
+      idProjetoFase,
+      idCategoriaAtividade,
+      tagsAtividade,
+      descricaoAtividade
+    })
+    res.json(result)
+    return res.status(200)
+  } catch (error) {
+    res.json(error)
+    return res.status(500)
+  }
+}
+
 const horasMesByIdColaborador = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const mesReferencia = moment(req.query.mesReferencia as string).startOf('month')
@@ -85,5 +120,6 @@ export default {
   atividadesByIdColaboradorMes,
   atividadesByIdColaboradorDia,
   salvarAtividade,
+  editarAtividade,
   horasMesByIdColaborador
 }

@@ -78,11 +78,38 @@ const salvarAtividade = async (atividade: AtividadeEntity): Promise<AtividadeEnt
     })
 }
 
+const atualizarAtividade = async (atividade: AtividadeEntity) => {
+  return await dbConnection('pessoas.Atividade')
+    .where('pessoas.Atividade.IdAtividade', atividade.IdAtividade)
+    .andWhere('pessoas.Atividade.IdColaborador', atividade.IdColaborador)
+    .update({
+      IdProjeto: atividade.IdProjeto,
+      IdProjetoCategoriaAtividade: atividade.IdProjetoCategoriaAtividade || null,
+      IdProjetoMetodologiaFase: atividade.IdProjetoMetodologiaFase || null,
+      DataCadastro: atividade.DataCadastro,
+      Carga: atividade.Carga,
+      Descricao: atividade.Descricao,
+      Tags: atividade.Tags || null,
+      IdCoordenador: atividade.IdCoordenador || null,
+      InicioAtividade: atividade.InicioAtividade || null,
+      FimAtividade: atividade.FimAtividade || null
+    })
+}
+
+const atividadeById = async (idAtividade: number): Promise<AtividadeEntity> => {
+  return await dbConnection('pessoas.Atividade')
+    .select('*')
+    .where('pessoas.Atividade.IdAtividade', idAtividade)
+    .first()
+}
+
 export default {
+  atividadeById,
   atividadesByIdColaboradorSemana,
   atividadesByIdColaboradorDia,
   atividadesByIdColaboradorMes,
-  salvarAtividade
+  salvarAtividade,
+  atualizarAtividade
 }
 
 const inicioSemana = (data: Moment) => {
