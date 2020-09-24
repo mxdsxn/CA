@@ -67,10 +67,11 @@ export default function CustomizedExpansionPanels(props) {
               <Typography variant='h6'>
                 {moment(dia.Dia).utc().format('ddd, D MMMM, YYYY').toUpperCase()}
               </Typography>
+              {console.log(dia)}
               {
                 dia.Atividades.map(atividade =>
                   <>
-                    <AtividadeCard atividade={atividade} />
+                    <AtividadeCard atividade={atividade} semanaAberta={dia.Aberto} />
                   </>
                 )
               }

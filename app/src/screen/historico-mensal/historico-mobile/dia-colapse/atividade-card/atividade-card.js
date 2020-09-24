@@ -27,13 +27,15 @@ export default function SimpleCard(props) {
           {props.atividade.Descricao || '-'}
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size='small'>
-          <Typography variant='button'>
-            Editar
+      {props.semanaAberta ?
+        <CardActions>
+          <Button size='small'>
+            <Typography variant='button'>
+              Editar
           </Typography>
-        </Button>
-      </CardActions>
+          </Button>
+        </CardActions> : null
+      }
     </Card>
   )
 }
