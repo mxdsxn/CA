@@ -48,10 +48,14 @@ export default (props) => {
             onChange={setMesReferencia}
             value={mesReferencia} />
         </div>
-        <div className='historico'>
-          <HistoricoMobile historicoMensal={historicoMensal} />
-          <HistoricoTable historicoMensal={historicoMensal} />
-        </div>
+        {
+          historicoMensal.length > 0 ?
+            <div className='historico'>
+              <HistoricoMobile historicoMensal={historicoMensal} />
+              <HistoricoTable historicoMensal={historicoMensal} />
+            </div>
+            : <div align='center'> Sem atividades cadastradas</div>
+        }
       </Container>
     </>
   )

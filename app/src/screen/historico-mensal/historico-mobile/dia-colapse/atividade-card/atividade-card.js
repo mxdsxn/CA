@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import moment from 'moment'
+import { atividadeApi } from '../../../../../service/api-connection'
 
 const useStyles = makeStyles({
   root: { marginBottom: 10 }
@@ -13,6 +14,12 @@ const useStyles = makeStyles({
 
 export default function SimpleCard(props) {
   const classes = useStyles()
+
+  const deletaAtividade = async (idAtividade) => {
+    const result = await atividadeApi.deletarAtividade(props.atividade.IdAtividade)
+    if (result.status === 200)
+      props.onDelete()
+  }
 
   return (
     <Card className={classes.root} key={props.atividade.IdAtividade}>
@@ -32,6 +39,11 @@ export default function SimpleCard(props) {
           <Button size='small'>
             <Typography variant='button'>
               Editar
+          </Typography>
+          </Button>
+          <Button size='small' onClick={() => deletaAtividade(props.atividade.IdAtividade)}>
+            <Typography variant='button'>
+              Apagar
           </Typography>
           </Button>
         </CardActions> : null

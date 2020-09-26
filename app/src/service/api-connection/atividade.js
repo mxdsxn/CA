@@ -63,9 +63,20 @@ const salvarAtividade = async (
     })
 }
 
+const deletarAtividade = async (idAtividade) => {
+  const result = await baseUrl
+    .delete('/atividade', {
+      params: {
+        idAtividade: idAtividade,
+      },
+    })
+  return result
+}
+
 
 export default {
   atividadesByIdColaboradorDia,
   atividadesByIdColaboradorMes,
-  salvarAtividade
+  salvarAtividade,
+  deletarAtividade
 }
