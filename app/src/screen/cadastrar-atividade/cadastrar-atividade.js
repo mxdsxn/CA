@@ -2,7 +2,7 @@ import React from 'react'
 import { Divider } from '@material-ui/core'
 
 import Cabecalho from '../../components/cabecalho'
-import FormularioApontamento from './formulario-cadastro'
+import FormularioCadastro from './formulario-cadastro'
 
 export default (props) => {
 
@@ -10,7 +10,7 @@ export default (props) => {
     <>
       <Cabecalho />
       <Divider />
-      <FormularioApontamento />
+      <FormularioCadastro />
     </>
   )
 }

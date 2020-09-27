@@ -282,6 +282,7 @@ const editarAtividade = async (
     FimAtividade: ''
   }
   const velhaAtividade = await Repo.atividadeById(atividade.idColaborador, atividade.idAtividade)
+  const cargaVelhaAtividadeMinutos = velhaAtividade.Carga.split(':').map(x => Number(x))
 
   const diaCadastro = moment().utcOffset(0, true)
   const resultado: {
@@ -315,7 +316,7 @@ const editarAtividade = async (
       //* hora extra nao pode exceder o maximo permitido
 
       const feriadoDia = await CalendarioRepository.feriadoByIdColaboradorDia(atividade.idColaborador, atividade.diaAtividade.utcOffset(0, true).format())
-      const horasCadastradasDia = await horasCadastradasByIdColaboradorDia(atividade.idColaborador, atividade.diaAtividade.utcOffset(0, true))
+      const horasCadastradasDia = await horasCadastradasByIdColaboradorDia(atividade.idColaborador, atividade.diaAtividade.utcOffset(0, true)) - cargaVelhaAtividadeMinutos[0] - (cargaVelhaAtividadeMinutos[1] / 60)
 
       const cargaHorariaDia = feriadoDia
         ? (feriadoDia.HorasUteis < contratoAtivo.CargaHoraria

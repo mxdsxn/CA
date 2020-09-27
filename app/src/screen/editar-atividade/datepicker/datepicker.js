@@ -29,6 +29,7 @@ export default (props) => {
         value={props.value}
         variant='inline'
         views={['year', 'month', 'date']}
+        disabled
       />
     </MuiPickersUtilsProvider>
   )

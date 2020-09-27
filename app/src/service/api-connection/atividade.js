@@ -32,6 +32,22 @@ const atividadesByIdColaboradorDia = async (idColaborador, diaReferencia) => {
   }
 }
 
+const atividadeById = async (idColaborador, idAtividade) => {
+  try {
+    const result = await baseUrl
+      .get('/atividade', {
+        params: {
+          idColaborador: idColaborador,
+          idAtividade: idAtividade,
+        },
+      })
+    return result.data
+
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 const salvarAtividade = async (
   idColaborador,
   idAtividade,
@@ -63,6 +79,38 @@ const salvarAtividade = async (
     })
 }
 
+const editarAtividade = async (
+  idColaborador,
+  idAtividade,
+  diaAtividade,
+  cargaAtividade,
+  idProjeto,
+  idProjetoDefault,
+  idCoordenador,
+  idProjetoFase,
+  idCategoriaAtividade,
+  tagsAtividade,
+  descricaoAtividade
+) => {
+
+  await baseUrl
+    .put('/atividade', null, {
+      params: {
+        idColaborador,
+        idAtividade,
+        diaAtividade,
+        cargaAtividade,
+        idProjeto,
+        idProjetoDefault,
+        idCoordenador,
+        idProjetoFase,
+        idCategoriaAtividade,
+        tagsAtividade,
+        descricaoAtividade
+      }
+    })
+}
+
 const deletarAtividade = async (idAtividade) => {
   const result = await baseUrl
     .delete('/atividade', {
@@ -75,8 +123,10 @@ const deletarAtividade = async (idAtividade) => {
 
 
 export default {
+  atividadeById,
   atividadesByIdColaboradorDia,
   atividadesByIdColaboradorMes,
   salvarAtividade,
+  editarAtividade,
   deletarAtividade
 }

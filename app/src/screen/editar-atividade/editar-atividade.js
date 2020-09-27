@@ -8,14 +8,15 @@ import FormularioEdicao from './formulario-edicao'
 export default (props) => {
   const history = useHistory()
 
-  if (!props.history.location.idAtividade)
+  if (!props.history.location.idAtividade) {
     history.push('cadastro-atividade')
-
-  return (
-    <>
-      <Cabecalho />
-      <Divider />
-      <FormularioEdicao idAtividade={props.history.location.idAtividade} />
-    </>
-  )
+    return null
+  } else
+    return (
+      <>
+        <Cabecalho />
+        <Divider />
+        <FormularioEdicao idAtividade={props.history.location.idAtividade} />
+      </>
+    )
 }
