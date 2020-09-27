@@ -23,7 +23,6 @@ export default function CustomizedExpansionPanels(props) {
     })
   }
 
-  console.log(1, diaAtividade)
   if (diaAtividade != null && diaAtividade.Atividades.length > 0) {
     return (
       <>

@@ -1,11 +1,15 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
+import { Link } from 'react-router-dom'
+import {
+  makeStyles,
+  Card,
+  CardActions,
+  CardContent,
+  Button,
+  Typography
+} from '@material-ui/core'
 import moment from 'moment'
+
 import { atividadeApi } from '../../../../../service/api-connection'
 
 const useStyles = makeStyles({
@@ -34,13 +38,19 @@ export default function SimpleCard(props) {
           {props.atividade.Descricao || '-'}
         </Typography>
       </CardContent>
+
       {props.semanaAberta ?
         <CardActions>
-          <Button size='small'>
-            <Typography variant='button'>
-              Editar
+          <Link to={{
+            pathname: '/editar-atividade',
+            idAtividade: props.atividade.IdAtividade
+          }}>
+            <Button size='small'>
+              <Typography variant='button'>
+                Editar
           </Typography>
-          </Button>
+            </Button>
+          </Link>
           <Button size='small' onClick={() => deletaAtividade(props.atividade.IdAtividade)}>
             <Typography variant='button'>
               Apagar

@@ -8,7 +8,8 @@ import {
 } from 'react-router-dom'
 
 import HistoricoMensal from '../screen/historico-mensal'
-import CadastroApontamento from '../screen/cadastrar-apontamento'
+import CadastroAtividade from '../screen/cadastrar-apontamento'
+import EditarAtividade from '../screen/editar-apontamento'
 import FecharSemana from '../screen/fechar-semana'
 
 export default () => {
@@ -18,18 +19,22 @@ export default () => {
         <Route>
           <Route
             path='/historico-mensal'
-            render={(props) => <HistoricoMensal />}
+            render={(props) => <HistoricoMensal {...props} />}
           />
           <Route path='/' exact>
             <Redirect to='/cadastro-atividade' />
           </Route>
           <Route
             path='/cadastro-atividade'
-            render={(props) => <CadastroApontamento />}
+            render={(props) => <CadastroAtividade {...props} />}
+          />
+          <Route
+            path='/editar-atividade'
+            render={(props) => <EditarAtividade {...props} />}
           />
           <Route
             path='/fechar-semana'
-            render={(props) => <FecharSemana />}
+            render={(props) => <FecharSemana {...props} />}
           />
         </Route>
       </Switch>
