@@ -2,7 +2,7 @@
 import dbConnection from '@database'
 import { ProjetoMetodologiaFaseEntity } from '@entities'
 
-const ProjetoFaseByIdProjeto = async (IdProjeto: Number): Promise<ProjetoMetodologiaFaseEntity[]> => {
+const projetoFaseByIdProjeto = async (IdProjeto: Number): Promise<ProjetoMetodologiaFaseEntity[]> => {
   return await dbConnection('operacoes.ProjetoMetodologiaFase')
     .innerJoin('operacoes.ProjetoMetodologia', 'operacoes.ProjetoMetodologia.IdProjetoMetodologia', 'operacoes.ProjetoMetodologiaFase.IdProjetoMetodologia')
     .where('operacoes.ProjetoMetodologia.IdProjeto', IdProjeto)
@@ -24,5 +24,5 @@ const projetoFaseById = async (idProjetoMetologiaFase: number): Promise<ProjetoM
 
 export default {
   projetoFaseById,
-  ProjetoFaseByIdProjeto
+  projetoFaseByIdProjeto
 }

@@ -1,11 +1,11 @@
 import { ProjetoCategoriaAtividadeService as Service } from '@services'
 import { Request, Response } from 'express'
 
-const ProjetoCategoriaAtividadeByIdProjeto = async (req: Request, res: Response) => {
+const projetoCategoriaAtividadeByIdProjeto = async (req: Request, res: Response) => {
   const idProjeto = Number(req.query.idProjeto)
 
   try {
-    const result = await Service.ProjetoCategoriaAtividadeByIdProjeto(idProjeto)
+    const result = await Service.projetoCategoriaAtividadeByIdProjeto(idProjeto)
     res.status(200)
     res.json(result)
   } catch (error) {
@@ -14,4 +14,4 @@ const ProjetoCategoriaAtividadeByIdProjeto = async (req: Request, res: Response)
   }
 }
 
-export default { ProjetoCategoriaAtividadeByIdProjeto }
+export default { projetoCategoriaAtividadeByIdProjeto }

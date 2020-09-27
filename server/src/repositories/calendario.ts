@@ -2,10 +2,11 @@
 import dbConnection from '@database'
 import libUtc from '@libUtc'
 import { CalendarioEntity } from '@entities'
+import moment, { Moment } from 'moment'
 
-const FeriadosByMes = async (idColaborador: number, mesReferencia: Date): Promise<CalendarioEntity[]> => {
-  const mesReferenciaInicio = mesReferencia
-  const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
+const feriadosByIdColaboradorMes = async (idColaborador: number, mesReferencia: Moment): Promise<CalendarioEntity[]> => {
+  const mesReferenciaInicio = moment(mesReferencia).utcOffset(0, true).startOf('month')
+  const mesReferenciaFim = moment(mesReferencia).endOf('month')
 
   return await dbConnection('pessoas.Colaborador')
     .innerJoin('pessoas.PostoTrabalho', 'pessoas.PostoTrabalho.IdPostoTrabalho', 'pessoas.Colaborador.IdPostoTrabalho')
@@ -15,8 +16,8 @@ const FeriadosByMes = async (idColaborador: number, mesReferencia: Date): Promis
         .orOn('pessoas.PostoTrabalho.IdPais', 'pessoas.Calendario.IdPais')
     })
     .where('pessoas.Colaborador.IdColaborador', idColaborador)
-    .andWhere('pessoas.Calendario.Dia', '>=', mesReferenciaInicio)
-    .andWhere('pessoas.Calendario.Dia', '<', mesReferenciaFim)
+    .andWhere('pessoas.Calendario.Dia', '>=', mesReferenciaInicio.toISOString())
+    .andWhere('pessoas.Calendario.Dia', '<', mesReferenciaFim.toISOString())
     .select('pessoas.Calendario.*')
     .orderBy('pessoas.Calendario.Dia', 'asc')
 }
@@ -56,6 +57,6 @@ const listaFeriadoNaoUtilByIdColaboradorDia = async (idColaborador: number, dia:
 
 export default {
   feriadoByIdColaboradorDia,
-  FeriadosByMes,
+  feriadosByIdColaboradorMes,
   listaFeriadoNaoUtilByIdColaboradorDia
 }

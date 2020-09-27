@@ -2,18 +2,19 @@
 import dbConnection from '@database'
 import libUtc from '@libUtc'
 import { ColaboradorContratoEntity } from '@entities'
+import moment, { Moment } from 'moment'
 
-const CoordenadoresByDia = async (diaReferencia: Date): Promise<ColaboradorContratoEntity[]> => {
-  const mesReferenciaInicio = libUtc.getMonth(diaReferencia)
-  const mesReferenciaFim = libUtc.getEndMonth(diaReferencia)
+const coordenadorByDia = async (diaReferencia: Moment): Promise<ColaboradorContratoEntity[]> => {
+  const mesReferenciaInicio = moment(diaReferencia).utcOffset(0, true).startOf('month')
+  const mesReferenciaFim = moment(diaReferencia).utcOffset(0, true).endOf('month')
 
   return await dbConnection('pessoas.Colaborador')
     .innerJoin('operacoes.ProjetoHistoricoGerente', 'operacoes.ProjetoHistoricoGerente.IdColaborador', 'pessoas.Colaborador.IdColaborador')
-    .where('operacoes.ProjetoHistoricoGerente.DataInicio', '<', mesReferenciaFim)
-    .andWhere(function () {
-      this.where('DataFim', '>=', mesReferenciaInicio)
-        .orWhere('DataFim', null)
+    .where(function () {
+      this.where('operacoes.ProjetoHistoricoGerente.DataFim', '>=', mesReferenciaInicio.toISOString())
+        .orWhere('operacoes.ProjetoHistoricoGerente.DataFim', null)
     })
+    .andWhere('operacoes.ProjetoHistoricoGerente.DataInicio', '<', mesReferenciaFim.toISOString())
     .select(
       'pessoas.Colaborador.IdColaborador',
       'pessoas.Colaborador.Nome'
@@ -30,5 +31,5 @@ const colaboradorById = (idColaborador: number) => {
 
 export default {
   colaboradorById,
-  CoordenadoresByDia
+  coordenadorByDia
 }

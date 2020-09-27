@@ -1,7 +1,0 @@
-export { default as atividadeApi } from './atividade-api'
-export { default as calendarioApi } from './calendario-api'
-export { default as colaboradorApi } from './colaborador-api'
-export { default as colaboradorContratoApi } from './colaboradorContrato-api'
-export { default as projetoApi } from './projeto-api'
-export { default as projetoCategoriaAtividadeApi } from './projetoCategoriaAtividade-api'
-export { default as projetoMetodologiaFaseApi } from './projetoMetodologiaFase-api'

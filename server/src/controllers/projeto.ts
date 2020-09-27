@@ -1,13 +1,14 @@
+import moment from 'moment'
 import { ProjetoService as Service } from '@services'
 import libUtc from '@libUtc'
 import { Request, Response } from 'express'
 
-const ProjetosByIdColaboradorDia = async (req: Request, res: Response) => {
+const projetosByIdColaboradorDia = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
-  const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
+  const diaReferencia = moment(req.query.diaReferencia as string).utcOffset(0, true).startOf('day')
 
   try {
-    const result = await Service.ProjetosByIdColaboradorDia(idColaborador, diaReferencia)
+    const result = await Service.projetosByIdColaboradorDia(idColaborador, diaReferencia)
     res.status(200)
     res.json(result)
   } catch (error) {
@@ -16,11 +17,11 @@ const ProjetosByIdColaboradorDia = async (req: Request, res: Response) => {
   }
 }
 
-const ProjetosDefault = async (req: Request, res: Response) => {
-  const diaReferencia = libUtc.getDate(libUtc.getDateByString(req.query.diaReferencia as string))
+const projetosDefault = async (req: Request, res: Response) => {
+  const diaReferencia = moment(req.query.diaReferencia as string).utcOffset(0, true).startOf('day')
 
   try {
-    const result = await Service.ProjetosDefault(diaReferencia)
+    const result = await Service.projetosDefault(diaReferencia)
     res.status(200)
     res.json(result)
   } catch (error) {
@@ -30,6 +31,6 @@ const ProjetosDefault = async (req: Request, res: Response) => {
 }
 
 export default {
-  ProjetosByIdColaboradorDia,
-  ProjetosDefault
+  projetosByIdColaboradorDia,
+  projetosDefault
 }

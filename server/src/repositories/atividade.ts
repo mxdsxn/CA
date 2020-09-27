@@ -1,21 +1,20 @@
 /* eslint-disable no-unused-vars */
 import dbConnection from '@database'
-import moment from 'moment'
-import libUtc from '@libUtc'
+import moment, { Moment } from 'moment'
 import { AtividadeModel } from '@models'
 import { AtividadeEntity } from '@entities'
 
-const AtividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Date): Promise<AtividadeModel[]> => {
-  const mesReferenciaInicio = mesReferencia
-  const mesReferenciaFim = libUtc.getEndMonth(mesReferenciaInicio)
+const atividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Moment): Promise<AtividadeModel[]> => {
+  const mesReferenciaInicio = moment(mesReferencia).utcOffset(0, true).startOf('month')
+  const mesReferenciaFim = moment(mesReferencia).utcOffset(0, true).endOf('month')
 
   return await dbConnection('pessoas.Atividade')
     .innerJoin('operacoes.Projeto', 'operacoes.Projeto.IdProjeto', 'pessoas.Atividade.IdProjeto')
     .fullOuterJoin('operacoes.ProjetoCategoriaAtividade', 'operacoes.ProjetoCategoriaAtividade.IdProjetoCategoriaAtividade', 'pessoas.Atividade.IdProjetoCategoriaAtividade')
     .fullOuterJoin('operacoes.ProjetoMetodologiaFase', 'operacoes.ProjetoMetodologiaFase.IdProjetoMetodologiaFase', 'pessoas.Atividade.IdProjetoMetodologiaFase')
     .where('pessoas.Atividade.IdColaborador', idColaborador)
-    .andWhere('pessoas.Atividade.DataAtividade', '>=', mesReferenciaInicio)
-    .andWhere('pessoas.Atividade.DataAtividade', '<', mesReferenciaFim)
+    .andWhere('pessoas.Atividade.DataAtividade', '>=', mesReferenciaInicio.toISOString())
+    .andWhere('pessoas.Atividade.DataAtividade', '<', mesReferenciaFim.toISOString())
     .select(
       'pessoas.Atividade.*',
       'operacoes.Projeto.Nome as NomeProjeto',
@@ -25,14 +24,33 @@ const AtividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia
     .orderBy('pessoas.Atividade.DataAtividade', 'asc')
 }
 
-const AtividadesByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Date): Promise<AtividadeModel[]> => {
-  console.log( moment(diaReferencia).utcOffset(0, true).format())
+const atividadesByIdColaboradorDia = async (idColaborador: Number, diaReferencia: Moment): Promise<AtividadeModel[]> => {
   return await dbConnection('pessoas.Atividade')
     .innerJoin('operacoes.Projeto', 'operacoes.Projeto.IdProjeto', 'pessoas.Atividade.IdProjeto')
     .fullOuterJoin('operacoes.ProjetoCategoriaAtividade', 'operacoes.ProjetoCategoriaAtividade.IdProjetoCategoriaAtividade', 'pessoas.Atividade.IdProjetoCategoriaAtividade')
     .fullOuterJoin('operacoes.ProjetoMetodologiaFase', 'operacoes.ProjetoMetodologiaFase.IdProjetoMetodologiaFase', 'pessoas.Atividade.IdProjetoMetodologiaFase')
     .where('pessoas.Atividade.IdColaborador', idColaborador)
-    .andWhere('pessoas.Atividade.DataAtividade', libUtc.getDate(diaReferencia))
+    .andWhere('pessoas.Atividade.DataAtividade', diaReferencia.toISOString())
+    .select(
+      'pessoas.Atividade.*',
+      'operacoes.Projeto.Nome as NomeProjeto',
+      'operacoes.ProjetoCategoriaAtividade.Descricao as Categoria',
+      'operacoes.ProjetoMetodologiaFase.Fase'
+    )
+    .orderBy('pessoas.Atividade.DataAtividade', 'asc')
+}
+
+const atividadesByIdColaboradorSemana = async (idColaborador: Number, diaReferencia: Moment): Promise<AtividadeModel[]> => {
+  const inicioSem = inicioSemana(diaReferencia)
+  const fimSem = fimSemana(diaReferencia)
+
+  return await dbConnection('pessoas.Atividade')
+    .innerJoin('operacoes.Projeto', 'operacoes.Projeto.IdProjeto', 'pessoas.Atividade.IdProjeto')
+    .fullOuterJoin('operacoes.ProjetoCategoriaAtividade', 'operacoes.ProjetoCategoriaAtividade.IdProjetoCategoriaAtividade', 'pessoas.Atividade.IdProjetoCategoriaAtividade')
+    .fullOuterJoin('operacoes.ProjetoMetodologiaFase', 'operacoes.ProjetoMetodologiaFase.IdProjetoMetodologiaFase', 'pessoas.Atividade.IdProjetoMetodologiaFase')
+    .where('pessoas.Atividade.IdColaborador', idColaborador)
+    .andWhere('pessoas.Atividade.DataAtividade', '<', fimSem.toISOString())
+    .andWhere('pessoas.Atividade.DataAtividade', '>=', inicioSem.toISOString())
     .select(
       'pessoas.Atividade.*',
       'operacoes.Projeto.Nome as NomeProjeto',
@@ -60,8 +78,64 @@ const salvarAtividade = async (atividade: AtividadeEntity): Promise<AtividadeEnt
     })
 }
 
+const atualizarAtividade = async (atividade: AtividadeEntity) => {
+  return await dbConnection('pessoas.Atividade')
+    .where('pessoas.Atividade.IdAtividade', atividade.IdAtividade)
+    .andWhere('pessoas.Atividade.IdColaborador', atividade.IdColaborador)
+    .update({
+      IdProjeto: atividade.IdProjeto,
+      IdProjetoCategoriaAtividade: atividade.IdProjetoCategoriaAtividade || null,
+      IdProjetoMetodologiaFase: atividade.IdProjetoMetodologiaFase || null,
+      DataCadastro: atividade.DataCadastro,
+      Carga: atividade.Carga,
+      Descricao: atividade.Descricao,
+      Tags: atividade.Tags || null,
+      IdCoordenador: atividade.IdCoordenador || null,
+      InicioAtividade: atividade.InicioAtividade || null,
+      FimAtividade: atividade.FimAtividade || null
+    })
+}
+
+const deletaAtividade = async (idAtividade: number) => {
+  return await dbConnection('pessoas.Atividade')
+    .where('pessoas.Atividade.IdAtividade', idAtividade)
+    .del()
+}
+
+const atividadeById = async (idColaborador: number, idAtividade: number): Promise<AtividadeEntity> => {
+  return await dbConnection('pessoas.Atividade')
+    .select('*')
+    .where('pessoas.Atividade.IdAtividade', idAtividade)
+    .andWhere('pessoas.Atividade.IdColaborador', idColaborador)
+    .first()
+}
+
 export default {
-  AtividadesByIdColaboradorDia,
-  AtividadesByIdColaboradorMes,
-  salvarAtividade
+  atividadeById,
+  atividadesByIdColaboradorSemana,
+  atividadesByIdColaboradorDia,
+  atividadesByIdColaboradorMes,
+  salvarAtividade,
+  atualizarAtividade,
+  deletaAtividade
+}
+
+const inicioSemana = (data: Moment) => {
+  let result = moment()
+  if (moment(data.format('YYYY-MM-DD')).startOf('isoWeek').month() !== data.month()) {
+    result = moment(data.format('YYYY-MM-DD')).utcOffset(0, true).startOf('month')
+  } else {
+    result = moment(data.format('YYYY-MM-DD')).utcOffset(0, true).startOf('isoWeek')
+  }
+  return result
+}
+
+const fimSemana = (data: Moment) => {
+  let result = moment()
+  if (moment(data.format('YYYY-MM-DD')).endOf('isoWeek').month() !== data.month()) {
+    result = moment(data.format('YYYY-MM-DD')).utcOffset(0, true).endOf('month')
+  } else {
+    result = moment(data.format('YYYY-MM-DD')).utcOffset(0, true).endOf('isoWeek')
+  }
+  return result
 }

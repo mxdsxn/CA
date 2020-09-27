@@ -1,4 +1,6 @@
 export { default as AtividadeEntity } from '@entity/atividade'
+export { default as AtividadeFechamentoEntity } from '@entity/atividade-fechamento'
+export { default as AtividadeFechamentoSemanaEntity } from '@entity/atividade-fechamento-semana'
 export { default as CalendarioEntity } from '@entity/calendario'
 export { default as ColaboradorEntity } from '@entity/colaborador'
 export { default as ColaboradorContratoEntity } from '@entity/colaborador-contrato'
