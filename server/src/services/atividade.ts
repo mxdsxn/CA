@@ -27,6 +27,10 @@ import {
 } from '@repositories'
 import { DiaModel, AtividadeModel } from '@models'
 
+const atividadeById = async (idColaborador: number, idAtividade: number) => {
+  return await Repo.atividadeById(idColaborador, idAtividade)
+}
+
 /* retorna lista de atividades do colaborador em um mes */
 const atividadesByIdColaboradorMes = async (idColaborador: number, mesReferencia: Moment, naoAgruparDia?: boolean) => {
   const listaAtividadeMes = await Repo.atividadesByIdColaboradorMes(idColaborador, mesReferencia)
@@ -277,7 +281,7 @@ const editarAtividade = async (
     InicioAtividade: '',
     FimAtividade: ''
   }
-  const velhaAtividade = await Repo.atividadeById(atividade.idAtividade)
+  const velhaAtividade = await Repo.atividadeById(atividade.idColaborador, atividade.idAtividade)
 
   const diaCadastro = moment().utcOffset(0, true)
   const resultado: {
@@ -592,6 +596,7 @@ const HorasDecimal = (listaAtividades: AtividadeModel[]) => {
 }
 
 export default {
+  atividadeById,
   salvarAtividade,
   editarAtividade,
   deletaAtividade,

@@ -102,10 +102,11 @@ const deletaAtividade = async (idAtividade: number) => {
     .del()
 }
 
-const atividadeById = async (idAtividade: number): Promise<AtividadeEntity> => {
+const atividadeById = async (idColaborador: number, idAtividade: number): Promise<AtividadeEntity> => {
   return await dbConnection('pessoas.Atividade')
     .select('*')
     .where('pessoas.Atividade.IdAtividade', idAtividade)
+    .andWhere('pessoas.Atividade.IdColaborador', idColaborador)
     .first()
 }
 

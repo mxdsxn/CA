@@ -32,6 +32,20 @@ const atividadesByIdColaboradorDia = async (req: Request, res: Response) => {
   }
 }
 
+const atividadeById = async (req: Request, res: Response) => {
+  const idColaborador = Number(req.query.idColaborador)
+  const idAtividade = Number(req.query.idAtividade)
+
+  try {
+    const result = await Service.atividadeById(idColaborador, idAtividade)
+    res.json(result)
+    return res.status(200)
+  } catch (error) {
+    res.json(error)
+    return res.status(500)
+  }
+}
+
 const salvarAtividade = async (req: Request, res: Response) => {
   const idColaborador = Number(req.query.idColaborador)
   const idAtividade = Number(req.query.idAtividade)
@@ -130,6 +144,7 @@ const horasMesByIdColaborador = async (req: Request, res: Response) => {
 }
 
 export default {
+  atividadeById,
   atividadesByIdColaboradorMes,
   atividadesByIdColaboradorDia,
   salvarAtividade,

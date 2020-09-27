@@ -11,6 +11,8 @@ route.get('/atividade/list/mes', async (req, res) => await Controller.atividades
 
 route.get('/atividade/list/dia', async (req, res) => await Controller.atividadesByIdColaboradorDia(req, res))
 
+route.get('/atividade', async (req, res) => await Controller.atividadeById(req, res))
+
 route.post('/atividade', [
   query('idColaborador').isInt(),
   query('idAtividade').isInt().optional(),
