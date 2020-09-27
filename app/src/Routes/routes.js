@@ -8,8 +8,8 @@ import {
 } from 'react-router-dom'
 
 import HistoricoMensal from '../screen/historico-mensal'
-import CadastroAtividade from '../screen/cadastrar-apontamento'
-import EditarAtividade from '../screen/editar-apontamento'
+import CadastroAtividade from '../screen/cadastrar-atividade'
+import EditarAtividade from '../screen/editar-atividade'
 import FecharSemana from '../screen/fechar-semana'
 
 export default () => {
