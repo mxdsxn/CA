@@ -17,6 +17,7 @@ import moment from 'moment'
 import DataPicker from '../datepicker'
 import TimePicker from '../timepicker'
 import Seletor from '../../../components/seletor'
+import Notificacao from '../../../components/notificacao'
 
 import {
   atividadeApi,
@@ -80,6 +81,9 @@ export default (_props) => {
   // state validacao
   const [formularioCheck, setFormularioCheck] = useState(false)
   //#endregion
+
+  const [mostrarNotif, setMostrarNotif] = useState(false)
+  const [mensagemNotif, setMensagemNotif] = useState(false)
 
   //#region Funcoes
   const zeraIdSelecionados = () => {
@@ -155,8 +159,8 @@ export default (_props) => {
   const handleChangeCoordenador = (value) => setCoordenadorSelecionado(value)
   const handleChangeDescricao = (event) => setDescricaoAtividade(event.target.value)
   const handleChangeTag = (tags) => setTagAtividade(tags)
-  const handleSalvarAtividade = () => {
-    atividadeApi.salvarAtividade(
+  const handleSalvarAtividade = async () => {
+    const result = await atividadeApi.salvarAtividade(
       idColaboradorLogado,
       null,
       diaAtividade.format('YYYY-MM-DD'),
@@ -169,6 +173,11 @@ export default (_props) => {
       tagAtividade,
       descricaoAtividade
     )
+
+    if (result.status === 200) {
+      setMensagemNotif(result.data)
+      setMostrarNotif(true)
+    }
   }
   //#endregion
 
@@ -352,6 +361,18 @@ export default (_props) => {
     )
   }
 
+  const renderNotificacao = () => {
+    return mostrarNotif && mensagemNotif
+      ? (
+        <Notificacao
+          onClose={() => setMostrarNotif(false)}
+          show={mostrarNotif}
+          data={mensagemNotif}
+        />
+      )
+      : null
+  }
+
   //#endregion
 
   return (
@@ -375,6 +396,7 @@ export default (_props) => {
       >
         Salvar Atividade
       </Button>
+      {renderNotificacao()}
     </div>
   )
 }
