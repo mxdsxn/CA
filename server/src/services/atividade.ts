@@ -450,7 +450,7 @@ const editarAtividade = async (
     resultado.mensagem.shift()
     return (resultado)
   } else {
-    // const atividadeResult = await Repo.atualizarAtividade(novaAtividade)
+    const atividadeResult = await Repo.atualizarAtividade(novaAtividade)
     return (resultado)
   }
 }

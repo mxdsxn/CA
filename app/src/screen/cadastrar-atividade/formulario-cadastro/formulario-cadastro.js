@@ -57,20 +57,15 @@ const defaultValue = {
 export default (_props) => {
   const history = useHistory()
 
-  //#region Constantes
   const classes = useStyles()
   const idColaboradorLogado = process.env.REACT_APP_ID_COL
-  //#endregion
 
-  //#region States
-  // states do formulario
   const [listaProjeto, setListaProjeto] = useState([])
   const [listaProjetoDefault, setListaProjetoDefault] = useState([])
   const [listaCoordenador, setListaCoordenador] = useState([])
   const [listaProjetoFase, setListaProjetoFase] = useState([])
   const [listaCategoriaAtividade, setListaCategoriaAtividade] = useState([])
 
-  // states selecionados
   const [diaAtividade, setDiaAtividade] = useState(defaultValue.diaAtividade)
   const [cargaSelecionada, setCargaSelecionada] = useState(defaultValue.cargaZerada)
   const [projetoSelecionado, setProjetoSelecionado] = useState(defaultValue.idDefault)
@@ -81,14 +76,11 @@ export default (_props) => {
   const [descricaoAtividade, setDescricaoAtividade] = useState('')
   const [tagAtividade, setTagAtividade] = useState([])
 
-  // state validacao
   const [formularioCheck, setFormularioCheck] = useState(false)
-  //#endregion
 
   const [mostrarNotif, setMostrarNotif] = useState(false)
   const [mensagemNotif, setMensagemNotif] = useState(false)
 
-  //#region Funcoes
   const zeraIdSelecionados = () => {
     setCoordenadorSelecionado(0)
     setProjetoDefaultSelecionado(0)
@@ -96,9 +88,7 @@ export default (_props) => {
     setProjetoFaseSelecionado(0)
     setProjetoSelecionado(0)
   }
-  //#endregion
 
-  //#region UseEffects
   useEffect(() => {
     projetoApi.projetosByIdColaboradorDia(idColaboradorLogado, diaAtividade.format('YYYY-MM-DD'))
       .then(res => res ? setListaProjeto(res) : setListaProjeto([]))
@@ -114,7 +104,6 @@ export default (_props) => {
 
   useEffect(() => {
     setDescricaoAtividade('')
-    // se algum projeto(>0) selecionado, carregar Fase e Categoria, caso existam
     if (projetoSelecionado > 0) {
       setListaCoordenador([])
       setListaProjetoDefault([])
@@ -127,7 +116,6 @@ export default (_props) => {
       projetoMetodologiaFaseApi.projetoFaseByIdProjeto(projetoSelecionado)
         .then(res => res ? setListaProjetoFase(res) : setListaProjetoFase([]))
     } else if (projetoSelecionado === -1) {
-      // se projeto é default (-1), carrega projetos default e coordenadores
       setListaCategoriaAtividade([])
       setListaProjetoFase([])
       setCategoriaAtividadeSelecionado(0)
@@ -151,9 +139,7 @@ export default (_props) => {
   useEffect(() => {
     validaFormulario()
   }, [projetoDefaultSelecionado, coordenadorSelecionado, categoriaAtividadeSelecionado, projetoFaseSelecionado, descricaoAtividade, cargaSelecionada])
-  //#endregion
 
-  //#region Handles
   const handleChangeCargaAtividade = (cargaAtividade) => setCargaSelecionada(moment(cargaAtividade))
   const handleChangeProjeto = (value) => setProjetoSelecionado(value)
   const handleChangeProjetoDefault = (value) => setProjetoDefaultSelecionado(value)
@@ -182,9 +168,7 @@ export default (_props) => {
       setMostrarNotif(true)
     }
   }
-  //#endregion
 
-  //#region Validacoes
   const validaFormulario = () => {
     if (descricaoAtividade !== '' && (cargaSelecionada.hour() > 0 || cargaSelecionada.minute() > 0)) {
       if (projetoSelecionado === -1) {
@@ -200,9 +184,7 @@ export default (_props) => {
     } else
       setFormularioCheck(false)
   }
-  //#endregion
 
-  //#region Renders
 
   const renderCampoCategoriaAtividade = () => {
     return listaCategoriaAtividade.length > 0
@@ -380,7 +362,6 @@ export default (_props) => {
       : null
   }
 
-  //#endregion
 
   return (
     <div className='container cadastro'>
