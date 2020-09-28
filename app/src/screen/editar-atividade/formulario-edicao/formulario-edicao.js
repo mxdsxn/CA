@@ -382,7 +382,7 @@ export default (props) => {
           onClose={() => {
             setMostrarNotif(false)
             if (mensagemNotif.tipo === 'Sucesso')
-              history.push('/historico-mensal')
+              history.push('historico-mensal')
           }}
           show={mostrarNotif}
           data={mensagemNotif}

@@ -353,7 +353,7 @@ export default (_props) => {
           onClose={() => {
             setMostrarNotif(false)
             if (mensagemNotif.tipo === 'Sucesso')
-              history.push('/cadastro-atividade')
+              window.location.reload()
           }}
           show={mostrarNotif}
           data={mensagemNotif}
