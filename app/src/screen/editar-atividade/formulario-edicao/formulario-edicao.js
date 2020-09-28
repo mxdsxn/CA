@@ -17,6 +17,7 @@ import moment from 'moment'
 import DataPicker from '../datepicker'
 import TimePicker from '../timepicker'
 import Seletor from '../../../components/seletor'
+import Notificacao from '../../../components/notificacao'
 
 import {
   atividadeApi,
@@ -75,6 +76,9 @@ export default (props) => {
   const [tagAtividade, setTagAtividade] = useState([])
 
   const [formularioCheck, setFormularioCheck] = useState(false)
+
+  const [mostrarNotif, setMostrarNotif] = useState(false)
+  const [mensagemNotif, setMensagemNotif] = useState(false)
 
   const zeraIdSelecionados = () => {
     setCoordenadorSelecionado(0)
@@ -171,8 +175,8 @@ export default (props) => {
   const handleChangeCoordenador = (value) => setCoordenadorSelecionado(value)
   const handleChangeDescricao = (event) => setDescricaoAtividade(event.target.value)
   const handleChangeTag = (tags) => setTagAtividade(tags)
-  const handleSalvarAtividade = () => {
-    atividadeApi.editarAtividade(
+  const handleEditarAtividade = async () => {
+    const result = await atividadeApi.editarAtividade(
       idColaboradorLogado,
       atividadeEditada.IdAtividade,
       diaAtividade.format('YYYY-MM-DD'),
@@ -185,6 +189,11 @@ export default (props) => {
       tagAtividade,
       descricaoAtividade
     )
+
+    if (result.status === 200) {
+      setMensagemNotif(result.data)
+      setMostrarNotif(true)
+    }
   }
 
   const validaFormulario = () => {
@@ -364,6 +373,17 @@ export default (props) => {
     )
   }
 
+  const renderNotificacao = () => {
+    return mostrarNotif && mensagemNotif
+      ? (
+        <Notificacao
+          onClose={() => setMostrarNotif(false)}
+          show={mostrarNotif}
+          data={mensagemNotif}
+        />
+      )
+      : null
+  }
 
   return (
     <div className='container cadastro'>
@@ -376,17 +396,17 @@ export default (props) => {
         {renderCampoProjetoDefault()}
         {renderCampoCoordenador()}
         {renderCampoTag()}
-        {console.log(descricaoAtividade)}
         {renderCampoDescricao()}
       </Grid>
       <Button
-        onClick={handleSalvarAtividade}
+        onClick={handleEditarAtividade}
         variant='contained'
         className={classes.colorDefault}
         disabled={!formularioCheck}
       >
         Salvar Atividade
       </Button>
+      {renderNotificacao()}
     </div>
   )
 }
