@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useState
 } from 'react'
+import { useHistory } from 'react-router-dom'
 
 import {
   Grid,
@@ -54,6 +55,8 @@ const defaultValue = {
 }
 
 export default (_props) => {
+  const history = useHistory()
+
   //#region Constantes
   const classes = useStyles()
   const idColaboradorLogado = process.env.REACT_APP_ID_COL
@@ -365,7 +368,11 @@ export default (_props) => {
     return mostrarNotif && mensagemNotif
       ? (
         <Notificacao
-          onClose={() => setMostrarNotif(false)}
+          onClose={() => {
+            setMostrarNotif(false)
+            if (mensagemNotif.tipo === 'Sucesso')
+              history.push('/cadastro-atividade')
+          }}
           show={mostrarNotif}
           data={mensagemNotif}
         />
