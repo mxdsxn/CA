@@ -7,6 +7,19 @@ Projeto de mentoria desenvolvido no programa de estágio na Dextra.
 - Api: Acesse o diretorio 'server' e execute o comando
 
 ```bash
+npm i
+```
+- App: Acesse o diretorio 'app' e execute o comando
+
+```bash
+npm i
+```
+
+## Execução
+
+- Api: Acesse o diretorio 'server' e execute o comando
+
+```bash
 npm run dev
 ```
 - App: Acesse o diretorio 'app' e execute o comando
