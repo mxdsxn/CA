@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useState
 } from 'react'
+import { useHistory } from 'react-router-dom'
 
 import {
   Grid,
@@ -17,6 +18,7 @@ import moment from 'moment'
 import DataPicker from '../datepicker'
 import TimePicker from '../timepicker'
 import Seletor from '../../../components/seletor'
+import Notificacao from '../../../components/notificacao'
 
 import {
   atividadeApi,
@@ -53,6 +55,7 @@ const defaultValue = {
 }
 
 export default (props) => {
+  const history = useHistory()
   const classes = useStyles()
   const idColaboradorLogado = process.env.REACT_APP_ID_COL
 
@@ -75,6 +78,9 @@ export default (props) => {
   const [tagAtividade, setTagAtividade] = useState([])
 
   const [formularioCheck, setFormularioCheck] = useState(false)
+
+  const [mostrarNotif, setMostrarNotif] = useState(false)
+  const [mensagemNotif, setMensagemNotif] = useState(false)
 
   const zeraIdSelecionados = () => {
     setCoordenadorSelecionado(0)
@@ -114,6 +120,7 @@ export default (props) => {
             } else {
               setProjetoSelecionado(-1)
               setProjetoDefaultSelecionado(atividadeEditada.IdProjeto)
+              setCoordenadorSelecionado(atividadeEditada.IdCoordenador)
             }
           }
         } else
@@ -171,8 +178,8 @@ export default (props) => {
   const handleChangeCoordenador = (value) => setCoordenadorSelecionado(value)
   const handleChangeDescricao = (event) => setDescricaoAtividade(event.target.value)
   const handleChangeTag = (tags) => setTagAtividade(tags)
-  const handleSalvarAtividade = () => {
-    atividadeApi.editarAtividade(
+  const handleEditarAtividade = async () => {
+    const result = await atividadeApi.editarAtividade(
       idColaboradorLogado,
       atividadeEditada.IdAtividade,
       diaAtividade.format('YYYY-MM-DD'),
@@ -185,6 +192,11 @@ export default (props) => {
       tagAtividade,
       descricaoAtividade
     )
+
+    if (result.status === 200) {
+      setMensagemNotif(result.data)
+      setMostrarNotif(true)
+    }
   }
 
   const validaFormulario = () => {
@@ -364,6 +376,21 @@ export default (props) => {
     )
   }
 
+  const renderNotificacao = () => {
+    return mostrarNotif && mensagemNotif
+      ? (
+        <Notificacao
+          onClose={() => {
+            setMostrarNotif(false)
+            if (mensagemNotif.tipo === 'Sucesso')
+              history.push('historico-mensal')
+          }}
+          show={mostrarNotif}
+          data={mensagemNotif}
+        />
+      )
+      : null
+  }
 
   return (
     <div className='container cadastro'>
@@ -376,17 +403,17 @@ export default (props) => {
         {renderCampoProjetoDefault()}
         {renderCampoCoordenador()}
         {renderCampoTag()}
-        {console.log(descricaoAtividade)}
         {renderCampoDescricao()}
       </Grid>
       <Button
-        onClick={handleSalvarAtividade}
+        onClick={handleEditarAtividade}
         variant='contained'
         className={classes.colorDefault}
         disabled={!formularioCheck}
       >
         Salvar Atividade
       </Button>
+      {renderNotificacao()}
     </div>
   )
 }

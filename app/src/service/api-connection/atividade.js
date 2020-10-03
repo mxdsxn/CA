@@ -62,21 +62,27 @@ const salvarAtividade = async (
   descricaoAtividade
 ) => {
 
-  await baseUrl
-    .post('/atividade', null, {
-      params: {
-        idColaborador,
-        diaAtividade,
-        cargaAtividade,
-        idProjeto,
-        idProjetoDefault,
-        idCoordenador,
-        idProjetoFase,
-        idCategoriaAtividade,
-        tagsAtividade,
-        descricaoAtividade
-      }
-    })
+  try {
+    const result = await baseUrl
+      .post('/atividade', null, {
+        params: {
+          idColaborador,
+          diaAtividade,
+          cargaAtividade,
+          idProjeto,
+          idProjetoDefault,
+          idCoordenador,
+          idProjetoFase,
+          idCategoriaAtividade,
+          tagsAtividade,
+          descricaoAtividade
+        }
+      })
+
+    return result
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 const editarAtividade = async (
@@ -92,23 +98,29 @@ const editarAtividade = async (
   tagsAtividade,
   descricaoAtividade
 ) => {
+  try {
+    const result = await baseUrl
+      .put('/atividade', null, {
+        params: {
+          idColaborador,
+          idAtividade,
+          diaAtividade,
+          cargaAtividade,
+          idProjeto,
+          idProjetoDefault,
+          idCoordenador,
+          idProjetoFase,
+          idCategoriaAtividade,
+          tagsAtividade,
+          descricaoAtividade
+        }
+      })
 
-  await baseUrl
-    .put('/atividade', null, {
-      params: {
-        idColaborador,
-        idAtividade,
-        diaAtividade,
-        cargaAtividade,
-        idProjeto,
-        idProjetoDefault,
-        idCoordenador,
-        idProjetoFase,
-        idCategoriaAtividade,
-        tagsAtividade,
-        descricaoAtividade
-      }
-    })
+    return result
+  } catch (error) {
+    console.error(error)
+  }
+
 }
 
 const deletarAtividade = async (idAtividade) => {

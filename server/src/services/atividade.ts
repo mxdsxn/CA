@@ -87,15 +87,15 @@ const salvarAtividade = async (
     atividade?: AtividadeEntity
   } = {
     tipo: 'Sucesso',
-    mensagem: ['Apontamento cadastrado com sucesso!']
+    mensagem: ['Atividade cadastrada com sucesso!']
   }
 
   // Validaçao de dados referente a Carga, Contrato, Colaborador e Semana
   //* Carga Superior a 24h
-  //* * carga do apontamento nao pode ser superior a 24h
+  //* * carga da atividade nao pode ser superior a 24h
 
   if (atividade.cargaAtividade.hours() > 24) {
-    resultado.mensagem.push('Carga do apontamento invalida.')
+    resultado.mensagem.push('Carga da atividade invalida.')
   } else {
     // Contrato Ativo
     //* é obrigatorio ter contrato ativo no dia da atividade
@@ -105,7 +105,7 @@ const salvarAtividade = async (
     if (!contratoAtivo) {
       resultado.mensagem.push('Não existe contrato ativo nesse dia.')
     } else {
-      // Carga Horaria Apontamento
+      // Carga Horaria atividade
       //* apenas cadastrar em dias uteis ou feriados que nao sejam integrais
       //* ter permissao para horas extras
       //* se for estagiario, só pode cadastrar hora extra para 'hoje' e para o ultimo dia util
@@ -185,7 +185,7 @@ const salvarAtividade = async (
       const statusSemanaAtividade = await AtividadeFechamentoSemanaRepository.statusAtividadeFechamentoSemanaByIdColaboradorSemanaMesAno(atividade.idColaborador, atividade.diaAtividade.isoWeek(), atividade.diaAtividade.month() + 1, atividade.diaAtividade.year())
 
       if (!statusSemanaAtividade || statusSemanaAtividade.IdAtividadeFechamentoStatus !== 1) {
-        resultado.mensagem.push('Essa semana não está aberta para cadastrar novos apontamentos.')
+        resultado.mensagem.push('Essa semana não está aberta para cadastrar novas atividades.')
       }
     }
   }
@@ -221,7 +221,7 @@ const salvarAtividade = async (
       if (listaCategoriaAtividade.length > 0 && categoriaAtividade) {
         novaAtividade.IdProjetoCategoriaAtividade = atividade.idCategoriaAtividade
       } else if (listaCategoriaAtividade.length > 0 && !categoriaAtividade) {
-        resultado.mensagem.push('Selecione uma categoria para o apontamento.')
+        resultado.mensagem.push('Selecione uma categoria para a atividade.')
       }
 
       const listaProjetoFase = await ProjetoMetodologiaFaseRepository.projetoFaseByIdProjeto(idProjeto)
@@ -230,7 +230,7 @@ const salvarAtividade = async (
       if (listaProjetoFase.length > 0 && projetoFase) {
         novaAtividade.IdProjetoMetodologiaFase = atividade.idProjetoFase
       } else if (listaProjetoFase.length > 0 && !projetoFase) {
-        resultado.mensagem.push('Selecione uma fase para o apontamento.')
+        resultado.mensagem.push('Selecione uma fase para a atividade.')
       }
     }
   }
@@ -291,15 +291,15 @@ const editarAtividade = async (
     atividade?: AtividadeEntity
   } = {
     tipo: 'Sucesso',
-    mensagem: ['Apontamento cadastrado com sucesso!']
+    mensagem: ['Atividade atualizada com sucesso!']
   }
 
   // Validaçao de dados referente a Carga, Contrato, Colaborador e Semana
   //* Carga Superior a 24h
-  //* * carga do apontamento nao pode ser superior a 24h
+  //* * carga da atividade nao pode ser superior a 24h
 
   if (atividade.cargaAtividade.hours() > 24) {
-    resultado.mensagem.push('Carga do apontamento invalida.')
+    resultado.mensagem.push('Carga da atividade invalida.')
   } else {
     // Contrato Ativo
     //* é obrigatorio ter contrato ativo no dia da atividade
@@ -309,7 +309,7 @@ const editarAtividade = async (
     if (!contratoAtivo) {
       resultado.mensagem.push('Não existe contrato ativo nesse dia.')
     } else {
-      // Carga Horaria Apontamento
+      // Carga Horaria atividade
       //* apenas cadastrar em dias uteis ou feriados que nao sejam integrais
       //* ter permissao para horas extras
       //* se for estagiario, só pode cadastrar hora extra para 'hoje' e para o ultimo dia util
@@ -389,7 +389,7 @@ const editarAtividade = async (
       const statusSemanaAtividade = await AtividadeFechamentoSemanaRepository.statusAtividadeFechamentoSemanaByIdColaboradorSemanaMesAno(atividade.idColaborador, atividade.diaAtividade.isoWeek(), atividade.diaAtividade.month() + 1, atividade.diaAtividade.year())
 
       if (!statusSemanaAtividade || statusSemanaAtividade.IdAtividadeFechamentoStatus !== 1) {
-        resultado.mensagem.push('Essa semana não está aberta para cadastrar novos apontamentos.')
+        resultado.mensagem.push('Essa semana não está aberta para cadastrar novas atividades.')
       }
     }
   }
@@ -425,7 +425,7 @@ const editarAtividade = async (
       if (listaCategoriaAtividade.length > 0 && categoriaAtividade) {
         novaAtividade.IdProjetoCategoriaAtividade = atividade.idCategoriaAtividade
       } else if (listaCategoriaAtividade.length > 0 && !categoriaAtividade) {
-        resultado.mensagem.push('Selecione uma categoria para o apontamento.')
+        resultado.mensagem.push('Selecione uma categoria para a atividade.')
       }
 
       const listaProjetoFase = await ProjetoMetodologiaFaseRepository.projetoFaseByIdProjeto(idProjeto)
@@ -434,7 +434,7 @@ const editarAtividade = async (
       if (listaProjetoFase.length > 0 && projetoFase) {
         novaAtividade.IdProjetoMetodologiaFase = atividade.idProjetoFase
       } else if (listaProjetoFase.length > 0 && !projetoFase) {
-        resultado.mensagem.push('Selecione uma fase para o apontamento.')
+        resultado.mensagem.push('Selecione uma fase para a atividade.')
       }
     }
   }
