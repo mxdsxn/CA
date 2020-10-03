@@ -8,7 +8,7 @@ import {
   Button,
   Typography
 } from '@material-ui/core'
-import moment from 'moment'
+// import moment from 'moment'
 
 import { atividadeApi } from '../../../../../service/api-connection'
 
@@ -32,7 +32,8 @@ export default function SimpleCard(props) {
           {props.atividade.NomeProjeto || '-'}
         </Typography>
         <Typography variant='subtitle2' color='textSecondary'>
-          Data Cadastro: {moment(props.atividade.DataCadastro).utc().format('L') || '-'}
+          {/* Data Cadastro: {moment(props.atividade.DataCadastro).utc().format('L') || '-'} */}
+          Carga: {props.atividade.Carga}
         </Typography>
         <Typography variant='body2' component='p'>
           {props.atividade.Descricao || '-'}

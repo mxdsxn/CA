@@ -120,6 +120,7 @@ export default (props) => {
             } else {
               setProjetoSelecionado(-1)
               setProjetoDefaultSelecionado(atividadeEditada.IdProjeto)
+              setCoordenadorSelecionado(atividadeEditada.IdCoordenador)
             }
           }
         } else
